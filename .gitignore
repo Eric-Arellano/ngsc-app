@@ -102,3 +102,8 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+src/components/EventSummary/
+src/components/
+
+# JetBrains IDE
+.idea/
