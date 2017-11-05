@@ -1,8 +1,11 @@
 from __future__ import print_function
 import httplib2
 import os
+import flask
+import requests
 
 from apiclient import discovery
+from flask import render_template
 from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
@@ -13,12 +16,47 @@ try:
 except ImportError:
     flags = None
 
+class Event:
+    def __init__(self, name, type, hours, status):
+        self.name = name
+        self.type = type
+        self.hours = hours
+        self.status = status
+
 # If modifying these scopes, delete your previously saved credentials
 # at ~/.credentials/sheets.googleapis.com-python-quickstart.json
 SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly'
 CLIENT_SECRET_FILE = 'client_secret.json'
 APPLICATION_NAME = 'Google Sheets API Python Quickstart'
 
+app = flask.Flask(__name__)
+
+@app.route('/test')
+def test_api_request():
+    print("Testing testing")
+    return True
+
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('404.html'), 404
+
+@app.route('/engagement/get_hours/<int:student_id>')
+def get_hours(student_id):
+    hours = 0
+    return hours
+
+@app.route('/engagement/get_all_events/<int:student_id>')
+def get_all_events(student_id):
+    events = Event()
+    return events
+
+@app.route('/engagement/get_civil_mil/<int:student_id>')
+def get_civil_mil(student_id):
+    return 0
+
+@app.route('/verify_id/<int:student_id>')
+def verify_id(student_id):
+    return True
 
 def get_credentials():
     """Gets valid user credentials from storage.
