@@ -2,6 +2,8 @@ import React from 'react';
 import logo from '../../logo.png';
 import './App.css';
 
+import IDInput from './../../components/IDInput/IDInput';
+
 const App = () => {
   return (
     <div className="App">
@@ -9,9 +11,7 @@ const App = () => {
         <img src={logo} className="App-logo" alt="logo"/>
         <h1 className="App-title">NGSC Engagement Requirements</h1>
       </header>
-      <p className="App-intro">
-        To get started, edit <code>src/App.js</code> and save to reload.
-      </p>
+      <IDInput/>
     </div>
   );
 };
