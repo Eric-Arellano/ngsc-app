@@ -1,8 +1,8 @@
 // @flow
 import React from 'react';
-import logo from '../../logo.png';
 import './App.css';
 
+import Header from './../../components/Header/Header'
 import IDInput from './../../components/IDInput/IDInput';
 import DemographicSummary from './../../components/DemographicSummary/DemographicSummary';
 import RequirementsSummary from "../../components/RequirementsSummary/RequirementsSummary";
@@ -47,10 +47,7 @@ const requirements: Array<Requirement> = [
 const App = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo"/>
-        <h1 className="App-title">NGSC Engagement Requirements</h1>
-      </header>
+      <Header />
       <IDInput/>
       <DemographicSummary firstName="Eric" lastName='Arellano' id={1208487250} />
       <RequirementsSummary service={8} civilMil={2} />
