@@ -1,29 +1,34 @@
+// @flow
 import React, { Component } from 'react';
 import { Form, FormGroup, FormControl, ControlLabel, HelpBlock, Button } from 'react-bootstrap';
 
-class IDInput extends Component {
+type Props = { }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: ''
-    };
-    this.handleChange = this.handleChange.bind(this);
-  }
+type State = {
+  idValue: string
+};
+
+class IDInput extends Component<Props, State> {
+
+  state = {
+    idValue: ''
+  };
 
   getValidationState() {
-    const length = this.state.value.length;
-    if (length === 10) return 'success';
+    const num = +this.state.idValue;  // parse to number; non-numeric answers will parse to NaN
+    const isNumber = !isNaN(num);
+    const length = num.toString().length;
+    if (length === 10 && isNumber) return 'success';
+    else if (length <= 1) return null;
     else if (length !== 10) return 'error';
+    return null;
   }
 
-  handleChange(e) {
-    this.setState( {
-      value: e.target.value
-      }
-    );
-  }
-
+  handleIDInput = (e: SyntheticInputEvent<HTMLInputElement>) => {
+      this.setState({
+          idValue: e.currentTarget.value
+        });
+  };
 
   render() {
     return (
@@ -36,8 +41,8 @@ class IDInput extends Component {
           {' '}
           <FormControl
             type={"text"}
-            value={this.state.value}
-            onChange={this.handleChange}
+            value={this.state.idValue}
+            onChange={this.handleIDInput}
           />
           <FormControl.Feedback />
           <HelpBlock>Please enter a valid student ID.</HelpBlock>
