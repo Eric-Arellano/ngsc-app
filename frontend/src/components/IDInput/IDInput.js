@@ -68,7 +68,7 @@ class IDInput extends Component<Props, State> {
           <HelpBlock>Please enter a valid student ID.</HelpBlock>
         </FormGroup>
         <Button onClick={this.handleSubmit}>Submit</Button>  { /* typically has prop 'type="submit"', but reloads the page.. */ }
-        {this.state.acceptSubmit ? null :
+        { !this.state.acceptSubmit &&
           <Tooltip placement={"right"} className={"in"} id={"tooltip-right"}>Fix your ID before submitting!</Tooltip> }
       </Form>
     )

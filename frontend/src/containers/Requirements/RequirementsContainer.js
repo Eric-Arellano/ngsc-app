@@ -3,10 +3,9 @@ import React, { Component } from 'react';
 
 import DemographicSummary from './../../components/DemographicSummary/DemographicSummary';
 import RequirementsSummary from "../../components/RequirementsSummary/RequirementsSummary";
-import type { Requirement } from "../../components/SubmittedRequirementsTable/EventTable";
+import type { Requirement } from "../../models";
 import { SubmittedRequirementsTable } from "../../components/SubmittedRequirementsTable/EventTable";
-
-// TODO: pull from requirements spreadsheet and render below
+import { getRequirements } from "../../api";
 
 // -----------------
 // Fake data
@@ -44,29 +43,44 @@ type Props = {
 }
 
 type State = {
+  isLoading: boolean,
+  isError: boolean,
   service: number,
   civilMil: number,
   requirements: Array<Requirement>,
 }
 
-class Summary extends Component<Props, State> {
+class RequirementsContainer extends Component<Props, State> {
 
-  // real code
-  // state = {
-  //   service: 0,
-  //   civilMil: 0,
-  //   requirements: []
-  // };
-
-  // demo
   state = {
+    isLoading: true,
+    isError: false,
     service: 8,
     civilMil: 2,
     requirements: [req1, req2, req3]
   };
 
+  componentDidMount() {
+    getRequirements(this.props.id)
+      .then((data) => {
+        this.setState({
+          service: data.service,
+          civilMil: data.civilMil,
+          requirements: data.events
+        })
+      })
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+          isError: true
+        })
+      })
+  }
+
   render() {
-    return (
+    if (this.state.isError) return <p>Error</p>;
+    if (this.state.isLoading) return <p>Loading</p>;
+    if (!this.state.isLoading) return (
       <div>
         <DemographicSummary firstName={this.props.firstName} lastName={this.props.lastName} id={this.props.id} />
         <RequirementsSummary service={this.state.service} civilMil={this.state.civilMil} />
@@ -77,4 +91,4 @@ class Summary extends Component<Props, State> {
 
 }
 
-export default Summary;
+export default RequirementsContainer;

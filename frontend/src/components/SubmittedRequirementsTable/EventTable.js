@@ -1,13 +1,7 @@
 // @flow
 import React from 'react';
 import { Panel, Table } from 'react-bootstrap';
-
-export type Requirement = {
-  name: string,
-  reqType: string,
-  status: string,
-  hours: string
-}
+import type { Requirement } from "../../models";
 
 type Props = {
   requirements: Array<Requirement>
