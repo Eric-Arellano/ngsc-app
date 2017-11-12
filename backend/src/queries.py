@@ -42,7 +42,8 @@ def get_logged_requirements(id: int):
 def select_hours(type: str, row):
     if type == 'Service': return float(row[16])
     elif type == 'Civil-Mil OR Service': return float(row[15])
-    return 1
+    elif type == 'Civil-Mil': return 1
+    return 0
 
 
 def get_accepted_requirements(id: int):
