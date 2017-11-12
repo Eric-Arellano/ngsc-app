@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 export const getUserInfo = (id: number) => {
-  const api = `/api/student-info/${id}/`;
+  const api = `/api/student-info/${id}`;
   return axios.get(api)
     .then(info => info.data)
     .catch(error => error.status)

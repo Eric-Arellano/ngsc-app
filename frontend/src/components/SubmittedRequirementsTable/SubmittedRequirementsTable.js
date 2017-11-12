@@ -7,7 +7,7 @@ type Props = {
   requirements: Array<Requirement>
 }
 
-export const SubmittedRequirementsTable = (props: Props) => (
+const SubmittedRequirementsTable = (props: Props) => (
   <Panel header={"Logged Requirements"} bsStyle={"info"}>
     <Table striped bordered responsive>
       <thead>
@@ -32,4 +32,4 @@ export const SubmittedRequirementsTable = (props: Props) => (
   </Panel>
 );
 
-// export default SubmittedRequirementsTable;
+export default SubmittedRequirementsTable;

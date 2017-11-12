@@ -1,9 +1,7 @@
 // @flow
 import React, { Component } from 'react';
-
-import IDInput from './../../components/IDInput/IDInput';
-import ConfirmationPopup from './../../components/ConfirmationPopup/ConfirmationPopup';
-import { getUserInfo } from './../../api'
+import { IDInput, ConfirmationPopup } from 'components'
+import { getUserInfo } from 'utils/api'
 
 type Props = {
   updateName: (string, string) => void,
@@ -50,6 +48,7 @@ class StudentInfoContainer extends Component<Props, State> {
   };
 
   updateID = (value: number) => {
+    console.log(value)
     this.setState({
       id: value
     })
@@ -73,10 +72,16 @@ class StudentInfoContainer extends Component<Props, State> {
 
   };
 
+  makeRequest = (id) => {
+    this.props.verifyStudentId(id)
+  }
+
+
+
   render() {
     return (
       <div>
-        <IDInput onSubmit={this.updateID} />
+        <IDInput onSubmit={this.makeRequest} />
         { this.state.isUserFound && <ConfirmationPopup firstName={this.state.firstName} lastName={this.state.lastName}
                            updateAccepted={this.updateAccepted} updateRejected={this.updateRejected}
         /> }

@@ -24,8 +24,8 @@ class ConfirmationPopup extends Component<Props> {
       <div>
         <p>Are you {this.props.firstName} {this.props.lastName}?</p>
         <ButtonToolbar>
-          <Button bsStyle={"success"} onClick={this.handleYesClick}>Yes</Button>
-          <Button bsStyle={"danger"} onClick={this.handleNoClick}>No, wrong person!</Button>
+          <Button bsStyle={"success"} onClick={() => this.props.confirmCorrectStudent(true)}>Yes</Button>
+          <Button bsStyle={"danger"} onClick={() => this.props.confirmCorrectStudent(false)}>No, wrong person!</Button>
         </ButtonToolbar>
       </div>
     )

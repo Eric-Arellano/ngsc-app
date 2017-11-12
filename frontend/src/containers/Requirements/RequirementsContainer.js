@@ -1,11 +1,8 @@
 // @flow
 import React, { Component } from 'react';
-
-import DemographicSummary from './../../components/DemographicSummary/DemographicSummary';
-import RequirementsSummary from "../../components/RequirementsSummary/RequirementsSummary";
-import type { Requirement } from "../../models";
-import { SubmittedRequirementsTable } from "../../components/SubmittedRequirementsTable/EventTable";
-import { getRequirements } from "../../api";
+import type { Requirement } from 'models';
+import { DemographicSummary, RequirementsSummary, SubmittedRequirementsTable } from 'components'
+import { getRequirements } from 'utils/api'
 
 // -----------------
 // Fake data
@@ -78,17 +75,20 @@ class RequirementsContainer extends Component<Props, State> {
   }
 
   render() {
-    if (this.state.isError) return <p>Error</p>;
-    if (this.state.isLoading) return <p>Loading</p>;
-    if (!this.state.isLoading) return (
-      <div>
-        <DemographicSummary firstName={this.props.firstName} lastName={this.props.lastName} id={this.props.id} />
-        <RequirementsSummary service={this.state.service} civilMil={this.state.civilMil} />
-        <SubmittedRequirementsTable requirements={this.state.requirements}/>
-      </div>
-    )
+    const { name, id } = this.props
+    const { isError, isLoading, civilMil, service, requirements } = this.state
+    if (isError) {
+      return <p>Error</p>
+    }
+    if (isLoading) {
+      return <p>Loading</p>
+    }
+    return [
+      <DemographicSummary firstName={name.first} lastName={name.last} id={id} key={0} />,
+      <RequirementsSummary service={service} civilMil={civilMil} key={1} />,
+      <SubmittedRequirementsTable requirements={requirements} key={2} />
+    ]
   }
-
 }
 
 export default RequirementsContainer;
