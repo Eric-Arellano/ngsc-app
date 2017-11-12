@@ -21,8 +21,12 @@ class IDInputContainer extends Component<Props, State> {
   }
 
   determineValidationState(input: string) {
-    if (this.state.currentValue.length <= 0) return null
-    else return this.isValidId(input) ? 'success' :  'error'
+    const { currentValue } = this.state
+    if (!currentValue) {
+      return null
+    } else {
+      return this.isValidId(currentValue) ? 'success' : 'error'
+    }
   }
 
   isValidId = (input: string) => {
@@ -34,9 +38,9 @@ class IDInputContainer extends Component<Props, State> {
 
   handleKeyInput = (e: SyntheticInputEvent<HTMLInputElement>) => {
     const input = e.currentTarget.value
-    this.setState({
-      currentValue: input,
-      validationState: this.determineValidationState(input),
+    this.setState({ currentValue: input }, () => {
+      const { currentValue } = this.state
+      this.setState({ validationState: this.determineValidationState(currentValue) })
     })
   }
 
