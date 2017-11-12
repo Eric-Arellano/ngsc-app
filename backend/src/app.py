@@ -3,7 +3,7 @@ import flask
 import json
 
 from .models import Requirement
-from .queries import get_name
+from .queries import get_name, get_engagement
 
 app = flask.Flask(__name__)
 
@@ -20,10 +20,10 @@ def api_get_name(id: int):
     return return_json(result)
 
 
-# @app.route('/api/engagement/<int:id>')
-# def api_get_engagement(id: int):
-#     result = get_engagement(id)
-#     return return_json(result)
+@app.route('/api/engagement/<int:id>')
+def api_get_engagement(id: int):
+    result = get_engagement(id)
+    return return_json(result)
 
 
 def return_json(result):
