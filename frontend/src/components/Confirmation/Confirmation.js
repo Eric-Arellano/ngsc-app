@@ -12,7 +12,7 @@ const Confirmation = (props: Props) => {
   const {name, confirmCorrectStudent} = props
   return (
     <div>
-      <p>Are you {name.first} {name.last}?</p>
+      <h3>Are you {name.first} {name.last}?</h3>
       <ButtonToolbar>
         <Button bsStyle={'success'} onClick={() => confirmCorrectStudent(true)}>Yes</Button>
         <Button bsStyle={'danger'} onClick={() => confirmCorrectStudent(false)}>No, wrong person!</Button>

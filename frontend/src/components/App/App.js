@@ -3,6 +3,7 @@ import React from 'react'
 import { Header, Confirmation } from 'components'
 import { IDInputContainer, RequirementsContainer } from 'containers'
 import type { Name } from 'flow/types'
+import './style.css';
 
 type Props = {
   isLoading: boolean,
@@ -16,9 +17,11 @@ type Props = {
 
 const App = (props: Props) => {
   const {isLoading, isValidated, isConfirmed, verifyStudentId, confirmCorrectStudent, id, name} = props
-  if (isLoading) return <p>Loading</p>
+  if (isLoading) {
+    return <p>Loading</p>
+  }
   return (
-    <div> { /* TODO: how to convert this to array since the conditional logic? */ }
+    <div className={"container"}> { /* TODO: how to convert this to array since the conditional logic? */ }
       <Header/>
       {!isValidated && <IDInputContainer onSubmit={verifyStudentId}/>}
       {isValidated && !isConfirmed && <Confirmation confirmCorrectStudent={confirmCorrectStudent} name={name}/>}

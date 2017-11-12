@@ -1,11 +1,11 @@
 .App-logo {
-    height: 80px;
+    height: 5em;
 }
 
 .App-header {
     background-color: #222;
-    height: 150px;
-    padding: 20px;
+    padding: 1em;
+    margin-bottom: 2em;
     color: white;
 }
 
