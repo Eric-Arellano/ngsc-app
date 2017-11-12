@@ -11,4 +11,5 @@ Simple app to expose students' service hours through Google Docs API.
 
 ## To start
 1. `cd frontend/`
+1. `yarn install`
 1. `yarn start`
