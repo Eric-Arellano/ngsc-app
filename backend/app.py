@@ -5,19 +5,11 @@ import json
 
 from apiclient import discovery
 from httplib2 import Http
-from oauth2client import tools
 from oauth2client.service_account import ServiceAccountCredentials
 
 app = flask.Flask(__name__)
 
 scopes = ['https://www.googleapis.com/auth/sqlservice.admin', 'https://www.googleapis.com/auth/spreadsheets.readonly']
-
-try:
-    import argparse
-    flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
-except ImportError:
-    flags = None
-
 
 class Event:
     def __init__(self, name, type, hours, status):
@@ -35,12 +27,6 @@ APPLICATION_NAME = 'Google Sheets API Python Quickstart'
 
 MASTER_2017_ID = '1H5leinJFGT1SDfb2hqbDpQgSC_2GYr1HFwKPpzFZ1Js'
 ENGAGEMENT_2017_ID = '1FBDR19w831QQ8XTFMns6qVzGEGTv1UU7NAoomTaJRLA'
-
-
-@app.route('/test')
-def test_api_request():
-    print("Testing testing")
-    return True
 
 
 # @app.route('/api/engagement/<int:student_id>')
