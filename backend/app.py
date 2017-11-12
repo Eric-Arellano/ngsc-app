@@ -45,9 +45,20 @@ def test_api_request():
 def not_found(error):
     return render_template('404.html'), 404
 
-# @app.route('/api/engagement/<int:student_id>')
-# def get_engagement(student_id):
+@app.route('/api/engagement/<int:student_id>')
+def get_engagement(student_id):
+    credentials = get_credentials()
+    http_auth = credentials.authorize(Http())
+    discoveryUrl = ('https://sheets.googleapis.com/$discovery/rest?'
+                    'version=v4')
+    service = discovery.build('sheets', 'v4', http=http_auth,
+                              discoveryServiceUrl=discoveryUrl)
+    result = get_events_by_id(service, id)
 
+    if result is None:
+        flask.abort(404)
+    else:
+        return json.dumps(result), 200
 
 @app.route('/api/student_id/<int:id>')
 def get_name(id):
@@ -116,20 +127,51 @@ def get_events(service):
         spreadsheet_id=spreadsheet_id, range=range_name).execute()
     return result.get('values', [])
 
-# def get_event_by_id(service, id):
-#     events = get_events(service)
-#     approved_service_hours = 0
-#     approved_civil_mil_event_count = 0
-#     all_events = []
-#     for row in events:
-#         if row[6] == id:
-#             eventDict = {}
-#             if row[2] == 'Service':
-#                 eventDict.append('type', 'Service')
-#                 if row[1] == 'Approved':
-#
-#                 approved_service_hours += int(float(row[16]))
-#
+def get_approved_events(service):
+    spreadsheet_id = ENGAGEMENT_2017_ID
+    range_name = 'Requirements!A2:C'
+    result = service.spreadsheets().values().get(
+        spreadsheet_id=spreadsheet_id, range=range_name).execute()
+    return result.get('values', [])
+
+def get_events_by_id(service, id):
+    events = get_events(service)
+    all_events = []
+    for row in events:
+        if int(float(row[6])) == id:
+            event_dict = {}
+            event_dict.append('type', row[2])
+            if row[1] == 'Accepted' or 'Reclassified':
+                if row[2] == 'Service':
+                    event_dict.append('hours', int(float(row[16])))
+                elif row[2] == 'Civil-Mil':
+                    event_dict.append('hours', 1)
+                elif row[2] == 'Civil-Mil OR Service':
+                    event_dict.append('hours', int(float(row[15])))
+            event_dict.append('status', row[1])
+            if row[12]:
+                event_dict.append('name', row[12])
+            elif row[13]:
+                event_dict.append('name', row[13])
+            elif row[14]:
+                event_dict.append('name', row[14])
+            all_events.append(event_dict)
+    accepted_requirements = get_approved_events(service)
+    accepted_service_hours = 0
+    accepted_civil_mil = 0
+    accepted_hours_found = False
+    for row in accepted_requirements:
+        if int(float(row[0])) == id:
+            accepted_service_hours = row[1]
+            accepted_civil_mil = row[2]
+            accepted_hours_found = True
+    if not accepted_hours_found:
+        return None
+    elif len(all_events) == 0:
+        return None
+    else:
+        return {"id" : id, "approvedService" : accepted_service_hours, "approvedCivilMil" : accepted_civil_mil, "requirements": event_dict}
+
 
 def main():
     """Shows basic usage of the Sheets API.
