@@ -2,7 +2,7 @@ from __future__ import print_function
 import os
 import flask
 import json
-import requests
+# import requests
 
 from apiclient import discovery
 from flask import render_template
