@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import { Panel, Table } from 'react-bootstrap';
-import type { Requirement } from "../../models";
+import type { Requirement } from "flow/types";
 
 type Props = {
   requirements: Array<Requirement>

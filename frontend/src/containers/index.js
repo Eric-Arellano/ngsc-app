@@ -1,9 +1,9 @@
 import AppContainer from './App/AppContainer'
 import RequirementsContainer from './Requirements/RequirementsContainer'
-import StudentInfoContainer from './StudentInfo/StudentInfoContainer'
+import IDInputContainer from './IDInput/IDInputContainer'
 
 export {
   AppContainer,
   RequirementsContainer,
-  StudentInfoContainer
+  IDInputContainer
 }
