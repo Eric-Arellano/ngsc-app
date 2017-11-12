@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { DemographicSummary, RequirementsSummary, SubmittedRequirementsTable } from 'components'
 import { getRequirements } from 'utils/api'
-import { Name, Requirement } from 'flow/types'
+import type { Name, Requirement } from 'flow/types'
 import { mockRequirements } from 'data/mock'
 
 type Props = {
@@ -32,12 +32,13 @@ class RequirementsContainer extends Component<Props, State> {
     getRequirements(this.props.id)
       .then((data) => {
         this.setState({
-          service: data.service,
-          civilMil: data.civilMil,
-          requirements: data.events
+          service: data.acceptedService,
+          civilMil: data.acceptedCivilMil,
+          requirements: data.requirements
         })
       })
       .catch((error) => {
+        // demo
         const mock = mockRequirements()
         this.setState({
           service: 8,
@@ -45,6 +46,14 @@ class RequirementsContainer extends Component<Props, State> {
           requirements: mock,
           isLoading: false,
           isError: false,
+        })
+        // actual
+        this.setState({
+          service: 0,
+          civilMil: 0,
+          requirements: [],
+          isLoading: false,
+          isError: true,
         })
       })
   }
