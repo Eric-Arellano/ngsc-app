@@ -29,26 +29,37 @@ class AppContainer extends Component<Props, State> {
   }
 
   verifyStudentId = (id: number) => {
+    this.setState({
+      isLoading: true
+    })
     getUserInfo(id)
       .then(data => {
         this.setState({
           isLoading: false,
           isValidated: true,
           name: {
-            first: data.firstName,
-            last: data.lastName
+            first: data.first,
+            last: data.last
           },
           id
         })
       })
       .catch(err => {
+        // demo
         const mock = mockStudent(id)
         this.setState({
           isLoading: false,
           isValidated: true,
           name: mock.name,
-          id: mock.id
+          id
         })
+        // actual
+        // this.setState({
+        //   isLoading: false,
+        //   isValidated: false,
+        //   name: { first: '', last: '' },
+        //   id: 0
+        // })
       })
   }
 
@@ -56,7 +67,6 @@ class AppContainer extends Component<Props, State> {
     this.setState({
       isConfirmed,
       isValidated: isConfirmed,
-      isLoading: true
     })
   }
 

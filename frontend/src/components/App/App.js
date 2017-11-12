@@ -16,7 +16,7 @@ type Props = {
 
 const App = (props: Props) => {
   const {isLoading, isValidated, isConfirmed, verifyStudentId, confirmCorrectStudent, id, name} = props
-
+  if (isLoading) return <p>Loading</p>
   return (
     <div> { /* TODO: how to convert this to array since the conditional logic? */ }
       <Header/>
