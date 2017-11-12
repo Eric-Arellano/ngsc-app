@@ -93,6 +93,13 @@ def get_credentials():
     #     print('Storing credentials to ' + credential_path)
     return credentials
 
+def get_names(service):
+    spreadsheetId = '1H5leinJFGT1SDfb2hqbDpQgSC_2GYr1HFwKPpzFZ1Js'
+    rangeName = 'Master!A2:C'
+    result = service.spreadsheets().values().get(
+        spreadsheetId=spreadsheetId, range=rangeName).execute()
+    return result.get('values', [])
+
 def main():
     """Shows basic usage of the Sheets API.
 
@@ -101,26 +108,21 @@ def main():
     https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
     """
     credentials = get_credentials()
-    delegated_credentials = credentials.create_delegated('dkchen1@asu.edu')
+    # delegated_credentials = credentials.create_delegated('dkchen1@asu.edu')
     http_auth = credentials.authorize(Http())
     discoveryUrl = ('https://sheets.googleapis.com/$discovery/rest?'
                     'version=v4')
     service = discovery.build('sheets', 'v4', http=http_auth,
                               discoveryServiceUrl=discoveryUrl)
-
-    spreadsheetId = '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms'
-    rangeName = 'Class Data!A2:E'
-    result = service.spreadsheets().values().get(
-        spreadsheetId=spreadsheetId, range=rangeName).execute()
-    values = result.get('values', [])
+    values = get_names(service)
 
     if not values:
         print('No data found.')
     else:
-        print('Name, Major:')
+        print('Last Name, First Name, Student ID:')
         for row in values:
             # Print columns A and E, which correspond to indices 0 and 4.
-            print('%s, %s' % (row[0], row[4]))
+            print('%s, %s, %s' % (row[0], row[1], row[2]))
 
 
 if __name__ == '__main__':
