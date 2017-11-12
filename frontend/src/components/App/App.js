@@ -16,14 +16,14 @@ type Props = {
 
 const App = (props: Props) => {
   const {isLoading, isValidated, isConfirmed, verifyStudentId, confirmCorrectStudent, id, name} = props
-  const Aux = props => props.children
+
   return (
-    <Aux>
+    <div> { /* TODO: how to convert this to array since the conditional logic? */ }
       <Header/>
       {!isValidated && <IDInputContainer onSubmit={verifyStudentId}/>}
       {isValidated && !isConfirmed && <Confirmation confirmCorrectStudent={confirmCorrectStudent} name={name}/>}
       {isValidated && isConfirmed && <RequirementsContainer id={id} name={name}/>}
-    </Aux>
+    </div>
   )
 }
 

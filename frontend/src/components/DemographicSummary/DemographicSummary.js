@@ -1,19 +1,22 @@
 // @flow
 import React from 'react';
 import { Panel } from 'react-bootstrap';
+import type { Name } from 'flow/types'
 
 type Props = {
-  firstName: string,
-  lastName: string,
+  name: Name,
   id: number
 }
 
-const DemographicSummary = (props: Props) => (
+const DemographicSummary = (props: Props) => {
+  const { name, id } = props
+  return (
   <Panel header={"Student info"} bsStyle={"info"}>
-    <span>Name: {props.firstName + " " + props.lastName}</span>
+    <span>Name: {name.first + " " + name.last}</span>
     <br/>
-    <span>ID number: {props.id}</span>
+    <span>ID number: {id}</span>
   </Panel>
-);
+  )
+}
 
 export default DemographicSummary;

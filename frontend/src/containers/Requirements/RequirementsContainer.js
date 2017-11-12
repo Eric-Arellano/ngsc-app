@@ -1,14 +1,13 @@
 // @flow
 import React, { Component } from 'react';
-import type { Requirement } from 'models';
 import { DemographicSummary, RequirementsSummary, SubmittedRequirementsTable } from 'components'
 import { getRequirements } from 'utils/api'
+import { Name, Requirement } from 'flow/types'
 import { mockRequirements } from 'data/mock'
 
 type Props = {
   id: number,
-  firstName: string,
-  lastName: string,
+  name: Name
 }
 
 type State = {
@@ -39,10 +38,11 @@ class RequirementsContainer extends Component<Props, State> {
         })
       })
       .catch((error) => {
+        const mock = mockRequirements()
         this.setState({
           service: 8,
           civilMil: 2,
-          requirements: mockRequirements,
+          requirements: mock,
           isLoading: false,
           isError: false,
         })
@@ -50,7 +50,6 @@ class RequirementsContainer extends Component<Props, State> {
   }
 
   render() {
-    const { name, id } = this.props
     const { isError, isLoading, civilMil, service, requirements } = this.state
     if (isError) {
       return <p>Error</p>
@@ -59,7 +58,7 @@ class RequirementsContainer extends Component<Props, State> {
       return <p>Loading</p>
     }
     return [
-      <DemographicSummary firstName={name.first} lastName={name.last} id={id} key={0} />,
+      <DemographicSummary {...this.props} key={0} />,
       <RequirementsSummary service={service} civilMil={civilMil} key={1} />,
       <SubmittedRequirementsTable requirements={requirements} key={2} />
     ]

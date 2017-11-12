@@ -48,7 +48,7 @@ class AppContainer extends Component<Props, State> {
           isValidated: true,
           name: mock.name,
           id: mock.id
-        }, this.confirmCorrectStudent)
+        })
       })
   }
 
