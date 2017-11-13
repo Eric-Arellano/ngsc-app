@@ -33,7 +33,8 @@ class RequirementsContainer extends Component<Props, State> {
         this.setState({
           service: data.acceptedService,
           civilMil: data.acceptedCivilMil,
-          requirements: data.requirements
+          requirements: data.requirements,
+          isLoading: false,
         })
       })
       .catch((error) => {
