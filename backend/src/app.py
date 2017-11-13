@@ -5,7 +5,7 @@ import json
 from .queries import get_name, get_engagement
 
 app = flask.Flask(__name__)
-
+app.url_map.strict_slashes = False
 
 @app.route('/api/student_info/<int:id>')
 def api_get_name(id: int):

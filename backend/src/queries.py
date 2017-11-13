@@ -31,7 +31,7 @@ def get_logged_requirements(id: int):
     requirements = []
     for row in all_responses:
         if int(row[6]) == id:
-            req = {'type': row[2],
+            req = {'reqType': row[2],
                    'status': row[1],
                    'name': row[12] or row[13] or row[14],
                    'hours': select_hours(row[2], row)}

@@ -7,6 +7,13 @@ type Props = {
   requirements: Array<Requirement>
 }
 
+const translateHours = (reqType: string, hours: number) => {
+  if (reqType === 'Service') return `${hours} hours`
+  else if (reqType === 'Civil-Mil OR Service') return `${hours} hours or 1 civil-mil event`
+  else if (reqType === 'Civil-Mil') return `1 civil-mil event`
+  return ''
+}
+
 const SubmittedRequirementsTable = (props: Props) => (
   <Panel header={"Logged Requirements"} bsStyle={"info"}>
     <Table striped bordered responsive>
@@ -24,7 +31,7 @@ const SubmittedRequirementsTable = (props: Props) => (
             <td>{requirement.name}</td>
             <td>{requirement.reqType}</td>
             <td>{requirement.status}</td>
-            <td>{requirement.hours}</td>
+            <td>{translateHours(requirement.reqType, requirement.hours)}</td>
           </tr>
         ))}
       </tbody>
