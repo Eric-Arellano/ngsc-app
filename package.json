@@ -1,0 +1,16 @@
+{
+  "name": "ngsc-service-hours",
+  "version": "0.1.0",
+  "engines": {
+    "node": "8.1.x"
+  },
+  "cacheDirectories": [
+    "node_modules",
+    "frontend/node_modules"
+  ],
+  "scripts": {
+    "heroku-postbuild": "cd frontend/ && yarn install && yarn build"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
