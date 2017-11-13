@@ -22,7 +22,7 @@ def get_name(id: int):
 def get_engagement(id: int):
     (accepted_service, accepted_civil_mil) = get_accepted_requirements(id)
     requirements = get_logged_requirements(id)
-    return {"id": id, "approvedService": accepted_service, "approvedCivilMil": accepted_civil_mil,
+    return {"id": id, "acceptedService": accepted_service, "acceptedCivilMil": accepted_civil_mil,
             "requirements": requirements}
 
 
@@ -42,7 +42,6 @@ def get_logged_requirements(id: int):
 def select_hours(type: str, row):
     if type == 'Service': return float(row[16])
     elif type == 'Civil-Mil OR Service': return float(row[15])
-    elif type == 'Civil-Mil': return 1
     return 0
 
 

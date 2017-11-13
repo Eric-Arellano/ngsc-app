@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { DemographicSummary, RequirementsSummary, SubmittedRequirementsTable } from 'components'
 import { getRequirements } from 'utils/api'
 import type { Name, Requirement } from 'flow/types'
-import { mockRequirements } from 'data/mock'
 
 type Props = {
   id: number,
@@ -38,16 +37,6 @@ class RequirementsContainer extends Component<Props, State> {
         })
       })
       .catch((error) => {
-        // demo
-        const mock = mockRequirements()
-        this.setState({
-          service: 8,
-          civilMil: 2,
-          requirements: mock,
-          isLoading: false,
-          isError: false,
-        })
-        // actual
         this.setState({
           service: 0,
           civilMil: 0,

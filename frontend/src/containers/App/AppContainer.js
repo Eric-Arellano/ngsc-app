@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import { App } from 'components'
 import { getUserInfo } from 'utils/api'
 import type { Name } from 'flow/types'
-import { mockStudent } from 'data/mock'
 
 type Props = {}
 
@@ -38,28 +37,19 @@ class AppContainer extends Component<Props, State> {
           isLoading: false,
           isValidated: true,
           name: {
-            first: data.first,
-            last: data.last
+            first: data.name.first,
+            last: data.name.last
           },
           id
         })
       })
       .catch(err => {
-        // demo
-        const mock = mockStudent(id)
         this.setState({
           isLoading: false,
-          isValidated: true,
-          name: mock.name,
-          id
+          isValidated: false,
+          name: { first: '', last: '' },
+          id: 0
         })
-        // actual
-        // this.setState({
-        //   isLoading: false,
-        //   isValidated: false,
-        //   name: { first: '', last: '' },
-        //   id: 0
-        // })
       })
   }
 
