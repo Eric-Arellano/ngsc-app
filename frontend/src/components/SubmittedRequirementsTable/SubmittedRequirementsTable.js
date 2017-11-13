@@ -14,6 +14,11 @@ const translateHours = (reqType: string, hours: number) => {
   return ''
 }
 
+const translateStatus = (status: string) => {
+  if (status === '') return 'Not yet evaluated'
+  return status
+}
+
 const SubmittedRequirementsTable = (props: Props) => (
   <Panel header={"Logged Requirements"} bsStyle={"info"}>
     <Table striped bordered responsive>
@@ -30,7 +35,7 @@ const SubmittedRequirementsTable = (props: Props) => (
           <tr>
             <td>{requirement.name}</td>
             <td>{requirement.reqType}</td>
-            <td>{requirement.status}</td>
+            <td>{translateStatus(requirement.status)}</td>
             <td>{translateHours(requirement.reqType, requirement.hours)}</td>
           </tr>
         ))}
