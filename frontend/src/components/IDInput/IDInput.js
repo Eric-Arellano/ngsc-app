@@ -4,6 +4,7 @@ import { Form, FormGroup, FormControl, ControlLabel, HelpBlock, Button, Tooltip 
 
 type Props = {
   handleKeyInput: (e: SyntheticInputEvent<HTMLInputElement>) => void,
+  handleEnterKey: (e: SyntheticInputEvent<HTMLInputElement>) => void,
   handleSubmit: () => void,
   currentValue: string,
   validationState: ?string,
@@ -11,13 +12,13 @@ type Props = {
 }
 
 const IDInput = (props: Props) => {
-  const {handleKeyInput, handleSubmit, currentValue, validationState, submissionFailed} = props
+  const {handleKeyInput, handleEnterKey, handleSubmit, currentValue, validationState, submissionFailed} = props
   return (
     <Form inline>
       <FormGroup controlId={'ID'} validationState={validationState}>
         <ControlLabel>Student ID:</ControlLabel>
         {' '}
-        <FormControl type={'text'} value={currentValue} onChange={handleKeyInput}/>
+        <FormControl type={'text'} value={currentValue} onKeyDown={handleEnterKey} onChange={handleKeyInput}  />
         <FormControl.Feedback/>
         <HelpBlock>Please enter a valid student ID.</HelpBlock>
       </FormGroup>

@@ -20,8 +20,8 @@ class IDInputContainer extends Component<Props, State> {
     submissionFailed: false
   }
 
-  determineValidationState(input: string) {
-    const { currentValue } = this.state
+  determineValidationState (input: string) {
+    const {currentValue} = this.state
     if (!currentValue) {
       return null
     } else {
@@ -38,23 +38,33 @@ class IDInputContainer extends Component<Props, State> {
 
   handleKeyInput = (e: SyntheticInputEvent<HTMLInputElement>) => {
     const input = e.currentTarget.value
-    this.setState({ currentValue: input }, () => {
-      const { currentValue } = this.state
-      this.setState({ validationState: this.determineValidationState(currentValue) })
+    this.setState({currentValue: input}, () => {
+      const {currentValue} = this.state
+      this.setState({validationState: this.determineValidationState(currentValue)})
     })
   }
 
-  handleSubmit = () => {
-    const { currentValue } = this.state
-    if (this.isValidId(currentValue)) {
-      this.props.onSubmit(Number(currentValue))
-    } else {
-      this.setState({ submissionFailed: false })
+  handleEnterKey = (e: SyntheticInputEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      this.handleSubmit()
     }
   }
 
-  render() {
-    return <IDInput {...this.state} handleSubmit={this.handleSubmit} handleKeyInput={this.handleKeyInput} />
+  handleSubmit = () => {
+    const {currentValue} = this.state
+    if (this.isValidId(currentValue)) {
+      this.props.onSubmit(Number(currentValue))
+    } else {
+      this.setState({submissionFailed: true})
+    }
+  }
+
+  render () {
+    return <IDInput {...this.state}
+                    handleSubmit={this.handleSubmit}
+                    handleKeyInput={this.handleKeyInput}
+                    handleEnterKey={this.handleEnterKey}/>
   }
 }
 
