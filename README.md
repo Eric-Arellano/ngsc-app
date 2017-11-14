@@ -31,6 +31,7 @@ Simple app to expose students' service hours through Google Docs API.
 1. activate virtual environment
     1. On Mac, `source bin/activate`
     1. On Windows, `\Scripts\activate.bat`
+1. `export FLASK_APP=src/app.py`
 1. `flask run`
 
 #### Frontend
