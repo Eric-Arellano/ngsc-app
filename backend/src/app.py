@@ -7,6 +7,12 @@ from .queries import get_name, get_engagement
 app = flask.Flask(__name__)
 app.url_map.strict_slashes = False
 
+
+@app.route('/api/test')
+def api_test():
+    return 'Server is running! Good luck debugging :O'
+
+
 @app.route('/api/student_info/<int:id>')
 def api_get_name(id: int):
     result = get_name(id)
