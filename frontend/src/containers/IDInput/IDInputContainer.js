@@ -9,7 +9,7 @@ type Props = {
 type State = {
   currentValue: string,
   validationState: ?string,
-  submissionFailed: boolean,
+  submitDisabled: boolean,
 }
 
 class IDInputContainer extends Component<Props, State> {
@@ -17,7 +17,7 @@ class IDInputContainer extends Component<Props, State> {
   state = {
     currentValue: '',
     validationState: null,
-    submissionFailed: false
+    submitDisabled: true,
   }
 
   determineValidationState (input: string) {
@@ -42,6 +42,14 @@ class IDInputContainer extends Component<Props, State> {
       const {currentValue} = this.state
       this.setState({validationState: this.determineValidationState(currentValue)})
     })
+
+    if (input === '') {
+      this.setState({submitDisabled: true})
+    } else if (!this.isValidId(input)) {
+      this.setState({submitDisabled: true})
+    } else {
+      this.setState({submitDisabled: false})
+    }
   }
 
   handleEnterKey = (e: SyntheticInputEvent<HTMLInputElement>) => {
@@ -55,8 +63,6 @@ class IDInputContainer extends Component<Props, State> {
     const {currentValue} = this.state
     if (this.isValidId(currentValue)) {
       this.props.onSubmit(Number(currentValue))
-    } else {
-      this.setState({submissionFailed: true})
     }
   }
 
