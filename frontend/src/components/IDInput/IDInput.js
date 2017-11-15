@@ -22,7 +22,7 @@ const IDInput = (props: Props) => {
       <FormGroup controlId={'ID'} validationState={validationState}>
         <ControlLabel>Student ID:</ControlLabel>
         {' '}
-        <FormControl type={'text'} value={currentValue} onKeyDown={handleEnterKey} onChange={handleKeyInput}  />
+        <FormControl type={'text'} value={currentValue} placeholder="Enter Student ID" onKeyDown={handleEnterKey} onChange={handleKeyInput}  />
         <FormControl.Feedback/>
         <HelpBlock>Please enter a valid student ID.</HelpBlock>
       </FormGroup>

@@ -43,3 +43,18 @@
     background-color: #d2b204;
 }
 
+@media screen and (max-width: 768px) {
+    .form-group {
+        max-width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .has-feedback label ~ .form-control-feedback {
+        top: 33px;
+    }
+
+    .container {
+        font-size: 100%;
+    }
+}
