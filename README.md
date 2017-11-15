@@ -18,6 +18,9 @@ Simple app to expose students' service hours through Google Docs API.
 1. Make a virtual environment
     1. On Mac, `python3 -m venv ./`
     1. On Windows, `c:\Python35\python -m venv ./` 
+1. activate virtual environment
+    1. On Mac, `source bin/activate`
+    1. On Windows, `\Scripts\activate.bat`
 1. `pip install -r requirements.txt`
 
 #### Frontend
