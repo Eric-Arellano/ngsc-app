@@ -53,6 +53,22 @@ class AppContainer extends Component<Props, State> {
       })
   }
 
+  resetState = () => {
+    this.setState({
+      isLoading: false,
+      isValidated: false,
+      isConfirmed: false,
+      userNotFound: false,
+      id: null,
+      name: {
+        first: '',
+        last: ''
+      }
+    })
+
+    window.location.reload()
+  }
+
   confirmCorrectStudent = (isConfirmed: boolean) => {
     this.setState({
       isConfirmed,
@@ -61,7 +77,7 @@ class AppContainer extends Component<Props, State> {
   }
 
   render () {
-    return <App {...this.state} verifyStudentId={this.verifyStudentId} confirmCorrectStudent={this.confirmCorrectStudent} />
+    return <App {...this.state} verifyStudentId={this.verifyStudentId} confirmCorrectStudent={this.confirmCorrectStudent} resetState={this.resetState}/>
   }
 }
 
