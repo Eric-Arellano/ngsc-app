@@ -2,6 +2,7 @@
 import React from 'react';
 import { Panel, Table } from 'react-bootstrap';
 import type { Requirement } from "flow/types";
+import '../App/style.css'
 
 type Props = {
   requirements: Array<Requirement>
@@ -20,7 +21,7 @@ const translateStatus = (status: string) => {
 }
 
 const SubmittedRequirementsTable = (props: Props) => (
-  <Panel header={"Logged Requirements"} bsStyle={"info"}>
+  <Panel header={"Logged Requirements"} bsStyle={"info"} className="ngsc">
     <Table striped bordered responsive>
       <thead>
         <tr>

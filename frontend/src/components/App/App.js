@@ -18,14 +18,23 @@ type Props = {
 const App = (props: Props) => {
   const {isLoading, isValidated, isConfirmed, verifyStudentId, confirmCorrectStudent, id, name} = props
   if (isLoading) {
-    return <p>Loading</p>
+    return (
+      <div className="ngsc-container">
+        <Header/>
+        <div className="container">
+          <p>Loading...</p>
+        </div>
+      </div>
+    )
   }
   return (
-    <div className={"container"}> { /* TODO: how to convert this to array since the conditional logic? */ }
+    <div className={"ngsc-container"}> { /* TODO: how to convert this to array since the conditional logic? */ }
       <Header/>
-      {!isValidated && <IDInputContainer onSubmit={verifyStudentId}/>}
-      {isValidated && !isConfirmed && <Confirmation confirmCorrectStudent={confirmCorrectStudent} name={name}/>}
-      {isValidated && isConfirmed && <RequirementsContainer id={id} name={name}/>}
+      <div className="container">
+        {!isValidated && <IDInputContainer onSubmit={verifyStudentId}/>}
+        {isValidated && !isConfirmed && <Confirmation confirmCorrectStudent={confirmCorrectStudent} name={name}/>}
+        {isValidated && isConfirmed && <RequirementsContainer id={id} name={name}/>}
+      </div>
     </div>
   )
 }

@@ -54,7 +54,7 @@ class RequirementsContainer extends Component<Props, State> {
       return <p>Error</p>
     }
     if (isLoading) {
-      return <p>Loading</p>
+      return <p>Loading...</p>
     }
     return [
       <DemographicSummary {...this.props} key={0} />,

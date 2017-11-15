@@ -2,3 +2,44 @@
     text-align: center;
     font-size: 120%;
 }
+
+.confirm-header {
+    margin-bottom: 20px;
+}
+
+.btn-toolbar {
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ngsc-container {
+    text-align: center;
+    font-size: 120%;
+    margin: 0;
+    padding: 0;
+}
+
+.ngsc.panel-info {
+    border-color: black;
+}
+
+.ngsc.panel-info > .panel-heading {
+    background-color: black;
+    background-image: none;
+    color: white;
+}
+
+.ngsc.btn.btn-default {
+    margin-left: 1em;
+    background-color: gold;
+    color: black;
+    background-image: none;
+    border-color: #d2b204;
+    font-weight: 500;
+}
+
+.ngsc.btn.btn-default:hover {
+    background-color: #d2b204;
+}
+

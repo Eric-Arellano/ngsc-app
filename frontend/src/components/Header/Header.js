@@ -5,7 +5,9 @@ import './style.css';
 
 const Header = () => (
   <header className="App-header">
-    <img src={logo} className="App-logo" alt="logo"/>
+      <a href="/">
+          <img src={logo} className="App-logo" alt="logo"/>
+      </a>
     <h1 className="App-title">NGSC Engagement Requirements</h1>
   </header>
 );

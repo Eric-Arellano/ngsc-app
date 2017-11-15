@@ -22,9 +22,10 @@ const IDInput = (props: Props) => {
         <FormControl.Feedback/>
         <HelpBlock>Please enter a valid student ID.</HelpBlock>
       </FormGroup>
-      <Button onClick={handleSubmit}>Submit</Button>
       {submissionFailed &&
       <Tooltip placement={'right'} className={'in'} id={'tooltip-right'}>Fix your ID before submitting!</Tooltip>}
+    <br/>
+    <Button className="ngsc" onClick={handleSubmit}>Submit</Button>
     </Form>
   )
 }

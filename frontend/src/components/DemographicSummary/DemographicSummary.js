@@ -2,6 +2,7 @@
 import React from 'react';
 import { Panel } from 'react-bootstrap';
 import type { Name } from 'flow/types'
+import '../App/style.css'
 
 type Props = {
   name: Name,
@@ -11,7 +12,7 @@ type Props = {
 const DemographicSummary = (props: Props) => {
   const { name, id } = props
   return (
-  <Panel header={"Student info"} bsStyle={"info"}>
+  <Panel header={"Student info"} bsStyle={"info"} className="ngsc">
     <span>Name: {`${name.first} ${name.last}`}</span>
     <br/>
     <span>ID number: {id}</span>
