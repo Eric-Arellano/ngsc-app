@@ -8,6 +8,7 @@ type Props = {}
 
 type State = {
   isLoading: boolean,
+  isError: boolean,
   isValidated: boolean,
   isConfirmed: boolean,
   id: ?number,
@@ -22,6 +23,7 @@ class AppContainer extends Component<Props, State> {
 
   state = {
     isLoading: false,
+    isError: false,
     isValidated: false,
     isConfirmed: false,
     id: null,
@@ -56,15 +58,9 @@ class AppContainer extends Component<Props, State> {
         })
       })
       .catch(err => {
-        this.setState({ // TODO: duplicated logic with resetState()
+        this.setState({
           isLoading: false,
-          isValidated: false,
-          name: { first: '', last: '' },
-          missionTeam: null,
-          id: null,
-          committee: null,
-          cohort: null,
-          leadership: null,
+          isError: true,
         })
       })
   }
@@ -72,6 +68,7 @@ class AppContainer extends Component<Props, State> {
   resetState = () => {
     this.setState({
       isLoading: false,
+      isError: false,
       isValidated: false,
       isConfirmed: false,
       id: null,

@@ -8,6 +8,7 @@ import './style.css';
 
 type Props = {
   isLoading: boolean,
+  isError: boolean,
   isValidated: boolean,
   isConfirmed: boolean,
   verifyStudentId: (number) => void,
@@ -21,16 +22,16 @@ type Props = {
 }
 
 const App = (props: Props) => {
-  const {isLoading, isValidated, isConfirmed, verifyStudentId, confirmCorrectStudent, resetState, id, name } = props
+  const {isLoading, isError, isValidated, isConfirmed, verifyStudentId, confirmCorrectStudent, resetState, id, name } = props
 
   let container: React.Element<'div'>
   if (isLoading) {
     container = <div className="container">
                   <p>Loading...</p>
                 </div>
-  } else if (id === 0) {
+  } else if (isError) {
     container = <div className="container">
-                  <h3 className="error">User Not Found. Please enter a valid ID.</h3>
+                  <h3 className="error">User not found. Please enter a valid ID.</h3>
                   <Button onClick={resetState}> Back </Button>
                 </div>
   } else {
