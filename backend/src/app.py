@@ -2,7 +2,7 @@ from __future__ import print_function
 import flask
 import json
 
-from .queries import get_name, get_engagement
+from .queries import get_demographics, get_engagement
 
 app = flask.Flask(__name__)
 app.url_map.strict_slashes = False
@@ -15,7 +15,7 @@ def api_test():
 
 @app.route('/api/student_info/<int:id>')
 def api_get_name(id: int):
-    result = get_name(id)
+    result = get_demographics(id)
     return return_json(result)
 
 

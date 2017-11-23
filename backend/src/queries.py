@@ -11,11 +11,13 @@ def get_values(spreadsheet_id: str, range_: str):
     return result.get('values', [])
 
 
-def get_name(id: int):
-    results = get_values(MASTER_2017, 'Master!A2:C')
+def get_demographics(id: int):
+    results = get_values(MASTER_2017, 'Master!A2:O')
     for row in results:
         if int(row[2]) == id:
-            return {'id': id, 'name': {'first': row[1], 'last': row[0]}}
+            return {'id': id, 'name': {'first': row[1], 'last': row[0]},
+                    'cohort': row[7], 'missionTeam': row[8], 'committee': row[9],
+                    'leadership': row[10]}
     return None
 
 

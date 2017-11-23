@@ -2,20 +2,28 @@
 import React from 'react';
 import { Panel } from 'react-bootstrap';
 import type { Name } from 'flow/types'
+import Entry from './Entry'
 import '../App/style.css'
 
 type Props = {
   name: Name,
-  id: number
+  missionTeam: number,
+  id: number,
+  cohort: number,
+  committee: ?string,
+  leadership: ?string,
 }
 
 const DemographicSummary = (props: Props) => {
-  const { name, id } = props
+  const { name, missionTeam, id, committee, cohort, leadership } = props
   return (
   <Panel header={"Student info"} bsStyle={"info"} className="ngsc">
-    <span>Name: {`${name.first} ${name.last}`}</span>
-    <br/>
-    <span>ID number: {id}</span>
+    <Entry header={"Name"} value={`${name.first} ${name.last}`} />
+    <Entry header={"ID number"} value={id} />
+    <Entry header={"Cohort"} value={cohort} />
+    <Entry header={"Mission team"} value={missionTeam} />
+    {committee && <Entry header={"Committee"} value={committee} />}
+    {leadership && <Entry header={"Leadership"} value={leadership} />}
   </Panel>
   )
 }

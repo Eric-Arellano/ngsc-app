@@ -6,6 +6,7 @@ import type { Name, Requirement } from 'flow/types'
 
 type Props = {
   id: number,
+  missionTeam: number,
   name: Name
 }
 

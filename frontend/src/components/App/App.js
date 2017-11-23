@@ -14,11 +14,14 @@ type Props = {
   confirmCorrectStudent: (boolean) => void,
   resetState: () => void,
   id: ?number,
+  missionTeam: ?number,
+  committee: ?string,
+  cohort: ?number,
   name: Name
 }
 
 const App = (props: Props) => {
-  const {isLoading, isValidated, isConfirmed, verifyStudentId, confirmCorrectStudent, resetState, id, name} = props
+  const {isLoading, isValidated, isConfirmed, verifyStudentId, confirmCorrectStudent, resetState, id, name } = props
   if (isLoading) {
     return (
       <div className="ngsc-container">
@@ -46,8 +49,8 @@ const App = (props: Props) => {
       <Header/>
       <div className="container">
         {!isValidated && <IDInputContainer onSubmit={verifyStudentId}/>}
-        {isValidated && !isConfirmed && <Confirmation confirmCorrectStudent={confirmCorrectStudent} name={name}/>}
-        {isValidated && isConfirmed && <RequirementsContainer id={id} name={name}/>}
+        {isValidated && !isConfirmed && <Confirmation confirmCorrectStudent={confirmCorrectStudent} {...props} />}
+        {isValidated && isConfirmed && <RequirementsContainer {...props}/>}
       </div>
     </div>
   )

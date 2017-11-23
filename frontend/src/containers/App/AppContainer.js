@@ -11,6 +11,10 @@ type State = {
   isValidated: boolean,
   isConfirmed: boolean,
   id: ?number,
+  missionTeam: ?number,
+  committee: ?string,
+  cohort: ?number,
+  leadership: ?string,
   name: Name
 }
 
@@ -21,6 +25,10 @@ class AppContainer extends Component<Props, State> {
     isValidated: false,
     isConfirmed: false,
     id: null,
+    missionTeam: null,
+    committee: null,
+    cohort: null,
+    leadership: null,
     name: {
       first: '',
       last: ''
@@ -40,6 +48,10 @@ class AppContainer extends Component<Props, State> {
             first: data.name.first,
             last: data.name.last
           },
+          missionTeam: data.missionTeam,
+          committee: data.committee,
+          cohort: data.cohort,
+          leadership: data.leadership,
           id
         })
       })
@@ -48,7 +60,11 @@ class AppContainer extends Component<Props, State> {
           isLoading: false,
           isValidated: false,
           name: { first: '', last: '' },
-          id: 0
+          missionTeam: null,
+          id: null,
+          committee: null,
+          cohort: null,
+          leadership: null,
         })
       })
   }
@@ -60,6 +76,10 @@ class AppContainer extends Component<Props, State> {
       isConfirmed: false,
       userNotFound: false,
       id: null,
+      missionTeam: null,
+      committee: null,
+      cohort: null,
+      leadership: null,
       name: {
         first: '',
         last: ''
