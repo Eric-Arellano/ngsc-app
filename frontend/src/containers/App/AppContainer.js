@@ -56,7 +56,7 @@ class AppContainer extends Component<Props, State> {
         })
       })
       .catch(err => {
-        this.setState({
+        this.setState({ // TODO: duplicated logic with resetState()
           isLoading: false,
           isValidated: false,
           name: { first: '', last: '' },
@@ -74,7 +74,6 @@ class AppContainer extends Component<Props, State> {
       isLoading: false,
       isValidated: false,
       isConfirmed: false,
-      userNotFound: false,
       id: null,
       missionTeam: null,
       committee: null,
@@ -85,7 +84,6 @@ class AppContainer extends Component<Props, State> {
         last: ''
       }
     })
-
     window.location.reload()
   }
 
