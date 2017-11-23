@@ -1,1 +1,1 @@
-web: cd frontend && yarn start
+web: gunicorn backend.src.app:app --log-file -

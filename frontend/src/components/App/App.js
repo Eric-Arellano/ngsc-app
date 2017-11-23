@@ -22,7 +22,7 @@ type Props = {
 }
 
 const App = (props: Props) => {
-  const {isLoading, isError, isValidated, isConfirmed, verifyStudentId, confirmCorrectStudent, resetState, id, name } = props
+  const {isLoading, isError, isValidated, isConfirmed, verifyStudentId, confirmCorrectStudent, resetState } = props
 
   let container: React.Element<'div'>
   if (isLoading) {

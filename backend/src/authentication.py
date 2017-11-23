@@ -17,7 +17,7 @@ def build_service():
 
 def get_credentials():
     current_dir = os.getcwd()
-    credential_path = os.path.join(current_dir, 'service_key.json')
+    credential_path = os.path.join(current_dir, 'backend/service_key.json')
     credentials = ServiceAccountCredentials.from_json_keyfile_name(
         credential_path, scopes)
     return credentials
