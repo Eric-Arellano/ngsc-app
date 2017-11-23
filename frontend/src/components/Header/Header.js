@@ -1,7 +1,8 @@
 // @flow
 import React from 'react';
 import logo from 'logo.png';
-import './style.css';
+import './Header.css';
+
 
 const Header = () => (
   <header className="App-header">

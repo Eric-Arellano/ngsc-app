@@ -3,7 +3,6 @@ import React from 'react';
 import { Panel } from 'react-bootstrap';
 import type { Name } from 'flow/types'
 import Entry from './Entry'
-import '../App/style.css'
 
 type Props = {
   name: Name,

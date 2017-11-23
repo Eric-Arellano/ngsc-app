@@ -81,7 +81,6 @@ class AppContainer extends Component<Props, State> {
         last: ''
       }
     })
-    window.location.reload()
   }
 
   confirmCorrectStudent = (isConfirmed: boolean) => {

@@ -5,6 +5,7 @@ import Header from './Header/Header'
 import IDInput from './IDInput/IDInput'
 import RequirementsSummary from './RequirementsSummary/RequirementsSummary'
 import SubmittedRequirementsTable from './SubmittedRequirementsTable/SubmittedRequirementsTable'
+import Loading from './Loading/Loading'
 
 export {
   App,
@@ -13,5 +14,6 @@ export {
   Header,
   IDInput,
   RequirementsSummary,
-  SubmittedRequirementsTable
+  SubmittedRequirementsTable,
+  Loading
 }

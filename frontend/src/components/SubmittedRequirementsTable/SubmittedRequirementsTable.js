@@ -2,15 +2,14 @@
 import React from 'react';
 import { Panel, Table } from 'react-bootstrap';
 import type { Requirement } from "flow/types";
-import '../App/style.css'
 
 type Props = {
   requirements: Array<Requirement>
 }
 
 const translateHours = (reqType: string, hours: number) => {
-  if (reqType === 'Service') return `${hours} hours`
-  else if (reqType === 'Civil-Mil OR Service') return `${hours} hours or 1 civil-mil event`
+  if (reqType === 'Service') return `${hours} hour${hours > 1 ? 's' : ''}`
+  else if (reqType === 'Civil-Mil OR Service') return `${hours} hour${hours > 1 ? 's' : ''} or 1 civil-mil event`
   else if (reqType === 'Civil-Mil') return `1 civil-mil event`
   return ''
 }
@@ -32,8 +31,8 @@ const SubmittedRequirementsTable = (props: Props) => (
         </tr>
       </thead>
       <tbody>
-        {props.requirements.map((requirement) => (
-          <tr>
+        {props.requirements.map((requirement, index) => (
+          <tr key={index}>
             <td>{requirement.name}</td>
             <td>{requirement.reqType}</td>
             <td>{translateStatus(requirement.status)}</td>

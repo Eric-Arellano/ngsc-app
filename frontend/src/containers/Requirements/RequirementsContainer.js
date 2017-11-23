@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { DemographicSummary, RequirementsSummary, SubmittedRequirementsTable } from 'components'
+import { DemographicSummary, RequirementsSummary, SubmittedRequirementsTable, Loading } from 'components'
 import { getRequirements } from 'utils/api'
 import type { Name, Requirement } from 'flow/types'
 
@@ -55,7 +55,7 @@ class RequirementsContainer extends Component<Props, State> {
       return <p>Error</p>
     }
     if (isLoading) {
-      return <p>Loading...</p>
+      return <Loading />
     }
     return [
       <DemographicSummary {...this.props} key={0} />,
