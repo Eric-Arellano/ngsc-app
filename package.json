@@ -14,5 +14,7 @@
     "build": "cd frontend/ && yarn run build"
   },
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "react-scripts": "^1.0.17"
+  }
 }
