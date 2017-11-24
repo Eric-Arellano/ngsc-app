@@ -10,8 +10,7 @@
     "frontend/node_modules"
   ],
   "scripts": {
-    "heroku-postbuild": "cd frontend/ && yarn install",
-    "build": "cd frontend/ && yarn build"
+    "heroku-postbuild": "cd frontend/ && yarn install && yarn build"
   },
   "dependencies": {},
   "devDependencies": {
