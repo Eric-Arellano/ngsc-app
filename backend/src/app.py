@@ -9,22 +9,24 @@ app = flask.Flask(__name__,
                   template_folder="../../frontend/build")
 app.url_map.strict_slashes = False
 
+
 @app.route('/')
 def render_react():
     return flask.send_from_directory('../../frontend/build', 'index.html')
+
 
 @app.route('/api/test')
 def api_test():
     return 'Server is running! Good luck debugging :O'
 
 
-@app.route('/api/all_student_info/')
+@app.route('/api/all_demographics/')
 def api_get_all_demographics():
-    return flask.jsonify(get_all_demographics())
+    result = get_all_demographics()
+    return flask.jsonify(result)
 
 
-# TODO: standardize naming conventions. student_info -> demographics
-@app.route('/api/student_info/<int:id>')
+@app.route('/api/demographics/<int:id>')
 def api_get_name(id: int):
     result = get_demographics(id)
     return return_json(result)

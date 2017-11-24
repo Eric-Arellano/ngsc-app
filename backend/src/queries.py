@@ -12,6 +12,10 @@ def get_values(spreadsheet_id: str, range_: str):
     return result.get('values', [])
 
 
+# -------------------------------------------------------------------
+# Demographics
+# -------------------------------------------------------------------
+
 def get_demographics(id: int):
     result = student_ids.get(str(id), None)
     if result:
@@ -33,6 +37,10 @@ def get_all_demographics():
                     'leadership': row[10]}
     return demographic
 
+
+# -------------------------------------------------------------------
+# Engagement
+# -------------------------------------------------------------------
 
 def get_engagement(id: int):
     (accepted_service, accepted_civil_mil) = get_accepted_requirements(id)

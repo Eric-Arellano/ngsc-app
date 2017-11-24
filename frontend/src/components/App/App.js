@@ -43,6 +43,7 @@ const App = (props: Props) => {
                       missionTeam={props.missionTeam}
                       committee={props.committee}
                       cohort={props.cohort}
+                      leadership={props.leadership}
                     />)
                   }
                 </div>

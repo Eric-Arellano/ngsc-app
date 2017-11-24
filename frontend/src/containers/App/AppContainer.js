@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import { App } from 'components'
-import { getUserInfo } from 'utils/api'
+import { getDemographics } from 'utils/api'
 import type { Name } from 'flow/types'
 
 type Props = {}
@@ -41,7 +41,7 @@ class AppContainer extends Component<Props, State> {
     this.setState({
       isLoading: true
     })
-    getUserInfo(id)
+    getDemographics(id)
       .then(data => {
         this.setState({
           isLoading: false,
