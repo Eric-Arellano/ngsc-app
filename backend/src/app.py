@@ -2,7 +2,7 @@ from __future__ import print_function
 import flask
 import json
 
-from .queries import get_demographics, get_engagement
+from .queries import get_all_demographics, get_demographics, get_engagement
 
 app = flask.Flask(__name__,
                   static_folder="../../frontend/build/static",
@@ -18,6 +18,12 @@ def api_test():
     return 'Server is running! Good luck debugging :O'
 
 
+@app.route('/api/all_student_info/')
+def api_get_all_demographics():
+    return flask.jsonify(get_all_demographics())
+
+
+# TODO: standardize naming conventions. student_info -> demographics
 @app.route('/api/student_info/<int:id>')
 def api_get_name(id: int):
     result = get_demographics(id)

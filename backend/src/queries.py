@@ -1,4 +1,5 @@
 from .authentication import build_service
+from .student_ids import student_ids
 
 MASTER_2017 = '1H5leinJFGT1SDfb2hqbDpQgSC_2GYr1HFwKPpzFZ1Js'
 ENGAGEMENT_2017 = '1FBDR19w831QQ8XTFMns6qVzGEGTv1UU7NAoomTaJRLA'
@@ -12,13 +13,25 @@ def get_values(spreadsheet_id: str, range_: str):
 
 
 def get_demographics(id: int):
+    result = student_ids.get(str(id), None)
+    if result:
+        name = result['name']
+        return {'id': id, 'name': {'first': name['first'], 'last': name['last']},
+                    'cohort': int(result['cohort']), 'missionTeam': int(result['missionTeam']), 'committee': result['committee'],
+                    'leadership': result['leadership']}
+    return None
+
+
+def get_all_demographics():
     results = get_values(MASTER_2017, 'Master!A2:O')
+    demographic = {}
     for row in results:
-        if int(row[2]) == id:
-            return {'id': id, 'name': {'first': row[1], 'last': row[0]},
+        id = int(row[2])
+        demographic[id] = {
+                    'name': {'first': row[1], 'last': row[0]},
                     'cohort': row[7], 'missionTeam': row[8], 'committee': row[9],
                     'leadership': row[10]}
-    return None
+    return demographic
 
 
 def get_engagement(id: int):
@@ -36,14 +49,15 @@ def get_logged_requirements(id: int):
             req = {'reqType': row[2],
                    'status': row[1],
                    'name': row[12] or row[13] or row[14],
-                   'hours': select_hours(row[2], row)}
+                   'hours': select_hours(row)}
             requirements.append(req)
     return requirements
 
 
-def select_hours(type: str, row):
-    if type == 'Service': return float(row[16])
-    elif type == 'Civil-Mil OR Service': return float(row[15])
+def select_hours(row):
+    type_ = row[2]
+    if type_ == 'Service': return float(row[16])
+    elif type_ == 'Civil-Mil OR Service': return float(row[15])
     return 0
 
 
