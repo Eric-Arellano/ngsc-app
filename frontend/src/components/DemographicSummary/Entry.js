@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import React from 'react'
 
 type Props = {
   header: string,
@@ -7,7 +7,7 @@ type Props = {
 }
 
 const Entry = (props: Props) => {
-  const { header, value } = props;
+  const {header, value} = props
   return (
     <p>{header}: {value}</p>
   )

@@ -1,6 +1,6 @@
 // @flow
-import React from 'react';
-import { Panel } from 'react-bootstrap';
+import React from 'react'
+import { Panel } from 'react-bootstrap'
 
 type Props = {
   service: number,
@@ -8,11 +8,11 @@ type Props = {
 }
 
 const RequirementsSummary = (props: Props) => (
-  <Panel header={"Accepted Requirements"} bsStyle={"info"} className="ngsc">
+  <Panel header={'Accepted Requirements'} bsStyle={'info'} className="ngsc">
     <span>Accepted # of service hours: {props.service}</span>
-    <br/>
+    <br />
     <span>Accepted # of Civil Mil: {props.civilMil}</span>
   </Panel>
-);
+)
 
-export default RequirementsSummary;
+export default RequirementsSummary

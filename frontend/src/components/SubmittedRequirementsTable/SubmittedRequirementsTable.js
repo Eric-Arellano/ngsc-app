@@ -1,7 +1,7 @@
 // @flow
-import React from 'react';
-import { Panel, Table } from 'react-bootstrap';
-import type { Requirement } from "flow/types";
+import React from 'react'
+import { Panel, Table } from 'react-bootstrap'
+import type { Requirement } from 'flow/types'
 
 type Props = {
   requirements: Array<Requirement>
@@ -20,28 +20,28 @@ const translateStatus = (status: string) => {
 }
 
 const SubmittedRequirementsTable = (props: Props) => (
-  <Panel header={"Logged Requirements"} bsStyle={"info"} className="ngsc">
+  <Panel header={'Logged Requirements'} bsStyle={'info'} className="ngsc">
     <Table striped bordered responsive>
       <thead>
-        <tr>
-          <th>Event name</th>
-          <th>Requirement type</th>
-          <th>Status</th>
-          <th>Requested hours</th>
-        </tr>
+      <tr>
+        <th>Event name</th>
+        <th>Requirement type</th>
+        <th>Status</th>
+        <th>Requested hours</th>
+      </tr>
       </thead>
       <tbody>
-        {props.requirements.map((requirement, index) => (
-          <tr key={index}>
-            <td>{requirement.name}</td>
-            <td>{requirement.reqType}</td>
-            <td>{translateStatus(requirement.status)}</td>
-            <td>{translateHours(requirement.reqType, requirement.hours)}</td>
-          </tr>
-        ))}
+      {props.requirements.map((requirement, index) => (
+        <tr key={index}>
+          <td>{requirement.name}</td>
+          <td>{requirement.reqType}</td>
+          <td>{translateStatus(requirement.status)}</td>
+          <td>{translateHours(requirement.reqType, requirement.hours)}</td>
+        </tr>
+      ))}
       </tbody>
     </Table>
   </Panel>
-);
+)
 
-export default SubmittedRequirementsTable;
+export default SubmittedRequirementsTable

@@ -70,7 +70,7 @@ class IDInputContainer extends Component<Props, State> {
     return <IDInput {...this.state}
                     handleSubmit={this.handleSubmit}
                     handleKeyInput={this.handleKeyInput}
-                    handleEnterKey={this.handleEnterKey}/>
+                    handleEnterKey={this.handleEnterKey} />
   }
 }
 

@@ -91,7 +91,8 @@ class AppContainer extends Component<Props, State> {
   }
 
   render () {
-    return <App {...this.state} verifyStudentId={this.verifyStudentId} confirmCorrectStudent={this.confirmCorrectStudent} resetState={this.resetState}/>
+    return <App {...this.state} verifyStudentId={this.verifyStudentId}
+                confirmCorrectStudent={this.confirmCorrectStudent} resetState={this.resetState} />
   }
 }
 

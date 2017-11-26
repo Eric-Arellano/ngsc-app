@@ -8,7 +8,7 @@ type Props = {
   confirmCorrectStudent: (boolean) => void
 }
 
-const Confirmation = ({ name, confirmCorrectStudent }: Props) => {
+const Confirmation = ({name, confirmCorrectStudent}: Props) => {
   return (
     <div>
       <h3 className="confirm-header">Are you {name.first} {name.last}?</h3>

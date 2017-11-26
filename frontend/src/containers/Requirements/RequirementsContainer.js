@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { DemographicSummary, RequirementsSummary, SubmittedRequirementsTable, Loading } from 'components'
 import { getRequirements } from 'utils/api'
 import type { Name, Requirement } from 'flow/types'
@@ -26,9 +26,9 @@ class RequirementsContainer extends Component<Props, State> {
     service: 0,
     civilMil: 0,
     requirements: []
-  };
+  }
 
-  componentDidMount() {
+  componentDidMount () {
     getRequirements(this.props.id)
       .then((data) => {
         this.setState({
@@ -49,8 +49,8 @@ class RequirementsContainer extends Component<Props, State> {
       })
   }
 
-  render() {
-    const { isError, isLoading, civilMil, service, requirements } = this.state
+  render () {
+    const {isError, isLoading, civilMil, service, requirements} = this.state
     if (isError) {
       return <p>Error</p>
     }
@@ -65,4 +65,4 @@ class RequirementsContainer extends Component<Props, State> {
   }
 }
 
-export default RequirementsContainer;
+export default RequirementsContainer
