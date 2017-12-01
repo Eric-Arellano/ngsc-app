@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import { Header, Confirmation, Loading } from 'components'
+import { Header, Footer, Confirmation, Loading } from 'components'
 import { IDInputContainer, RequirementsContainer } from 'containers'
 import { Button } from 'react-bootstrap'
 import type { Name } from 'flow/types'
@@ -53,6 +53,7 @@ const App = (props: Props) => {
     <div className={'ngsc-container'}>
       <Header />
       {container}
+      <Footer />
     </div>
   )
 }
