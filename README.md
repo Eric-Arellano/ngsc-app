@@ -11,16 +11,17 @@ Simple app to expose students' service hours through Google Docs API.
     1. `nvm install 8.1.4`
     1. `nvm use 8.1.4`
 1. Yarn
-    1. `npm install -g yarn`
+    1. `npm install --global yarn`
 
 #### Backend
 1. `cd backend/`
 1. Make a virtual environment
     1. On Mac, `python3 -m venv ./`
-    1. On Windows, `c:\Python35\python -m venv ./` 
+    1. On Windows, `c:\Python35\python -m venv ./`
+1. `cd ../`
 1. activate virtual environment
-    1. On Mac, `source bin/activate`
-    1. On Windows, `\Scripts\activate.bat`
+    1. On Mac, `source backend/bin/activate`
+    1. On Windows, `backend\Scripts\activate.bat`
 1. `pip install -r requirements.txt`
 
 #### Frontend
