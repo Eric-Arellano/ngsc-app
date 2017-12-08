@@ -1,20 +1,15 @@
 // @flow
 import React from 'react'
 import { Panel } from 'react-bootstrap'
-import type { Name } from 'flow/types'
+import type { Student } from 'flow/types'
 import Entry from './Entry'
 
 type Props = {
-  name: Name,
-  missionTeam: number,
-  id: number,
-  cohort: number,
-  committee: ?string,
-  leadership: ?string,
+  student: Student
 }
 
 const DemographicSummary = (props: Props) => {
-  const {name, missionTeam, id, committee, cohort, leadership} = props
+  const {name, missionTeam, id, committee, cohort, leadership} = props.student
   return (
     <Panel header={'Student info'} bsStyle={'info'} className="ngsc">
       <Entry header={'Name'} value={`${name.first} ${name.last}`} />

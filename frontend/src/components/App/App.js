@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Header, Confirmation, Loading } from 'components'
 import { IDInputContainer, RequirementsContainer } from 'containers'
 import { Button } from 'react-bootstrap'
-import type { Name } from 'flow/types'
+import type { Student } from 'flow/types'
 import './App.css'
 
 type Props = {
@@ -14,15 +14,11 @@ type Props = {
   verifyStudentId: (number) => void,
   confirmCorrectStudent: (boolean) => void,
   resetState: () => void,
-  id: ?number,
-  missionTeam: ?number,
-  committee: ?string,
-  cohort: ?number,
-  name: Name
+  student: ?Student
 }
 
 const App = (props: Props) => {
-  const {isLoading, isError, isValidated, isConfirmed, verifyStudentId, confirmCorrectStudent, resetState} = props
+  const {isLoading, isError, isValidated, isConfirmed, verifyStudentId, confirmCorrectStudent, resetState, student} = props
 
   let container: React.Element<'div'>
   if (isLoading) {
@@ -35,17 +31,8 @@ const App = (props: Props) => {
   } else {
     container = <div className="container">
       {!isValidated && <IDInputContainer onSubmit={verifyStudentId} />}
-      {isValidated && !isConfirmed && <Confirmation confirmCorrectStudent={confirmCorrectStudent} {...props} />}
-      {isValidated && isConfirmed && (
-        <RequirementsContainer
-          id={props.id}
-          name={props.name}
-          missionTeam={props.missionTeam}
-          committee={props.committee}
-          cohort={props.cohort}
-          leadership={props.leadership}
-        />)
-      }
+      {isValidated && !isConfirmed && <Confirmation confirmCorrectStudent={confirmCorrectStudent} name={student.name} />}
+      {isValidated && isConfirmed && <RequirementsContainer student={student} /> }
     </div>
   }
 

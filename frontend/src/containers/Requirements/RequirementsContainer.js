@@ -2,12 +2,10 @@
 import React, { Component } from 'react'
 import { DemographicSummary, RequirementsSummary, SubmittedRequirementsTable, Loading } from 'components'
 import { getRequirements } from 'utils/api'
-import type { Name, Requirement } from 'flow/types'
+import type { Student, Requirement } from 'flow/types'
 
 type Props = {
-  id: number,
-  missionTeam: number,
-  name: Name
+  student: Student
 }
 
 type State = {
@@ -29,7 +27,7 @@ class RequirementsContainer extends Component<Props, State> {
   }
 
   componentDidMount () {
-    getRequirements(this.props.id)
+    getRequirements(this.props.student.id)
       .then((data) => {
         this.setState({
           service: data.acceptedService,

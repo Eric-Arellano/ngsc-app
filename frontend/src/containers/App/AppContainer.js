@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { App } from 'components'
 import { getDemographics } from 'utils/api'
-import type { Name } from 'flow/types'
+import type { Student } from 'flow/types'
 
 type Props = {}
 
@@ -11,12 +11,7 @@ type State = {
   isError: boolean,
   isValidated: boolean,
   isConfirmed: boolean,
-  id: ?number,
-  missionTeam: ?number,
-  committee: ?string,
-  cohort: ?number,
-  leadership: ?string,
-  name: Name
+  student: ?Student
 }
 
 class AppContainer extends Component<Props, State> {
@@ -26,15 +21,7 @@ class AppContainer extends Component<Props, State> {
     isError: false,
     isValidated: false,
     isConfirmed: false,
-    id: null,
-    missionTeam: null,
-    committee: null,
-    cohort: null,
-    leadership: null,
-    name: {
-      first: '',
-      last: ''
-    }
+    student: null
   }
 
   verifyStudentId = (id: number) => {
@@ -46,15 +33,17 @@ class AppContainer extends Component<Props, State> {
         this.setState({
           isLoading: false,
           isValidated: true,
-          name: {
-            first: data.name.first,
-            last: data.name.last
-          },
-          missionTeam: data.missionTeam,
-          committee: data.committee,
-          cohort: data.cohort,
-          leadership: data.leadership,
-          id
+          student: {
+            id,
+            name: {
+              first: data.name.first,
+              last: data.name.last
+            },
+            missionTeam: data.missionTeam,
+            committee: data.committee,
+            cohort: data.cohort,
+            leadership: data.leadership,
+          }
         })
       })
       .catch(err => {
@@ -71,15 +60,7 @@ class AppContainer extends Component<Props, State> {
       isError: false,
       isValidated: false,
       isConfirmed: false,
-      id: null,
-      missionTeam: null,
-      committee: null,
-      cohort: null,
-      leadership: null,
-      name: {
-        first: '',
-        last: ''
-      }
+      student: null
     })
   }
 
