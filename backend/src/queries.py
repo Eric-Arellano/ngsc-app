@@ -69,6 +69,8 @@ def select_hours(row):
     return 0
 
 
+# TODO: when adding query for getting MT %, committee %, and # no shows, this query should fall into that and 
+# come from master spreadsheet to avoid the cost of also searching this spreadsheet. Just get all data from master.
 def get_accepted_requirements(id: int):
     all_accepted_requirements = get_values(ENGAGEMENT_2017, 'Requirements!A2:C')
     accepted_service_hours = 0
