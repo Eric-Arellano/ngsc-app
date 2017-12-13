@@ -5,7 +5,7 @@ import './Button.css'
 type ButtonType = 'success' | 'danger' | 'ngsc'
 
 type Props = {
-  children: React.Element<any>,
+  children: React.Element<string>,
   handleClick: () => mixed,
   type?: ButtonType,
   disabled?: boolean

@@ -2,6 +2,7 @@ import App from './App/App'
 import Button from './Button/Button'
 import Confirmation from './Confirmation/Confirmation'
 import DemographicSummary from './DemographicSummary/DemographicSummary'
+import Entry from './Panel/Entry'
 import Header from './Header/Header'
 import IDInput from './IDInput/IDInput'
 import RequirementsSummary from './RequirementsSummary/RequirementsSummary'
@@ -13,6 +14,7 @@ export {
   Button,
   Confirmation,
   DemographicSummary,
+  Entry,
   Header,
   IDInput,
   RequirementsSummary,
