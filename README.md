@@ -21,7 +21,7 @@ Simple app to expose students' service hours through Google Docs API.
 1. Change terminal/command prompt location to the `backend` directory (e.g. Run `cd backend/` if coming from the root directory for this code)
 1. Make a virtual environment
     1. On Mac, `python3 -m venv ./`
-    1. On Windows, `c:\Python35\python -m venv ./`
+    1. On Windows, `python -m venv ./`
 1. `cd ../`
 1. activate virtual environment
     1. On Mac, `source backend/bin/activate`
