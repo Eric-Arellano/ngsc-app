@@ -6,7 +6,8 @@ Simple app to expose students' service hours through Google Docs API.
 ### Requirements
 1. Python 3.6
     1. With Mac, use HomeBrew and `brew install python3`
-    2. With Windows, download at https://www.python.org/downloads/ Make sure to _check off the option to add python.exe to your PATH variable._
+    2. With Windows, download at https://www.python.org/downloads/ 
+        1. Make sure to _check off the option to add python.exe to your PATH variable._
 1. NVM (Node Version Manager) 
     1. Installation instructions for Mac/Linux at https://github.com/creationix/nvm/blob/master/README.md
     2. If you're using Windows, installation instructions at https://github.com/coreybutler/nvm-windows
