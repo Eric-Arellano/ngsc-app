@@ -29,13 +29,14 @@ Simple app to expose students' service hours through Google Docs API.
 1. Install dependencies for backend code - `pip install -r requirements.txt`
 
 #### Frontend
-1. Change terminal/command prompt location to the `frontend` directory (e.g. Run `cd frontend/` if coming from the root directory for this code)
+1. Change terminal/command prompt location to the `frontend` directory (e.g. run `cd frontend/` if coming from the root directory for this code)
 1. `yarn install`
 1. `yarn build`
 
 ## To start
 
 #### Backend
+1. If on Mac, you can just run `./run-backend.sh`. Otherwise follow the below.
 1. Activate virtual environment
     1. On Mac, `source backend/bin/activate`
     1. On Windows, `backend\Scripts\activate.bat`
@@ -45,7 +46,8 @@ Simple app to expose students' service hours through Google Docs API.
 1. Start the Flask server - `flask run`
 
 #### Frontend
-1. Change terminal/command prompt location to the `frontend` directory (e.g. Run `cd frontend/` if coming from the root directory for this code)
+1. If on Mac, you can just run `./run-frontend.sh`. Otherwise follow the below.
+1. Change terminal/command prompt location to the `frontend` directory (e.g. run `cd frontend/` if coming from the root directory for this code)
 1. Start Yarn server - `yarn start`
 
 ## To update static student info data
