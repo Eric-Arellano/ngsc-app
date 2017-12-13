@@ -1,25 +1,4 @@
 /* globals */
-.btn-toolbar {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex-direction: column !important;
-}
-.btn-toolbar button {
-    background: transparent !important;
-    border: 1px solid currentColor !important;
-    font-weight: 300 !important;
-    font-size: 1.1em !important;
-    margin-top: 1em !important;
-    padding: 0.33em 1.33em !important;
-}
-.btn-toolbar .btn-success {
-    color: green !important;
-}
-.btn-toolbar .btn-danger {
-    color: red !important;
-}
-
 .container {
     text-align: center;
     font-size: 120%;
@@ -27,12 +6,6 @@
 
 .confirm-header {
     margin-bottom: 20px;
-}
-
-.btn-toolbar {
-    width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .ngsc-container {
@@ -50,19 +23,6 @@
     background-color: black;
     background-image: none;
     color: white;
-}
-
-.ngsc.btn.btn-default {
-    margin-left: 1em;
-    background-color: gold;
-    color: black;
-    background-image: none;
-    border-color: #d2b204;
-    font-weight: 500;
-}
-
-.ngsc.btn.btn-default:hover {
-    background-color: #d2b204;
 }
 
 h3.error {

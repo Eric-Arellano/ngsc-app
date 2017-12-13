@@ -1,8 +1,7 @@
 // @flow
 import * as React from 'react'
-import { Header, Confirmation, Loading } from 'components'
+import { Button, Confirmation, Header, Loading } from 'components'
 import { IDInputContainer, RequirementsContainer } from 'containers'
-import { Button } from 'react-bootstrap'
 import type { Student } from 'flow/types'
 import './App.css'
 
@@ -26,7 +25,7 @@ const App = (props: Props) => {
   } else if (isError) {
     container = <div className="container">
       <h3 className="error">User not found. Please enter a valid ID.</h3>
-      <Button onClick={resetState}> Back </Button>
+      <Button handleClick={resetState}>Back</Button>
     </div>
   } else {
     container = <div className="container">

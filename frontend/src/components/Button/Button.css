@@ -1,0 +1,54 @@
+/* Button */
+
+.button-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.button {
+    background: transparent;
+    border: 1px solid currentColor;
+    font-weight: 300;
+    font-size: 1.1em;
+    margin-top: 1em;
+    padding: 0.33em 1.33em;
+    transition: all 0.3s;
+}
+
+.button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.button-ngsc {
+    color: black;
+    background: gold;
+    border-color: #d2b204;
+}
+
+.button-ngsc:hover {
+    background: #d2b204;
+}
+
+.button-success {
+    color: green;
+}
+
+.button-success:hover {
+    color: white;
+    background: green
+}
+
+.button-danger {
+    color: red;
+}
+
+.button-danger:hover {
+    color: white;
+    background: red
+}
