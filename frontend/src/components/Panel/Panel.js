@@ -3,7 +3,7 @@ import * as React from 'react'
 import './Panel.css'
 
 type Props = {
-  children: React.Element<string>,
+  children: React.Node,  // can be any valid react element, e.g. array of Entry
   header: string
 }
 

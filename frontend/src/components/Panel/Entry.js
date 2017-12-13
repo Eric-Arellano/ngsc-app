@@ -2,7 +2,7 @@
 import React from 'react'
 
 type Props = {
-  children: React.Element<string>
+  children: React.Element<string>  // can only be a single child of type string
 }
 
 const Entry = (props: Props) => {
