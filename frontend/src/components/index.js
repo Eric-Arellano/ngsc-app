@@ -1,23 +1,23 @@
 import App from './App/App'
 import Button from './Button/Button'
-import Confirmation from './Confirmation/Confirmation'
-import DemographicSummary from './DemographicSummary/DemographicSummary'
+import Confirmation from './LoginView/Confirmation'
+import Demographics from './EngagementView/Demographics'
 import Entry from './Panel/Entry'
 import Header from './Header/Header'
-import IDInput from './IDInput/IDInput'
-import RequirementsSummary from './RequirementsSummary/RequirementsSummary'
-import SubmittedRequirementsTable from './SubmittedRequirementsTable/SubmittedRequirementsTable'
+import IDInput from './LoginView/IDInput'
+import AcceptedRequirements from './EngagementView/AcceptedRequirements'
+import LoggedRequirements from './EngagementView/LoggedRequirements'
 import Loading from './Loading/Loading'
 
 export {
   App,
   Button,
   Confirmation,
-  DemographicSummary,
+  Demographics,
   Entry,
   Header,
   IDInput,
-  RequirementsSummary,
-  SubmittedRequirementsTable,
+  AcceptedRequirements,
+  LoggedRequirements,
   Loading
 }

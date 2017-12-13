@@ -1,8 +1,8 @@
 // @flow
 import React, { Component } from 'react'
-import { DemographicSummary, RequirementsSummary, SubmittedRequirementsTable, Loading } from 'components'
+import { AcceptedRequirements, Demographics, Loading, LoggedRequirements } from 'components'
 import { getRequirements } from 'utils/api'
-import type { Student, Requirement } from 'flow/types'
+import type { Requirement, Student } from 'flow/types'
 
 type Props = {
   student: Student
@@ -56,9 +56,9 @@ class RequirementsContainer extends Component<Props, State> {
       return <Loading />
     }
     return [
-      <DemographicSummary {...this.props} key={0} />,
-      <RequirementsSummary service={service} civilMil={civilMil} key={1} />,
-      <SubmittedRequirementsTable requirements={requirements} key={2} />
+      <Demographics {...this.props} key={0} />,
+      <AcceptedRequirements service={service} civilMil={civilMil} key={1} />,
+      <LoggedRequirements requirements={requirements} key={2} />
     ]
   }
 }

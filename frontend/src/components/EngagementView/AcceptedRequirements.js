@@ -8,11 +8,11 @@ type Props = {
   civilMil: number
 }
 
-const RequirementsSummary = (props: Props) => (
+const AcceptedRequirements = (props: Props) => (
   <Panel header={'Accepted Requirements'} bsStyle={'info'} className="ngsc">
     <Entry>Accepted # of service hours: {props.service}</Entry>
     <Entry>Accepted # of Civil Mil: {props.civilMil}</Entry>
   </Panel>
 )
 
-export default RequirementsSummary
+export default AcceptedRequirements

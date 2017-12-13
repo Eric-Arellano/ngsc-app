@@ -8,7 +8,7 @@ type Props = {
   student: Student
 }
 
-const DemographicSummary = (props: Props) => {
+const Demographics = (props: Props) => {
   const {name, missionTeam, id, committee, cohort, leadership} = props.student
   return (
     <Panel header={'Student info'} bsStyle={'info'} className="ngsc">
@@ -22,4 +22,4 @@ const DemographicSummary = (props: Props) => {
   )
 }
 
-export default DemographicSummary
+export default Demographics

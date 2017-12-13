@@ -19,7 +19,7 @@ const translateStatus = (status: string) => {
   return status
 }
 
-const SubmittedRequirementsTable = (props: Props) => (
+const LoggedRequirements = (props: Props) => (
   <Panel header={'Logged Requirements'} bsStyle={'info'} className="ngsc">
     <Table striped bordered responsive>
       <thead>
@@ -44,4 +44,4 @@ const SubmittedRequirementsTable = (props: Props) => (
   </Panel>
 )
 
-export default SubmittedRequirementsTable
+export default LoggedRequirements

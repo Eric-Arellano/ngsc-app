@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 import { Button, Confirmation, Header, Loading } from 'components'
-import { IDInputContainer, RequirementsContainer } from 'containers'
+import { EngagementViewContainer, IDInputContainer } from 'containers'
 import type { Student } from 'flow/types'
 import './App.css'
 
@@ -31,7 +31,7 @@ const App = (props: Props) => {
     container = <div className="container">
       {!isValidated && <IDInputContainer onSubmit={verifyStudentId} />}
       {isValidated && !isConfirmed && <Confirmation confirmCorrectStudent={confirmCorrectStudent} name={student.name} />}
-      {isValidated && isConfirmed && <RequirementsContainer student={student} /> }
+      {isValidated && isConfirmed && <EngagementViewContainer student={student} />}
     </div>
   }
 
