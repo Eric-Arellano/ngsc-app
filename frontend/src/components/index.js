@@ -5,6 +5,7 @@ import Demographics from './EngagementView/Demographics'
 import Entry from './Panel/Entry'
 import Header from './Header/Header'
 import IDInput from './LoginView/IDInput'
+import Panel from './Panel/Panel'
 import AcceptedRequirements from './EngagementView/AcceptedRequirements'
 import LoggedRequirements from './EngagementView/LoggedRequirements'
 import Loading from './Loading/Loading'
@@ -19,5 +20,6 @@ export {
   IDInput,
   AcceptedRequirements,
   LoggedRequirements,
-  Loading
+  Loading,
+  Panel
 }

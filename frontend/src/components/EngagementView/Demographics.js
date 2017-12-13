@@ -1,8 +1,7 @@
 // @flow
 import React from 'react'
-import { Panel } from 'react-bootstrap'
 import type { Student } from 'flow/types'
-import { Entry } from 'components'
+import { Entry, Panel } from 'components'
 
 type Props = {
   student: Student
@@ -11,7 +10,7 @@ type Props = {
 const Demographics = (props: Props) => {
   const {name, missionTeam, id, committee, cohort, leadership} = props.student
   return (
-    <Panel header={'Student info'} bsStyle={'info'} className="ngsc">
+    <Panel header='Student info'>
       <Entry>Name: {name.first} {name.last}</Entry>
       <Entry>ID number: {id}</Entry>
       <Entry>Cohort: {cohort}</Entry>

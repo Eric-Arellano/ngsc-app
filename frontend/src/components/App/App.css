@@ -15,16 +15,6 @@
     padding: 0;
 }
 
-.ngsc.panel-info {
-    border-color: black;
-}
-
-.ngsc.panel-info > .panel-heading {
-    background-color: black;
-    background-image: none;
-    color: white;
-}
-
 h3.error {
     color: #ce1126;
 }
