@@ -6,15 +6,18 @@ Simple app to expose students' service hours through Google Docs API.
 ### Requirements
 1. Python 3.6
     1. With Mac, use HomeBrew and `brew install python3`
+    2. With Windows, download at https://www.python.org/downloads/ Make sure to _check off the option to add python.exe to your PATH variable._
 1. NVM (Node Version Manager) 
-1. Node.js (use NVM)
+    1. Installation instructions for Mac/Linux at https://github.com/creationix/nvm/blob/master/README.md
+    2. If you're using Windows, installation instructions at https://github.com/coreybutler/nvm-windows
+1. Node.js (use NVM):
     1. `nvm install 8.1.4`
     1. `nvm use 8.1.4`
 1. Yarn
     1. `npm install --global yarn`
 
 #### Backend
-1. `cd backend/`
+1. Change terminal/command prompt location to the `backend` directory (e.g. Run `cd backend/` if coming from the root directory for this code)
 1. Make a virtual environment
     1. On Mac, `python3 -m venv ./`
     1. On Windows, `c:\Python35\python -m venv ./`
@@ -25,21 +28,23 @@ Simple app to expose students' service hours through Google Docs API.
 1. `pip install -r requirements.txt`
 
 #### Frontend
-1. `cd frontend/`
+1. Change terminal/command prompt location to the `frontend` directory (e.g. Run `cd frontend/` if coming from the root directory for this code)
 1. `yarn install`
 1. `yarn build`
 
 ## To start
 
 #### Backend
-1. activate virtual environment
+1. Activate virtual environment
     1. On Mac, `source backend/bin/activate`
     1. On Windows, `backend\Scripts\activate.bat`
-1. `export FLASK_APP=backend/src/app.py`
-1. `flask run`
+1. Set the FLASK_APP environment variable
+    1. On Mac, `export FLASK_APP=backend/src/app.py`
+    1. On Windows, `set FLASK_APP=backend/src/app.py`
+1. Start the Flask server - `flask run`
 
 #### Frontend
-1. `cd frontend/`
+1. Change terminal/command prompt location to the `frontend` directory (e.g. Run `cd frontend/` if coming from the root directory for this code)
 1. `yarn start`
 
 ## To update static student info data
