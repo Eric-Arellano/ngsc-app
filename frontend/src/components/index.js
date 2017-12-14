@@ -3,8 +3,10 @@ import Button from './Button/Button'
 import Confirmation from './LoginView/Confirmation'
 import Demographics from './EngagementView/Demographics'
 import Entry from './Panel/Entry'
+import EngagementView from './EngagementView/EngagementView'
 import Header from './Header/Header'
 import IDInput from './LoginView/IDInput'
+import LoginView from './LoginView/LoginView'
 import Panel from './Panel/Panel'
 import AcceptedRequirements from './EngagementView/AcceptedRequirements'
 import LoggedRequirements from './EngagementView/LoggedRequirements'
@@ -16,8 +18,10 @@ export {
   Confirmation,
   Demographics,
   Entry,
+  EngagementView,
   Header,
   IDInput,
+  LoginView,
   AcceptedRequirements,
   LoggedRequirements,
   Loading,
