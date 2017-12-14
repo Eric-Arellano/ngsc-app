@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Header } from 'components'
 import { EngagementViewContainer, LoginViewContainer } from 'containers'
 import type { Student } from 'flow/types'
-import './App.css'
+import s from './App.module.css'
 
 type Props = {
   isLoggedIn: boolean,
@@ -16,9 +16,9 @@ const App = (props: Props) => {
   const {isLoggedIn, student, login, resetState} = props
 
   return (
-    <div className='app-container'>
+    <div className={s.app}>
       <Header />
-      <div className='body-container'>
+      <div className={s.body}>
         {isLoggedIn ? <EngagementViewContainer student={student} resetState={resetState} /> :
           <LoginViewContainer login={login} resetState={resetState} />}
       </div>

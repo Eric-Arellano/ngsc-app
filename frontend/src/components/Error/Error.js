@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button } from 'components'
-import './Error.css'
+import s from './Error.module.css'
 
 type Props = {
   children: React.Element<string>,
@@ -10,7 +10,7 @@ type Props = {
 const Error = (props: Props) => {
   const {children, resetState} = props
   return (
-    <div className="error">
+    <div className={s.base}>
       <p>{children}</p>
       <Button handleClick={resetState}>Back</Button>
     </div>

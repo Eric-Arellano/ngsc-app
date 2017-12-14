@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Button } from 'components'
+import { Button, ButtonGroup } from 'components'
 import type { Name } from 'flow/types'
 
 type Props = {
@@ -11,11 +11,11 @@ type Props = {
 const Confirmation = ({name, confirmCorrectStudent}: Props) => {
   return (
     <div>
-      <h3 className="confirm-header">Are you {name.first} {name.last}?</h3>
-      <div className={'button-toolbar'}>
+      <h3>Are you {name.first} {name.last}?</h3>
+      <ButtonGroup>
         <Button type={'success'} handleClick={() => confirmCorrectStudent(true)}>Yes</Button>
         <Button type={'danger'} handleClick={() => confirmCorrectStudent(false)}>No, wrong person!</Button>
-      </div>
+      </ButtonGroup>
     </div>
   )
 }

@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import './Panel.css'
+import s from './Panel.module.css'
 
 type Props = {
   children: React.Node,  // can be any valid react element, e.g. array of Entry
@@ -10,9 +10,9 @@ type Props = {
 const Panel = (props: Props) => {
   const {children, header} = props
   return (
-    <div className="panel">
-      <h3 className="panel-heading">{header}</h3>
-      <div className="panel-body">{children}</div>
+    <div className={s.container}>
+      <h3 className={s.header}>{header}</h3>
+      <div className={s.body}>{children}</div>
     </div>
   )
 }

@@ -1,5 +1,6 @@
 import App from './App/App'
 import Button from './Button/Button'
+import ButtonGroup from './Button/ButtonGroup'
 import Confirmation from './LoginView/Confirmation'
 import Demographics from './EngagementView/Demographics'
 import Entry from './Panel/Entry'
@@ -16,6 +17,7 @@ import Loading from './Loading/Loading'
 export {
   App,
   Button,
+  ButtonGroup,
   Confirmation,
   Demographics,
   Entry,

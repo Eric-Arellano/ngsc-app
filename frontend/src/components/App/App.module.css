@@ -1,13 +1,13 @@
 /* App */
 
-.app-container {
+.app {
     text-align: center;
     font-size: 120%;
     margin: 0;
     padding: 0;
 }
 
-.body-container {
+.body {
     text-align: center;
     font-size: 120%;
 }
@@ -23,7 +23,7 @@
         top: 33px;
     }
 
-    .body-container {
+    .body {
         font-size: 100%;
     }
 }

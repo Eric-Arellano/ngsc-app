@@ -17,7 +17,7 @@ type State = {
   student: ?Student
 }
 
-class AppContainer extends Component<Props, State> {
+class LoginViewContainer extends Component<Props, State> {
 
   state = {
     isLoading: false,
@@ -81,4 +81,4 @@ class AppContainer extends Component<Props, State> {
   }
 }
 
-export default AppContainer
+export default LoginViewContainer

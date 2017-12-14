@@ -1,18 +1,18 @@
 /* Panel & Entry */
 
-.panel {
+.container {
     border: black 1px solid;
     border-radius: 4px;
     box-sizing: border-box;
 }
 
-.panel-heading {
+.header {
     margin-top: 0;
     background: black;
     font-weight: normal;
     color: white;
 }
 
-.panel-body {
+.body {
     padding: 1em;
 }

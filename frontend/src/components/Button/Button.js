@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import './Button.css'
+import s from './Button.module.css'
 
 type ButtonType = 'success' | 'danger' | 'ngsc'
 
@@ -13,10 +13,9 @@ type Props = {
 
 const Button = (props: Props) => {
   const {children, handleClick, type, disabled} = props
-  const style = `button-${type}`
   return (
     <button onClick={handleClick}
-            className={`button ${style}`}
+            className={s[type]}
             disabled={disabled}>
       {children}
     </button>

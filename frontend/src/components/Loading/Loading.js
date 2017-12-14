@@ -1,11 +1,11 @@
 import React from 'react'
-import './Loading.css'
+import s from './Loading.module.css'
 
 const Loading = () => (
-  <section className={'loadingContainer'}>
-    <div className={'loadingSvgContainer'}>
-      <svg className={'loadingSvg'} viewBox={'25 25 50 50'}>
-        <circle className={'loadingPath'} cx={50} cy={50} r={20} fill={'none'} strokeWidth={1} strokeMiterlimit={10} />
+  <section className={s.container}>
+    <div className={s.svgContainer}>
+      <svg className={s.svg} viewBox={'25 25 50 50'}>
+        <circle className={s.path} cx={50} cy={50} r={20} fill={'none'} strokeWidth={1} strokeMiterlimit={10} />
       </svg>
     </div>
   </section>
