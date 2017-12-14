@@ -2,14 +2,12 @@
 import React from 'react'
 
 type Props = {
-  header: string,
-  value: string
+  children: React.Element<string>  // can only be a single child of type string
 }
 
 const Entry = (props: Props) => {
-  const {header, value} = props
   return (
-    <p>{header}: {value}</p>
+    <p>{props.children}</p>
   )
 }
 
