@@ -1,6 +1,4 @@
 import App from './App/App'
-import Confirmation from './Confirmation/Confirmation'
-import DemographicSummary from './DemographicSummary/DemographicSummary'
 import Footer from './Footer/Footer'
 import Button from './Button/Button'
 import ButtonGroup from './Button/ButtonGroup'
@@ -22,7 +20,6 @@ export {
   Button,
   ButtonGroup,
   Confirmation,
-  DemographicSummary,
   Footer,
   Demographics,
   Entry,

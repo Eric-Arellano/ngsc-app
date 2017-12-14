@@ -1,14 +1,13 @@
 // @flow
 import React from 'react'
-import './Footer.css'
+import s from './Footer.module.css'
 
 const Footer = () => (
-  <footer className="footer-container">
+  <footer className={s.container}>
     <p>Check out upcoming NGSC events at the&nbsp;
       <a href="https://psa.asu.edu/next-generation-service-corps/student-portal">student portal.</a>
     </p>
-    <br />
-    <p>Made with love by the Admin Committee {`<3 🤓`}</p>
+    <p>Made with love by the Admin Committee. {`🤓💪`}</p>
   </footer>
 )
 
