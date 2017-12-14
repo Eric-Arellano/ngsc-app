@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import { Button, Confirmation, Loading } from 'components'
+import { Confirmation, Error, Loading } from 'components'
 import { IDInputContainer } from 'containers'
 import type { Student } from 'flow/types'
 
@@ -20,12 +20,11 @@ const LoginView = (props: Props) => {
 
   if (isLoading) {
     return <Loading />
-  } else if (isError) {
-    return <div>
-      <h3 className="error">User not found. Please enter a valid ID.</h3>
-      <Button handleClick={resetState}>Back</Button>
-    </div>
-  } else {
+  }
+  else if (isError) {
+    return <Error resetState={resetState}>User not found. Please enter a valid ID.</Error>
+  }
+  else {
     return <div>
       {!isValidated && <IDInputContainer onSubmit={verifyStudentId} />}
       {isValidated && !isConfirmed &&

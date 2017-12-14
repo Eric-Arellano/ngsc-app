@@ -19,7 +19,7 @@ const App = (props: Props) => {
     <div className='ngsc-container'>
       <Header />
       <div className='container'>
-        {isLoggedIn ? <EngagementViewContainer student={student} /> :
+        {isLoggedIn ? <EngagementViewContainer student={student} resetState={resetState} /> :
           <LoginViewContainer login={login} resetState={resetState} />}
       </div>
     </div>

@@ -15,10 +15,6 @@
     padding: 0;
 }
 
-h3.error {
-    color: #ce1126;
-}
-
 @media screen and (max-width: 768px) {
     .form-group {
         max-width: 300px;

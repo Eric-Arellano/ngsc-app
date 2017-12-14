@@ -5,7 +5,8 @@ import { getRequirements } from 'utils/api'
 import type { Requirement, Student } from 'flow/types'
 
 type Props = {
-  student: Student
+  student: Student,
+  resetState: () => void
 }
 
 type State = {

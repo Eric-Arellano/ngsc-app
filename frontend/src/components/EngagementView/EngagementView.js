@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { AcceptedRequirements, Demographics, Loading, LoggedRequirements } from 'components'
+import { AcceptedRequirements, Demographics, Error, Loading, LoggedRequirements } from 'components'
 import type { Requirement, Student } from 'flow/types'
 
 type Props = {
@@ -10,15 +10,17 @@ type Props = {
   service: number,
   civilMil: number,
   requirements: Array<Requirement>,
+  resetState: () => void
 }
 
 const EngagementView = (props: Props) => {
-  const {isError, isLoading, student, civilMil, service, requirements} = props
-  if (isError) {
-    return <p>Error</p>
-  }
+  const {isError, isLoading, student, civilMil, service, requirements, resetState} = props
+
   if (isLoading) {
     return <Loading />
+  }
+  else if (isError) {
+    return <Error resetState={resetState}>There was an error. Please try again.</Error>
   }
   return [
     <Demographics student={student} key={0} />,

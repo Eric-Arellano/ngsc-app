@@ -4,6 +4,7 @@ import Confirmation from './LoginView/Confirmation'
 import Demographics from './EngagementView/Demographics'
 import Entry from './Panel/Entry'
 import EngagementView from './EngagementView/EngagementView'
+import Error from './Error/Error'
 import Header from './Header/Header'
 import IDInput from './LoginView/IDInput'
 import LoginView from './LoginView/LoginView'
@@ -19,6 +20,7 @@ export {
   Demographics,
   Entry,
   EngagementView,
+  Error,
   Header,
   IDInput,
   LoginView,
