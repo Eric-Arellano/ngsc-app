@@ -1,7 +1,8 @@
 // @flow
 import React from 'react'
-import { Panel, Table } from 'react-bootstrap'
+import { Table } from 'react-bootstrap'
 import type { Requirement } from 'flow/types'
+import { Panel } from 'components'
 
 type Props = {
   requirements: Array<Requirement>
@@ -19,8 +20,8 @@ const translateStatus = (status: string) => {
   return status
 }
 
-const SubmittedRequirementsTable = (props: Props) => (
-  <Panel header={'Logged Requirements'} bsStyle={'info'} className="ngsc">
+const LoggedRequirements = (props: Props) => (
+  <Panel header='Logged Requirements'>
     <Table striped bordered responsive>
       <thead>
       <tr>
@@ -44,4 +45,4 @@ const SubmittedRequirementsTable = (props: Props) => (
   </Panel>
 )
 
-export default SubmittedRequirementsTable
+export default LoggedRequirements

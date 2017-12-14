@@ -1,45 +1,27 @@
 // @flow
 import * as React from 'react'
-import { Header, Confirmation, Loading } from 'components'
-import { IDInputContainer, RequirementsContainer } from 'containers'
-import { Button } from 'react-bootstrap'
+import { Header } from 'components'
+import { EngagementViewContainer, LoginViewContainer } from 'containers'
 import type { Student } from 'flow/types'
-import './App.css'
+import s from './App.module.css'
 
 type Props = {
-  isLoading: boolean,
-  isError: boolean,
-  isValidated: boolean,
-  isConfirmed: boolean,
-  verifyStudentId: (number) => void,
-  confirmCorrectStudent: (boolean) => void,
+  isLoggedIn: boolean,
+  student: ?Student,
   resetState: () => void,
-  student: ?Student
+  login: (Student) => void
 }
 
 const App = (props: Props) => {
-  const {isLoading, isError, isValidated, isConfirmed, verifyStudentId, confirmCorrectStudent, resetState, student} = props
-
-  let container: React.Element<'div'>
-  if (isLoading) {
-    container = <div className="container"><Loading /></div>
-  } else if (isError) {
-    container = <div className="container">
-      <h3 className="error">User not found. Please enter a valid ID.</h3>
-      <Button onClick={resetState}> Back </Button>
-    </div>
-  } else {
-    container = <div className="container">
-      {!isValidated && <IDInputContainer onSubmit={verifyStudentId} />}
-      {isValidated && !isConfirmed && <Confirmation confirmCorrectStudent={confirmCorrectStudent} name={student.name} />}
-      {isValidated && isConfirmed && <RequirementsContainer student={student} /> }
-    </div>
-  }
+  const {isLoggedIn, student, login, resetState} = props
 
   return (
-    <div className={'ngsc-container'}>
+    <div className={s.app}>
       <Header />
-      {container}
+      <div className={s.body}>
+        {isLoggedIn ? <EngagementViewContainer student={student} resetState={resetState} /> :
+          <LoginViewContainer login={login} resetState={resetState} />}
+      </div>
     </div>
   )
 }

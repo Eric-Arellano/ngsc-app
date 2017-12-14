@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
-import { Form, FormGroup, FormControl, ControlLabel, HelpBlock, Button } from 'react-bootstrap'
+import { Button } from 'components'
+import { ControlLabel, Form, FormControl, FormGroup, HelpBlock } from 'react-bootstrap'
 
 const IDInput = (props: Props) => {
 
@@ -26,7 +27,7 @@ const IDInput = (props: Props) => {
         <HelpBlock>Please enter a valid student ID.</HelpBlock>
       </FormGroup>
       <br />
-      <Button className="ngsc" disabled={submitDisabled} onClick={handleSubmit}>Submit</Button>
+      <Button disabled={submitDisabled} handleClick={handleSubmit}>Submit</Button>
     </Form>
   )
 }

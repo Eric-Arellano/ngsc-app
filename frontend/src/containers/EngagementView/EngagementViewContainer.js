@@ -1,11 +1,12 @@
 // @flow
 import React, { Component } from 'react'
-import { DemographicSummary, RequirementsSummary, SubmittedRequirementsTable, Loading } from 'components'
+import { EngagementView } from 'components'
 import { getRequirements } from 'utils/api'
-import type { Student, Requirement } from 'flow/types'
+import type { Requirement, Student } from 'flow/types'
 
 type Props = {
-  student: Student
+  student: Student,
+  resetState: () => void
 }
 
 type State = {
@@ -16,7 +17,7 @@ type State = {
   requirements: Array<Requirement>,
 }
 
-class RequirementsContainer extends Component<Props, State> {
+class EngagementViewContainer extends Component<Props, State> {
 
   state = {
     isLoading: true,
@@ -48,19 +49,8 @@ class RequirementsContainer extends Component<Props, State> {
   }
 
   render () {
-    const {isError, isLoading, civilMil, service, requirements} = this.state
-    if (isError) {
-      return <p>Error</p>
-    }
-    if (isLoading) {
-      return <Loading />
-    }
-    return [
-      <DemographicSummary {...this.props} key={0} />,
-      <RequirementsSummary service={service} civilMil={civilMil} key={1} />,
-      <SubmittedRequirementsTable requirements={requirements} key={2} />
-    ]
+    return <EngagementView {...this.props} {...this.state} />
   }
 }
 
-export default RequirementsContainer
+export default EngagementViewContainer

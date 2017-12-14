@@ -1,79 +1,38 @@
 // @flow
 import React, { Component } from 'react'
 import { App } from 'components'
-import { getDemographics } from 'utils/api'
 import type { Student } from 'flow/types'
 
 type Props = {}
 
 type State = {
-  isLoading: boolean,
-  isError: boolean,
-  isValidated: boolean,
-  isConfirmed: boolean,
+  isLoggedIn: boolean,
   student: ?Student
 }
 
 class AppContainer extends Component<Props, State> {
 
   state = {
-    isLoading: false,
-    isError: false,
-    isValidated: false,
-    isConfirmed: false,
+    isLoggedIn: false,
     student: null
   }
 
-  verifyStudentId = (id: number) => {
+  login = (student: Student) => {
     this.setState({
-      isLoading: true
+      student,
+      isLoggedIn: true
     })
-    getDemographics(id)
-      .then(data => {
-        this.setState({
-          isLoading: false,
-          isValidated: true,
-          student: {
-            id,
-            name: {
-              first: data.name.first,
-              last: data.name.last
-            },
-            missionTeam: data.missionTeam,
-            committee: data.committee,
-            cohort: data.cohort,
-            leadership: data.leadership,
-          }
-        })
-      })
-      .catch(err => {
-        this.setState({
-          isLoading: false,
-          isError: true,
-        })
-      })
   }
 
   resetState = () => {
     this.setState({
-      isLoading: false,
-      isError: false,
-      isValidated: false,
-      isConfirmed: false,
+      isLoggedIn: false,
       student: null
     })
   }
 
-  confirmCorrectStudent = (isConfirmed: boolean) => {
-    this.setState({
-      isConfirmed,
-      isValidated: isConfirmed,
-    })
-  }
-
   render () {
-    return <App {...this.state} verifyStudentId={this.verifyStudentId}
-                confirmCorrectStudent={this.confirmCorrectStudent} resetState={this.resetState} />
+    return <App {...this.state} login={this.login} resetState={this.resetState} />
   }
 }
 
