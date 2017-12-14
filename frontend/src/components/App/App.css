@@ -1,18 +1,15 @@
-/* globals */
-.container {
-    text-align: center;
-    font-size: 120%;
-}
+/* App */
 
-.confirm-header {
-    margin-bottom: 20px;
-}
-
-.ngsc-container {
+.app-container {
     text-align: center;
     font-size: 120%;
     margin: 0;
     padding: 0;
+}
+
+.body-container {
+    text-align: center;
+    font-size: 120%;
 }
 
 @media screen and (max-width: 768px) {
@@ -26,7 +23,7 @@
         top: 33px;
     }
 
-    .container {
+    .body-container {
         font-size: 100%;
     }
 }

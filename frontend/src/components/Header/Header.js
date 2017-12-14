@@ -4,11 +4,11 @@ import logo from 'logo.png'
 import './Header.css'
 
 const Header = () => (
-  <header className="App-header">
+  <header className="header">
     <a href="/">
-      <img src={logo} className="App-logo" alt="logo" />
+      <img src={logo} className="logo" alt="logo" />
     </a>
-    <h1 className="App-title">NGSC Engagement Requirements</h1>
+    <h1 className="title">NGSC Engagement Requirements</h1>
   </header>
 )
 
