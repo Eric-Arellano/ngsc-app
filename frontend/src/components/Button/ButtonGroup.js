@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import s from './Button.module.css'
+import s from './ButtonGroup.module.css'
 
 type Props = {
   children: React.Node,
@@ -8,7 +8,7 @@ type Props = {
 
 const ButtonGroup = (props: Props) => {
   return (
-    <div className={s.group}>
+    <div className={s.container}>
       {props.children}
     </div>
   )
