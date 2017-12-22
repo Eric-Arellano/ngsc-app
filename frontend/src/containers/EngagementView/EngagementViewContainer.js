@@ -29,6 +29,17 @@ class EngagementViewContainer extends Component<Props, State> {
     requirements: []
   }
 
+  setErrorState = () => {
+      this.setState({
+          service: 0,
+          civilMil: 0,
+          noShows: 0,
+          requirements: [],
+          isLoading: false,
+          isError: true,
+      })
+  }
+
   componentDidMount () {
     getRequirements(this.props.student.id)
       .then((data) => {
@@ -40,33 +51,17 @@ class EngagementViewContainer extends Component<Props, State> {
         })
         getAttendance(this.props.student.id)
           .then((data) => {
-            console.log(data)
-            console.log(data.noShows)
             this.setState({
               noShows: data.noShows,
               isLoading: false,
             })
           })
           .catch((error) => {
-            this.setState({
-              service: 0,
-              civilMil: 0,
-              noShows: 0,
-              requirements: [],
-              isLoading: false,
-              isError: true,
-            })
+            this.setErrorState();
           })
       })
       .catch((error) => {
-        this.setState({
-          service: 0,
-          civilMil: 0,
-          noShows: 0,
-          requirements: [],
-          isLoading: false,
-          isError: true,
-        })
+        this.setErrorState();
       })
   }
 
