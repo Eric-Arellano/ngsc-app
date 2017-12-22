@@ -43,7 +43,6 @@ class EngagementViewContainer extends Component<Props, State> {
   componentDidMount () {
     getRequirements(this.props.student.id)
       .then((data) => {
-        console.log(data)
         this.setState({
           service: data.acceptedService,
           civilMil: data.acceptedCivilMil,

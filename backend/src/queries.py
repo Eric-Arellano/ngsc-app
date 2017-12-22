@@ -41,7 +41,7 @@ def get_all_demographics():
 # Attendance
 # -------------------------------------------------------------------
 
-def get_attendance_data(id: int):
+def get_attendance(id: int):
     results = get_values(MASTER_2017, 'Master!C2:Q')
     attendanceData = {}
     for row in results:
