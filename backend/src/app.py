@@ -2,7 +2,7 @@ from __future__ import print_function
 import flask
 import json
 
-from .queries import get_all_demographics, get_demographics, get_engagement
+from .queries import get_all_demographics, get_demographics, get_engagement, get_attendance_data
 
 app = flask.Flask(__name__,
                   static_folder="../../frontend/build/static",
@@ -37,6 +37,10 @@ def api_get_engagement(id: int):
     result = get_engagement(id)
     return return_json(result)
 
+@app.route('/api/attendance/<int:id>')
+def api_get_attendance(id: int):
+    result = get_attendance_data(id)
+    return return_json(result)
 
 def return_json(result):
     if result is None:

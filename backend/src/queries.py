@@ -37,6 +37,17 @@ def get_all_demographics():
                     'leadership': row[10]}
     return demographic
 
+# -------------------------------------------------------------------
+# Attendance
+# -------------------------------------------------------------------
+
+def get_attendance_data(id: int):
+    results = get_values(MASTER_2017, 'Master!C2:Q')
+    attendanceData = {}
+    for row in results:
+        if int(row[0]) == id:
+            attendanceData = {'noShows': float(row[14])}
+    return attendanceData
 
 # -------------------------------------------------------------------
 # Engagement

@@ -12,6 +12,7 @@ import IDInput from './LoginView/IDInput'
 import LoginView from './LoginView/LoginView'
 import Panel from './Panel/Panel'
 import AcceptedRequirements from './EngagementView/AcceptedRequirements'
+import Attendance from './EngagementView/Attendance'
 import LoggedRequirements from './EngagementView/LoggedRequirements'
 import Loading from './Loading/Loading'
 
@@ -29,6 +30,7 @@ export {
   IDInput,
   LoginView,
   AcceptedRequirements,
+  Attendance,
   LoggedRequirements,
   Loading,
   Panel

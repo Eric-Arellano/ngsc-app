@@ -11,6 +11,11 @@ export const getRequirements = (id: number) => {
   return getRequest(api)
 }
 
+export const getAttendance = (id: number) => {
+  const api = `/api/attendance/${id}`
+    return getRequest(api)
+}
+
 const getRequest = (api: string) => {
   return axios.get(api)
     .then(info => info.data)
