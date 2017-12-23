@@ -1,11 +1,11 @@
 // @flow
 import React from 'react'
 import { Table } from 'react-bootstrap'
-import type { Requirement } from 'flow/types'
+import type { EngagementEvent } from 'flow/types'
 import { Panel } from 'components'
 
 type Props = {
-  requirements: Array<Requirement>
+  engagementEvents: Array<EngagementEvent>
 }
 
 const translateHours = (reqType: string, hours: number) => {
@@ -20,24 +20,24 @@ const translateStatus = (status: string) => {
   return status
 }
 
-const LoggedRequirements = (props: Props) => (
-  <Panel header='Logged Requirements'>
+const LoggedEngagement = ({engagementEvents}: Props) => (
+  <Panel header='Logged Engagement'>
     <Table striped bordered responsive>
       <thead>
       <tr>
         <th>Event name</th>
-        <th>Requirement type</th>
+        <th>Engagement type</th>
         <th>Status</th>
-        <th>Requested hours</th>
+        <th>Engagement hours</th>
       </tr>
       </thead>
       <tbody>
-      {props.requirements.map((requirement, index) => (
+      {engagementEvents.map((event, index) => (
         <tr key={index}>
-          <td>{requirement.name}</td>
-          <td>{requirement.reqType}</td>
-          <td>{translateStatus(requirement.status)}</td>
-          <td>{translateHours(requirement.reqType, requirement.hours)}</td>
+          <td>{event.name}</td>
+          <td>{event.type}</td>
+          <td>{translateStatus(event.status)}</td>
+          <td>{translateHours(event.type, event.hours)}</td>
         </tr>
       ))}
       </tbody>
@@ -45,4 +45,4 @@ const LoggedRequirements = (props: Props) => (
   </Panel>
 )
 
-export default LoggedRequirements
+export default LoggedEngagement
