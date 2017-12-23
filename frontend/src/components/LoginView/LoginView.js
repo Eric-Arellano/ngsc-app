@@ -15,8 +15,7 @@ type Props = {
   student: ?Student
 }
 
-const LoginView = (props: Props) => {
-  const {isLoading, isError, isValidated, isConfirmed, verifyStudentId, confirmCorrectStudent, resetState, student} = props
+const LoginView = ({isLoading, isError, isValidated, isConfirmed, verifyStudentId, confirmCorrectStudent, resetState, student}: Props) => {
 
   if (isLoading) {
     return <Loading />

@@ -6,12 +6,10 @@ type Props = {
   children: React.Node,
 }
 
-const ButtonGroup = (props: Props) => {
-  return (
-    <div className={s.group}>
-      {props.children}
-    </div>
-  )
-}
+const ButtonGroup = ({children}: Props) => (
+  <div className={s.group}>
+    {children}
+  </div>
+)
 
 export default ButtonGroup

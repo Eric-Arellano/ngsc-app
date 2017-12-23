@@ -1,7 +1,8 @@
 // @flow
 import React, { Component } from 'react'
 import { EngagementView } from 'components'
-import { getRequirements, getAttendance } from 'utils/api'
+import { withError } from 'containers'
+import { getAttendance, getRequirements } from 'utils/api'
 import type { Requirement, Student } from 'flow/types'
 
 type Props = {

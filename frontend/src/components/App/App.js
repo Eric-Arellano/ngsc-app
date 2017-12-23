@@ -12,19 +12,15 @@ type Props = {
   login: (Student) => void
 }
 
-const App = (props: Props) => {
-  const {isLoggedIn, student, login, resetState} = props
-
-  return (
-    <div className={s.app}>
-      <Header />
-      <div className={s.body}>
-        {isLoggedIn ? <EngagementViewContainer student={student} resetState={resetState} /> :
-          <LoginViewContainer login={login} resetState={resetState} />}
-      </div>
-      <Footer />
+const App = ({isLoggedIn, student, login, resetState}: Props) => (
+  <div className={s.app}>
+    <Header />
+    <div className={s.body}>
+      {isLoggedIn ? <EngagementViewContainer student={student} resetState={resetState} /> :
+        <LoginViewContainer login={login} resetState={resetState} />}
     </div>
-  )
-}
+    <Footer />
+  </div>
+)
 
 export default App

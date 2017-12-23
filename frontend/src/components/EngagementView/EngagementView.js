@@ -14,8 +14,7 @@ type Props = {
   resetState: () => void
 }
 
-const EngagementView = (props: Props) => {
-  const {isError, isLoading, student, civilMil, service, noShows, requirements, resetState} = props
+const EngagementView = ({isError, isLoading, student, civilMil, service, noShows, requirements, resetState}: Props) => {
 
   if (isLoading) {
     return <Loading />
@@ -24,7 +23,7 @@ const EngagementView = (props: Props) => {
     return <Error resetState={resetState}>There was an error. Please try again.</Error>
   }
   return [
-    <Demographics student={student} key={0} />,
+    <Demographics {...student} key={0} />,
     <Attendance noShows={noShows} key={1} />,
     <AcceptedRequirements service={service} civilMil={civilMil} key={2} />,
     <LoggedRequirements requirements={requirements} key={3} />

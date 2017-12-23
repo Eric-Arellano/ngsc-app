@@ -7,10 +7,10 @@ type Props = {
   civilMil: number
 }
 
-const AcceptedRequirements = (props: Props) => (
+const AcceptedRequirements = ({service, civilMil}: Props) => (
   <Panel header='Accepted Requirements'>
-    <Entry>Accepted # of service hours: {props.service}</Entry>
-    <Entry>Accepted # of Civil Mil: {props.civilMil}</Entry>
+    <Entry>Accepted # of service hours: {service}</Entry>
+    <Entry>Accepted # of Civil Mil: {civilMil}</Entry>
   </Panel>
 )
 
