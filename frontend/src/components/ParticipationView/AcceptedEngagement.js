@@ -7,11 +7,11 @@ type Props = {
   civilMil: number
 }
 
-const AcceptedRequirements = ({service, civilMil}: Props) => (
-  <Panel header='Accepted Requirements'>
+const AcceptedEngagement = ({service, civilMil}: Props) => (
+  <Panel header='Accepted Engagement'>
     <Entry>Accepted # of service hours: {service}</Entry>
     <Entry>Accepted # of Civil Mil: {civilMil}</Entry>
   </Panel>
 )
 
-export default AcceptedRequirements
+export default AcceptedEngagement

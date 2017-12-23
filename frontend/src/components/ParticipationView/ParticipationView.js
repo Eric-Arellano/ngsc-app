@@ -16,8 +16,3 @@ const ParticipationView = ({student, resetState}: Props) => [
 ]
 
 export default ParticipationView
-
-/*
-<AttendanceContainer {...this.props} key={1} />,
-<EngagementContainer {...this.props} key={2} />
-*/

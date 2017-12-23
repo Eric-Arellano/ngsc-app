@@ -1,9 +1,9 @@
 // @flow
 import React, { Component } from 'react'
-import { AcceptedRequirements, LoggedRequirements } from 'components'
+import { AcceptedEngagement, LoggedEngagement } from 'components'
 import { withLoadingAndError } from 'decorators'
 import { getEngagement } from 'utils/api'
-import type { Requirement, Student } from 'flow/types'
+import type { EngagementEvent, Student } from 'flow/types'
 
 type Props = {
   student: Student,
@@ -15,7 +15,7 @@ type State = {
   isError: boolean,
   service: number,
   civilMil: string,
-  requirements: Array<Requirement>,
+  engagementEvents: Array<EngagementEvent>,
 }
 
 class EngagementContainer extends Component<Props, State> {
@@ -25,7 +25,7 @@ class EngagementContainer extends Component<Props, State> {
     isError: false,
     service: 0,
     civilMil: 0,
-    requirements: []
+    engagementEvents: []
   }
 
   componentDidMount () {
@@ -34,7 +34,7 @@ class EngagementContainer extends Component<Props, State> {
         this.setState({
           service: data.acceptedService,
           civilMil: data.acceptedCivilMil,
-          requirements: data.requirements,
+          engagementEvents: data.loggedEvents,
           isLoading: false,
         })
       })
@@ -42,7 +42,7 @@ class EngagementContainer extends Component<Props, State> {
         this.setState({
           service: 0,
           civilMil: 0,
-          requirements: [],
+          engagementEvents: [],
           isLoading: false,
           isError: true,
         })
@@ -53,10 +53,10 @@ class EngagementContainer extends Component<Props, State> {
 
   @withLoadingAndError('There was an error. Please try again.')
   render () {
-    const {service, civilMil, requirements} = this.state
+    const {service, civilMil, engagementEvents} = this.state
     return [
-      <AcceptedRequirements service={service} civilMil={civilMil} key={2} />,
-      <LoggedRequirements requirements={requirements} key={3} />
+      <AcceptedEngagement service={service} civilMil={civilMil} key={2} />,
+      <LoggedEngagement engagementEvents={engagementEvents} key={3} />
     ]
   }
 }
