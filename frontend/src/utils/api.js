@@ -6,7 +6,7 @@ export const getDemographics = (id: number) => {
   return getRequest(api)
 }
 
-export const getRequirements = (id: number) => {
+export const getEngagement = (id: number) => {
   const api = `/api/engagement/${id}`
   return getRequest(api)
 }
