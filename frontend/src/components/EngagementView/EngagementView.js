@@ -10,12 +10,14 @@ type Props = {
   service: number,
   civilMil: number,
   noShows: number,
+  mt_percent : str,
+  com_percent: str,
   requirements: Array<Requirement>,
   resetState: () => void
 }
 
 const EngagementView = (props: Props) => {
-  const {isError, isLoading, student, civilMil, service, noShows, requirements, resetState} = props
+  const {isError, isLoading, student, civilMil, service, noShows, mt_percent, com_percent, requirements, resetState} = props
 
   if (isLoading) {
     return <Loading />
@@ -25,7 +27,7 @@ const EngagementView = (props: Props) => {
   }
   return [
     <Demographics student={student} key={0} />,
-    <Attendance noShows={noShows} key={1} />,
+    <Attendance noShows={noShows} mt_percent={mt_percent} com_percent={com_percent} key={1} />,
     <AcceptedRequirements service={service} civilMil={civilMil} key={2} />,
     <LoggedRequirements requirements={requirements} key={3} />
   ]
