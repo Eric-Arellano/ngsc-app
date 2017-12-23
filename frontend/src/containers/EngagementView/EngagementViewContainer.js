@@ -16,6 +16,8 @@ type State = {
   service: number,
   civilMil: number,
   noShows: number,
+  mt_percent: string,
+  com_percent: string,
   requirements: Array<Requirement>,
 }
 
@@ -27,18 +29,22 @@ class EngagementViewContainer extends Component<Props, State> {
     service: 0,
     civilMil: 0,
     noShows: 0,
+    mt_percent: 0,
+    com_percent: 0,
     requirements: []
   }
 
   setErrorState = () => {
-    this.setState({
-      service: 0,
-      civilMil: 0,
-      noShows: 0,
-      requirements: [],
-      isLoading: false,
-      isError: true,
-    })
+      this.setState({
+          service: 0,
+          civilMil: 0,
+          noShows: 0,
+          mt_percent: 0,
+          com_percent: 0,
+          requirements: [],
+          isLoading: false,
+          isError: true,
+      })
   }
 
   componentDidMount () {
@@ -49,20 +55,23 @@ class EngagementViewContainer extends Component<Props, State> {
           civilMil: data.acceptedCivilMil,
           requirements: data.requirements,
         })
-        getAttendance(this.props.student.id)
+      })
+      .catch((error) => {
+        this.setErrorState();
+      })
+
+    getAttendance(this.props.student.id)
           .then((data) => {
             this.setState({
               noShows: data.noShows,
+              mt_percent: data.mt_percent,
+              com_percent: data.com_percent,
               isLoading: false,
             })
           })
           .catch((error) => {
-            this.setErrorState()
+            this.setErrorState();
           })
-      })
-      .catch((error) => {
-        this.setErrorState()
-      })
   }
 
   resetState = () => this.props.resetState() // Quirk with decorators and scope of this. Don't delete.

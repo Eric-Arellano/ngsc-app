@@ -46,7 +46,7 @@ def get_attendance(id: int):
     attendanceData = {}
     for row in results:
         if int(row[0]) == id:
-            attendanceData = {'noShows': float(row[14])}
+            attendanceData = {'noShows': float(row[14]), 'mt_percent': str(row[12]), 'com_percent': str(row[13])}
     return attendanceData
 
 # -------------------------------------------------------------------
