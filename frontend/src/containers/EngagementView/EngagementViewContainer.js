@@ -15,6 +15,8 @@ type State = {
   service: number,
   civilMil: number,
   noShows: number,
+  mt_percent: str,
+  com_percent: str,
   requirements: Array<Requirement>,
 }
 
@@ -26,6 +28,8 @@ class EngagementViewContainer extends Component<Props, State> {
     service: 0,
     civilMil: 0,
     noShows: 0,
+    mt_percent: 0,
+    com_percent: 0,
     requirements: []
   }
 
@@ -34,6 +38,8 @@ class EngagementViewContainer extends Component<Props, State> {
           service: 0,
           civilMil: 0,
           noShows: 0,
+          mt_percent: 0,
+          com_percent: 0,
           requirements: [],
           isLoading: false,
           isError: true,
@@ -48,20 +54,23 @@ class EngagementViewContainer extends Component<Props, State> {
           civilMil: data.acceptedCivilMil,
           requirements: data.requirements,
         })
-        getAttendance(this.props.student.id)
+      })
+      .catch((error) => {
+        this.setErrorState();
+      })
+    
+    getAttendance(this.props.student.id)
           .then((data) => {
             this.setState({
               noShows: data.noShows,
+              mt_percent: data.mt_percent,
+              com_percent: data.com_percent,
               isLoading: false,
             })
           })
           .catch((error) => {
             this.setErrorState();
           })
-      })
-      .catch((error) => {
-        this.setErrorState();
-      })
   }
 
   render () {
