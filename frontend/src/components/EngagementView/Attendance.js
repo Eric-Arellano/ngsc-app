@@ -4,7 +4,9 @@ import React from 'react'
 import { Entry, Panel } from 'components'
 
 type Props = {
-    noShows: number
+    noShows: number,
+    mt_percent: str,
+    com_percent: str
 }
 
 const Attendance = (props: Props) => {
