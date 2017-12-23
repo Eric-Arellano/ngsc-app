@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import { EngagementView } from 'components'
-import { withError } from 'containers'
+import { withError, withLoading } from 'HOCs'
 import { getAttendance, getRequirements } from 'utils/api'
 import type { Requirement, Student } from 'flow/types'
 
@@ -31,14 +31,14 @@ class EngagementViewContainer extends Component<Props, State> {
   }
 
   setErrorState = () => {
-      this.setState({
-          service: 0,
-          civilMil: 0,
-          noShows: 0,
-          requirements: [],
-          isLoading: false,
-          isError: true,
-      })
+    this.setState({
+      service: 0,
+      civilMil: 0,
+      noShows: 0,
+      requirements: [],
+      isLoading: false,
+      isError: true,
+    })
   }
 
   componentDidMount () {
@@ -57,16 +57,18 @@ class EngagementViewContainer extends Component<Props, State> {
             })
           })
           .catch((error) => {
-            this.setErrorState();
+            this.setErrorState()
           })
       })
       .catch((error) => {
-        this.setErrorState();
+        this.setErrorState()
       })
   }
 
   render () {
-    return <EngagementView {...this.props} {...this.state} />
+    const EngagementViewWithLoading = withLoading(EngagementView)
+    const EngagementViewWithLoadingAndError = withError(EngagementViewWithLoading, this.props.resetState, 'There was an error. Please try again.')
+    return <EngagementViewWithLoadingAndError {...this.props} {...this.state} />
   }
 }
 
