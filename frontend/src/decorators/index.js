@@ -1,7 +1,5 @@
-import withError from './withError'
-import withLoading from './withLoading'
+import withLoadingAndError from './withLoadingAndError'
 
 export {
-  withError,
-  withLoading
+  withLoadingAndError
 }

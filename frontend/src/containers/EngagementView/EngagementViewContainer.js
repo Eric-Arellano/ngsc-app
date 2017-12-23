@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import { EngagementView } from 'components'
-import { withError, withLoading } from 'decorators'
+import { withLoadingAndError } from 'decorators'
 import { getAttendance, getRequirements } from 'utils/api'
 import type { Requirement, Student } from 'flow/types'
 
@@ -65,10 +65,9 @@ class EngagementViewContainer extends Component<Props, State> {
       })
   }
 
-  resetState = () => { this.props.resetState() }  // Quirk with decorators and scope of this. Don't delete.
+  resetState = () => this.props.resetState() // Quirk with decorators and scope of this. Don't delete.
 
-  @withLoading
-  @withError('There was an error. Please try again.')
+  @withLoadingAndError('There was an error. Please try again.')
   render () {
     return <EngagementView {...this.props} {...this.state} />
   }
