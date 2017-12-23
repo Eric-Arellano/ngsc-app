@@ -37,29 +37,41 @@ def get_all_demographics():
                     'leadership': row[10]}
     return demographic
 
+# -------------------------------------------------------------------
+# Attendance
+# -------------------------------------------------------------------
+
+def get_attendance(id: int):
+    results = get_values(MASTER_2017, 'Master!C2:Q')
+    attendanceData = {}
+    for row in results:
+        if int(row[0]) == id:
+            attendanceData = {'noShows': float(row[14]), 'missionTeamAttendance': str(row[12]), 
+            'committeeAttendance': str(row[13]), 'olsAttendance': str(row[11])}
+    return attendanceData
 
 # -------------------------------------------------------------------
 # Engagement
 # -------------------------------------------------------------------
 
 def get_engagement(id: int):
-    (accepted_service, accepted_civil_mil) = get_accepted_requirements(id)
-    requirements = get_logged_requirements(id)
+    (accepted_service, accepted_civil_mil) = get_accepted_engagement(id)
+    logged_events = get_logged_engagement_events(id)
     return {"id": id, "acceptedService": accepted_service, "acceptedCivilMil": accepted_civil_mil,
-            "requirements": requirements}
+            "loggedEvents": logged_events}
 
 
-def get_logged_requirements(id: int):
+def get_logged_engagement_events(id: int):
     all_responses = get_values(ENGAGEMENT_2017, 'Responses!A2:Q')
-    requirements = []
+    engagement_events = []
     for row in all_responses:
         if int(row[6]) == id:
-            req = {'reqType': row[2],
+            event = {'type': row[2],
                    'status': row[1],
                    'name': row[12] or row[13] or row[14],
                    'hours': select_hours(row)}
-            requirements.append(req)
-    return requirements
+            engagement_events.append(event)
+    return engagement_events
 
 
 def select_hours(row):
@@ -71,11 +83,11 @@ def select_hours(row):
 
 # TODO: when adding query for getting MT %, committee %, and # no shows, this query should fall into that and 
 # come from master spreadsheet to avoid the cost of also searching this spreadsheet. Just get all data from master.
-def get_accepted_requirements(id: int):
-    all_accepted_requirements = get_values(ENGAGEMENT_2017, 'Requirements!A2:C')
+def get_accepted_engagement(id: int):
+    all_accepted_engagement= get_values(ENGAGEMENT_2017, 'Requirements!A2:C')
     accepted_service_hours = 0
     accepted_civil_mil = 0
-    for row in all_accepted_requirements:
+    for row in all_accepted_engagement:
         if int(row[0]) == id:
             accepted_service_hours = row[1]
             accepted_civil_mil = row[2]

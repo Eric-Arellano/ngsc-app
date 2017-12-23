@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import { LoginView } from 'components'
+import { withLoadingAndError } from 'decorators'
 import { getDemographics } from 'utils/api'
 import type { Student } from 'flow/types'
 
@@ -75,9 +76,10 @@ class LoginViewContainer extends Component<Props, State> {
     this.props.login(this.state.student)
   }
 
+  @withLoadingAndError('User not found. Please enter a valid student ID.')
   render () {
     return <LoginView {...this.state} verifyStudentId={this.verifyStudentId}
-                      confirmCorrectStudent={this.confirmCorrectStudent} resetState={this.resetState} />
+                      confirmCorrectStudent={this.confirmCorrectStudent} />
   }
 }
 

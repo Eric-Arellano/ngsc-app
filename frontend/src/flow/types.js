@@ -1,8 +1,8 @@
 // @flow
 
-export type Requirement = {
+export type EngagementEvent = {
   name: string,
-  reqType: string,
+  type: string,
   status: string,
   hours: string
 }

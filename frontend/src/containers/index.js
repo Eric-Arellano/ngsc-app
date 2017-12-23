@@ -1,11 +1,13 @@
 import AppContainer from './App/AppContainer'
-import EngagementViewContainer from './EngagementView/EngagementViewContainer'
+import AttendanceContainer from './ParticipationView/AttendanceContainer'
+import EngagementContainer from './ParticipationView/EngagementContainer'
 import LoginViewContainer from './LoginView/LoginViewContainer'
 import IDInputContainer from './LoginView/IDInputContainer'
 
 export {
   AppContainer,
-  EngagementViewContainer,
+  AttendanceContainer,
+  EngagementContainer,
   IDInputContainer,
   LoginViewContainer
 }
