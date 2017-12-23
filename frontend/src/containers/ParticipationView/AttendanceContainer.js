@@ -14,8 +14,9 @@ type State = {
   isLoading: boolean,
   isError: boolean,
   noShows: number,
-  mt_percent: string,
-  com_percent: string
+  missionTeamAttendance: string,
+  committeeAttendance: string,
+  olsAttendance: string
 }
 
 class AttendanceContainer extends Component<Props, State> {
@@ -24,8 +25,9 @@ class AttendanceContainer extends Component<Props, State> {
     isLoading: true,
     isError: false,
     noShows: 0,
-    mt_percent: 0,
-    com_percent: 0
+    missionTeamAttendance: '',
+    committeeAttendance: '',
+    olsAttendance: ''
   }
 
   componentDidMount () {
@@ -33,16 +35,18 @@ class AttendanceContainer extends Component<Props, State> {
       .then((data) => {
         this.setState({
           noShows: data.noShows,
-          mt_percent: data.mt_percent,
-          com_percent: data.com_percent,
+          missionTeamAttendance: data.missionTeamAttendance,
+          committeeAttendance: data.committeeAttendance,
+          olsAttendance: data.olsAttendance,
           isLoading: false,
         })
       })
       .catch((error) => {
         this.setState({
           noShows: 0,
-          mt_percent: 0,
-          com_percent: 0,
+          missionTeamAttendance: '',
+          committeeAttendance: '',
+          olsAttendance: '',
           isLoading: false,
           isError: true,
         })
