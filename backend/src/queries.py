@@ -60,7 +60,7 @@ def get_attendance(student_id: int):
 def get_engagement(student_id: int):
     (accepted_service, accepted_civil_mil) = get_accepted_engagement(student_id)
     logged_events = get_logged_engagement_events(student_id)
-    return {"id": student_id, "acceptedService": accepted_service, "acceptedCivilMil": accepted_civil_mil,
+    return {"acceptedService": accepted_service, "acceptedCivilMil": accepted_civil_mil,
             "loggedEvents": logged_events}
 
 
