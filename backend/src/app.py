@@ -1,6 +1,6 @@
-from __future__ import print_function
-import flask
 import json
+
+import flask
 
 from .queries import get_all_demographics, get_demographics, get_engagement, get_attendance
 
@@ -26,21 +26,23 @@ def api_get_all_demographics():
     return flask.jsonify(result)
 
 
-@app.route('/api/demographics/<int:id>')
-def api_get_name(id: int):
-    result = get_demographics(id)
+@app.route('/api/demographics/<int:student_id>')
+def api_get_name(student_id: int):
+    result = get_demographics(student_id)
     return return_json(result)
 
 
-@app.route('/api/engagement/<int:id>')
-def api_get_engagement(id: int):
-    result = get_engagement(id)
+@app.route('/api/engagement/<int:student_id>')
+def api_get_engagement(student_id: int):
+    result = get_engagement(student_id)
     return return_json(result)
 
-@app.route('/api/attendance/<int:id>')
-def api_get_attendance(id: int):
-    result = get_attendance(id)
+
+@app.route('/api/attendance/<int:student_id>')
+def api_get_attendance(student_id: int):
+    result = get_attendance(student_id)
     return return_json(result)
+
 
 def return_json(result):
     if result is None:
