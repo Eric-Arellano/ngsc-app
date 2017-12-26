@@ -6,8 +6,7 @@ import { getDemographics } from 'utils/api'
 import type { Student } from 'flow/types'
 
 type Props = {
-  login: (Student) => void,
-  resetState: () => void
+  login: (Student) => void
 }
 
 type State = {
@@ -69,17 +68,17 @@ class LoginViewContainer extends Component<Props, State> {
   }
 
   confirmCorrectStudent = (isConfirmed: boolean) => {
-    this.setState({
-      isConfirmed,
-      isValidated: isConfirmed,
+    this.setState({isConfirmed}, () => {
+      if (isConfirmed) {
+        this.props.login(this.state.student)
+      }
     })
-    this.props.login(this.state.student)
   }
 
   @withLoadingAndError('User not found. Please enter a valid student ID.')
   render () {
     return <LoginView {...this.state} verifyStudentId={this.verifyStudentId}
-                      confirmCorrectStudent={this.confirmCorrectStudent} />
+                      confirmCorrectStudent={this.confirmCorrectStudent} resetState={this.resetState} />
   }
 }
 

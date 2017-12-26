@@ -17,7 +17,7 @@ const App = ({isLoggedIn, student, login, resetState}: Props) => (
     <Header />
     <div className={s.body}>
       {isLoggedIn ? <ParticipationView student={student} resetState={resetState} /> :
-        <LoginViewContainer login={login} resetState={resetState} />}
+        <LoginViewContainer login={login} />}
     </div>
     <Footer />
   </div>

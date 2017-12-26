@@ -9,13 +9,15 @@ type Props = {
   isConfirmed: boolean,
   verifyStudentId: (number) => void,
   confirmCorrectStudent: (boolean) => void,
+  resetState: () => void,
   student: ?Student
 }
 
-const LoginView = ({isValidated, isConfirmed, verifyStudentId, confirmCorrectStudent, student}: Props) => (
+const LoginView = ({isValidated, isConfirmed, verifyStudentId, confirmCorrectStudent, resetState, student}: Props) => (
   <div>
     {!isValidated && <IDInputContainer onSubmit={verifyStudentId} />}
-    {isValidated && !isConfirmed && <Confirmation confirmCorrectStudent={confirmCorrectStudent} name={student.name} />}
+    {isValidated && !isConfirmed &&
+    <Confirmation confirmCorrectStudent={confirmCorrectStudent} name={student.name} resetState={resetState} />}
   </div>
 )
 
