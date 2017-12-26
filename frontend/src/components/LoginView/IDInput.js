@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Button } from 'components'
+import { Button, Label } from 'components'
 import { InputContainer } from 'containers'
 
 type Props = {
@@ -19,6 +19,7 @@ const IDInput = ({
   const isSubmitDisabled = validationState !== 'valid'
   return (
     <form>
+      <Label>Student ID:</Label>
       <InputContainer placeholder={'Enter student ID'} determineValidationState={determineValidationState}
                       handleEnterKey={handleEnterKey} updateCurrentValue={updateCurrentValue}
                       updateValidationState={updateValidationState} />

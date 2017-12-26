@@ -6,6 +6,7 @@ import Entry from './Panel/Entry'
 import Error from './Error/Error'
 import Header from './Header/Header'
 import Input from './Form/Input'
+import Label from './Form/Label'
 import Loading from './Loading/Loading'
 import Panel from './Panel/Panel'
 // Views
@@ -31,6 +32,7 @@ export {
   Header,
   IDInput,
   Input,
+  Label,
   LoginView,
   ParticipationView,
   AcceptedEngagement,
