@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Confirmation } from 'components'
+import { Confirmation, InputContainer } from 'components'
 import { IDInputContainer } from 'containers'
 import type { Student } from 'flow/types'
 

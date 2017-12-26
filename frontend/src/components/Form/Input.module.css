@@ -1,0 +1,27 @@
+/* Input */
+
+.base {
+    background: white;
+    padding: 0.4em;
+    border: black 1px solid;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 1em;
+}
+
+.neutral {
+    composes: base;
+}
+
+.valid {
+    composes: base;
+    color: green;
+    border-color: green;
+}
+
+.invalid {
+    composes: base;
+    color: red;
+    border-color: red;
+}
+
