@@ -7,7 +7,7 @@ type Props = {
   student: Student
 }
 
-const Demographics = ({name, missionTeam, id, committee, cohort, leadership}: Props) => (
+const Demographics = ({student: {name, missionTeam, id, committee, cohort, leadership}}: Props) => (
   <Panel header='Student info'>
     <Entry>Name: {name.first} {name.last}</Entry>
     <Entry>ID number: {id}</Entry>

@@ -10,7 +10,7 @@ type Props = {
 }
 
 const ParticipationView = ({student, resetState}: Props) => [
-  <Demographics {...student} key={0} />,
+  <Demographics student={student} key={0} />,
   <AttendanceContainer student={student} resetState={resetState} key={1} />,
   <EngagementContainer student={student} resetState={resetState} key={2} />
 ]
