@@ -14,23 +14,23 @@ export const mockStudent = (id: number) => {
 export const mockRequirements = () => {
   const req1: Requirement = {
     name: 'PT',
-    reqType: 'Civil-Mil',
+    type: 'Civil-Mil',
     status: 'Accepted',
-    hours: '1 civil-mil event'
+    hours: 0
   }
 
   const req2: Requirement = {
     name: 'Day of Service',
-    reqType: 'Service',
+    type: 'Service',
     status: 'Waiting for review',
-    hours: '8 hours'
+    hours: 8
   }
 
   const req3: Requirement = {
     name: 'IT Awareness Day',
-    reqType: 'Civil Mil OR Service',
+    type: 'Civil-Mil OR Service',
     status: 'Reclassified from "Civil Mil" to "Civil Mil OR Service"',
-    hours: '4 hours or 1 civil-mil event'
+    hours: 4
   }
 
   return [req1, req2, req3]

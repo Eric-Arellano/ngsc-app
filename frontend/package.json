@@ -9,7 +9,8 @@
     "flow-bin": "^0.58.0",
     "react": "^16.0.0",
     "react-bootstrap": "^0.31.5",
-    "react-dom": "^16.0.0"
+    "react-dom": "^16.0.0",
+    "react-table": "^6.7.6"
   },
   "scripts": {
     "start": "react-scripts start",
