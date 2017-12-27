@@ -6,13 +6,14 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 scopes = ['https://www.googleapis.com/auth/sqlservice.admin', 'https://www.googleapis.com/auth/spreadsheets.readonly']
 
+
 def build_service():
     credentials = get_credentials()
     http_auth = credentials.authorize(Http())
-    discoveryUrl = ('https://sheets.googleapis.com/$discovery/rest?'
-                    'version=v4')
+    discovery_url = ('https://sheets.googleapis.com/$discovery/rest?'
+                     'version=v4')
     return discovery.build('sheets', 'v4', http=http_auth,
-                           discoveryServiceUrl=discoveryUrl)
+                           discoveryServiceUrl=discovery_url)
 
 
 def get_credentials():

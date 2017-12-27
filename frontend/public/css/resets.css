@@ -161,11 +161,6 @@ textarea {
     transition: opacity 0.22s
 }
 
-:focus:-ms-placeholder {
-    opacity: 0;
-    transition: opacity 0.22s
-}
-
 input[type='number']::-webkit-outer-spin-button, input[type='number']::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0

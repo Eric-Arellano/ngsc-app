@@ -55,8 +55,8 @@ class EngagementContainer extends Component<Props, State> {
   render () {
     const {service, civilMil, engagementEvents} = this.state
     return [
-      <AcceptedEngagement service={service} civilMil={civilMil} key={2} />,
-      <LoggedEngagement engagementEvents={engagementEvents} key={3} />
+      <AcceptedEngagement service={service} civilMil={civilMil} key={0} />,
+      <LoggedEngagement engagementEvents={engagementEvents} key={1} />
     ]
   }
 }

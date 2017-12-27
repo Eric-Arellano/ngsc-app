@@ -1,27 +1,17 @@
 /* Button */
 
-.group {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
-}
-
 .base {
-    background: transparent;
+    box-sizing: border-box;
+    background: white;
     border: 1px solid currentColor;
     font-weight: 300;
     font-size: 1.1em;
-    margin-top: 1em;
+    margin: 1em;
     padding: 0.33em 1.33em;
     transition: all 0.3s;
 }
 
 .base:disabled {
-    opacity: 0.65;
     cursor: not-allowed;
 }
 
@@ -29,11 +19,21 @@
     composes: base;
     color: black;
     background: gold;
-    border-color: #d2b204;
+    border-color: #dcb700;
 }
 
 .ngsc:hover {
-    background: #d2b204;
+    background: #dcb700;
+}
+
+.ngsc:disabled {
+    color: black;
+    background: #eaeaea;
+    border-color: #b7b7b7;
+}
+
+.ngsc:disabled:hover {
+    background: #b7b7b7;
 }
 
 .success {

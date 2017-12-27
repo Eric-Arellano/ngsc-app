@@ -1,15 +1,15 @@
 {
   "name": "frontend",
-  "version": "0.1.0",
+  "version": "0.3.0",
+  "homepage": "http://ngsc-service-hours.herokuapp.com/",
   "private": true,
   "dependencies": {
     "axios": "^0.17.0",
-    "bootstrap": "3",
     "custom-react-scripts": "^0.2.1",
     "flow-bin": "^0.58.0",
     "react": "^16.0.0",
-    "react-bootstrap": "^0.31.5",
-    "react-dom": "^16.0.0"
+    "react-dom": "^16.0.0",
+    "react-table": "^6.7.6"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -22,5 +22,6 @@
   "devDependencies": {
     "standard": "^10.0.3"
   },
-  "proxy": "http://localhost:5000/"
+  "proxy": "http://localhost:5000/",
+  "license": "MIT"
 }

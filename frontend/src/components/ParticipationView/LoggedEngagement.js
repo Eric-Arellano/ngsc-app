@@ -1,8 +1,9 @@
 // @flow
 import React from 'react'
-import { Table } from 'react-bootstrap'
+import ReactTable from 'react-table' // see https://react-table.js.org/#/story/readme
 import type { EngagementEvent } from 'flow/types'
 import { Panel } from 'components'
+import 'react-table/react-table.css'
 
 type Props = {
   engagementEvents: Array<EngagementEvent>
@@ -20,29 +21,36 @@ const translateStatus = (status: string) => {
   return status
 }
 
-const LoggedEngagement = ({engagementEvents}: Props) => (
-  <Panel header='Logged Engagement'>
-    <Table striped bordered responsive>
-      <thead>
-      <tr>
-        <th>Event name</th>
-        <th>Engagement type</th>
-        <th>Status</th>
-        <th>Engagement hours</th>
-      </tr>
-      </thead>
-      <tbody>
-      {engagementEvents.map((event, index) => (
-        <tr key={index}>
-          <td>{event.name}</td>
-          <td>{event.type}</td>
-          <td>{translateStatus(event.status)}</td>
-          <td>{translateHours(event.type, event.hours)}</td>
-        </tr>
-      ))}
-      </tbody>
-    </Table>
-  </Panel>
-)
+const LoggedEngagement = ({engagementEvents}: Props) => {
+
+  const columns = [{
+    id: 'Name',
+    Header: 'Event name',
+    accessor: event => event.name
+  }, {
+    id: 'Type',
+    Header: 'Engagement type',
+    accessor: event => event.type
+  }, {
+    id: 'Status',
+    Header: 'Status',
+    accessor: event => translateStatus(event.status)
+  }, {
+    id: 'Hours',
+    Header: 'Engagement hours',
+    accessor: event => translateHours(event.type, event.hours)
+  }]
+
+  return (
+    <Panel header={'Logged engagement'}>
+      <ReactTable data={engagementEvents}
+                  columns={columns}
+                  showPagination={false}
+                  showPageSizeOptions={false}
+                  defaultPageSize={engagementEvents.length}
+                  resizable={false} />
+    </Panel>
+  )
+}
 
 export default LoggedEngagement

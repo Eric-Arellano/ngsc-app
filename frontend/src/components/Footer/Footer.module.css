@@ -3,6 +3,15 @@
 .container {
     width:100%;
     margin-top: 1em;
+    padding-bottom: 1em;
     align-items: center;
     justify-content: center;
+}
+
+.container a {
+    font-style: italic;
+}
+
+.container a:hover {
+    color: blue;
 }

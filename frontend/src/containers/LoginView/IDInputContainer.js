@@ -8,48 +8,37 @@ type Props = {
 
 type State = {
   currentValue: string,
-  validationState: ?string,
-  submitDisabled: boolean,
+  validationState: ValidationState
 }
 
 class IDInputContainer extends Component<Props, State> {
 
   state = {
     currentValue: '',
-    validationState: null,
-    submitDisabled: true,
+    validationState: 'neutral'
   }
 
-  determineValidationState (input: string) {
-    const {currentValue} = this.state
-    if (!currentValue) {
-      return null
+  determineValidationState = (input: string) => {
+    if (!input) {
+      return 'neutral'
     } else {
-      return this.isValidId(currentValue) ? 'success' : 'error'
+      return this.checkIsValidId(input) ? 'valid' : 'invalid'
     }
   }
 
-  isValidId = (input: string) => {
+  checkIsValidId = (input: string) => {
     const num = Number(input)  // parse to number non-numeric answers will parse to NaN
     const isNumber = !isNaN(num)
     const length = num.toString().length
-    return length === 10 && isNumber
+    return isNumber && length === 10
   }
 
-  handleKeyInput = (e: SyntheticInputEvent<HTMLInputElement>) => {
-    const input = e.currentTarget.value
-    this.setState({currentValue: input}, () => {
-      const {currentValue} = this.state
-      this.setState({validationState: this.determineValidationState(currentValue)})
-    })
+  updateValidationState = (validationState: ValidationState) => {
+    this.setState({validationState})
+  }
 
-    if (input === '') {
-      this.setState({submitDisabled: true})
-    } else if (!this.isValidId(input)) {
-      this.setState({submitDisabled: true})
-    } else {
-      this.setState({submitDisabled: false})
-    }
+  updateCurrentValue = (currentValue: string) => {
+    this.setState({currentValue})
   }
 
   handleEnterKey = (e: SyntheticInputEvent<HTMLInputElement>) => {
@@ -60,17 +49,20 @@ class IDInputContainer extends Component<Props, State> {
   }
 
   handleSubmit = () => {
-    const {currentValue} = this.state
-    if (this.isValidId(currentValue)) {
-      this.props.onSubmit(Number(currentValue))
+    const {onSubmit} = this.props
+    const {currentValue, validationState} = this.state
+    if (validationState === 'valid') {
+      onSubmit(Number(currentValue))
     }
   }
 
   render () {
     return <IDInput {...this.state}
+                    determineValidationState={this.determineValidationState}
                     handleSubmit={this.handleSubmit}
-                    handleKeyInput={this.handleKeyInput}
-                    handleEnterKey={this.handleEnterKey} />
+                    handleEnterKey={this.handleEnterKey}
+                    updateCurrentValue={this.updateCurrentValue}
+                    updateValidationState={this.updateValidationState} />
   }
 }
 
