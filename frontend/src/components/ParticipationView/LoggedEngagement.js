@@ -18,6 +18,7 @@ const translateHours = (reqType: string, hours: number) => {
 
 const translateStatus = (status: string) => {
   if (status === '') return 'Not yet evaluated'
+  if (status === 'Late') return 'Late (accepted)'
   return status
 }
 
