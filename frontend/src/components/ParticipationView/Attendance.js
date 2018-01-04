@@ -11,13 +11,15 @@ type Props = {
 
 const Attendance = ({noShows, missionTeamAttendance, committeeAttendance, olsAttendance}: Props) => (
   <Panel header='Attendance'>
-    <Entry>On Leadership Seminar: {olsAttendance}</Entry>
+    <Entry>On Leadership Seminars: {olsAttendance}</Entry>
     <Entry>Mission Team: {missionTeamAttendance}</Entry>
     {committeeAttendance && <Entry>Committee: {committeeAttendance}</Entry>}
     <Entry>No-shows: {noShows}</Entry>
+    <br />
     <p><em>
-      * No-shows indicate the number of times that you have RSVP'd that you will be attending an event but did
-      not sign in on our records. If you need to dispute this number, please let e-mail the Admin chair.
+      * No-shows indicates the number of times that you RSVPed for an event but did not show up without telling the
+      event
+      organizer in advance. If you need to dispute this number, please e-mail the Admin chair Diana at dkchen@asu.edu.
     </em></p>
   </Panel>
 )
