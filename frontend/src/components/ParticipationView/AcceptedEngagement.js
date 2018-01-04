@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Entry, Loading, Panel } from 'components'
+import { Entry, Loading, PanelWithLoading } from 'components'
 
 type Props = {
   service: number,
@@ -8,18 +8,11 @@ type Props = {
   isLoading: boolean
 }
 
-const AcceptedEngagement = ({service, civilMil, isLoading}: Props) => {
-  if (isLoading) {
-    return (<Panel header={'Accepted Engagement'}>
-      <Loading />
-    </Panel>)
-  }
-  return (
-    <Panel header='Accepted Engagement'>
-      <Entry>Accepted # of service hours: {service}</Entry>
-      <Entry>Accepted # of Civil Mil: {civilMil}</Entry>
-    </Panel>
-  )
-}
+const AcceptedEngagement = ({service, civilMil, isLoading}: Props) => (
+  <PanelWithLoading header='Accepted Engagement' isLoading={isLoading}>
+    <Entry>Accepted # of service hours: {service}</Entry>
+    <Entry>Accepted # of Civil Mil: {civilMil}</Entry>
+  </PanelWithLoading>
+)
 
 export default AcceptedEngagement

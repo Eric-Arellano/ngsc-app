@@ -9,6 +9,7 @@ import Input from './Form/Input'
 import Label from './Form/Label'
 import Loading from './Loading/Loading'
 import Panel from './Panel/Panel'
+import PanelWithLoading from './Panel/PanelWithLoading'
 // Views
 import AcceptedEngagement from './ParticipationView/AcceptedEngagement'
 import App from './App/App'
@@ -40,4 +41,5 @@ export {
   LoggedEngagement,
   Loading,
   Panel,
+  PanelWithLoading,
 }

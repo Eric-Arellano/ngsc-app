@@ -2,7 +2,7 @@
 import React from 'react'
 import ReactTable from 'react-table' // see https://react-table.js.org/#/story/readme
 import type { EngagementEvent } from 'flow/types'
-import { Loading, Panel } from 'components'
+import { Loading, PanelWithLoading } from 'components'
 import 'react-table/react-table.css'
 
 type Props = {
@@ -43,21 +43,15 @@ const LoggedEngagement = ({engagementEvents, isLoading}: Props) => {
     accessor: event => translateHours(event.type, event.hours)
   }]
 
-  if (isLoading) {
-    return (<Panel header={'Logged engagement'}>
-      <Loading />
-    </Panel>)
-  }
-
   return (
-    <Panel header={'Logged engagement'}>
+    <PanelWithLoading header={'Logged engagement'} isLoading={isLoading}>
       <ReactTable data={engagementEvents}
                   columns={columns}
                   showPagination={false}
                   showPageSizeOptions={false}
                   defaultPageSize={engagementEvents.length}
                   resizable={false} />
-    </Panel>
+    </PanelWithLoading>
   )
 }
 
