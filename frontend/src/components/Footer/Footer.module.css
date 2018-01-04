@@ -6,12 +6,29 @@
     padding-bottom: 1em;
     align-items: center;
     justify-content: center;
+    position: absolute;
+    height: 6em;
+    bottom: 0;
+    background-color: black;
+}
+
+.container p {
+    color: white;
 }
 
 .container a {
-    font-style: italic;
+    text-decoration: underline;
+    color: white;
 }
 
 .container a:hover {
-    color: blue;
+    color: gold;
+    cursor: pointer;
+}
+
+.text {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
 }
