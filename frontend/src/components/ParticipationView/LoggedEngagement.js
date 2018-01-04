@@ -2,11 +2,12 @@
 import React from 'react'
 import ReactTable from 'react-table' // see https://react-table.js.org/#/story/readme
 import type { EngagementEvent } from 'flow/types'
-import { Panel } from 'components'
+import { Loading, Panel } from 'components'
 import 'react-table/react-table.css'
 
 type Props = {
-  engagementEvents: Array<EngagementEvent>
+  engagementEvents: Array<EngagementEvent>,
+  isLoading: boolean
 }
 
 const translateHours = (reqType: string, hours: number) => {
@@ -22,7 +23,7 @@ const translateStatus = (status: string) => {
   return status
 }
 
-const LoggedEngagement = ({engagementEvents}: Props) => {
+const LoggedEngagement = ({engagementEvents, isLoading}: Props) => {
 
   const columns = [{
     id: 'Name',
@@ -41,6 +42,12 @@ const LoggedEngagement = ({engagementEvents}: Props) => {
     Header: 'Engagement hours',
     accessor: event => translateHours(event.type, event.hours)
   }]
+
+  if (isLoading) {
+    return (<Panel header={'Logged engagement'}>
+      <Loading />
+    </Panel>)
+  }
 
   return (
     <Panel header={'Logged engagement'}>

@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import { AcceptedEngagement, LoggedEngagement } from 'components'
-import { withLoadingAndError } from 'decorators'
+import { withError } from 'decorators'
 import { getEngagement } from 'utils/api'
 import type { EngagementEvent, Student } from 'flow/types'
 
@@ -14,7 +14,7 @@ type State = {
   isLoading: boolean,
   isError: boolean,
   service: number,
-  civilMil: string,
+  civilMil: number,
   engagementEvents: Array<EngagementEvent>,
 }
 
@@ -51,12 +51,11 @@ class EngagementContainer extends Component<Props, State> {
 
   resetState = () => this.props.resetState() // Quirk with decorators and scope of this. Don't delete.
 
-  @withLoadingAndError('There was an error. Please try again.')
+  @withError('There was an error. Please try again.')
   render () {
-    const {service, civilMil, engagementEvents} = this.state
     return [
-      <AcceptedEngagement service={service} civilMil={civilMil} key={0} />,
-      <LoggedEngagement engagementEvents={engagementEvents} key={1} />
+      <AcceptedEngagement {...this.state} key={0} />,
+      <LoggedEngagement {...this.state} key={1} />
     ]
   }
 }

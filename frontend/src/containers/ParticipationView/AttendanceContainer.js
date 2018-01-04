@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import { Attendance } from 'components'
-import { withLoadingAndError } from 'decorators'
+import { withError } from 'decorators'
 import { getAttendance } from 'utils/api'
 import type { Student } from 'flow/types'
 
@@ -55,7 +55,7 @@ class AttendanceContainer extends Component<Props, State> {
 
   resetState = () => this.props.resetState() // Quirk with decorators and scope of this. Don't delete.
 
-  @withLoadingAndError('There was an error. Please try again.')
+  @withError('There was an error. Please try again.')
   render () {
     return <Attendance {...this.props} {...this.state} />
   }
