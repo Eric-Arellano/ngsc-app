@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Entry, Loading, PanelWithLoading } from 'components'
+import { Entry, PanelWithLoading } from 'components'
 
 type Props = {
   noShows: number,

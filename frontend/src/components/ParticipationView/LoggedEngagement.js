@@ -2,7 +2,7 @@
 import React from 'react'
 import ReactTable from 'react-table' // see https://react-table.js.org/#/story/readme
 import type { EngagementEvent } from 'flow/types'
-import { Loading, PanelWithLoading } from 'components'
+import { PanelWithLoading } from 'components'
 import 'react-table/react-table.css'
 
 type Props = {
