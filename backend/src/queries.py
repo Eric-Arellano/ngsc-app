@@ -50,7 +50,7 @@ def get_attendance(student_id: int) -> Optional[Dict]:
     row = next((row for row in all_rows if int(row[0]) == student_id), None)
     if row is None:
         return None
-    return {'noShows': float(row[14]), 'missionTeamAttendance': str(row[12]),
+    return {'noShows': str(row[14]), 'missionTeamAttendance': str(row[12]),
             'committeeAttendance': str(row[13]), 'olsAttendance': str(row[11])}
 
 
