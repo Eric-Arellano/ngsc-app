@@ -49,9 +49,11 @@ const LoggedEngagement = ({engagementEvents, isLoading}: Props) => {
                   columns={columns}
                   showPagination={false}
                   showPageSizeOptions={false}
+                  minRows={3}
                   defaultPageSize={engagementEvents.length}
                   resizable={false}
-                  noDataText={'No events logged'}
+                  noDataText={'No events logged yet'}
+                  className={'-striped'}
       />
     </PanelWithLoading>
   )

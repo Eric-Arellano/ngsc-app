@@ -10,6 +10,7 @@
     height: 6em;
     bottom: 0;
     background-color: black;
+    z-index: 100;
 }
 
 .container p {
