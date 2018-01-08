@@ -1,7 +1,7 @@
 from typing import List, Dict, Optional
 
-from src.authentication import build_service
-from src.student_ids import student_ids
+from backend.src.authentication import build_service
+from backend.src.student_ids import student_ids
 
 MASTER_SPRING_2018 = '1gtsVgj8NeSdOGKd8HHRSNHjOTRDXJVls-Xw-gvoRONI'
 ENGAGEMENT_SPRING_2018 = '1U_YR0McviIfa7wqu7_DBEPDUdWjcaJzkzjQlSqV9lqE'
