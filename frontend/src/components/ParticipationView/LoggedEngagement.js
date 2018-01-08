@@ -50,7 +50,9 @@ const LoggedEngagement = ({engagementEvents, isLoading}: Props) => {
                   showPagination={false}
                   showPageSizeOptions={false}
                   defaultPageSize={engagementEvents.length}
-                  resizable={false} />
+                  resizable={false}
+                  noDataText={'No events logged'}
+      />
     </PanelWithLoading>
   )
 }
