@@ -168,7 +168,11 @@ input[type='number']::-webkit-outer-spin-button, input[type='number']::-webkit-i
 
 input[type='number'] {
     text-align: right;
-    -moz-appearance: textfield
+    -moz-appearance: textfield;
+}
+
+button {
+    cursor: pointer;
 }
 
 /* -------  body  ------- */
