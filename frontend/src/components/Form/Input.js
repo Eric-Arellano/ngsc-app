@@ -11,7 +11,7 @@ type Props = {
 }
 
 const Input = ({currentValue, validationState, placeholder, handleKeyInput, handleEnterKey}: Props) => (
-  <input type={'text'} value={currentValue} placeholder={placeholder} onKeyDown={handleEnterKey}
+  <input type={'number'} value={currentValue} placeholder={placeholder} onKeyDown={handleEnterKey}
          onChange={handleKeyInput} className={s[validationState]} />
 )
 
