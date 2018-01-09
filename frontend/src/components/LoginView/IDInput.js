@@ -18,12 +18,12 @@ const IDInput = ({
                  }: Props) => {
   const isSubmitDisabled = validationState !== 'valid'
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <Label>Student ID:</Label>
       <InputContainer placeholder={'Enter student ID'} determineValidationState={determineValidationState}
                       handleEnterKey={handleEnterKey} updateCurrentValue={updateCurrentValue}
                       updateValidationState={updateValidationState} />
-      <Button disabled={isSubmitDisabled} handleClick={handleSubmit}>Submit</Button>
+      <Button disabled={isSubmitDisabled} type={'submit'}>Submit</Button>
     </form>
   )
 }
