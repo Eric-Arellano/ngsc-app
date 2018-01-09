@@ -8,16 +8,14 @@ type Props = {
   children: React.Element<string>,
   handleClick: () => mixed,
   btnType?: ButtonType,
-  disabled?: boolean,
-  type?: string
+  disabled?: boolean
 }
 
-const Button = ({children, handleClick, btnType = 'ngsc', disabled = 'false', type}: Props) => (
+const Button = ({children, handleClick, btnType = 'ngsc', disabled = false}: Props) => (
   <button
     onClick={handleClick}
     className={s[btnType]}
     disabled={disabled}
-    type={type}
   >
     { children ? children : null }
   </button>
