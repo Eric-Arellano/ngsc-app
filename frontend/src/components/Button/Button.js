@@ -16,6 +16,7 @@ const Button = ({children, handleClick, btnType = 'ngsc', disabled = false}: Pro
     onClick={handleClick}
     className={s[btnType]}
     disabled={disabled}
+    type={'button'}
   >
     { children ? children : null }
   </button>
