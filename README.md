@@ -61,4 +61,5 @@ To do so:
 ## To deploy
 1. make a commit on master
 1. login in to heroku CLI (ask Eric for credentials)
+1. add Heroku as a git repo, `git remote add heroku https://git.heroku.com/ngsc-service-hours.git`
 1. `git push heroku master`

@@ -2,7 +2,7 @@ import json
 
 import flask
 
-from .queries import get_all_demographics, get_demographics, get_engagement, get_attendance
+from backend.src.queries import get_all_demographics, get_demographics, get_engagement, get_attendance
 
 app = flask.Flask(__name__,
                   static_folder="../../frontend/build/static",

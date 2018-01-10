@@ -43,7 +43,6 @@ class IDInputContainer extends Component<Props, State> {
 
   handleEnterKey = (e: SyntheticInputEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      e.preventDefault()
       this.handleSubmit()
     }
   }

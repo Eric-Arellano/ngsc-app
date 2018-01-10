@@ -7,22 +7,19 @@ type ButtonType = 'success' | 'danger' | 'ngsc'
 type Props = {
   children: React.Element<string>,
   handleClick: () => mixed,
-  type?: ButtonType,
+  btnType?: ButtonType,
   disabled?: boolean
 }
 
-const Button = ({children, handleClick, type, disabled}: Props) => (
-  <button onClick={handleClick}
-          className={s[type]}
-          disabled={disabled}>
-    {children}
+const Button = ({children, handleClick, btnType = 'ngsc', disabled = false}: Props) => (
+  <button
+    onClick={handleClick}
+    className={s[btnType]}
+    disabled={disabled}
+    type={'button'}
+  >
+    { children ? children : null }
   </button>
 )
-
-Button.defaultProps = {
-  children: '',
-  type: 'ngsc',
-  disabled: false
-}
 
 export default Button

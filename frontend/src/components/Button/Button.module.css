@@ -9,6 +9,7 @@
     margin: 1em;
     padding: 0.33em 1.33em;
     transition: all 0.3s;
+    cursor: pointer;
 }
 
 .base:disabled {

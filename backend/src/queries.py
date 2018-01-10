@@ -1,10 +1,10 @@
 from typing import List, Dict, Optional
 
-from .authentication import build_service
-from .student_ids import student_ids
+from backend.src.authentication import build_service
+from backend.src.student_ids import student_ids
 
-MASTER_2017 = '1H5leinJFGT1SDfb2hqbDpQgSC_2GYr1HFwKPpzFZ1Js'
-ENGAGEMENT_2017 = '1FBDR19w831QQ8XTFMns6qVzGEGTv1UU7NAoomTaJRLA'
+MASTER_SPRING_2018 = '1gtsVgj8NeSdOGKd8HHRSNHjOTRDXJVls-Xw-gvoRONI'
+ENGAGEMENT_SPRING_2018 = '1U_YR0McviIfa7wqu7_DBEPDUdWjcaJzkzjQlSqV9lqE'
 
 
 def get_values(spreadsheet_id: str, range_: str):
@@ -30,7 +30,7 @@ def get_demographics(student_id: int) -> Optional[Dict]:
 
 
 def get_all_demographics() -> Dict:
-    results = get_values(MASTER_2017, 'Master!A2:O')
+    results = get_values(MASTER_SPRING_2018, 'Master!A2:O')
     demographic = {}
     for row in results:
         student_id = int(row[2])
@@ -46,11 +46,11 @@ def get_all_demographics() -> Dict:
 # -------------------------------------------------------------------
 
 def get_attendance(student_id: int) -> Optional[Dict]:
-    all_rows = get_values(MASTER_2017, 'Master!C2:Q')
+    all_rows = get_values(MASTER_SPRING_2018, 'Master!C2:Q')
     row = next((row for row in all_rows if int(row[0]) == student_id), None)
     if row is None:
         return None
-    return {'noShows': float(row[14]), 'missionTeamAttendance': str(row[12]),
+    return {'noShows': str(row[14]), 'missionTeamAttendance': str(row[12]),
             'committeeAttendance': str(row[13]), 'olsAttendance': str(row[11])}
 
 
@@ -68,30 +68,30 @@ def get_engagement(student_id: int) -> Optional[Dict]:
 
 
 def get_logged_engagement_events(student_id: int) -> List:
-    all_rows = get_values(ENGAGEMENT_2017, 'Responses!A2:Q')
+    all_rows = get_values(ENGAGEMENT_SPRING_2018, 'Responses!A2:G')
     return [{'type': row[2],
              'status': row[1],
-             'name': row[12] or row[13] or row[14],
+             'name': row[3],
              'hours': select_hours(row)
              }
             for row
             in all_rows
-            if int(row[6]) == student_id]
+            if int(row[0]) == student_id]
 
 
 def select_hours(row) -> float:
     event_type = row[2]
     if event_type == 'Service':
-        return float(row[16])
+        return float(row[5])
     elif event_type == 'Civil-Mil OR Service':
-        return float(row[15])
+        return float(row[6])
     return 0
 
 
 # TODO: when adding query for getting MT %, committee %, and # no shows, this query should fall into that and 
 # come from master spreadsheet to avoid the cost of also searching this spreadsheet. Just get all data from master.
 def get_accepted_engagement(student_id: int) -> (Optional[float], Optional[float]):
-    all_rows = get_values(ENGAGEMENT_2017, 'Requirements!A2:C')
+    all_rows = get_values(ENGAGEMENT_SPRING_2018, 'Requirements!A2:C')
     row = next((row for row in all_rows if int(row[0]) == student_id), None)
     if row is None:
         return None, None

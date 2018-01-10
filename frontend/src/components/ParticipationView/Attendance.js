@@ -10,11 +10,18 @@ type Props = {
   isLoading: boolean
 }
 
+const translateMeetingAttendance = (value: string) => {
+  if (value === '') {
+    return 'no meetings yet'
+  }
+  return value
+}
+
 const Attendance = ({noShows, missionTeamAttendance, committeeAttendance, olsAttendance, isLoading}: Props) => (
   <PanelWithLoading header='Attendance' isLoading={isLoading}>
     <Entry>On Leadership Seminars: {olsAttendance}</Entry>
-    <Entry>Mission Team: {missionTeamAttendance}</Entry>
-    {committeeAttendance && <Entry>Committee: {committeeAttendance}</Entry>}
+    <Entry>Mission Team: {translateMeetingAttendance(missionTeamAttendance)}</Entry>
+    {committeeAttendance && <Entry>Committee: {translateMeetingAttendance(committeeAttendance)}</Entry>}
     <Entry>No-shows: {noShows}</Entry>
     <br />
     <p><em>
