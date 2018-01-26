@@ -6,10 +6,13 @@ httplib2==0.10.3
 itsdangerous==0.24
 Jinja2==2.10
 MarkupSafe==1.0
+mypy==0.560
 oauth2client==4.1.2
+psutil==5.4.3
 pyasn1==0.3.7
 pyasn1-modules==0.1.5
 rsa==3.4.2
 six==1.11.0
+typed-ast==1.1.0
 uritemplate==3.0.0
 Werkzeug==0.12.2

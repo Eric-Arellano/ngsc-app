@@ -13,3 +13,6 @@ pip-selfcheck.json
 # Flask stuff:
 instance/
 .webassets-cache
+
+# MyPy
+.mypy_cache/
