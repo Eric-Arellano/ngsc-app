@@ -6,6 +6,8 @@
 hash git 2>/dev/null || { echo >&2 "Git must be installed."; exit 1; }
 hash heroku 2>/dev/null || { echo >&2 "Heroku CLI must be installed."; exit 1; }
 hash jq 2>/dev/null || { echo >&2 "JQ must be installed. See https://stedolan.github.io/jq/"; exit 1; }
+hash curl 2>/dev/null || { echo >&2 "Curl must be installed."; exit 1; }
+hash sed 2>/dev/null || { echo >&2 "sed must be installed."; exit 1; }
 
 
 # -----------------------------------
