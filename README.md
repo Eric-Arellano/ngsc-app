@@ -1,9 +1,12 @@
 # NGSC Service Hours
-Simple app to expose students' service hours through Google Docs API.
+App to allow students in NGSC program to check their participation and  service hours. 
+
+Uses React for frontend, Python 3 and Flask for backend server, and Google Docs API for data source.
 
 ## To install
 
-### Requirements
+### Install software
+1. Git
 1. Python 3.6
     1. With Mac, use HomeBrew and `brew install python3`
     2. With Windows, download at https://www.python.org/downloads/ 
@@ -16,50 +19,50 @@ Simple app to expose students' service hours through Google Docs API.
     1. `nvm use 8.1.4`
 1. Yarn
     1. `npm install --global yarn`
+1. Heroku CLI (command line interface)
+1. JQ utility
+    1. On Mac, `brew install jq`
+    1. On PC, go to https://stedolan.github.io/jq/download/
 
-#### Backend
+### Install scripts (Mac)
+1. `backend.sh install`
+1. `frontend.sh install`
+
+### Backend (PC)
 1. Change terminal/command prompt location to the `backend` directory (e.g. Run `cd backend/` if coming from the root directory for this code)
-1. Make a virtual environment
-    1. On Mac, `python3 -m venv ./`
-    1. On Windows, `python -m venv ./`
+1. Make a virtual environment, `python -m venv ./`
 1. `cd ../`
-1. activate virtual environment
-    1. On Mac, `source backend/bin/activate`
-    1. On Windows, `backend\Scripts\activate.bat`
-1. Install dependencies for backend code - `pip install -r requirements.txt`
+1. activate virtual environment, `backend\Scripts\activate.bat`
+1. Install dependencies,`pip install -r requirements.txt`
 
-#### Frontend
+### Frontend (PC)
 1. Change terminal/command prompt location to the `frontend` directory (e.g. run `cd frontend/` if coming from the root directory for this code)
 1. `yarn install`
-1. `yarn build`
 
 ## To start
 
-#### Backend
-1. If on Mac, you can just run `./run-backend.sh`. Otherwise follow the below.
-1. Activate virtual environment
-    1. On Mac, `source backend/bin/activate`
-    1. On Windows, `backend\Scripts\activate.bat`
-1. Set the FLASK_APP environment variable
-    1. On Mac, `export FLASK_APP=backend/src/app.py`
-    1. On Windows, `set FLASK_APP=backend/src/app.py`
+#### On Mac
+1. `./backend.sh`
+1. `./frontend.sh`
+
+#### Backend (PC)
+1. Activate virtual environment, `backend\Scripts\activate.bat`
+1. Set the FLASK_APP environment variable, `set FLASK_APP=backend/src/app.py`
 1. Start the Flask server - `flask run`
 
-#### Frontend
-1. If on Mac, you can just run `./run-frontend.sh`. Otherwise follow the below.
+#### Frontend (PC)
 1. Change terminal/command prompt location to the `frontend` directory (e.g. run `cd frontend/` if coming from the root directory for this code)
 1. Start Yarn server - `yarn start`
 
 ## To update static student info data
-We are saving everyones' IDs, names, committees, mission teams, etc into a Python dictionary to avoid having to make an api call for that info, since it doesn't change often. Every month or two, we should update the values because we do sometimes make changes within the program.
+We are saving everyone's IDs, names, committees, mission teams, etc into a Python dictionary to avoid having to make an 
+API call for that info, since it doesn't change often. Whenever a change happens to the Master spreadsheet, this 
+needs to be updated.
 
-To do so:
-1. go to `http://ngsc-service-hours.herokuapp.com/api/demographics/all_students`
-1. copy this output into the file `/backend/src/student_ids.py`
-1. redeploy the app 
+1. `./update-demographics.sh`
 
 ## To deploy
 1. make a commit on master
-1. login in to heroku CLI (ask Eric for credentials)
+1. login in to Heroku CLI (ask Eric for credentials)
 1. add Heroku as a git repo, `git remote add heroku https://git.heroku.com/ngsc-service-hours.git`
 1. `git push heroku master`
