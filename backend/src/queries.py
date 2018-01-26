@@ -23,8 +23,11 @@ def get_demographics(student_id: int) -> Optional[Dict]:
     if result is None:
         return None
     name = result['name']
-    return {'id': student_id, 'name': {'first': name['first'], 'last': name['last']},
-            'cohort': int(result['cohort']), 'missionTeam': int(result['missionTeam']),
+    return {'name':
+                {'first': name['first'],
+                 'last': name['last']},
+            'cohort': int(result['cohort']),
+            'missionTeam': int(result['missionTeam']),
             'committee': result['committee'],
             'leadership': result['leadership']}
 
@@ -35,8 +38,12 @@ def get_all_demographics() -> Dict:
     for row in results:
         student_id = int(row[2])
         demographic[student_id] = {
-            'name': {'first': row[1], 'last': row[0]},
-            'cohort': row[7], 'missionTeam': row[8], 'committee': row[9],
+            'name':
+                {'first': row[1],
+                 'last': row[0]},
+            'cohort': row[7],
+            'missionTeam': row[8],
+            'committee': row[9],
             'leadership': row[10]}
     return demographic
 
@@ -50,8 +57,10 @@ def get_attendance(student_id: int) -> Optional[Dict]:
     row = next((row for row in all_rows if int(row[0]) == student_id), None)
     if row is None:
         return None
-    return {'noShows': str(row[14]), 'missionTeamAttendance': str(row[12]),
-            'committeeAttendance': str(row[13]), 'olsAttendance': str(row[11])}
+    return {'noShows': str(row[14]),
+            'missionTeamAttendance': str(row[12]),
+            'committeeAttendance': str(row[13]),
+            'olsAttendance': str(row[11])}
 
 
 # -------------------------------------------------------------------
@@ -63,7 +72,8 @@ def get_engagement(student_id: int) -> Optional[Dict]:
     if accepted_service is None or accepted_civil_mil is None:
         return None
     logged_events = get_logged_engagement_events(student_id)
-    return {"acceptedService": accepted_service, "acceptedCivilMil": accepted_civil_mil,
+    return {"acceptedService": accepted_service,
+            "acceptedCivilMil": accepted_civil_mil,
             "loggedEvents": logged_events}
 
 
@@ -88,8 +98,6 @@ def select_hours(row) -> float:
     return 0
 
 
-# TODO: when adding query for getting MT %, committee %, and # no shows, this query should fall into that and 
-# come from master spreadsheet to avoid the cost of also searching this spreadsheet. Just get all data from master.
 def get_accepted_engagement(student_id: int) -> (Optional[float], Optional[float]):
     all_rows = get_values(ENGAGEMENT_SPRING_2018, 'Requirements!A2:C')
     row = next((row for row in all_rows if int(row[0]) == student_id), None)
