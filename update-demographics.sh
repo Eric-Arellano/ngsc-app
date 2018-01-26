@@ -19,27 +19,28 @@ if [[ "$BRANCH" != "master" ]]; then
 fi
 
 # Check for clean local
-if ! git diff-index --quiet HEAD --; then
-    echo "Make sure the branch is clean before running this script."
-    exit 1
-fi
+# if ! git diff-index --quiet HEAD --; then
+#     echo "Make sure the branch is clean before running this script."
+#     exit 1
+# fi
 
 # Update from master
-git fetch origin master
-git merge --ff-only  # abort if merge required
+# git fetch origin master
+# git merge --ff-only  # abort if merge required
 
 
 # -----------------------------------
 # Get new student info & save
 # -----------------------------------
 # Start server
-./backend.sh detached
+#./backend.sh detached
 
 # Get student JSON
-student_info=$(curl 'localhost:5000/api/demographics/all_students' --silent)
+student_info=$(curl http://ngsc-app.org/api/demographics/all_students --silent)
+echo $student_info
 
 # Kill server
-./backend.sh kill
+# ./backend.sh kill
 
 # Save to file
 echo $student_info | jq . > backend/src/student_ids.py  # pretty-prints json to file
@@ -49,7 +50,7 @@ sed -i '.bak' "1s/.*/$first_line/" backend/src/student_ids.py  # replaces first 
 # -----------------------------------
 # Redeploy
 # -----------------------------------
-git add backend/src/student_ids.py
-git commit -m 'update demographics'
-git push origin master
-git push heroku master
+# git add backend/src/student_ids.py
+# git commit -m 'update demographics'
+# git push origin master
+# git push heroku master
