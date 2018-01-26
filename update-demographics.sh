@@ -14,8 +14,7 @@ hash jq 2>/dev/null || { echo >&2 "JQ must be installed. See https://stedolan.gi
 # Check on master branch
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 if [[ "$BRANCH" != "master" ]]; then
-  echo "Change to master branch."
-  exit 1
+  git checkout master
 fi
 
 # Check for clean local
