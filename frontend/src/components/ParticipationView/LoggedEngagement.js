@@ -2,7 +2,7 @@
 import React from 'react'
 import ReactTable from 'react-table' // see https://react-table.js.org/#/story/readme
 import type { EngagementEvent } from 'flow/types'
-import { PanelWithLoading } from 'components'
+import { Entry, PanelWithLoading } from 'components'
 import 'react-table/react-table.css'
 
 type Props = {
@@ -45,6 +45,9 @@ const LoggedEngagement = ({engagementEvents, isLoading}: Props) => {
 
   return (
     <PanelWithLoading header={'Logged engagement'} isLoading={isLoading}>
+      <Entry>Log your service and civil mil at{' '}
+        <a href="https://goo.gl/forms/ZutKmX68IelLjSKD2">https://goo.gl/forms/ZutKmX68IelLjSKD2</a>.</Entry>
+      <br />
       <ReactTable data={engagementEvents}
                   columns={columns}
                   showPagination={false}
