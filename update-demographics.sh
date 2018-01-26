@@ -18,13 +18,13 @@ if [[ "$BRANCH" != "master" ]]; then
   exit 1
 fi
 
-Check for clean local
+# Check for clean local
 if ! git diff-index --quiet HEAD --; then
     echo "Make sure the branch is clean before running this script."
     exit 1
 fi
 
-Update from master
+# Update from master
 git fetch origin master
 git merge --ff-only  # abort if merge required
 
