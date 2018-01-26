@@ -19,7 +19,7 @@ fi
 
 # Check for clean local
 if ! git diff-index --quiet HEAD --; then
-    echo "Make sure the branch is clean before running this script."
+    echo >&2 "Make sure the branch is clean before running this script."
     exit 1
 fi
 
@@ -42,6 +42,12 @@ sed -i '.bak' "1s/.*/$first_line/" backend/src/student_ids.py  # replaces first 
 # -----------------------------------
 # Redeploy
 # -----------------------------------
+# Exit if no changes
+if ! git diff-index --quiet HEAD --; then
+    echo "There were no updates to student info."
+    exit 0
+fi
+
 git add backend/src/student_ids.py
 git commit -m 'update demographics'
 git push origin master
