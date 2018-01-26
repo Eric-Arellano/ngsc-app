@@ -11,7 +11,7 @@ hash curl 2>/dev/null || { support_linux_tools_error curl; exit 1; }
 hash sed 2>/dev/null || { support_linux_tools_error sed; exit 1; }
 
 support_linux_tools_error() {
-  echo >&2 "$1 must be installed. If on PC, please use Windows Subsytem for Linux.""
+  echo >&2 "$1 must be installed. If on PC, please use Windows Subsytem for Linux."
 }
 
 

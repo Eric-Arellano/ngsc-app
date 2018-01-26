@@ -18,7 +18,7 @@ hash awk 2>/dev/null || { support_linux_tools_error awk; exit 1; }
 hash xargs 2>/dev/null || { support_linux_tools_error xargs; exit 1; }
 
 support_linux_tools_error() {
-  echo >&2 "$1 must be installed. If on PC, please use Windows Subsytem for Linux.""
+  echo >&2 "$1 must be installed. If on PC, please use Windows Subsytem for Linux."
 }
 
 # -------------------------------------
