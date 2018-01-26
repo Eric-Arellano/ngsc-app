@@ -3,14 +3,15 @@
 # -----------------------------------
 # Check pre-reqs installed
 # -----------------------------------
+# Check universal requirements
 hash git 2>/dev/null || { echo >&2 "Git must be installed."; exit 1; }
 hash heroku 2>/dev/null || { echo >&2 "Heroku CLI must be installed."; exit 1; }
 hash jq 2>/dev/null || { echo >&2 "JQ must be installed. See https://stedolan.github.io/jq/"; exit 1; }
 
+# Check linux tools
 support_linux_tools_error() {
   echo >&2 "$1 must be installed. If on PC, please use Windows Subsytem for Linux."
 }
-
 hash curl 2>/dev/null || { support_linux_tools_error curl; exit 1; }
 hash sed 2>/dev/null || { support_linux_tools_error sed; exit 1; }
 

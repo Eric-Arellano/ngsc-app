@@ -8,18 +8,38 @@
 
 
 # -------------------------------------
-# Check prereqs installed
+# Check prereqs installed & if Windows
 # -------------------------------------
-hash python3 2>/dev/null || hash python 2>/dev/null || { echo >&2 "Python (3+) must be installed."; exit 1; }
+# determine if Windows
+[[ $(uname -s) == MINGW64_NT* ]] && WINDOWS=true || WINDOWS=false
 
+# Check non-Windows requirements
+if [ "$WINDOWS" = false ] ; then
+  hash python3 2>/dev/null || { echo >&2 "Python 3 must be installed."; exit 1; }
+  hash lsof 2>/dev/null || { echo >&2 "lsof linux utility should be installed."; exit 1; }
+fi
+
+# Check Windows requirements
+if [ "$WINDOWS" = true ] ; then
+  hash python 2>/dev/null || { echo >&2 "Python must be installed and on your path."; exit 1; }
+fi
+
+# Check linux tools
 support_linux_tools_error() {
-  echo >&2 "$1 must be installed. If on PC, please use Windows Subsytem for Linux."
+  echo >&2 "$1 must be installed. If on PC, Git Bash should come installed with these!"
 }
-
-hash lsof 2>/dev/null || { support_linux_tools_error lsof; exit 1; }
 hash grep 2>/dev/null || { support_linux_tools_error grep; exit 1; }
 hash awk 2>/dev/null || { support_linux_tools_error awk; exit 1; }
 hash xargs 2>/dev/null || { support_linux_tools_error xargs; exit 1; }
+
+# Venv helper
+activate_venv() {
+  if [ "$WINDOWS" = true ] ; then
+    source backend/Scripts/activate
+  else
+    source backend/bin/activate
+  fi
+}
 
 # -------------------------------------
 # Determine run option
@@ -49,7 +69,7 @@ main() {
 # -------------------------------------
 
 run() {
-  source backend/bin/activate
+  activate_venv
   export FLASK_APP=backend/src/app.py
   flask run
 }
@@ -58,20 +78,25 @@ run_detached() {
   run &>/dev/null &
 }
 
+# TODO: add Windows support, no lsof command
 kill_detached() {
   lsof -n -i4TCP:5000 | grep LISTEN | awk '{ print $2 }' | xargs kill
 }
 
 install() {
   cd backend/
-  python3 -m venv ./
+  if [ "$WINDOWS" = true ] ; then
+    python -m venv ./
+  else
+    python3 -m venv ./
+  fi
   cd ../
-  source backend/bin/activate
+  activate_venv
   pip install -r requirements.txt
 }
 
 check_types() {
-  source backend/bin/activate
+  activate_venv
   cd backend/
   mypy --strict-optional --ignore-missing-imports --package src
   cd ../
