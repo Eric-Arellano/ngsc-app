@@ -20,7 +20,7 @@ def api_test():
     return 'Server is running! Good luck debugging :O'
 
 
-@app.route('/api/all_demographics/')
+@app.route('/api/demographics/all_students')
 def api_get_all_demographics():
     result = get_all_demographics()
     return flask.jsonify(result)

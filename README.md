@@ -54,7 +54,7 @@ Simple app to expose students' service hours through Google Docs API.
 We are saving everyones' IDs, names, committees, mission teams, etc into a Python dictionary to avoid having to make an api call for that info, since it doesn't change often. Every month or two, we should update the values because we do sometimes make changes within the program.
 
 To do so:
-1. go to `http://ngsc-service-hours.herokuapp.com/api/all_demographics`
+1. go to `http://ngsc-service-hours.herokuapp.com/api/demographics/all_students`
 1. copy this output into the file `/backend/src/student_ids.py`
 1. redeploy the app 
 
