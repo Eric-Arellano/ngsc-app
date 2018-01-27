@@ -26,24 +26,18 @@ fi
 
 # Check Windows requirements
 if [ "$WINDOWS" = true ] ; then
-  :
+  hash netstat 2>/dev/null || { echo >&2 "netstat must be installed."; exit 1; }
 fi
 
 # Check linux tools
 support_linux_tools_error() {
-  echo >&2 "$1 must be installed. If on PC, please use Windows Subsytem for Linux."
+  echo >&2 "$1 must be installed. If on PC, Git Bash should come installed with these!"
 }
-hash grep 2>/dev/null || { support_linux_tools_error grep; exit 1; }
-hash awk 2>/dev/null || { support_linux_tools_error awk; exit 1; }
-hash xargs 2>/dev/null || { support_linux_tools_error xargs; exit 1; }
+hash grep 2>/dev/null || { support_linux_tools_error "grep"; exit 1; }
+hash awk 2>/dev/null || { support_linux_tools_error "awk"; exit 1; }
+hash gawk 2>/dev/null || { support_linux_tools_error "gawk"; exit 1; }
+hash xargs 2>/dev/null || { support_linux_tools_error "xargs"; exit 1; }
 
-# Windows not implemented
-check_windows_not_impl() {
-  if [ "$WINDOWS" = true ] ; then
-    echo >&2 "Feature not implemented yet for Windows! Hang tight."
-    exit 1
-  fi
-}
 
 # -------------------------------------
 # Determine run option
@@ -86,8 +80,11 @@ run_detached() {
 }
 
 kill_detached() {
-  check_windows_not_impl
-  lsof -n -i4TCP:3000 | grep LISTEN | awk '{ print $2 }' | xargs kill
+  if [ "$WINDOWS" = true ] ; then
+    netstat -aon | gawk ' $2~/:3000/ { print $5 } ' | xargs kill
+  else
+    lsof -n -i4TCP:3000 | grep LISTEN | awk '{ print $2 }' | xargs kill
+  fi
 }
 
 install() {
