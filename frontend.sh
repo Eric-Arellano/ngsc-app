@@ -132,6 +132,7 @@ if [ $# -gt 0 ]; then
 fi;
 
 main() {
+  cd frontend/
   # run
   if [ "$flag" == "detached" ]; then
     run_detached
@@ -160,6 +161,7 @@ main() {
   else
     run
   fi
+  cd ../
 }
 
 
