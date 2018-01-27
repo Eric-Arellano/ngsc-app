@@ -27,6 +27,7 @@ fi
 # Check Windows requirements
 if [ "$WINDOWS" = true ] ; then
   hash netstat 2>/dev/null || { echo >&2 "netstat must be installed."; exit 1; }
+  hash findstr 2>/dev/null || { echo >&2 "findstr must be installed."; exit 1; }
 fi
 
 # Check linux tools
@@ -35,7 +36,6 @@ support_linux_tools_error() {
 }
 hash grep 2>/dev/null || { support_linux_tools_error "grep"; exit 1; }
 hash awk 2>/dev/null || { support_linux_tools_error "awk"; exit 1; }
-hash gawk 2>/dev/null || { support_linux_tools_error "gawk"; exit 1; }
 hash xargs 2>/dev/null || { support_linux_tools_error "xargs"; exit 1; }
 
 
