@@ -46,6 +46,7 @@ check_windows_not_impl() {
   if [ "$WINDOWS" = true ] ; then
     echo >&2 "Feature not implemented yet for Windows! Hang tight."
     exit 1
+  fi
 }
 
 # -------------------------------------
