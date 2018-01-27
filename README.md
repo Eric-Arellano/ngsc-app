@@ -36,6 +36,10 @@ You're highly recommended to use HomeBrew, which is a package manager that makes
 1. `./backend.sh install`
 1. `./frontend.sh install`
 
+### Update app (whenever new dependencies added)
+1. `./backend.sh update`
+1. `./frontend.sh update`
+
 
 ## To start
 

@@ -4,6 +4,7 @@
 #   run detached: `./frontend.sh detached`
 #   kill detached: `./frontend.sh kill`
 #   install: `./frontend.sh install`
+#   update: `./frontend.sh update`
 #   build: `./frontend.sh build`
 #   types: `./frontend.sh types`
 
@@ -55,6 +56,8 @@ main() {
     kill_detached
   elif [ "$flag" == "install" ]; then
     install
+  elif [ "$flag" == "update" ]; then
+    update
   elif [ "$flag" == "build" ]; then
     build
   elif [ "$flag" == "types" ]; then
@@ -87,6 +90,10 @@ kill_detached() {
 }
 
 install() {
+  yarn install
+}
+
+update() {
   yarn install
 }
 

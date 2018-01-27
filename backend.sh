@@ -4,6 +4,7 @@
 #   run detached: `./backend.sh detached`
 #   kill detached: `./backend.sh kill`
 #   install: `./backend.sh install`
+#   update: `./backend.sh update`
 #   types: `./backend.sh types`
 
 
@@ -59,6 +60,8 @@ main() {
     kill_detached
   elif [ "$flag" == "install" ]; then
     install
+  elif [ "$flag" == "update" ]; then
+    update
   elif [ "$flag" == "types" ]; then
     check_types
   else
@@ -97,6 +100,11 @@ install() {
     python3 -m venv ./
   fi
   cd ../
+  activate_venv
+  pip install -r requirements.txt
+}
+
+update() {
   activate_venv
   pip install -r requirements.txt
 }
