@@ -7,6 +7,17 @@
 hash git 2>/dev/null || { echo >&2 "Git must be installed."; exit 1; }
 hash heroku 2>/dev/null || { echo >&2 "Heroku CLI must be installed."; exit 1; }
 
+# Check remote already added
+if ! echo git remote | grep -w "heroku" > /dev/null; then;
+    git remote add heroku https://git.heroku.com/ngsc-service-hours.git
+fi
+
+# Check logged in to Heroku
+if ! echo heroku auth:whoami | grep "not logged in" > /dev/null; then;
+    echo >&2 "You must fist login to Heroku using `heroku login`. Ask Eric (ecarell1@asu.edu) for his Heroku credentials."
+    exit 1
+fi
+
 
 # -----------------------------------
 # Check for project updates 
@@ -27,6 +38,12 @@ fi
 git fetch origin master
 git merge --ff-only  # abort if merge required
 
+# Check different than Heroku
+git fetch heroku master
+if ! git diff --quiet master heroku/master; then
+    echo >&2 "Nothing to deploy. Local is same as Heroku build."
+    exit 1
+fi
 
 # -----------------------------------
 # Deploy

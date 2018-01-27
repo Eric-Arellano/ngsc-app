@@ -31,6 +31,9 @@ You're highly recommended to use HomeBrew, which is a package manager that makes
     1. On Mac, use Homebrew `brew install yarn`
     1. On PC, download the installer from https://yarnpkg.com/en/docs/install
 1. Heroku CLI (command line interface)
+    1. On Mac, use Homebrew `brew install heroku`
+    1. On PC, download the 64 bit installer from https://devcenter.heroku.com/articles/heroku-cli
+        1. Accept defaults
 
 ### Install app
 1. `./backend.sh install`
@@ -69,7 +72,4 @@ needs to be updated.
 1. `./update-demographics.sh`
 
 ## To deploy
-1. make a commit on master
-1. login in to Heroku CLI (ask Eric for credentials)
-1. add Heroku as a git repo, `git remote add heroku https://git.heroku.com/ngsc-service-hours.git`
-1. `git push heroku master`
+1. `./deploy.sh`
