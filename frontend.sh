@@ -75,13 +75,12 @@ run() {
 }
 
 run_detached() {
-  check_windows_not_impl
   run &>/dev/null &
 }
 
 kill_detached() {
   if [ "$WINDOWS" = true ] ; then
-    netstat -aon | gawk ' $2~/:3000/ { print $5 } ' | xargs kill
+    netstat -aon | findstr :3000 | awk '{ print $5 }' | xargs tskill
   else
     lsof -n -i4TCP:3000 | grep LISTEN | awk '{ print $2 }' | xargs kill
   fi
