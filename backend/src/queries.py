@@ -84,8 +84,7 @@ def get_logged_engagement_events(student_id: int) -> List:
              'name': row[3],
              'hours': select_hours(row)
              }
-            for row
-            in all_rows
+            for row in all_rows
             if int(row[0]) == student_id]
 
 
