@@ -26,6 +26,7 @@ fi
 
 # Check Windows requirements
 if [ "$WINDOWS" = true ] ; then
+  :
 fi
 
 # Check linux tools
