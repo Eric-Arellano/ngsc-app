@@ -5,7 +5,6 @@
 # -----------------------------------
 # Check universal requirements
 hash git 2>/dev/null || { echo >&2 "Git must be installed."; exit 1; }
-hash heroku 2>/dev/null || { echo >&2 "Heroku CLI must be installed."; exit 1; }
 
 # Check linux tools
 support_linux_tools_error() {
@@ -57,5 +56,4 @@ fi
 
 git add backend/src/student_ids.py
 git commit -m 'update demographics'
-git push origin master
-git push heroku master
+./deploy.sh
