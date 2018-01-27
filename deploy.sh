@@ -1,20 +1,21 @@
 #!/usr/bin/env bash
 
-# -----------------------------------
-# Check pre-reqs installed
-# -----------------------------------
+# ------------------------------------
+# Check pre-reqs installed & logged in
+# ------------------------------------
 # Check universal requirements
 hash git 2>/dev/null || { echo >&2 "Git must be installed."; exit 1; }
 hash heroku 2>/dev/null || { echo >&2 "Heroku CLI must be installed."; exit 1; }
 
 # Check remote already added
-if ! echo git remote | grep -w "heroku" > /dev/null; then;
+if ! echo $(git remote) | grep -w "heroku" > /dev/null; then
     git remote add heroku https://git.heroku.com/ngsc-service-hours.git
 fi
 
+# TODO: not triggering..
 # Check logged in to Heroku
-if ! echo heroku auth:whoami | grep "not logged in" > /dev/null; then;
-    echo >&2 "You must fist login to Heroku using `heroku login`. Ask Eric (ecarell1@asu.edu) for his Heroku credentials."
+if echo $(heroku auth:whoami) | grep "not logged in" > /dev/null; then
+    echo >&2 "You must first login to Heroku using `heroku login`. Ask Eric (ecarell1@asu.edu) for his Heroku credentials."
     exit 1
 fi
 
