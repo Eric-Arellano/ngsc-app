@@ -41,6 +41,13 @@ activate_venv() {
   fi
 }
 
+# Windows not implemented
+check_windows_not_impl() {
+  if [ "$WINDOWS" = true ] ; then
+    echo >&2 "Feature not implemented yet for Windows! Hang tight."
+    exit 1
+}
+
 # -------------------------------------
 # Determine run option
 # -------------------------------------
@@ -75,11 +82,13 @@ run() {
 }
 
 run_detached() {
+  check_windows_not_impl
   run &>/dev/null &
 }
 
 # TODO: add Windows support, no lsof command
 kill_detached() {
+  check_windows_not_impl
   lsof -n -i4TCP:5000 | grep LISTEN | awk '{ print $2 }' | xargs kill
 }
 

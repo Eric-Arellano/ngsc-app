@@ -36,6 +36,12 @@ hash grep 2>/dev/null || { support_linux_tools_error grep; exit 1; }
 hash awk 2>/dev/null || { support_linux_tools_error awk; exit 1; }
 hash xargs 2>/dev/null || { support_linux_tools_error xargs; exit 1; }
 
+# Windows not implemented
+check_windows_not_impl() {
+  if [ "$WINDOWS" = true ] ; then
+    echo >&2 "Feature not implemented yet for Windows! Hang tight."
+    exit 1
+}
 
 # -------------------------------------
 # Determine run option
@@ -73,10 +79,12 @@ run() {
 }
 
 run_detached() {
+  check_windows_not_impl
   run &>/dev/null &
 }
 
 kill_detached() {
+  check_windows_not_impl
   lsof -n -i4TCP:3000 | grep LISTEN | awk '{ print $2 }' | xargs kill
 }
 
