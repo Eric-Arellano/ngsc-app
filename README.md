@@ -24,9 +24,6 @@ https://docs.google.com/presentation/d/1pAoLLMqqH6JGG9ILwlhKMwVzUVzux9bFmZINPJWe
     1. On Mac, use Homebrew `brew install yarn`
     1. On PC, probably easiest to download the installer
 1. Heroku CLI (command line interface)
-1. JQ utility 
-    1. On Mac, `brew install jq`
-    1. On PC, go to https://stedolan.github.io/jq/download/
 
 ### Install app
 1. `backend.sh install`

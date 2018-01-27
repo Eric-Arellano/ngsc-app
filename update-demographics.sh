@@ -6,7 +6,6 @@
 # Check universal requirements
 hash git 2>/dev/null || { echo >&2 "Git must be installed."; exit 1; }
 hash heroku 2>/dev/null || { echo >&2 "Heroku CLI must be installed."; exit 1; }
-hash jq 2>/dev/null || { echo >&2 "JQ must be installed. See https://stedolan.github.io/jq/"; exit 1; }
 
 # Check linux tools
 support_linux_tools_error() {
@@ -43,7 +42,7 @@ git merge --ff-only  # abort if merge required
 student_info=$(curl http://ngsc-app.org/api/demographics/all_students --silent)
 
 # Save to file
-echo $student_info | jq . > backend/src/student_ids.py  # pretty-prints json to file
+echo $student_info | python -m json.tool > backend/src/student_ids.py  # pretty-prints json to file
 first_line="student_ids = {"
 sed -i '.bak' "1s/.*/$first_line/" backend/src/student_ids.py  # replaces first line with $first_line
 
