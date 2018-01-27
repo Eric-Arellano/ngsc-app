@@ -73,3 +73,29 @@ needs to be updated.
 
 ## To deploy
 1. `./deploy.sh`
+
+## Dependency management
+
+### Catchup from changes made by others
+This will check if any changes were made to `package.json` or `requirements.txt` and will install the new dependencies.
+1. `./backend.sh catchup`
+1. `./frontend.sh catchup`
+
+### View outdated dependencies
+1. `./backend.sh outdated`
+1. `./frontend.sh outdated`
+
+### View dependency tree
+1. `./backend.sh deptree`
+
+### Add package
+1. `./backend.sh add [package]`
+1. `./frontend.sh add [package]`
+
+### Upgrade package
+1. `./backend.sh upgrade [package]`
+1. `./frontend.sh upgrade [package]`
+
+### Remove package
+1. `./backend.sh remove [package]`
+1. `./frontend.sh remove [package]`

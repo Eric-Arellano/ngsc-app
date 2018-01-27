@@ -1,11 +1,20 @@
 #!/usr/bin/env bash
 # usage:
-#   run: `./backend.sh`
-#   run detached: `./backend.sh detached`
-#   kill detached: `./backend.sh kill`
-#   install: `./backend.sh install`
-#   update: `./backend.sh update`
-#   types: `./backend.sh types`
+# run...
+#     run: `./backend.sh`
+#     run detached: `./backend.sh detached`
+#     kill detached: `./backend.sh kill`
+# install...
+#     install: `./backend.sh install`
+# test...
+#   check types: `./backend.sh types`
+# dependency management...
+#   catchup to server changes: `./backend.sh catchup`
+#   view outdated: `./backend.sh outdated`
+#   view dependency tree: `./backend.sh deptree`
+#   add: `./backend.sh add [pip-package]`
+#   upgrade: `./backend.sh upgrade [pip-package]`
+#   remove: `./backend.sh remove [pip-package]`
 
 
 # -------------------------------------
@@ -46,32 +55,7 @@ activate_venv() {
 
 
 # -------------------------------------
-# Determine run option
-# -------------------------------------
-
-if [ $# -gt 0 ]; then
-  flag=$1
-fi;
-
-main() {
-  if [ "$flag" == "detached" ]; then
-    run_detached
-  elif [ "$flag" == "kill" ]; then
-    kill_detached
-  elif [ "$flag" == "install" ]; then
-    install
-  elif [ "$flag" == "update" ]; then
-    update
-  elif [ "$flag" == "types" ]; then
-    check_types
-  else
-    run
-  fi
-}
-
-
-# -------------------------------------
-# Commands
+# Run commands
 # -------------------------------------
 
 run() {
@@ -92,6 +76,10 @@ kill_detached() {
   fi
 }
 
+# -------------------------------------
+# Install commands
+# -------------------------------------
+
 install() {
   cd backend/
   if [ "$WINDOWS" = true ] ; then
@@ -104,10 +92,9 @@ install() {
   pip install -r requirements.txt
 }
 
-update() {
-  activate_venv
-  pip install -r requirements.txt
-}
+# -------------------------------------
+# Test commands
+# -------------------------------------
 
 check_types() {
   activate_venv
@@ -116,5 +103,102 @@ check_types() {
   cd ../
 }
 
+# -------------------------------------
+# Dependency management commands
+# -------------------------------------
+
+check_for_requirements_divergence() {
+  activate_venv
+  # if diff $(pip freeze) requirements.txt; then    # TODO: fix comparison
+    pip freeze | xargs pip uninstall -y
+    pip install -r requirements.txt
+  # fi
+}
+
+freeze_requirements() {
+  activate_venv
+  pip freeze > requirements.txt
+  commit_message="
+  -----------------------------------------------------------
+  
+  Remember to commit and push your changes made to requirements.txt."
+  echo "$commit_message"
+}
+
+catchup() {
+  activate_venv
+  pip install -r requirements.txt
+}
+
+list_outdated() {
+  activate_venv
+  pip list --outdated --format=columns
+}
+
+dependency_tree() {
+  activate_venv
+  pipdeptree
+}
+
+add_dependency() {
+  activate_venv
+  check_for_requirements_divergence
+  pip install $1
+  freeze_requirements
+}
+
+upgrade_dependency() {
+  activate_venv
+  check_for_requirements_divergence
+  pip install --upgrade $1
+  freeze_requirements
+}
+
+remove_dependency() {
+  activate_venv
+  check_for_requirements_divergence
+  pip uninstall $1
+  freeze_requirements
+}
+
+
+# -------------------------------------
+# Determine run option
+# -------------------------------------
+
+if [ $# -gt 0 ]; then
+  flag=$1
+fi;
+
+main() {
+  # run
+  if [ "$flag" == "detached" ]; then
+    run_detached
+  elif [ "$flag" == "kill" ]; then
+    kill_detached
+  # install
+  elif [ "$flag" == "install" ]; then
+    install
+  # test
+  elif [ "$flag" == "types" ]; then
+    check_types
+  # dependency managment
+  elif [ "$flag" == "catchup" ]; then
+    catchup
+  elif [ "$flag" == "outdated" ]; then
+    list_outdated
+  elif [ "$flag" == "deptree" ]; then
+    dependency_tree
+  elif [ "$flag" == "add" ]; then
+    add_dependency $2
+  elif [ "$flag" == "upgrade" ]; then
+    upgrade_dependency $2
+  elif [ "$flag" == "remove" ]; then
+    remove_dependency $2
+  # run pt 2
+  else
+    run
+  fi
+}
 
 main "$@"
