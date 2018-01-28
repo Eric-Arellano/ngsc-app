@@ -36,32 +36,32 @@ You're highly recommended to use HomeBrew, which is a package manager that makes
         1. Accept defaults
 
 ### Install app
-1. `./backend.sh install`
+1. `./backend.py install`
 1. `./frontend.py install`
 
 ### Update app (whenever new dependencies added)
-1. `./backend.sh update`
+1. `./backend.py update`
 1. `./frontend.py update`
 
 
 ## To start
 
 ### Run normally
-1. `./backend.sh`
+1. `./backend.py`
 1. `./frontend.py` (in a new tab, since the backend server will have taken over the first terminal)
 
 ### Run in detached mode
 This means it doesn't output to the console, and you can still use that terminal for other things. For example, you only need one terminal to run the app this way, unlike normally where you need two.
-1. `./backend.sh detached`
+1. `./backend.py detached`
 1. `./frontend.py detached`
-1. `./backend.sh kill`, when you're done
+1. `./backend.py kill`, when you're done
 1. `./frontend.py kill`, when you're done
 
 ## To test
 
 ### Check types
 We use tools to check the data types of the app, since JavaScript and Python are both dynamic and don't enforce type safety. 
-1. `./backend.sh types`
+1. `./backend.py types`
 1. `./frontend.py types`
 
 ## To update static student info data
@@ -78,24 +78,24 @@ needs to be updated.
 
 ### Catchup from changes made by others
 This will check if any changes were made to `package.json` or `requirements.txt` and will install the new dependencies.
-1. `./backend.sh catchup`
+1. `./backend.py catchup`
 1. `./frontend.py catchup`
 
 ### View outdated dependencies
-1. `./backend.sh outdated`
+1. `./backend.py outdated`
 1. `./frontend.py outdated`
 
 ### View dependency tree
-1. `./backend.sh deptree`
+1. `./backend.py deptree`
 
 ### Add package
-1. `./backend.sh add [package]`
+1. `./backend.py add [package]`
 1. `./frontend.py add [package]`
 
 ### Upgrade package
-1. `./backend.sh upgrade [package]`
+1. `./backend.py upgrade [package]`
 1. `./frontend.py upgrade [package]`
 
 ### Remove package
-1. `./backend.sh remove [package]`
+1. `./backend.py remove [package]`
 1. `./frontend.py remove [package]`

@@ -89,7 +89,7 @@ def run_detached() -> None:
     _activate_venv()
     os.environ['FLASK_APP'] = 'backend/src/app.py'
     subprocess.check_output("flask run &>/dev/null &",
-                           shell=True)
+                            shell=True)
     print("Backend server started at localhost:5000. Remember to kill it after.")
 
 
@@ -110,7 +110,13 @@ def install() -> None:
     """
     Downloads & installs all dependencies for the backend.
     """
-    raise NotImplementedError
+    command = ['-m', 'venv', 'backend/']
+    if is_windows_environment():
+        subprocess.run(['python'] + command)
+    else:
+        subprocess.run(['python3'] + command)
+    _activate_venv()
+    subprocess.run(["pip", "install", "-r", "requirements.txt"])
 
 
 # -------------------------------------
@@ -134,7 +140,12 @@ Dependency = str  # type alias
 
 
 def _freeze_requirements() -> None:
-    raise NotImplementedError
+    """
+    Updates the requirements.txt file with new dependencies.
+    """
+    with open('requirements.txt', 'w') as requirements:
+        subprocess.run(['pip', 'freeze'], stdout=requirements)
+    remind_to_commit("requirements.txt")
 
 
 def catchup() -> None:
@@ -166,8 +177,8 @@ def add(dependencies: List[Dependency]) -> None:
     """
     Add one or more pip packages.
     """
+    _activate_venv()
     subprocess.run(["pip", "install"] + dependencies)
-    remind_to_commit("requirements.txt")
     _freeze_requirements()
 
 
@@ -175,8 +186,8 @@ def upgrade(dependencies: List[Dependency]) -> None:
     """
     Upgrade one or more out-of-date pip packages.
     """
+    _activate_venv()
     subprocess.run(["pip", "install", "--upgrade"] + dependencies)
-    remind_to_commit("requirements.txt")
     _freeze_requirements()
 
 
@@ -184,8 +195,8 @@ def remove(dependencies: List[Dependency]) -> None:
     """
     Remove one or more pip packages.
     """
+    _activate_venv()
     subprocess.run(["pip", "uninstall"] + dependencies)
-    remind_to_commit("requirements.txt")
     _freeze_requirements()
 
 
