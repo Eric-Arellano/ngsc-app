@@ -14,7 +14,6 @@ def main() -> None:
     check_prereqs_installed(['git'])
     resolve_git_issues()
     update_student_ids_file()
-    check_file_updated()
     redeploy()
 
 
@@ -38,14 +37,6 @@ def update_student_ids_file() -> None:
                        '--silent'])
     with open('backend/src/student_ids.py', 'w') as file:
         file.write(f'student_ids = {json}')
-
-
-def check_file_updated() -> None:
-    """
-    Exit script if no changes were made to student info.
-    """
-    if is_clean_local():
-        SystemExit("There were no updates to student info.")
 
 
 def redeploy() -> None:
