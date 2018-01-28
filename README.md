@@ -69,7 +69,7 @@ We are saving everyone's IDs, names, committees, mission teams, etc into a Pytho
 API call for that info, since it doesn't change often. Whenever a change happens to the Master spreadsheet, this 
 needs to be updated.
 
-1. `./update-demographics.sh`
+1. `./update-demographics.py`
 
 ## To deploy
 1. `./deploy.sh`

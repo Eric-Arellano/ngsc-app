@@ -129,6 +129,9 @@ def kill_process(pid: PID) -> None:
 # -------------------------------------
 # Git helper
 # -------------------------------------
+Branch = str
+Remote = str
+
 
 def remind_to_commit(file_names: str) -> None:
     """
@@ -140,3 +143,38 @@ def remind_to_commit(file_names: str) -> None:
     Remember to commit and push your changes to {file_names}.
     ''')
     print(reminder)
+
+
+def is_on_branch(target_branch: Branch = 'master') -> bool:
+    """
+    Returns true if current branch is same as target branch.
+    """
+    current_branch = subprocess.run(['git', 'rev-parse', '--abbrev-ref', 'HEAD'],
+                                    stdout=subprocess.PIPE,
+                                    encoding='utf-8').stdout.strip()
+    return current_branch == target_branch
+
+
+def checkout(branch: Branch = 'master') -> None:
+    """
+    Performs git checkout to target branch.
+
+    Does not check for clean local first.
+    """
+    subprocess.run(['git', 'checkout', branch])
+
+
+def is_clean_local() -> bool:
+    """
+    Returns True if there are no differences on local that need to be committed.
+    """
+    response = subprocess.run(['git', 'diff-index', '--quiet', 'HEAD', '--'])
+    return response.returncode == 0
+
+
+def fast_forward_remote(remote: Remote = 'origin') -> None:
+    """
+    Checks given remote for any changes and attempts to fast-forward.
+    """
+    subprocess.run(['git', 'fetch', remote, 'master'])
+    subprocess.run(['git', 'merge', '-ff-only'], check=True)
