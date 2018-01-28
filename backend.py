@@ -57,9 +57,9 @@ def _activate_venv() -> None:
     else:
         with cd('backend/bin/'):
             proc = subprocess.Popen(command, stdout=subprocess.PIPE)
-    # convert to environment
+    # convert to environment, see https://stackoverflow.com/questions/3503719/emulating-bash-source-in-python
     for line in proc.stdout:
-        (key, _, value) = line.decode().partition("=")
+        (key, _, value) = line.decode("utf-8").rstrip().partition("=")
         os.environ[key] = value
     proc.communicate()
 
@@ -74,8 +74,10 @@ def run() -> None:
     """
     _activate_venv()
     os.environ['FLASK_APP'] = 'backend/src/app.py'
-    # subprocess.run(["flask", "run"])
-    raise NotImplementedError
+    try:
+        subprocess.run(["flask", "run"])
+    except KeyboardInterrupt:
+        pass
 
 
 def run_detached() -> None:
@@ -86,10 +88,9 @@ def run_detached() -> None:
     """
     _activate_venv()
     os.environ['FLASK_APP'] = 'backend/src/app.py'
-    raise NotImplementedError
-    # subprocess.check_output("flask run &>/dev/null &",
-    #                        shell=True)
-    # print("Backend server started at localhost:5000. Remember to kill it after.")
+    subprocess.check_output("flask run &>/dev/null &",
+                           shell=True)
+    print("Backend server started at localhost:5000. Remember to kill it after.")
 
 
 def kill() -> None:

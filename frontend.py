@@ -49,7 +49,10 @@ def run() -> None:
     """
     Start frontend server normally.
     """
-    subprocess.run(["yarn", "start"])
+    try:
+        subprocess.run(["yarn", "start"])
+    except KeyboardInterrupt:
+        pass
 
 
 def run_detached() -> None:
