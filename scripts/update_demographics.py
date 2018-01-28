@@ -5,14 +5,22 @@ Utility to update hardcoded file of student information.
 """
 import subprocess
 
-from scripts import deploy, helper
+import deploy
+import helper
 
 
 def main() -> None:
-    helper.check_prereqs_installed(['git'])
+    check_prereqs()
     resolve_git_issues()
     update_student_ids_file()
     redeploy()
+
+
+def check_prereqs() -> None:
+    """
+    Confirms all required software installed.
+    """
+    helper.check_prereqs_installed(['git'])
 
 
 def resolve_git_issues() -> None:

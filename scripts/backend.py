@@ -25,19 +25,27 @@ import os
 import subprocess
 from typing import List
 
-from scripts import helper
+import helper
 
 
 def main() -> None:
-    # setup parser
     parser = helper.create_parser(command_map)
     args = parser.parse_args()
-    # check prereqs
+    check_prereqs()
+    helper.execute_command(args, command_map)
+
+
+# -------------------------------------
+# Required software
+# -------------------------------------
+
+def check_prereqs() -> None:
+    """
+    Confirms all required software installed.
+    """
     helper.check_prereqs_installed(['grep', 'awk'])
     helper.check_prereqs_installed(['python3', 'lsof', 'kill'], windows_support=False)
     helper.check_prereqs_installed(['python', 'netstat', 'tskill', 'findstr'], posix_support=False)
-    # run
-    helper.execute_command(args, command_map)
 
 
 # -------------------------------------

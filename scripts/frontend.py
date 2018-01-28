@@ -24,19 +24,27 @@ Usage:
 import subprocess
 from typing import List
 
-from scripts import helper
+import helper
 
 
 def main() -> None:
-    # setup parser
     parser = helper.create_parser(command_map)
     args = parser.parse_args()
-    # check prereqs
+    check_prereqs()
+    helper.execute_command(args, command_map)
+
+
+# -------------------------------------
+# Required software
+# -------------------------------------
+
+def check_prereqs() -> None:
+    """
+    Confirms all required software installed.
+    """
     helper.check_prereqs_installed(['yarn', 'npm', 'node', 'grep', 'awk'])
     helper.check_prereqs_installed(['lsof', 'kill'], windows_support=False)
     helper.check_prereqs_installed(['netstat', 'tskill', 'findstr'], posix_support=False)
-    # run
-    helper.execute_command(args, command_map)
 
 
 # -------------------------------------

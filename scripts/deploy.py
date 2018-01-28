@@ -5,15 +5,22 @@ Utility to deploy app to GitHub and Heroku.
 """
 import subprocess
 
-from scripts import helper
+import helper
 
 
 def main() -> None:
-    helper.check_prereqs_installed(['git', 'heroku'])
+    check_prereqs()
     check_remote_added()
     check_logged_in()
     resolve_git_issues()
     deploy()
+
+
+def check_prereqs() -> None:
+    """
+    Confirms all required software installed.
+    """
+    helper.check_prereqs_installed(['git', 'heroku'])
 
 
 def check_remote_added() -> None:
