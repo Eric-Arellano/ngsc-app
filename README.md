@@ -72,7 +72,7 @@ needs to be updated.
 1. `./update-demographics.py`
 
 ## To deploy
-1. `./deploy.sh`
+1. `./deploy.py`
 
 ## Dependency management
 

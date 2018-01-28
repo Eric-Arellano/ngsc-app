@@ -7,6 +7,16 @@ from typing import Callable, Dict, List
 
 
 # -------------------------------------
+# System calls
+# -------------------------------------
+
+def get_stdout(command: List[str]) -> str:
+    return subprocess.run(command,
+                          stdout=subprocess.PIPE,
+                          encoding='utf-8').stdout.strip()
+
+
+# -------------------------------------
 # Command line argument parsing
 # -------------------------------------
 
@@ -149,19 +159,8 @@ def is_on_branch(target_branch: Branch = 'master') -> bool:
     """
     Returns true if current branch is same as target branch.
     """
-    current_branch = subprocess.run(['git', 'rev-parse', '--abbrev-ref', 'HEAD'],
-                                    stdout=subprocess.PIPE,
-                                    encoding='utf-8').stdout.strip()
+    current_branch = get_stdout(['git', 'rev-parse', '--abbrev-ref', 'HEAD'])
     return current_branch == target_branch
-
-
-def checkout(branch: Branch = 'master') -> None:
-    """
-    Performs git checkout to target branch.
-
-    Does not check for clean local first.
-    """
-    subprocess.run(['git', 'checkout', branch])
 
 
 def is_clean_local() -> bool:
@@ -172,9 +171,9 @@ def is_clean_local() -> bool:
     return response.returncode == 0
 
 
-def fast_forward_remote(remote: Remote = 'origin') -> None:
+def fast_forward_remote(remote: Remote = 'origin', branch: Branch = 'master') -> None:
     """
     Checks given remote for any changes and attempts to fast-forward.
     """
-    subprocess.run(['git', 'fetch', remote, 'master'])
+    subprocess.run(['git', 'fetch', remote, branch])
     subprocess.run(['git', 'merge', '--ff-only'], check=True)

@@ -6,8 +6,8 @@ Utility to update hardcoded file of student information.
 import subprocess
 import sys
 
-from _script_helper import (check_prereqs_installed, checkout,
-                            fast_forward_remote, is_clean_local, is_on_branch)
+from _script_helper import (check_prereqs_installed, fast_forward_remote, get_stdout, is_clean_local,
+                            is_on_branch)
 
 
 def main() -> None:
@@ -23,21 +23,19 @@ def resolve_git_issues() -> None:
     Confirm on master branch, branch is clean, and check for changes from remote.
     """
     if not is_on_branch('master'):
-        checkout('master')
+        subprocess.run(['git', 'checkout', 'master'])
     if not is_clean_local():
         raise SystemExit('Make sure the branch is clean before running this script.')
-    fast_forward_remote()
+    fast_forward_remote('origin', 'master')
 
 
 def update_student_ids_file() -> None:
     """
     Get JSON from API and write it to hardcoded file.
     """
-    json = subprocess.run(['curl',
-                           'http://ngsc-app.org/api/demographics/all_students',
-                           '--silent'],
-                          stdout=subprocess.PIPE,
-                          encoding='utf-8').stdout.strip()
+    json = get_stdout(['curl',
+                       'http://ngsc-app.org/api/demographics/all_students',
+                       '--silent'])
     with open('backend/src/student_ids.py', 'w') as file:
         file.write(f'student_ids = {json}')
 
@@ -46,7 +44,7 @@ def check_file_updated() -> None:
     """
     Exit script if no changes were made to student info.
     """
-    if is_clean_local():
+    if is_clean_local():  # TODO: why isn't this running..?
         print("There were no updates to student info.")
         sys.exit(0)
 
