@@ -177,4 +177,4 @@ def fast_forward_remote(remote: Remote = 'origin') -> None:
     Checks given remote for any changes and attempts to fast-forward.
     """
     subprocess.run(['git', 'fetch', remote, 'master'])
-    subprocess.run(['git', 'merge', '-ff-only'], check=True)
+    subprocess.run(['git', 'merge', '--ff-only'], check=True)
