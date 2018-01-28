@@ -4,15 +4,15 @@
 Utility to update hardcoded file of student information.
 """
 import subprocess
-import sys
 
+import deploy
 from _script_helper import (check_prereqs_installed, fast_forward_remote, get_stdout, is_clean_local,
                             is_on_branch)
 
 
 def main() -> None:
     check_prereqs_installed(['git'])
-    # resolve_git_issues()
+    resolve_git_issues()
     update_student_ids_file()
     check_file_updated()
     redeploy()
@@ -54,7 +54,7 @@ def redeploy() -> None:
     """
     subprocess.run(['git', 'add', 'backend/src/student_ids.py'])
     subprocess.run(['git', 'commit', '-m', 'update demographics'])
-    subprocess.run('./deploy.sh', shell=True)
+    deploy.main()
 
 
 if __name__ == '__main__':
