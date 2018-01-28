@@ -74,7 +74,8 @@ def run() -> None:
     """
     _activate_venv()
     os.environ['FLASK_APP'] = 'backend/src/app.py'
-    subprocess.run(["flask", "run"])
+    # subprocess.run(["flask", "run"])
+    raise NotImplementedError
 
 
 def run_detached() -> None:
@@ -85,8 +86,10 @@ def run_detached() -> None:
     """
     _activate_venv()
     os.environ['FLASK_APP'] = 'backend/src/app.py'
-    subprocess.check_output("flask run &>/dev/null &",
-                            shell=True)
+    raise NotImplementedError
+    # subprocess.check_output("flask run &>/dev/null &",
+    #                        shell=True)
+    # print("Backend server started at localhost:5000. Remember to kill it after.")
 
 
 def kill() -> None:
@@ -95,6 +98,7 @@ def kill() -> None:
     """
     pid = find_pid_on_port(5000)
     kill_process(pid)
+    print("Backend server killed at localhost:5000.")
 
 
 # -------------------------------------
@@ -105,7 +109,7 @@ def install() -> None:
     """
     Downloads & installs all dependencies for the backend.
     """
-    subprocess.run(["yarn", "install"])
+    raise NotImplementedError
 
 
 # -------------------------------------

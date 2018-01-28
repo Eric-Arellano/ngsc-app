@@ -123,12 +123,15 @@ def find_pid_on_port(port: Port) -> PID:
     """
     Finds and returns PID of process listening on specified port.
     """
+    # determine environment
     if is_windows_environment():
-        pid = subprocess.check_output(f"netstat -aon | findstr :{port} | awk '{{ print $5 }}'",
-                                      shell=True)
+        command = f"netstat -aon | findstr :{port} | awk '{{ print $5 }}'"
     else:
-        pid = subprocess.check_output(f"lsof -n -i4TCP:{port} | grep LISTEN | awk '{{ print $2 }}'",
-                                      shell=True)
+        command = f"lsof -n -i4TCP:{port} | grep LISTEN | awk '{{ print $2 }}'"
+    # find PID
+    pid = subprocess.check_output(command, shell=True)
+    if not pid:
+        raise SystemExit(f'No process found running on port {port}.')
     return pid.rstrip()
 
 
@@ -137,9 +140,10 @@ def kill_process(pid: PID) -> None:
     Kills the specified PID.
     """
     if is_windows_environment():
-        return subprocess.run(["tskill", pid])
+        command = 'tskill'
     else:
-        return subprocess.run(["kill", pid])
+        command = 'kill'
+    subprocess.run([command, pid])
 
 
 # -------------------------------------

@@ -67,7 +67,6 @@ def kill() -> None:
     """
     Kill detached frontend server by searching PID on port 3000 and then killing process.
     """
-    # TODO: add error handling
     pid = find_pid_on_port(3000)
     kill_process(pid)
     print("Frontend server killed at localhost:3000.")
