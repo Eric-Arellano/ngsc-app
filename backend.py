@@ -25,7 +25,7 @@ import os
 import subprocess
 from typing import List
 
-from _script_helper import (cd, check_prereqs_installed, create_parser, execute_command, find_pid_on_port,
+from _script_helper import (check_prereqs_installed, create_parser, execute_command, find_pid_on_port,
                             is_windows_environment, kill_process, remind_to_commit)
 
 
@@ -45,18 +45,16 @@ def main() -> None:
 # venv (virtual environment)
 # -------------------------------------
 
-def _activate_venv() -> None:
+def activate_venv() -> None:
     """
-    Activates venv (virtual environment) for Python, which allows using locally installed packages.
+    Activates venv (virtual environment) for Python, which allows using locally installed packages as binaries.
     """
     command = ['bash', '-c', 'source activate && env']
     # find & source activate/ file
     if is_windows_environment():
-        with cd('backend/Scripts/'):
-            proc = subprocess.run(command, stdout=subprocess.PIPE)
+        proc = subprocess.run(command, stdout=subprocess.PIPE, cwd='backend/Scripts/')
     else:
-        with cd('backend/bin/'):
-            proc = subprocess.Popen(command, stdout=subprocess.PIPE)
+        proc = subprocess.Popen(command, stdout=subprocess.PIPE, cwd='backend/bin/')
     # convert to environment, see https://stackoverflow.com/questions/3503719/emulating-bash-source-in-python
     for line in proc.stdout:
         (key, _, value) = line.decode("utf-8").rstrip().partition("=")
@@ -72,7 +70,7 @@ def run() -> None:
     """
     Start backend server normally.
     """
-    _activate_venv()
+    activate_venv()
     os.environ['FLASK_APP'] = 'backend/src/app.py'
     try:
         subprocess.run(["flask", "run"])
@@ -86,10 +84,10 @@ def run_detached() -> None:
 
     Must later kill process.
     """
-    _activate_venv()
+    activate_venv()
     os.environ['FLASK_APP'] = 'backend/src/app.py'
-    subprocess.check_output("flask run &>/dev/null &",
-                            shell=True)
+    subprocess.run("flask run &>/dev/null &",
+                   shell=True)
     print("Backend server started at localhost:5000. Remember to kill it after.")
 
 
@@ -115,7 +113,7 @@ def install() -> None:
         subprocess.run(['python'] + command)
     else:
         subprocess.run(['python3'] + command)
-    _activate_venv()
+    activate_venv()
     subprocess.run(["pip", "install", "-r", "requirements.txt"])
 
 
@@ -127,10 +125,9 @@ def check_types() -> None:
     """
     Calls MyPy to check for type errors.
     """
-    _activate_venv()
-    with cd('backend/'):
-        subprocess.run(["mypy", "--strict-optional", "--ignore-missing-imports",
-                        "--package", "src"])
+    activate_venv()
+    subprocess.run(["mypy", "--strict-optional", "--ignore-missing-imports",
+                    "--package", "src"], cwd='backend/')
 
 
 # -------------------------------------
@@ -153,7 +150,7 @@ def catchup() -> None:
     Check if any new pip dependencies added from others remotely, and then install them if so.
     """
     # TODO: actually check for differences in requirements.txt
-    _activate_venv()
+    activate_venv()
     subprocess.run(["pip", "install", "-r", "requirements.txt"])
 
 
@@ -161,7 +158,7 @@ def list_outdated() -> None:
     """
     List pip packages that should be updated.
     """
-    _activate_venv()
+    activate_venv()
     subprocess.run(["pip", "list", "--outdated", "--format=columns"])
 
 
@@ -169,7 +166,7 @@ def dependency_tree() -> None:
     """
     Visualize which dependencies depend upon which.
     """
-    _activate_venv()
+    activate_venv()
     subprocess.run(["pipdeptree"])
 
 
@@ -177,7 +174,7 @@ def add(dependencies: List[Dependency]) -> None:
     """
     Add one or more pip packages.
     """
-    _activate_venv()
+    activate_venv()
     subprocess.run(["pip", "install"] + dependencies)
     _freeze_requirements()
 
@@ -186,7 +183,7 @@ def upgrade(dependencies: List[Dependency]) -> None:
     """
     Upgrade one or more out-of-date pip packages.
     """
-    _activate_venv()
+    activate_venv()
     subprocess.run(["pip", "install", "--upgrade"] + dependencies)
     _freeze_requirements()
 
@@ -195,7 +192,7 @@ def remove(dependencies: List[Dependency]) -> None:
     """
     Remove one or more pip packages.
     """
-    _activate_venv()
+    activate_venv()
     subprocess.run(["pip", "uninstall"] + dependencies)
     _freeze_requirements()
 

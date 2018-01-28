@@ -24,7 +24,7 @@ Usage:
 import subprocess
 from typing import List
 
-from _script_helper import (cd, check_prereqs_installed, create_parser, execute_command, find_pid_on_port, kill_process,
+from _script_helper import (check_prereqs_installed, create_parser, execute_command, find_pid_on_port, kill_process,
                             remind_to_commit)
 
 
@@ -37,8 +37,7 @@ def main() -> None:
     check_prereqs_installed(['lsof', 'kill'], windows_support=False)
     check_prereqs_installed(['netstat', 'tskill', 'findstr'], posix_support=False)
     # run
-    with cd('frontend/'):
-        execute_command(args, command_map)
+    execute_command(args, command_map)
 
 
 # -------------------------------------
@@ -50,7 +49,7 @@ def run() -> None:
     Start frontend server normally.
     """
     try:
-        subprocess.run(["yarn", "start"])
+        subprocess.run(["yarn", "start"], cwd='frontend/')
     except KeyboardInterrupt:
         pass
 
@@ -61,8 +60,8 @@ def run_detached() -> None:
 
     Must later kill process.
     """
-    subprocess.check_output("yarn start &>/dev/null &",
-                            shell=True)
+    subprocess.run("yarn start &>/dev/null &",
+                   shell=True, cwd='frontend/')
     print("Frontend server started at localhost:3000. Remember to kill it after.")
 
 
@@ -83,14 +82,14 @@ def install() -> None:
     """
     Downloads & installs all dependencies for the frontend.
     """
-    subprocess.run(["yarn", "install"])
+    subprocess.run(["yarn", "install"], cwd='frontend/')
 
 
 def build() -> None:
     """
     Builds frontend into two minified files, allowing the backend to render frontend.
     """
-    subprocess.run(["yarn", "build"])
+    subprocess.run(["yarn", "build"], cwd='frontend/')
 
 
 # -------------------------------------
@@ -101,7 +100,7 @@ def check_types() -> None:
     """
     Calls Flow to check for type errors.
     """
-    subprocess.run(["yarn", "flow"])
+    subprocess.run(["yarn", "flow"], cwd='frontend/')
 
 
 # -------------------------------------
@@ -115,21 +114,21 @@ def catchup() -> None:
     Check if any new npm dependencies added from others remotely, and then install them if so.
     """
     # TODO: actually check for differences in package.json
-    subprocess.run(["yarn", "install"])
+    subprocess.run(["yarn", "install"], cwd='frontend/')
 
 
 def list_outdated() -> None:
     """
     List npm packages that should be updated.
     """
-    subprocess.run(["yarn", "outdated"])
+    subprocess.run(["yarn", "outdated"], cwd='frontend/')
 
 
 def add(dependencies: List[Dependency]) -> None:
     """
     Add one or more npm packages.
     """
-    subprocess.run(["yarn", "add"] + dependencies)
+    subprocess.run(["yarn", "add"] + dependencies, cwd='frontend/')
     remind_to_commit("package.json and yarn.lock")
 
 
@@ -137,7 +136,7 @@ def upgrade(dependencies: List[Dependency]) -> None:
     """
     Upgrade one or more out-of-date npm packages.
     """
-    subprocess.run(["yarn", "upgrade"] + dependencies)
+    subprocess.run(["yarn", "upgrade"] + dependencies, cwd='frontend/')
     remind_to_commit("package.json and yarn.lock")
 
 
@@ -145,7 +144,7 @@ def remove(dependencies: List[Dependency]) -> None:
     """
     Remove one or more npm packages.
     """
-    subprocess.run(["yarn", "remove"] + dependencies)
+    subprocess.run(["yarn", "remove"] + dependencies, cwd='frontend/')
     remind_to_commit("package.json and yarn.lock")
 
 

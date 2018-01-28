@@ -2,28 +2,8 @@ import argparse
 import os
 import shutil
 import subprocess
-from contextlib import contextmanager
 from textwrap import dedent
 from typing import Callable, Dict, List
-
-
-# -------------------------------------
-# File navigation
-# -------------------------------------
-
-@contextmanager
-def cd(new_dir: str):
-    """
-    Temporarily changes into directory, then changes back to original after context ends.
-
-    Invoke as a context, aka `with cd(path):`.
-    """
-    prev_dir = os.getcwd()
-    os.chdir(os.path.expanduser(new_dir))
-    try:
-        yield
-    finally:
-        os.chdir(prev_dir)
 
 
 # -------------------------------------
