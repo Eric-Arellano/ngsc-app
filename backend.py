@@ -49,15 +49,18 @@ def activate_venv() -> None:
     """
     Activates venv (virtual environment) for Python, which allows using locally installed packages as binaries.
     """
-    command = ['bash', '-c', 'source activate && env']
-    # find & source activate/ file
+    # find `activate/`
     if is_windows_environment():
-        proc = subprocess.run(command, stdout=subprocess.PIPE, cwd='backend/Scripts/')
+        path = 'backend/Scripts/'
     else:
-        proc = subprocess.Popen(command, stdout=subprocess.PIPE, cwd='backend/bin/')
+        path = 'backend/bin'
+    # source `activate/`
+    proc = subprocess.Popen(['bash', '-c', 'source activate && env'],
+                            stdout=subprocess.PIPE,
+                            cwd=path)
     # convert to environment, see https://stackoverflow.com/questions/3503719/emulating-bash-source-in-python
     for line in proc.stdout:
-        (key, _, value) = line.decode("utf-8").rstrip().partition("=")
+        (key, _, value) = line.decode("utf-8").strip().partition("=")
         os.environ[key] = value
     proc.communicate()
 
