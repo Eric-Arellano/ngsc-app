@@ -4,6 +4,7 @@
 Utility to update hardcoded file of student information.
 """
 import subprocess
+import sys
 
 from _script_helper import (check_prereqs_installed, checkout,
                             fast_forward_remote, is_clean_local, is_on_branch)
@@ -47,7 +48,7 @@ def check_file_updated() -> None:
     """
     if is_clean_local():
         print("There were no updates to student info.")
-        quit(0)
+        sys.exit(0)
 
 
 def redeploy() -> None:
