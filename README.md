@@ -37,32 +37,32 @@ You're highly recommended to use HomeBrew, which is a package manager that makes
 
 ### Install app
 1. `./backend.sh install`
-1. `./frontend.sh install`
+1. `./frontend.py install`
 
 ### Update app (whenever new dependencies added)
 1. `./backend.sh update`
-1. `./frontend.sh update`
+1. `./frontend.py update`
 
 
 ## To start
 
 ### Run normally
 1. `./backend.sh`
-1. `./frontend.sh` (in a new tab, since the backend server will have taken over the first terminal)
+1. `./frontend.py` (in a new tab, since the backend server will have taken over the first terminal)
 
 ### Run in detached mode
 This means it doesn't output to the console, and you can still use that terminal for other things. For example, you only need one terminal to run the app this way, unlike normally where you need two.
 1. `./backend.sh detached`
-1. `./frontend.sh detached`
-1. When you're done, `./backend.sh kill`
-1. When you're done, `./frontend.sh kill`
+1. `./frontend.py detached`
+1. `./backend.sh kill`, when you're done
+1. `./frontend.py kill`, when you're done
 
 ## To test
 
 ### Check types
 We use tools to check the data types of the app, since JavaScript and Python are both dynamic and don't enforce type safety. 
 1. `./backend.sh types`
-1. `./frontend.sh types`
+1. `./frontend.py types`
 
 ## To update static student info data
 We are saving everyone's IDs, names, committees, mission teams, etc into a Python dictionary to avoid having to make an 
@@ -79,23 +79,23 @@ needs to be updated.
 ### Catchup from changes made by others
 This will check if any changes were made to `package.json` or `requirements.txt` and will install the new dependencies.
 1. `./backend.sh catchup`
-1. `./frontend.sh catchup`
+1. `./frontend.py catchup`
 
 ### View outdated dependencies
 1. `./backend.sh outdated`
-1. `./frontend.sh outdated`
+1. `./frontend.py outdated`
 
 ### View dependency tree
 1. `./backend.sh deptree`
 
 ### Add package
 1. `./backend.sh add [package]`
-1. `./frontend.sh add [package]`
+1. `./frontend.py add [package]`
 
 ### Upgrade package
 1. `./backend.sh upgrade [package]`
-1. `./frontend.sh upgrade [package]`
+1. `./frontend.py upgrade [package]`
 
 ### Remove package
 1. `./backend.sh remove [package]`
-1. `./frontend.sh remove [package]`
+1. `./frontend.py remove [package]`
