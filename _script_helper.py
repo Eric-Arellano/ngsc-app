@@ -36,18 +36,6 @@ def is_windows_environment() -> bool:
     return os.name == 'nt'
 
 
-def activate_venv() -> None:
-    """
-    Activates venv (virtual environment) for Python, which allows using locally installed packages.
-    """
-    if is_windows_environment():
-        with cd('backend/Scripts/'):
-            os.system('source activate')
-    else:
-        with cd('backend/bin/'):
-            os.system('source activate')
-
-
 # -------------------------------------
 # Check prereqs installed
 # -------------------------------------
