@@ -24,20 +24,19 @@ Usage:
 import subprocess
 from typing import List
 
-from _script_helper import (check_prereqs_installed, create_parser, execute_command, find_pid_on_port, kill_process,
-                            remind_to_commit)
+from scripts import helper
 
 
 def main() -> None:
     # setup parser
-    parser = create_parser(command_map)
+    parser = helper.create_parser(command_map)
     args = parser.parse_args()
     # check prereqs
-    check_prereqs_installed(['yarn', 'npm', 'node', 'grep', 'awk'])
-    check_prereqs_installed(['lsof', 'kill'], windows_support=False)
-    check_prereqs_installed(['netstat', 'tskill', 'findstr'], posix_support=False)
+    helper.check_prereqs_installed(['yarn', 'npm', 'node', 'grep', 'awk'])
+    helper.check_prereqs_installed(['lsof', 'kill'], windows_support=False)
+    helper.check_prereqs_installed(['netstat', 'tskill', 'findstr'], posix_support=False)
     # run
-    execute_command(args, command_map)
+    helper.execute_command(args, command_map)
 
 
 # -------------------------------------
@@ -69,8 +68,8 @@ def kill() -> None:
     """
     Kill detached frontend server by searching PID on port 3000 and then killing process.
     """
-    pid = find_pid_on_port(3000)
-    kill_process(pid)
+    pid = helper.find_pid_on_port(3000)
+    helper.kill_process(pid)
     print("Frontend server killed at localhost:3000.")
 
 
@@ -129,7 +128,7 @@ def add(dependencies: List[Dependency]) -> None:
     Add one or more npm packages.
     """
     subprocess.run(["yarn", "add"] + dependencies, cwd='frontend/')
-    remind_to_commit("package.json and yarn.lock")
+    helper.remind_to_commit("package.json and yarn.lock")
 
 
 def upgrade(dependencies: List[Dependency]) -> None:
@@ -137,7 +136,7 @@ def upgrade(dependencies: List[Dependency]) -> None:
     Upgrade one or more out-of-date npm packages.
     """
     subprocess.run(["yarn", "upgrade"] + dependencies, cwd='frontend/')
-    remind_to_commit("package.json and yarn.lock")
+    helper.remind_to_commit("package.json and yarn.lock")
 
 
 def remove(dependencies: List[Dependency]) -> None:
@@ -145,7 +144,7 @@ def remove(dependencies: List[Dependency]) -> None:
     Remove one or more npm packages.
     """
     subprocess.run(["yarn", "remove"] + dependencies, cwd='frontend/')
-    remind_to_commit("package.json and yarn.lock")
+    helper.remind_to_commit("package.json and yarn.lock")
 
 
 # -------------------------------------

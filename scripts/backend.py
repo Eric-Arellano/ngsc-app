@@ -25,20 +25,19 @@ import os
 import subprocess
 from typing import List
 
-from _script_helper import (check_prereqs_installed, create_parser, execute_command, find_pid_on_port,
-                            is_windows_environment, kill_process, remind_to_commit)
+from scripts import helper
 
 
 def main() -> None:
     # setup parser
-    parser = create_parser(command_map)
+    parser = helper.create_parser(command_map)
     args = parser.parse_args()
     # check prereqs
-    check_prereqs_installed(['grep', 'awk'])
-    check_prereqs_installed(['python3', 'lsof', 'kill'], windows_support=False)
-    check_prereqs_installed(['python', 'netstat', 'tskill', 'findstr'], posix_support=False)
+    helper.check_prereqs_installed(['grep', 'awk'])
+    helper.check_prereqs_installed(['python3', 'lsof', 'kill'], windows_support=False)
+    helper.check_prereqs_installed(['python', 'netstat', 'tskill', 'findstr'], posix_support=False)
     # run
-    execute_command(args, command_map)
+    helper.execute_command(args, command_map)
 
 
 # -------------------------------------
@@ -50,7 +49,7 @@ def activate_venv() -> None:
     Activates venv (virtual environment) for Python, which allows using locally installed packages as binaries.
     """
     # find `activate/`
-    if is_windows_environment():
+    if helper.is_windows_environment():
         path = 'backend/Scripts/'
     else:
         path = 'backend/bin'
@@ -98,8 +97,8 @@ def kill() -> None:
     """
     Kill detached backend server by searching PID on port 5000 and then killing process.
     """
-    pid = find_pid_on_port(5000)
-    kill_process(pid)
+    pid = helper.find_pid_on_port(5000)
+    helper.kill_process(pid)
     print("Backend server killed at localhost:5000.")
 
 
@@ -112,7 +111,7 @@ def install() -> None:
     Downloads & installs all dependencies for the backend.
     """
     command = ['-m', 'venv', 'backend/']
-    if is_windows_environment():
+    if helper.is_windows_environment():
         subprocess.run(['python'] + command)
     else:
         subprocess.run(['python3'] + command)
@@ -145,7 +144,7 @@ def _freeze_requirements() -> None:
     """
     with open('requirements.txt', 'w') as requirements:
         subprocess.run(['pip', 'freeze'], stdout=requirements)
-    remind_to_commit("requirements.txt")
+    helper.remind_to_commit("requirements.txt")
 
 
 def catchup() -> None:
