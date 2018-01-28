@@ -12,7 +12,7 @@ from _script_helper import (check_prereqs_installed, fast_forward_remote, get_st
 
 def main() -> None:
     check_prereqs_installed(['git'])
-    resolve_git_issues()
+    # resolve_git_issues()
     update_student_ids_file()
     check_file_updated()
     redeploy()
@@ -44,9 +44,8 @@ def check_file_updated() -> None:
     """
     Exit script if no changes were made to student info.
     """
-    if is_clean_local():  # TODO: why isn't this running..?
-        print("There were no updates to student info.")
-        sys.exit(0)
+    if is_clean_local():
+        SystemExit("There were no updates to student info.")
 
 
 def redeploy() -> None:
