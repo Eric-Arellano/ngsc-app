@@ -100,10 +100,10 @@ PID = int
 
 def find_pid_on_port(port: Port) -> PID:
     if is_windows_environment():
-        pid = subprocess.check_output(f"netstat -aon | findstr :{port} | awk '{ print $5 }'",
+        pid = subprocess.check_output(f"netstat -aon | findstr :{port} | awk '{{ print $5 }}'",
                                       shell=True)
     else:
-        pid = subprocess.check_output(f"lsof -n -i4TCP:{port} | grep LISTEN | awk '{ print $2 }'",
+        pid = subprocess.check_output(f"lsof -n -i4TCP:{port} | grep LISTEN | awk '{{ print $2 }}'",
                                       shell=True)
     return pid.rstrip()
 
