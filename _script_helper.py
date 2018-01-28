@@ -1,9 +1,10 @@
+import argparse
 import os
 import shutil
 import subprocess
 from contextlib import contextmanager
 from textwrap import dedent
-from typing import List
+from typing import Callable, Dict, List
 
 
 # -------------------------------------
@@ -23,6 +24,38 @@ def cd(new_dir: str):
         yield
     finally:
         os.chdir(prev_dir)
+
+
+# -------------------------------------
+# Command line argument parsing
+# -------------------------------------
+
+def create_parser(command_map: Dict[str, Callable]) -> argparse.ArgumentParser:
+    """
+    Setups command line argument parser and assigns defaults and help statements.
+    """
+    parser = argparse.ArgumentParser(description=__doc__,
+                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument('command',
+                        default='run',
+                        nargs='?',  # must specify 0-1 argument
+                        choices=command_map.keys())
+    parser.add_argument('dependency',
+                        default='',
+                        nargs='*',  # can specify 0-many arguments
+                        help='Dependency(ies) you want to modify.')
+    return parser
+
+
+def execute_command(args: argparse.Namespace, command_map: Dict[str, Callable]) -> None:
+    """
+    Determines which command was passed and then executes the command.
+    """
+    func = command_map[args.command]
+    if args.dependency:
+        func(args.dependency)
+    else:
+        func()
 
 
 # -------------------------------------
@@ -87,6 +120,9 @@ PID = int
 
 
 def find_pid_on_port(port: Port) -> PID:
+    """
+    Finds and returns PID of process listening on specified port.
+    """
     if is_windows_environment():
         pid = subprocess.check_output(f"netstat -aon | findstr :{port} | awk '{{ print $5 }}'",
                                       shell=True)
@@ -97,6 +133,9 @@ def find_pid_on_port(port: Port) -> PID:
 
 
 def kill_process(pid: PID) -> None:
+    """
+    Kills the specified PID.
+    """
     if is_windows_environment():
         return subprocess.run(["tskill", pid])
     else:
@@ -108,6 +147,9 @@ def kill_process(pid: PID) -> None:
 # -------------------------------------
 
 def remind_to_commit(file_names: str) -> None:
+    """
+    Prints reminder to commit to Git the specified files.
+    """
     reminder = dedent(f'''
     -----------------------------------------------------------------
 

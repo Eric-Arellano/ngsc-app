@@ -21,20 +21,16 @@ Usage:
             remove: `./frontend.py remove [package(s)]`
 """
 
-import argparse
 import subprocess
 from typing import List
 
-from _script_helper import (cd,
-                            check_prereqs_installed,
-                            find_pid_on_port,
-                            kill_process,
+from _script_helper import (cd, check_prereqs_installed, create_parser, execute_command, find_pid_on_port, kill_process,
                             remind_to_commit)
 
 
 def main() -> None:
     # setup parser
-    parser = _create_parser()
+    parser = create_parser(command_map)
     args = parser.parse_args()
     # check prereqs
     check_prereqs_installed(['yarn', 'npm', 'node', 'grep', 'awk'])
@@ -42,7 +38,7 @@ def main() -> None:
     check_prereqs_installed(['netstat', 'tskill', 'findstr'], posix_support=False)
     # run
     with cd('frontend/'):
-        choose_command(args)
+        execute_command(args, command_map)
 
 
 # -------------------------------------
@@ -166,35 +162,6 @@ command_map = {'run': run,
                'upgrade': upgrade,
                'remove': remove
                }
-
-
-def _create_parser() -> argparse.ArgumentParser:
-    """
-    Setups command line argument parser and assigns defaults and help statements.
-    """
-    parser = argparse.ArgumentParser(description=__doc__,
-                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('command',
-                        default='run',
-                        nargs='?',  # must specify 0-1 argument
-                        choices=command_map.keys())
-    parser.add_argument('dependency',
-                        default='',
-                        nargs='*',  # can specify 0-many arguments
-                        help='Dependency(ies) you want to modify.')
-    return parser
-
-
-def choose_command(args: argparse.Namespace) -> None:
-    """
-    Determines which command was passed and then executes the command.
-    """
-    func = command_map[args.command]
-    if args.dependency:
-        func(args.dependency)
-    else:
-        func()
-
 
 # -------------------------------------
 # Run script

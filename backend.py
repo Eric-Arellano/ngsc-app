@@ -21,26 +21,24 @@ Usage:
             remove: `./backend.py remove [package(s)]`
 """
 
-import argparse
-import subprocess
 import os
+import subprocess
 from typing import List
-import pprint
 
-from _script_helper import (cd, check_prereqs_installed, find_pid_on_port, is_windows_environment, kill_process,
-                            remind_to_commit)
+from _script_helper import (cd, check_prereqs_installed, create_parser, execute_command, find_pid_on_port,
+                            is_windows_environment, kill_process, remind_to_commit)
 
 
 def main() -> None:
     # setup parser
-    parser = _create_parser()
+    parser = create_parser(command_map)
     args = parser.parse_args()
     # check prereqs
     check_prereqs_installed(['grep', 'awk'])
     check_prereqs_installed(['python3', 'lsof', 'kill'], windows_support=False)
     check_prereqs_installed(['python', 'netstat', 'tskill', 'findstr'], posix_support=False)
     # run
-    choose_command(args)
+    execute_command(args, command_map)
 
 
 # -------------------------------------
@@ -85,7 +83,9 @@ def run_detached() -> None:
 
     Must later kill process.
     """
-    subprocess.check_output("yarn start &>/dev/null &",
+    _activate_venv()
+    os.environ['FLASK_APP'] = 'backend/src/app.py'
+    subprocess.check_output("flask run &>/dev/null &",
                             shell=True)
 
 
@@ -108,28 +108,28 @@ def install() -> None:
     subprocess.run(["yarn", "install"])
 
 
-def build() -> None:
-    """
-    Builds backend into two minified files, allowing the backend to render backend.
-    """
-    subprocess.run(["yarn", "build"])
-
-
 # -------------------------------------
 # Test commands
 # -------------------------------------
 
 def check_types() -> None:
     """
-    Calls Flow to check for type errors.
+    Calls MyPy to check for type errors.
     """
-    subprocess.run(["yarn", "flow"])
+    _activate_venv()
+    with cd('backend/'):
+        subprocess.run(["mypy", "--strict-optional", "--ignore-missing-imports",
+                        "--package", "src"])
 
 
 # -------------------------------------
-# Test commands
+# Dependency management commands
 # -------------------------------------
 Dependency = str  # type alias
+
+
+def _freeze_requirements() -> None:
+    raise NotImplementedError
 
 
 def catchup() -> None:
@@ -137,44 +137,51 @@ def catchup() -> None:
     Check if any new pip dependencies added from others remotely, and then install them if so.
     """
     # TODO: actually check for differences in requirements.txt
-    subprocess.run(["yarn", "install"])
+    _activate_venv()
+    subprocess.run(["pip", "install", "-r", "requirements.txt"])
 
 
 def list_outdated() -> None:
     """
     List pip packages that should be updated.
     """
-    subprocess.run(["yarn", "outdated"])
+    _activate_venv()
+    subprocess.run(["pip", "list", "--outdated", "--format=columns"])
 
 
 def dependency_tree() -> None:
     """
-
+    Visualize which dependencies depend upon which.
     """
+    _activate_venv()
+    subprocess.run(["pipdeptree"])
 
 
 def add(dependencies: List[Dependency]) -> None:
     """
     Add one or more pip packages.
     """
-    subprocess.run(["yarn", "add"] + dependencies)
-    remind_to_commit("package.json and yarn.lock")
+    subprocess.run(["pip", "install"] + dependencies)
+    remind_to_commit("requirements.txt")
+    _freeze_requirements()
 
 
 def upgrade(dependencies: List[Dependency]) -> None:
     """
     Upgrade one or more out-of-date pip packages.
     """
-    subprocess.run(["yarn", "upgrade"] + dependencies)
-    remind_to_commit("package.json and yarn.lock")
+    subprocess.run(["pip", "install", "--upgrade"] + dependencies)
+    remind_to_commit("requirements.txt")
+    _freeze_requirements()
 
 
 def remove(dependencies: List[Dependency]) -> None:
     """
     Remove one or more pip packages.
     """
-    subprocess.run(["yarn", "remove"] + dependencies)
-    remind_to_commit("package.json and yarn.lock")
+    subprocess.run(["pip", "uninstall"] + dependencies)
+    remind_to_commit("requirements.txt")
+    _freeze_requirements()
 
 
 # -------------------------------------
@@ -184,7 +191,6 @@ command_map = {'run': run,
                'detached': run_detached,
                'kill': kill,
                'install': install,
-               'build': build,
                'types': check_types,
                'catchup': catchup,
                'outdated': list_outdated,
@@ -193,35 +199,6 @@ command_map = {'run': run,
                'upgrade': upgrade,
                'remove': remove
                }
-
-
-def _create_parser() -> argparse.ArgumentParser:
-    """
-    Setups command line argument parser and assigns defaults and help statements.
-    """
-    parser = argparse.ArgumentParser(description=__doc__,
-                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('command',
-                        default='run',
-                        nargs='?',  # must specify 0-1 argument
-                        choices=command_map.keys())
-    parser.add_argument('dependency',
-                        default='',
-                        nargs='*',  # can specify 0-many arguments
-                        help='Dependency(ies) you want to modify.')
-    return parser
-
-
-def choose_command(args: argparse.Namespace) -> None:
-    """
-    Determines which command was passed and then executes the command.
-    """
-    func = command_map[args.command]
-    if args.dependency:
-        func(args.dependency)
-    else:
-        func()
-
 
 # -------------------------------------
 # Run script
