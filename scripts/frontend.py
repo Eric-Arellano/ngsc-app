@@ -116,11 +116,6 @@ def check_types() -> None:
 Dependency = str  # type alias
 
 
-def _ensure_dependencies_given(dependencies: List[Dependency]) -> None:
-    if not dependencies:
-        raise ValueError("Must specify dependencies with this command.")
-
-
 def catchup() -> None:
     """
     Check if any new npm dependencies added from others remotely, and then install them if so.
@@ -140,7 +135,6 @@ def add(dependencies: List[Dependency]) -> None:
     """
     Add one or more npm packages.
     """
-    _ensure_dependencies_given(dependencies)
     subprocess.run(["yarn", "add"] + dependencies, cwd='frontend/')
     helper.remind_to_commit("package.json and yarn.lock")
 
@@ -149,7 +143,6 @@ def upgrade(dependencies: List[Dependency]) -> None:
     """
     Upgrade one or more out-of-date npm packages.
     """
-    _ensure_dependencies_given(dependencies)
     subprocess.run(["yarn", "upgrade"] + dependencies, cwd='frontend/')
     helper.remind_to_commit("package.json and yarn.lock")
 
@@ -158,7 +151,6 @@ def remove(dependencies: List[Dependency]) -> None:
     """
     Remove one or more npm packages.
     """
-    _ensure_dependencies_given(dependencies)
     subprocess.run(["yarn", "remove"] + dependencies, cwd='frontend/')
     helper.remind_to_commit("package.json and yarn.lock")
 

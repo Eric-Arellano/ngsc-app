@@ -155,11 +155,6 @@ def _freeze_requirements() -> None:
     helper.remind_to_commit("requirements.txt")
 
 
-def _ensure_dependencies_given(dependencies: List[Dependency]) -> None:
-    if not dependencies:
-        raise ValueError("Must specify dependencies with this command.")
-
-
 def catchup() -> None:
     """
     Check if any new pip dependencies added from others remotely, and then install them if so.
@@ -190,7 +185,6 @@ def add(dependencies: List[Dependency]) -> None:
     Add one or more pip packages.
     """
     activate_venv()
-    _ensure_dependencies_given(dependencies)
     subprocess.run(["pip", "install"] + dependencies)
     _freeze_requirements()
 
@@ -200,7 +194,6 @@ def upgrade(dependencies: List[Dependency]) -> None:
     Upgrade one or more out-of-date pip packages.
     """
     activate_venv()
-    _ensure_dependencies_given(dependencies)
     subprocess.run(["pip", "install", "--upgrade"] + dependencies)
     _freeze_requirements()
 
@@ -210,7 +203,6 @@ def remove(dependencies: List[Dependency]) -> None:
     Remove one or more pip packages.
     """
     activate_venv()
-    _ensure_dependencies_given(dependencies)
     subprocess.run(["pip", "uninstall"] + dependencies)
     _freeze_requirements()
 
