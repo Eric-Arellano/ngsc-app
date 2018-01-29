@@ -20,7 +20,8 @@ def get_stdout(command: List[str]) -> str:
 # Command line argument parsing
 # -------------------------------------
 
-def create_parser(command_map: Dict[str, Callable]) -> argparse.ArgumentParser:
+def create_parser(command_map: Dict[str, Callable], *,
+                  accept_target_environment: bool = False) -> argparse.ArgumentParser:
     """
     Setups command line argument parser and assigns defaults and help statements.
     """
@@ -30,7 +31,12 @@ def create_parser(command_map: Dict[str, Callable]) -> argparse.ArgumentParser:
                         default='run',
                         nargs='?',  # must specify 0-1 argument
                         choices=command_map.keys())
-    parser.add_argument('dependency',
+    if accept_target_environment:
+        parser.add_argument('target',
+                            default='all',
+                            nargs='?',  # must specify 0-1 argument
+                            choices=['all', 'backend', 'frontend', 'script'])
+    parser.add_argument('dependencies',
                         default='',
                         nargs='*',  # can specify 0-many arguments
                         help='Dependency(ies) you want to modify.')
@@ -40,12 +46,18 @@ def create_parser(command_map: Dict[str, Callable]) -> argparse.ArgumentParser:
 def execute_command(args: argparse.Namespace, command_map: Dict[str, Callable]) -> None:
     """
     Determines which command was passed and then executes the command.
+
+    Passes any additional parameters, such as target environment or dependencies.
     """
     func = command_map[args.command]
-    if args.dependency:
-        func(args.dependency)
-    else:
-        func()
+    # convert arguments to dict
+    passed_arguments = vars(args)
+    # remove empty values
+    additional_arguments = {k: v for k, v in passed_arguments.items() if v}
+    # remove command
+    del additional_arguments['command']
+    # unpack additional arguments into function as named parameters
+    func(**additional_arguments)
 
 
 # -------------------------------------
