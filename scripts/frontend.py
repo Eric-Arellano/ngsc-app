@@ -21,10 +21,14 @@ Usage:
             remove: `./frontend.py remove [package(s)]`
 """
 
+import os
 import subprocess
+import sys
 from typing import List
 
-import helper
+# path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
+sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+from scripts import helper
 
 
 def main() -> None:

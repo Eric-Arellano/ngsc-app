@@ -225,7 +225,7 @@ def remove(*, target: Target, dependencies: List[Dependency]) -> None:
 # Deploy commands
 # -------------------------------------
 
-def deploy() -> None:
+def deploy_to_heroku() -> None:
     """
     Push changes to GitHub and Heroku.
     """
@@ -256,7 +256,7 @@ command_map = {'run': run,
                'add': add,
                'upgrade': upgrade,
                'remove': remove,
-               'deploy': deploy,
+               'deploy': deploy_to_heroku,
                'student-info': update_student_info
                }
 

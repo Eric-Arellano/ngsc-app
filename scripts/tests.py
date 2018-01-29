@@ -1,9 +1,12 @@
+import os
+import sys
 from typing import Callable, Dict, List
 from unittest import TestCase, skip
 
-import backend
-import frontend
-import helper
+# path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
+sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+
+from scripts import backend, frontend, helper
 
 
 class ParserTester(TestCase):
