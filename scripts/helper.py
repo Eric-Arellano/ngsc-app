@@ -27,15 +27,15 @@ def create_parser(command_map: Dict[str, Callable], *,
     """
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('command',
-                        default='run',
-                        nargs='?',  # must specify 0-1 argument
-                        choices=command_map.keys())
     if accept_target_environment:
         parser.add_argument('target',
                             default='all',
                             nargs='?',  # must specify 0-1 argument
                             choices=['all', 'backend', 'frontend', 'script'])
+    parser.add_argument('command',
+                        default='run',
+                        nargs='?',  # must specify 0-1 argument
+                        choices=command_map.keys())
     parser.add_argument('dependencies',
                         default='',
                         nargs='*',  # can specify 0-many arguments

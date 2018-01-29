@@ -3,99 +3,72 @@ App to allow students in NGSC program to check their participation and  service 
 
 Uses React for frontend, Python 3 and Flask for backend server, and Google Docs API for data source.
 
-## To install
+## Prerequisites
 
-### PC setup
-See this PowerPoint, and particularly the slides on Solution 2: Git Bash, for instructions on downloading Git Bash and setting up your PC to run this program https://docs.google.com/presentation/d/1pAoLLMqqH6JGG9ILwlhKMwVzUVzux9bFmZINPJWeW9Q/edit?usp=sharing.
+### Install software on Mac
+1. HomeBrew package manager: `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
+1. Git: `brew install git`
+1. Python 3.6: `brew install python3`
+1. Node.js & NPM: `brew install node`
+1. Yarn package manager: `brew install yarn`
+1. Heroku: `brew install heroku`
 
-### Mac setup
-You're highly recommended to use HomeBrew, which is a package manager that makes it really easy to install and update software. Install HomeBrew with `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"` pasted into a Termianl window.
+### Install software on PC
+See [this PowerPoint](https://docs.google.com/presentation/d/1pAoLLMqqH6JGG9ILwlhKMwVzUVzux9bFmZINPJWeW9Q/edit?usp=sharing) 
+for further context on how to get this project working effectively on a PC.
 
-### Install software
-1. Git
-    1. On Mac, `brew install git`
-    1. On PC, download at https://git-scm.com/downloads
-        1. Accept every default setting, except for choosing your default text editor:
-            1. The default, Vim, is great but really confusing if you've never used it.
-            1. Recommended to download the app Visual Studio Code and then choose that as your option.
-1. Python 3.6
-    1. On Mac, use HomeBrew `brew install python3`
-    2. On Windows, download at https://www.python.org/downloads/ 
-        1. Make sure to _check ON the option to add python.exe to your PATH variable._
-1. Node.js & NPM
-    1. On Mac, `brew install node`
-    1. On PC, download at https://nodejs.org/en/ 
-        1. Choose the most current version
-        1. Accept default settings
-1. Yarn
-    1. On Mac, use Homebrew `brew install yarn`
-    1. On PC, download the installer from https://yarnpkg.com/en/docs/install
-1. Heroku CLI (command line interface)
-    1. On Mac, use Homebrew `brew install heroku`
-    1. On PC, download the 64 bit installer from https://devcenter.heroku.com/articles/heroku-cli
-        1. Accept defaults
+1. Git & Git Bash, https://git-scm.com/downloads
+    1. Accept every default setting, except for choosing your default text editor:
+        1. The default, Vim, is great but confusing if you've never used it.
+        1. Recommended to download the app Visual Studio Code and then choose that as your option.
+1. Python 3.6, https://www.python.org/downloads/ 
+    1. Check on the option to add python.exe to your PATH variable.
+1. Node.js & NPM, https://nodejs.org/en/ 
+    1. Choose the most current version
+    1. Accept default settings
+1. Yarn, installer from https://yarnpkg.com/en/docs/install
+1. Heroku, 64 bit installer from https://devcenter.heroku.com/articles/heroku-cli
+    1. Accept defaults
 
-### Install app
-1. `./backend.py install`
-1. `./frontend.py install`
+## Basic Usage
+1. `./run.py install`, installs all the libraries
+1. `./run.py`, starts the app at `localhost:3000` (go to this in your browser)
+1. `./run.py stop`, stops the app
 
-### Update app (whenever new dependencies added)
-1. `./backend.py update`
-1. `./frontend.py update`
+## Advanced Usage
+There are many different ways to run this application, such as only starting the backend server or only starting the frontend server.
+
+#### Understanding the below syntax
+You will encounter these symbols:
+* `a|b` = a or b. You must choose one.
+* `[a]` = a is optional. You can add it as an argument if you'd like, otherwise the defaults will be used. 
+
+### Install
+`./run.py [backend|frontend] install`
+
+### Run
+* Start app: `./run.py [backend|frontend]`
+* Stop app: `./run.py [backend|frontend] stop`
+
+### Test
+* Run unit tests: `./run.py test`
+* Check types: `./run.py [backend|frontend] types`
 
 
-## To start
-
-### Run normally
-1. `./backend.py`
-1. `./frontend.py` (in a new tab, since the backend server will have taken over the first terminal)
-
-### Run in detached mode
-This means it doesn't output to the console, and you can still use that terminal for other things. For example, you only need one terminal to run the app this way, unlike normally where you need two.
-1. `./backend.py detached`
-1. `./frontend.py detached`
-1. `./backend.py kill`, when you're done
-1. `./frontend.py kill`, when you're done
-
-## To test
-
-### Check types
-We use tools to check the data types of the app, since JavaScript and Python are both dynamic and don't enforce type safety. 
-1. `./backend.py types`
-1. `./frontend.py types`
-
-## To update static student info data
+### Update static student info
 We are saving everyone's IDs, names, committees, mission teams, etc into a Python dictionary to avoid having to make an 
 API call for that info, since it doesn't change often. Whenever a change happens to the Master spreadsheet, this 
 needs to be updated.
 
-1. `./update-demographics.py`
+`./run.py student-info`
 
-## To deploy
-1. `./deploy.py`
+### Deploy
+`./run.py deploy`
 
-## Dependency management
-
-### Catchup from changes made by others
-This will check if any changes were made to `package.json` or `requirements.txt` and will install the new dependencies.
-1. `./backend.py catchup`
-1. `./frontend.py catchup`
-
-### View outdated dependencies
-1. `./backend.py outdated`
-1. `./frontend.py outdated`
-
-### View dependency tree
-1. `./backend.py deptree`
-
-### Add package
-1. `./backend.py add [package]`
-1. `./frontend.py add [package]`
-
-### Upgrade package
-1. `./backend.py upgrade [package]`
-1. `./frontend.py upgrade [package]`
-
-### Remove package
-1. `./backend.py remove [package]`
-1. `./frontend.py remove [package]`
+### Dependency management
+* Catchup from changes made by others: `./run.py [backend|frontend] catchup`
+* View outdated dependencies: `./run.py [backend|frontend] outdated`
+* View dependency tree: `./run.py backend outdated` (not supported on frontend)
+* Add package(s): `./run.py backend|frontend add package1 [package2...]`
+* Upgrade package(s): `./run.py backend|frontend upgrade package1 [package2...]`
+* Remove package(s): `./run.py backend|frontend remove package1 [package2...]`
