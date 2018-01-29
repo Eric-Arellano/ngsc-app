@@ -75,7 +75,7 @@ def execute_on_target_environment(target: Target = 'all', *,
         'script': script_action
     }[target]
     if action is None:
-        raise TypeError(f'`{target}` target not supported with this command.')
+        raise TypeError(f'{target} target not supported with this command.')
     if not dependencies:
         action()
     else:
@@ -92,8 +92,8 @@ def run(*, target: Target = 'all') -> None:
     """
     execute_on_target_environment(target,
                                   all_action=lambda: (
-                                      backend.run_detached,
-                                      frontend.run_detached),
+                                      backend.run_detached(),
+                                      frontend.run_detached()),
                                   backend_action=backend.run_detached,
                                   frontend_action=frontend.run_detached)
 
@@ -104,8 +104,8 @@ def stop(*, target: Target = 'all') -> None:
     """
     execute_on_target_environment(target,
                                   all_action=lambda: (
-                                      backend.kill,
-                                      frontend.kill),
+                                      backend.kill(),
+                                      frontend.kill()),
                                   backend_action=backend.kill,
                                   frontend_action=frontend.kill)
 
@@ -120,8 +120,8 @@ def install(*, target: Target = 'all') -> None:
     """
     execute_on_target_environment(target,
                                   all_action=lambda: (
-                                      backend.install,
-                                      frontend.install),
+                                      backend.install(),
+                                      frontend.install()),
                                   backend_action=backend.install,
                                   frontend_action=frontend.install)
 
@@ -144,7 +144,7 @@ def test(*, target: Target = 'all') -> None:
         subprocess.run([py, '-m', 'unittest', 'discover', 'scripts'])
     execute_on_target_environment(target,
                                   all_action=lambda: (
-                                      test_scripts),
+                                      test_scripts()),
                                   script_action=test_scripts)
 
 
@@ -155,8 +155,8 @@ def check_types(*, target: Target = 'all') -> None:
     # TODO: get this working for scripts
     execute_on_target_environment(target,
                                   all_action=lambda: (
-                                      backend.check_types,
-                                      frontend.check_types),
+                                      backend.check_types(),
+                                      frontend.check_types()),
                                   backend_action=backend.check_types,
                                   frontend_action=frontend.check_types)
 
@@ -173,8 +173,8 @@ def catchup(*, target: Target = 'all') -> None:
     """
     execute_on_target_environment(target,
                                   all_action=lambda: (
-                                      backend.catchup,
-                                      frontend.catchup),
+                                      backend.catchup(),
+                                      frontend.catchup()),
                                   backend_action=backend.catchup,
                                   frontend_action=frontend.catchup)
 
@@ -185,8 +185,8 @@ def list_outdated(*, target: Target = 'all') -> None:
     """
     execute_on_target_environment(target,
                                   all_action=lambda: (
-                                      backend.list_outdated,
-                                      frontend.list_outdated),
+                                      backend.list_outdated(),
+                                      frontend.list_outdated()),
                                   backend_action=backend.list_outdated,
                                   frontend_action=frontend.list_outdated)
 
