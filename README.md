@@ -29,6 +29,12 @@ for further context on how to get this project working effectively on a PC.
 1. Yarn, installer from https://yarnpkg.com/en/docs/install
 1. Heroku, 64 bit installer from https://devcenter.heroku.com/articles/heroku-cli
     1. Accept defaults
+    
+### Running commands on PC
+Use Git Bash instead of Command Prompt, because Git Bash offers Unix-style tools.
+
+Due to issues with the way Python is installed on PCs, the normal command method of `./run.py` won't work. Instead,
+*every time you see `./run.py`, replace it with`py run.py`*.
 
 ## Basic Usage
 1. `./run.py install`, installs all the libraries
