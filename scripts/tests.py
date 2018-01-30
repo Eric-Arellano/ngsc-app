@@ -12,7 +12,7 @@ from scripts import backend, frontend, helper
 class ParserTester(TestCase):
 
     def assert_raises_parser_error(self,
-                                   command_map: Dict[str, Callable],
+                                   command_map: Dict[str, Callable[..., None]],
                                    args: List[str]):
         parser = helper.create_parser(backend.command_map)
         parsed_args = parser.parse_args(args)
@@ -41,18 +41,18 @@ class TestSingleServerParser(ParserTester):
 
 class TestRunParser(ParserTester):
 
-    @skip
+    @skip('not implemented')
     def test_execute_on_target_environment_requires_target_action(self):
         raise NotImplementedError
 
-    @skip
+    @skip('not implemented')
     def test_dependency_management_requires_target_specification(self):
         raise NotImplementedError
 
-    @skip
+    @skip('not implemented')
     def test_dependency_management_requires_dependencies(self):
         raise NotImplementedError
 
-    @skip
+    @skip('not implemented')
     def test_only_dependency_management_allows_variable_arguments(self):
         raise NotImplementedError

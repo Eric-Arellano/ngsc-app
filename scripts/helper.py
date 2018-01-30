@@ -36,7 +36,7 @@ def get_stdout(command: List[str]) -> str:
 # Command line argument parsing
 # -------------------------------------
 
-def create_parser(command_map: Dict[str, Callable], *,
+def create_parser(command_map: Dict[str, Callable[..., None]], *,
                   accept_target_environment: bool = False) -> argparse.ArgumentParser:
     """
     Setups command line argument parser and assigns defaults and help statements.
@@ -59,7 +59,8 @@ def create_parser(command_map: Dict[str, Callable], *,
     return parser
 
 
-def execute_command(args: argparse.Namespace, command_map: Dict[str, Callable]) -> None:
+def execute_command(args: argparse.Namespace,
+                    command_map: Dict[str, Callable[..., None]]) -> None:
     """
     Determines which command was passed and then executes the command.
 
