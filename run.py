@@ -16,6 +16,7 @@ Usage:
     install...
             install: `./run.py install [--target backend|frontend] `
     test...
+            run tests: `./run.py test [--target script]`
             check types: `./run.py types [--target backend|frontend]`
     dependency management...
             catchup: `./run.py catchup [--target backend|frontend]`
@@ -28,10 +29,9 @@ Usage:
     update student info...
             update: `./run.py student-info`
 """
-import subprocess
 from typing import Callable, List
 
-from scripts import backend, deploy, frontend, helper, update_demographics
+from scripts import backend, deploy, frontend, helper, update_demographics, tests_runner
 
 
 def main() -> None:
@@ -53,6 +53,7 @@ def check_prereqs() -> None:
     frontend.check_prereqs()
     deploy.check_prereqs()
     update_demographics.check_prereqs()
+    tests_runner.check_prereqs()
 
 
 # -------------------------------------
@@ -135,17 +136,10 @@ def test(*, target: Target = 'all') -> None:
     """
     Run unit tests for specified environment.
     """
-    def test_scripts() -> None:
-        # TODO: call using Python, not janky subprocess
-        if helper.is_windows_environment():
-            py = 'python'
-        else:
-            py = 'python3'
-        subprocess.run([py, '-m', 'unittest', 'discover', 'scripts'])
     execute_on_target_environment(target,
                                   all_action=lambda: (
-                                      test_scripts()),
-                                  script_action=test_scripts)
+                                      tests_runner.test()),
+                                  script_action=tests_runner.test)
 
 
 def check_types(*, target: Target = 'all') -> None:
@@ -156,9 +150,11 @@ def check_types(*, target: Target = 'all') -> None:
     execute_on_target_environment(target,
                                   all_action=lambda: (
                                       backend.check_types(),
-                                      frontend.check_types()),
+                                      frontend.check_types(),
+                                      tests_runner.check_types()),
                                   backend_action=backend.check_types,
-                                  frontend_action=frontend.check_types)
+                                  frontend_action=frontend.check_types,
+                                  script_action=tests_runner.check_types)
 
 
 # -------------------------------------

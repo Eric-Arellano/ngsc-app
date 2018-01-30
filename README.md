@@ -51,8 +51,8 @@ You will encounter these symbols:
 * Stop app: `./run.py stop [--target backend|frontend]`
 
 ### Test
-* Run unit tests: `./run.py test`
-* Check types: `./run.py types [--target backend|frontend]`
+* Run unit tests: `./run.py test [--target script]`
+* Check types: `./run.py types [--target backend|frontend|script]`
 
 
 ### Update static student info
