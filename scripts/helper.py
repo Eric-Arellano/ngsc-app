@@ -126,7 +126,10 @@ def _is_installed(prereq: ProgramName) -> bool:
     """
     Boolean check if program installed on computer or not.
     """
-    return shutil.which(prereq) is not None
+    response = subprocess.run(['hash', prereq],
+                              stdout=subprocess.PIPE,
+                              stderr=subprocess.PIPE)
+    return response.returncode == 0
 
 
 # -------------------------------------
