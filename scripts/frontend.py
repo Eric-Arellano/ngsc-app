@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.6
 
 """
 Utility to run, install, test, and manage dependencies for the React frontend.

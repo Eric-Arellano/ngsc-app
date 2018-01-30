@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.6
 
 """
 Top level script to install, run, test, deploy, update, and manage dependencies
