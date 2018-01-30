@@ -50,7 +50,7 @@ You will encounter these symbols:
 * `[a]` = a is optional. You can add it as an argument if you'd like, otherwise the defaults will be used. 
 
 ### Install
-`./run.py [backend|frontend] install`
+`./run.py install [--target backend|frontend]`
 
 ### Run
 * Start app: `./run.py [--target backend|frontend]`
