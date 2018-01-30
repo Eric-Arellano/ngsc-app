@@ -5,24 +5,24 @@ Top level script to install, run, test, deploy, update, and manage dependencies
 for the whole app and its backend and frontend.
 
 Commands follow the syntax:
-    `./run.py [target] [command]`, where
+    `./run.py [command] [-t target]`, where
         [target] = [all|backend|frontend|script] with default to `all`
         [command] = one of the valid commands with default to `run`
 
 Usage:
     run...
-            run (detached): `./run.py [backend|frontend]`
-            stop: `./run.py [backend|frontend] stop `
+            run (detached): `./run.py [--target backend|frontend]`
+            stop: `./run.py stop [--target backend|frontend]`
     install...
-            install: `./run.py [backend|frontend] install `
+            install: `./run.py install [--target backend|frontend] `
     test...
-            check types: `./run.py [backend|frontend] types`
+            check types: `./run.py types [--target backend|frontend]`
     dependency management...
-            catchup: `./run.py [backend|frontend] catchup`
-            view outdated: `./run.py [backend|frontend] outdated`
-            add: `./run.py backend|frontend add package1 [package2..]`
-            upgrade: `./run.py backend|frontend upgrade package1 [package2..]`
-            remove: `./run.py backend|frontend remove package1 [package2..]`
+            catchup: `./run.py catchup [--target backend|frontend]`
+            view outdated: `./run.py outdated [--target backend|frontend]`
+            add: `./run.py add package1 [package2..] --target backend|frontend`
+            upgrade: `./run.py upgrade package1 [package2..] --target backend|frontend`
+            remove: `./run.py remove package1 [package2..] --target backend|frontend`
     deploy...
             deploy: `./run.py deploy`
     update student info...
@@ -191,6 +191,16 @@ def list_outdated(*, target: Target = 'all') -> None:
                                   frontend_action=frontend.list_outdated)
 
 
+def dependency_tree(*, target: Target = 'all') -> None:
+    """
+    Visualize which dependencies depend upon each other.
+    """
+    execute_on_target_environment(target,
+                                  all_action=lambda: (
+                                      backend.dependency_tree()),
+                                  backend_action=backend.dependency_tree)
+
+
 def add(*, target: Target, dependencies: List[Dependency]) -> None:
     """
     Add one or more packages.
@@ -225,22 +235,24 @@ def remove(*, target: Target, dependencies: List[Dependency]) -> None:
 # Deploy commands
 # -------------------------------------
 
-def deploy_to_heroku() -> None:
+def deploy_to_heroku(target: Target = 'all') -> None:
     """
     Push changes to GitHub and Heroku.
     """
-    deploy.main()
+    execute_on_target_environment(target,
+                                  all_action=deploy.main)
 
 
 # -------------------------------------
 # Update student info commands
 # -------------------------------------
 
-def update_student_info() -> None:
+def update_student_info(target: Target = 'all') -> None:
     """
     Check for changes to hardcoded student information and then redeploy.
     """
-    update_demographics.main()
+    execute_on_target_environment(target,
+                                  all_action=update_demographics.main)
 
 
 # -------------------------------------
@@ -253,6 +265,7 @@ command_map = {'run': run,
                'types': check_types,
                'catchup': catchup,
                'outdated': list_outdated,
+               'deptree': dependency_tree,
                'add': add,
                'upgrade': upgrade,
                'remove': remove,

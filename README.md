@@ -47,12 +47,12 @@ You will encounter these symbols:
 `./run.py [backend|frontend] install`
 
 ### Run
-* Start app: `./run.py [backend|frontend]`
-* Stop app: `./run.py [backend|frontend] stop`
+* Start app: `./run.py [--target backend|frontend]`
+* Stop app: `./run.py stop [--target backend|frontend]`
 
 ### Test
 * Run unit tests: `./run.py test`
-* Check types: `./run.py [backend|frontend] types`
+* Check types: `./run.py types [--target backend|frontend]`
 
 
 ### Update static student info
@@ -66,9 +66,9 @@ needs to be updated.
 `./run.py deploy`
 
 ### Dependency management
-* Catchup from changes made by others: `./run.py [backend|frontend] catchup`
-* View outdated dependencies: `./run.py [backend|frontend] outdated`
-* View dependency tree: `./run.py backend outdated` (not supported on frontend)
-* Add package(s): `./run.py backend|frontend add package1 [package2...]`
-* Upgrade package(s): `./run.py backend|frontend upgrade package1 [package2...]`
-* Remove package(s): `./run.py backend|frontend remove package1 [package2...]`
+* Catchup from changes made by others: `./run.py catchup [--target backend|frontend]`
+* View outdated dependencies: `./run.py outdated [--target backend|frontend]`
+* View dependency tree: `./run.py deptree [--target backend]` (not supported on frontend)
+* Add package(s): `./run.py add package1 [package2...] --target backend|frontend`
+* Upgrade package(s): `./run.py upgrade package1 [package2...] --target backend|frontend`
+* Remove package(s): `./run.py remove package1 [package2...] --target backend|frontend`
