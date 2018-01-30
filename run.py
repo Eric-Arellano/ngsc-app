@@ -104,10 +104,10 @@ def stop(*, target: Target = 'all') -> None:
     """
     execute_on_target_environment(target,
                                   all_action=lambda: (
-                                      backend.kill(),
-                                      frontend.kill()),
-                                  backend_action=backend.kill,
-                                  frontend_action=frontend.kill)
+                                      backend.stop(),
+                                      frontend.stop()),
+                                  backend_action=backend.stop,
+                                  frontend_action=frontend.stop)
 
 
 # -------------------------------------

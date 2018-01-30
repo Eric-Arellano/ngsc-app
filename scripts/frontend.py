@@ -7,7 +7,7 @@ Usage:
     run...
             normal: `frontend.py`
             detached mode: `frontend.py detached`
-            kill detached: `frontend.py kill`
+            stop detached: `frontend.py stop`
     install...
             install: `./frontend.py install`
             build: `./frontend.py build`
@@ -76,9 +76,9 @@ def run_detached() -> None:
     print("Frontend server started at localhost:3000. Remember to kill it after.")
 
 
-def kill() -> None:
+def stop() -> None:
     """
-    Kill detached frontend server by searching PID on port 3000 and then killing process.
+    Stop detached frontend server by searching PID on port 3000 and then killing process.
     """
     pid = helper.find_pid_on_port(3000)
     helper.kill_process(pid)
@@ -164,7 +164,7 @@ def remove(dependencies: List[Dependency]) -> None:
 # -------------------------------------
 command_map = {'run': run,
                'detached': run_detached,
-               'kill': kill,
+               'stop': stop,
                'install': install,
                'build': build,
                'types': check_types,

@@ -7,7 +7,7 @@ Usage:
     run...
             normal: `backend.py`
             detached mode: `backend.py detached`
-            kill detached: `backend.py kill`
+            stop detached: `backend.py stop`
     install...
             install: `./backend.py install`
     test...
@@ -105,9 +105,9 @@ def run_detached() -> None:
     print("Backend server started at localhost:5000. Remember to kill it after.")
 
 
-def kill() -> None:
+def stop() -> None:
     """
-    Kill detached backend server by searching PID on port 5000 and then killing process.
+    Stop detached backend server by searching PID on port 5000 and then killing process.
     """
     pid = helper.find_pid_on_port(5000)
     helper.kill_process(pid)
@@ -216,7 +216,7 @@ def remove(dependencies: List[Dependency]) -> None:
 # -------------------------------------
 command_map = {'run': run,
                'detached': run_detached,
-               'kill': kill,
+               'stop': stop,
                'install': install,
                'types': check_types,
                'catchup': catchup,
