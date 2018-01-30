@@ -26,6 +26,7 @@ def check_prereqs() -> None:
     Confirms all required software installed.
     """
     helper.check_prereqs_installed(['git', 'heroku'])
+    helper.check_helper_prereqs_installed()
 
 
 def check_remote_added() -> None:

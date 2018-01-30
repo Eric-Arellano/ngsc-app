@@ -47,9 +47,9 @@ def check_prereqs() -> None:
     """
     Confirms all required software installed.
     """
-    helper.check_prereqs_installed(['grep', 'awk'])
-    helper.check_prereqs_installed(['python3', 'lsof', 'kill'], windows_support=False)
-    helper.check_prereqs_installed(['python', 'netstat', 'tskill', 'findstr'], posix_support=False)
+    helper.check_prereqs_installed(['python3'], windows_support=False)
+    helper.check_prereqs_installed(['python'], posix_support=False)
+    helper.check_helper_prereqs_installed()
 
 
 # -------------------------------------
@@ -102,7 +102,7 @@ def run_detached() -> None:
     os.environ['FLASK_APP'] = 'backend/src/app.py'
     subprocess.run("flask run &>/dev/null &",
                    shell=True)
-    print("Backend server started at localhost:5000. Remember to kill it after.")
+    print("Backend server started at localhost:5000. Remember to stop it after.")
 
 
 def stop() -> None:
@@ -111,7 +111,7 @@ def stop() -> None:
     """
     pid = helper.find_pid_on_port(5000)
     helper.kill_process(pid)
-    print("Backend server killed at localhost:5000.")
+    print("Backend server stopped at localhost:5000.")
 
 
 # -------------------------------------

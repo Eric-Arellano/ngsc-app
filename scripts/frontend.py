@@ -46,9 +46,8 @@ def check_prereqs() -> None:
     """
     Confirms all required software installed.
     """
-    helper.check_prereqs_installed(['yarn', 'npm', 'node', 'grep', 'awk'])
-    helper.check_prereqs_installed(['lsof', 'kill'], windows_support=False)
-    helper.check_prereqs_installed(['netstat', 'tskill', 'findstr'], posix_support=False)
+    helper.check_prereqs_installed(['yarn', 'npm', 'node'])
+    helper.check_helper_prereqs_installed()
 
 
 # -------------------------------------
@@ -73,7 +72,7 @@ def run_detached() -> None:
     """
     subprocess.run("yarn start &>/dev/null &",
                    shell=True, cwd='frontend/')
-    print("Frontend server started at localhost:3000. Remember to kill it after.")
+    print("Frontend server started at localhost:3000. Remember to stop it after.")
 
 
 def stop() -> None:
@@ -82,7 +81,7 @@ def stop() -> None:
     """
     pid = helper.find_pid_on_port(3000)
     helper.kill_process(pid)
-    print("Frontend server killed at localhost:3000.")
+    print("Frontend server stopped at localhost:3000.")
 
 
 # -------------------------------------

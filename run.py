@@ -54,6 +54,7 @@ def check_prereqs() -> None:
     deploy.check_prereqs()
     update_demographics.check_prereqs()
     tests_runner.check_prereqs()
+    helper.check_helper_prereqs_installed()
 
 
 # -------------------------------------

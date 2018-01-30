@@ -7,10 +7,26 @@ from typing import Callable, Dict, List
 
 
 # -------------------------------------
+# Check its own pre-reqs installed
+# -------------------------------------
+
+def check_helper_prereqs_installed() -> None:
+    """
+    Confirms all required software installed necessary to use these functions.
+    """
+    check_prereqs_installed(['grep', 'awk'])
+    check_prereqs_installed(['lsof', 'kill'], windows_support=False)
+    check_prereqs_installed(['netstat', 'tskill', 'findstr'], posix_support=False)
+
+
+# -------------------------------------
 # System calls
 # -------------------------------------
 
 def get_stdout(command: List[str]) -> str:
+    """
+    Performs the given command and returns the stdout as a string.
+    """
     return subprocess.run(command,
                           stdout=subprocess.PIPE,
                           encoding='utf-8').stdout.strip()
@@ -131,10 +147,10 @@ def find_pid_on_port(port: Port) -> PID:
     else:
         command = f"lsof -n -i4TCP:{port} | grep LISTEN | awk '{{ print $2 }}'"
     # find PID
-    pid = subprocess.check_output(command, shell=True)
+    pid = subprocess.check_output(command, shell=True).strip()
     if not pid:
         raise SystemExit(f'No process found running on port {port}.')
-    return pid.rstrip()
+    return pid
 
 
 def kill_process(pid: PID) -> None:
