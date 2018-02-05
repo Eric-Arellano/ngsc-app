@@ -28,26 +28,28 @@ from typing import List
 
 # path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
-from scripts import helper
+from scripts.utils import prereq_checker, process_management, git, command_line_args
 
 
 def main() -> None:
-    parser = helper.create_parser(command_map)
+    parser = command_line_args.create_parser(command_map)
     args = parser.parse_args()
-    check_prereqs()
-    helper.execute_command(args, command_map)
+    check_prereqs_installed()
+    command_line_args.execute_command(args, command_map)
 
 
 # -------------------------------------
 # Required software
 # -------------------------------------
 
-def check_prereqs() -> None:
+def check_prereqs_installed() -> None:
     """
     Confirms all required software installed.
     """
-    helper.check_prereqs_installed(['yarn', 'npm', 'node'])
-    helper.check_helper_prereqs_installed()
+    prereq_checker.check_is_installed(['yarn', 'npm', 'node'])
+    command_line_args.check_prereqs_installed()
+    git.check_prereqs_installed()
+    process_management.check_prereqs_installed()
 
 
 # -------------------------------------
@@ -79,8 +81,8 @@ def stop() -> None:
     """
     Stop detached frontend server by searching PID on port 3000 and then killing process.
     """
-    pid = helper.find_pid_on_port(3000)
-    helper.kill_process(pid)
+    pid = process_management.find_pid_on_port(3000)
+    process_management.kill_process(pid)
     print("Frontend server stopped at localhost:3000.")
 
 
@@ -123,6 +125,7 @@ def catchup() -> None:
     """
     Check if any new npm dependencies added from others remotely, and then install them if so.
     """
+    # TODO: pull from master
     # TODO: actually check for differences in package.json
     subprocess.run(["yarn", "install"], cwd='frontend/')
 
@@ -139,7 +142,7 @@ def add(dependencies: List[Dependency]) -> None:
     Add one or more npm packages.
     """
     subprocess.run(["yarn", "add"] + dependencies, cwd='frontend/')
-    helper.remind_to_commit("package.json and yarn.lock")
+    git.remind_to_commit("package.json and yarn.lock")
 
 
 def upgrade(dependencies: List[Dependency]) -> None:
@@ -147,7 +150,7 @@ def upgrade(dependencies: List[Dependency]) -> None:
     Upgrade one or more out-of-date npm packages.
     """
     subprocess.run(["yarn", "upgrade"] + dependencies, cwd='frontend/')
-    helper.remind_to_commit("package.json and yarn.lock")
+    git.remind_to_commit("package.json and yarn.lock")
 
 
 def remove(dependencies: List[Dependency]) -> None:
@@ -155,7 +158,7 @@ def remove(dependencies: List[Dependency]) -> None:
     Remove one or more npm packages.
     """
     subprocess.run(["yarn", "remove"] + dependencies, cwd='frontend/')
-    helper.remind_to_commit("package.json and yarn.lock")
+    git.remind_to_commit("package.json and yarn.lock")
 
 
 # -------------------------------------

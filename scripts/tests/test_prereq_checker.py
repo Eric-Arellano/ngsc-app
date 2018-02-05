@@ -6,7 +6,8 @@ from unittest import TestCase, skip
 # path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
-from scripts import backend, frontend, helper
+from scripts import backend, frontend
+from scripts.utils import command_line_args
 
 
 class ParserTester(TestCase):
@@ -14,10 +15,10 @@ class ParserTester(TestCase):
     def assert_raises_parser_error(self,
                                    command_map: Dict[str, Callable[..., None]],
                                    args: List[str]):
-        parser = helper.create_parser(backend.command_map)
+        parser = command_line_args.create_parser(backend.command_map)
         parsed_args = parser.parse_args(args)
         with self.assertRaises(TypeError):
-            helper.execute_command(parsed_args, command_map)
+            command_line_args.execute_command(parsed_args, command_map)
 
 
 class TestSingleServerParser(ParserTester):

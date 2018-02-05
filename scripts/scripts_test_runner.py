@@ -16,27 +16,29 @@ import sys
 # path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
-from scripts import helper, backend
+from scripts.utils import prereq_checker, venv, sys_calls, command_line_args
 
 
 def main() -> None:
-    parser = helper.create_parser(command_map)
+    parser = command_line_args.create_parser(command_map)
     args = parser.parse_args()
-    check_prereqs()
-    helper.execute_command(args, command_map)
+    check_prereqs_installed()
+    command_line_args.execute_command(args, command_map)
 
 
 # -------------------------------------
 # Required software
 # -------------------------------------
 
-def check_prereqs() -> None:
+def check_prereqs_installed() -> None:
     """
     Confirms all required software installed.
     """
-    helper.check_prereqs_installed(['grep', 'awk'])
-    helper.check_prereqs_installed(['python3', 'lsof', 'kill'], windows_support=False)
-    helper.check_prereqs_installed(['python', 'netstat', 'tskill', 'findstr'], posix_support=False)
+    prereq_checker.check_is_installed(['python3'], windows_support=False)
+    prereq_checker.check_is_installed(['python'], posix_support=False)
+    command_line_args.check_prereqs_installed()
+    sys_calls.check_prereqs_installed()
+    venv.check_prereqs_installed()
 
 
 # -------------------------------------
@@ -47,7 +49,7 @@ def check_types() -> None:
     """
     Calls MyPy to check for type errors.
     """
-    backend.activate_venv()
+    venv.activate()
     subprocess.run(["mypy", "--strict-optional", "--ignore-missing-imports",
                     "--package", "scripts"])
 
@@ -56,11 +58,11 @@ def test() -> None:
     """
     Run unit tests.
     """
-    if helper.is_windows_environment():
+    if sys_calls.is_windows_environment():
         py = 'python'
     else:
         py = 'python3'
-    subprocess.run([py, '-m', 'unittest', 'discover', 'scripts'])
+    subprocess.run([py, '-m', 'unittest', 'discover', 'scripts/tests'])
 
 
 # -------------------------------------
@@ -76,4 +78,3 @@ command_map = {'test': test,
 
 if __name__ == '__main__':
     main()
-

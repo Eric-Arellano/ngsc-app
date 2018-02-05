@@ -31,14 +31,15 @@ Usage:
 """
 from typing import Callable, List
 
-from scripts import backend, deploy, frontend, helper, update_demographics, tests_runner
+from scripts import backend, deploy, frontend, scripts_test_runner, update_demographics
+from scripts.utils import command_line_args
 
 
 def main() -> None:
-    parser = helper.create_parser(command_map, accept_target_environment=True)
+    parser = command_line_args.create_parser(command_map, accept_target_environment=True)
     args = parser.parse_args()
     check_prereqs()
-    helper.execute_command(args, command_map)
+    command_line_args.execute_command(args, command_map)
 
 
 # -------------------------------------
@@ -50,11 +51,11 @@ def check_prereqs() -> None:
     Confirms all required software installed.
     """
     backend.check_prereqs()
-    frontend.check_prereqs()
-    deploy.check_prereqs()
-    update_demographics.check_prereqs()
-    tests_runner.check_prereqs()
-    helper.check_helper_prereqs_installed()
+    frontend.check_prereqs_installed()
+    deploy.check_prereqs_installed()
+    update_demographics.check_prereqs_installed()
+    scripts_test_runner.check_prereqs_installed()
+    command_line_args.check_prereqs_installed()
 
 
 # -------------------------------------
@@ -139,8 +140,8 @@ def test(*, target: Target = 'all') -> None:
     """
     execute_on_target_environment(target,
                                   all_action=lambda: (
-                                      tests_runner.test()),
-                                  script_action=tests_runner.test)
+                                      scripts_test_runner.test()),
+                                  script_action=scripts_test_runner.test)
 
 
 def check_types(*, target: Target = 'all') -> None:
@@ -152,10 +153,10 @@ def check_types(*, target: Target = 'all') -> None:
                                   all_action=lambda: (
                                       backend.check_types(),
                                       frontend.check_types(),
-                                      tests_runner.check_types()),
+                                      scripts_test_runner.check_types()),
                                   backend_action=backend.check_types,
                                   frontend_action=frontend.check_types,
-                                  script_action=tests_runner.check_types)
+                                  script_action=scripts_test_runner.check_types)
 
 
 # -------------------------------------
@@ -269,7 +270,6 @@ command_map = {'run': run,
                'deploy': deploy_to_heroku,
                'student-info': update_student_info
                }
-
 
 # -------------------------------------
 # Run script
