@@ -24,6 +24,7 @@ Usage:
 import os
 import sys
 from typing import List
+from subprocess import DEVNULL, Popen
 
 # path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
@@ -72,8 +73,7 @@ def run_detached() -> None:
 
     Must later kill process.
     """
-    sys_calls.run_as_shell("yarn start &>/dev/null &",
-                           cwd='frontend/')
+    sys_calls.run_detached(['yarn', 'start'], cwd='frontend/')
     print("Frontend server started at localhost:3000. Remember to stop it after.")
 
 

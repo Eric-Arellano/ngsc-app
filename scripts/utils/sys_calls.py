@@ -38,16 +38,37 @@ def run(command: List[str], **kwargs) -> subprocess.CompletedProcess:
     Calls subprocess.run() and allows seamless support of both Windows and Unix.
     """
     if is_windows_environment():
-        return subprocess.run(' '.join(command), shell=True, **kwargs)
+        return subprocess.run(' '.join(command),
+                              shell=True,
+                              **kwargs)
     else:
         return subprocess.run(command, **kwargs)
+
+
+def run_detached(command: List[str], **kwargs) -> None:
+    """
+    Calls subprocess.run() and ignores all input and output.
+    """
+    if is_windows_environment():
+        subprocess.Popen(' '.join(command),
+                         shell=True,
+                         stdout=subprocess.DEVNULL,
+                         stderr=subprocess.DEVNULL,
+                         **kwargs)
+    else:
+        subprocess.Popen(command,
+                         stdout=subprocess.DEVNULL,
+                         stderr=subprocess.DEVNULL,
+                         **kwargs)
 
 
 def run_as_shell(command: str, **kwargs) -> subprocess.CompletedProcess:
     """
     Calls subprocess.run() with shell=True.
     """
-    return subprocess.run(command, shell=True, **kwargs)
+    return subprocess.run(command,
+                          shell=True,
+                          **kwargs)
 
 
 # -----------------------------------------------------------------

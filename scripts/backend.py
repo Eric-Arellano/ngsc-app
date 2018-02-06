@@ -79,7 +79,7 @@ def run_detached() -> None:
     """
     venv.activate()
     os.environ['FLASK_APP'] = 'backend/src/app.py'
-    sys_calls.run_as_shell("flask run &>/dev/null &")
+    sys_calls.run_detached(["flask", "run"])
     print("Backend server started at localhost:5000. Remember to stop it after.")
 
 
