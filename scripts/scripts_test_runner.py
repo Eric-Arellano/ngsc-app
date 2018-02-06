@@ -50,7 +50,7 @@ def check_types() -> None:
     """
     venv.activate()
     sys_calls.run(["mypy", "--strict-optional", "--ignore-missing-imports",
-                    "--package", "scripts"])
+                   "--package", "scripts"])
 
 
 def test() -> None:
@@ -67,9 +67,9 @@ def test() -> None:
 # -------------------------------------
 # Command line options
 # -------------------------------------
-command_map = {'test': test,
-               'types': check_types,
-               }
+command_map = command_line_args.CommandMap({'test': test,
+                                            'types': check_types,
+                                            })
 
 # -------------------------------------
 # Run script

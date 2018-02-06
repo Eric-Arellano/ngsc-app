@@ -51,19 +51,19 @@ def run(command: List[str], **kwargs) -> subprocess.CompletedProcess:
     """
     Calls subprocess.run() and allows seamless support of both Windows and Unix.
     """
-    command, kwargs = _modify_for_windows(command, kwargs)
-    return subprocess.run(command, **kwargs)
+    new_command, new_kwargs = _modify_for_windows(command, kwargs)
+    return subprocess.run(new_command, **new_kwargs)
 
 
 def run_detached(command: List[str], **kwargs) -> None:
     """
     Calls non-blocking subprocess.Popen() and ignores all input and output.
     """
-    command, kwargs = _modify_for_windows(command, kwargs)
-    subprocess.Popen(command,
+    new_command, new_kwargs = _modify_for_windows(command, kwargs)
+    subprocess.Popen(new_command,
                      stdout=subprocess.DEVNULL,
                      stderr=subprocess.DEVNULL,
-                     **kwargs)
+                     **new_kwargs)
 
 
 def run_as_shell(command: str, **kwargs) -> subprocess.CompletedProcess:
@@ -83,11 +83,11 @@ def get_stdout(command: List[str], **kwargs) -> str:
     """
     Performs the given command and returns the stdout as a string.
     """
-    command, kwargs = _modify_for_windows(command, kwargs)
-    return subprocess.run(command,
+    new_command, new_kwargs = _modify_for_windows(command, kwargs)
+    return subprocess.run(new_command,
                           stdout=subprocess.PIPE,
                           encoding='utf-8',
-                          **kwargs).stdout.strip()
+                          **new_kwargs).stdout.strip()
 
 
 def get_stdout_as_shell(command: str, **kwargs) -> str:

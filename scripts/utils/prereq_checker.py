@@ -2,12 +2,12 @@
 Utilities to check that necessary programs are installed on the system and on its PATH.
 """
 
-from typing import List, NewType
 import shutil
+from typing import List
 
 from scripts.utils import sys_calls
 
-ProgramName = NewType('ProgramName', str)
+ProgramName = str
 
 
 def find_not_installed(programs: List[ProgramName]) -> List[ProgramName]:

@@ -80,7 +80,7 @@ def stop() -> None:
     """
     Stop detached frontend server by searching PID on port 3000 and then killing process.
     """
-    pid = process_management.find_pid_on_port(3000)
+    pid = process_management.find_pid_on_port('3000')
     process_management.kill_process(pid)
     print("Frontend server stopped at localhost:3000.")
 
@@ -163,18 +163,18 @@ def remove(dependencies: List[Dependency]) -> None:
 # -------------------------------------
 # Command line options
 # -------------------------------------
-command_map = {'run': run,
-               'detached': run_detached,
-               'stop': stop,
-               'install': install,
-               'build': build,
-               'types': check_types,
-               'catchup': catchup,
-               'outdated': list_outdated,
-               'add': add,
-               'upgrade': upgrade,
-               'remove': remove
-               }
+command_map = command_line_args.CommandMap({'run': run,
+                                            'detached': run_detached,
+                                            'stop': stop,
+                                            'install': install,
+                                            'build': build,
+                                            'types': check_types,
+                                            'catchup': catchup,
+                                            'outdated': list_outdated,
+                                            'add': add,
+                                            'upgrade': upgrade,
+                                            'remove': remove
+                                            })
 
 # -------------------------------------
 # Run script

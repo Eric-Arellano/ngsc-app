@@ -2,12 +2,10 @@
 Utilities to interface with processes and ports.
 """
 
-from typing import NewType
-
 from scripts.utils import prereq_checker, sys_calls
 
-Port = NewType('Port', int)
-PID = NewType('PID', int)
+Port = str
+PID = str
 
 
 # -----------------------------------------------------------------
@@ -41,7 +39,7 @@ def find_pid_on_port(port: Port) -> PID:
     pid = sys_calls.get_stdout_as_shell(command)
     if not pid:
         raise SystemExit(f'No process found running on port {port}.')
-    return pid
+    return PID(pid)
 
 
 # -----------------------------------------------------------------

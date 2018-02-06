@@ -3,13 +3,13 @@ Utilities to interface with Git.
 """
 
 from textwrap import dedent
-from typing import List, NewType
+from typing import List
 
 from scripts.utils import prereq_checker, sys_calls
 
-Branch = NewType('Branch', str)
-Remote = NewType('Remote', str)
-RemoteURL = NewType('RemoteURL', str)
+Branch = str
+Remote = str
+RemoteURL = str
 
 
 # -----------------------------------------------------------------

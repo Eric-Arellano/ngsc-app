@@ -1,6 +1,6 @@
 import os
 import sys
-from typing import Callable, Dict, List
+from typing import List
 from unittest import TestCase, skip
 
 # path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
@@ -8,12 +8,13 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 from scripts import backend, frontend
 from scripts.utils import command_line_args
+from scripts.utils.command_line_args import CommandMap
 
 
 class ParserTester(TestCase):
 
     def assert_raises_parser_error(self,
-                                   command_map: Dict[str, Callable[..., None]],
+                                   command_map: CommandMap,
                                    args: List[str]):
         parser = command_line_args.create_parser(backend.command_map)
         parsed_args = parser.parse_args(args)
