@@ -24,7 +24,6 @@ Usage:
 import os
 import sys
 from typing import List
-from subprocess import DEVNULL, Popen
 
 # path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
