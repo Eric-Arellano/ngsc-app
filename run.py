@@ -148,7 +148,6 @@ def check_types(*, target: Target = 'all') -> None:
     """
     Call Flow and MyPy to check type safety of app.
     """
-    # TODO: get this working for scripts
     execute_on_target_environment(target,
                                   all_action=lambda: (
                                       backend.check_types(),
