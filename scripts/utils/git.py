@@ -41,7 +41,7 @@ def is_remote_added(remote: Remote) -> bool:
     Returns true if remote is linked to on local machine.
     """
     remotes = sys_calls.get_stdout(['git', 'remote'])
-    return remote not in remotes
+    return remote in remotes
 
 
 def is_clean_local() -> bool:
