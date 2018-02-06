@@ -2,8 +2,8 @@
 Utilities to check that necessary programs are installed on the system and on its PATH.
 """
 
-import subprocess
 from typing import List, NewType
+import shutil
 
 from scripts.utils import sys_calls
 
@@ -22,10 +22,7 @@ def is_program_installed(program: ProgramName) -> bool:
     """
     Boolean check if program is installed or not.
     """
-    response = subprocess.run(['hash', program],
-                              stdout=subprocess.PIPE,
-                              stderr=subprocess.PIPE)
-    return response.returncode == 0
+    return shutil.which(program) is not None
 
 
 def check_is_installed(programs: List[ProgramName], *,

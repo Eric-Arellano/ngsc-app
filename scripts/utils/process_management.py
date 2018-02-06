@@ -2,11 +2,9 @@
 Utilities to interface with processes and ports.
 """
 
-import subprocess
 from typing import NewType
 
 from scripts.utils import prereq_checker, sys_calls
-
 
 Port = NewType('Port', int)
 PID = NewType('PID', int)
@@ -40,7 +38,7 @@ def find_pid_on_port(port: Port) -> PID:
     else:
         command = f"lsof -n -i4TCP:{port} | grep LISTEN | awk '{{ print $2 }}'"
     # find PID
-    pid = subprocess.check_output(command, shell=True).strip()
+    pid = sys_calls.get_stdout_as_shell(command)
     if not pid:
         raise SystemExit(f'No process found running on port {port}.')
     return pid
@@ -58,4 +56,4 @@ def kill_process(pid: PID) -> None:
         command = 'tskill'
     else:
         command = 'kill'
-    subprocess.run([command, pid])
+    sys_calls.run([command, pid])

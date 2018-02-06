@@ -22,13 +22,12 @@ Usage:
 """
 
 import os
-import subprocess
 import sys
 from typing import List
 
 # path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
-from scripts.utils import prereq_checker, process_management, git, command_line_args
+from scripts.utils import prereq_checker, process_management, git, command_line_args, sys_calls
 
 
 def main() -> None:
@@ -50,6 +49,7 @@ def check_prereqs_installed() -> None:
     command_line_args.check_prereqs_installed()
     git.check_prereqs_installed()
     process_management.check_prereqs_installed()
+    sys_calls.check_prereqs_installed()
 
 
 # -------------------------------------
@@ -61,7 +61,7 @@ def run() -> None:
     Start frontend server normally.
     """
     try:
-        subprocess.run(["yarn", "start"], cwd='frontend/')
+        sys_calls.run(["yarn", "start"], cwd='frontend/')
     except KeyboardInterrupt:
         pass
 
@@ -72,8 +72,8 @@ def run_detached() -> None:
 
     Must later kill process.
     """
-    subprocess.run("yarn start &>/dev/null &",
-                   shell=True, cwd='frontend/')
+    sys_calls.run_as_shell("yarn start &>/dev/null &",
+                           cwd='frontend/')
     print("Frontend server started at localhost:3000. Remember to stop it after.")
 
 
@@ -94,14 +94,14 @@ def install() -> None:
     """
     Downloads & installs all dependencies for the frontend.
     """
-    subprocess.run(["yarn", "install"], cwd='frontend/')
+    sys_calls.run(["yarn", "install"], cwd='frontend/')
 
 
 def build() -> None:
     """
     Builds frontend into two minified files, allowing the backend to render frontend.
     """
-    subprocess.run(["yarn", "build"], cwd='frontend/')
+    sys_calls.run(["yarn", "build"], cwd='frontend/')
 
 
 # -------------------------------------
@@ -112,7 +112,7 @@ def check_types() -> None:
     """
     Calls Flow to check for type errors.
     """
-    subprocess.run(["yarn", "flow"], cwd='frontend/')
+    sys_calls.run(["yarn", "flow"], cwd='frontend/')
 
 
 # -------------------------------------
@@ -127,21 +127,21 @@ def catchup() -> None:
     """
     # TODO: pull from master
     # TODO: actually check for differences in package.json
-    subprocess.run(["yarn", "install"], cwd='frontend/')
+    sys_calls.run(["yarn", "install"], cwd='frontend/')
 
 
 def list_outdated() -> None:
     """
     List npm packages that should be updated.
     """
-    subprocess.run(["yarn", "outdated"], cwd='frontend/')
+    sys_calls.run(["yarn", "outdated"], cwd='frontend/')
 
 
 def add(dependencies: List[Dependency]) -> None:
     """
     Add one or more npm packages.
     """
-    subprocess.run(["yarn", "add"] + dependencies, cwd='frontend/')
+    sys_calls.run(["yarn", "add"] + dependencies, cwd='frontend/')
     git.remind_to_commit("package.json and yarn.lock")
 
 
@@ -149,7 +149,7 @@ def upgrade(dependencies: List[Dependency]) -> None:
     """
     Upgrade one or more out-of-date npm packages.
     """
-    subprocess.run(["yarn", "upgrade"] + dependencies, cwd='frontend/')
+    sys_calls.run(["yarn", "upgrade"] + dependencies, cwd='frontend/')
     git.remind_to_commit("package.json and yarn.lock")
 
 
@@ -157,7 +157,7 @@ def remove(dependencies: List[Dependency]) -> None:
     """
     Remove one or more npm packages.
     """
-    subprocess.run(["yarn", "remove"] + dependencies, cwd='frontend/')
+    sys_calls.run(["yarn", "remove"] + dependencies, cwd='frontend/')
     git.remind_to_commit("package.json and yarn.lock")
 
 

@@ -10,7 +10,6 @@ Usage:
 """
 
 import os
-import subprocess
 import sys
 
 # path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
@@ -50,7 +49,7 @@ def check_types() -> None:
     Calls MyPy to check for type errors.
     """
     venv.activate()
-    subprocess.run(["mypy", "--strict-optional", "--ignore-missing-imports",
+    sys_calls.run(["mypy", "--strict-optional", "--ignore-missing-imports",
                     "--package", "scripts"])
 
 
@@ -62,7 +61,7 @@ def test() -> None:
         py = 'python'
     else:
         py = 'python3'
-    subprocess.run([py, '-m', 'unittest', 'discover', 'scripts/tests'])
+    sys_calls.run([py, '-m', 'unittest', 'discover', 'scripts/tests'])
 
 
 # -------------------------------------

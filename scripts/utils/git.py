@@ -2,11 +2,10 @@
 Utilities to interface with Git.
 """
 
-import subprocess
 from textwrap import dedent
 from typing import List, NewType
 
-from scripts.utils import sys_calls, prereq_checker
+from scripts.utils import prereq_checker, sys_calls
 
 Branch = NewType('Branch', str)
 Remote = NewType('Remote', str)
@@ -22,6 +21,7 @@ def check_prereqs_installed() -> None:
     Confirm all required software installed.
     """
     prereq_checker.check_is_installed(['git'])
+    sys_calls.check_prereqs_installed()
 
 
 # -----------------------------------------------------------------
@@ -48,7 +48,7 @@ def is_clean_local() -> bool:
     """
     Returns True if there are no differences on local that need to be committed.
     """
-    response = subprocess.run(['git', 'diff-index', '--quiet', 'HEAD', '--'])
+    response = sys_calls.run(['git', 'diff-index', '--quiet', 'HEAD', '--'])
     return response.returncode == 0
 
 
@@ -60,43 +60,43 @@ def fast_forward_remote(remote: Remote, branch: Branch) -> None:
     """
     Checks given remote for any changes and attempts to fast-forward.
     """
-    subprocess.run(['git', 'fetch', remote, branch])
-    subprocess.run(['git', 'merge', '--ff-only'], check=True)
+    sys_calls.run(['git', 'fetch', remote, branch])
+    sys_calls.run(['git', 'merge', '--ff-only'], check=True)
 
 
 def checkout(branch: Branch) -> None:
     """
     Simple checkout to given branch.
     """
-    subprocess.run(['git', 'checkout', branch])
+    sys_calls.run(['git', 'checkout', branch])
 
 
 def add(files: List[str]) -> None:
     """
     Add given files / glob.
     """
-    subprocess.run(['git', 'add'] + files)
+    sys_calls.run(['git', 'add'] + files)
 
 
 def commit(message: str) -> None:
     """
     Commit with message.
     """
-    subprocess.run(['git', 'commit', '-m', message])
+    sys_calls.run(['git', 'commit', '-m', message])
 
 
 def push(remote: Remote, remote_branch: Branch) -> None:
     """
     Push to given remote.
     """
-    subprocess.run(['git', 'push', remote, remote_branch])
+    sys_calls.run(['git', 'push', remote, remote_branch])
 
 
 def add_remote(remote: Remote, url: RemoteURL) -> None:
     """
     Add given remote to local git.
     """
-    subprocess.run(['git', 'remote', 'add', remote, url])
+    sys_calls.run(['git', 'remote', 'add', remote, url])
 
 
 # -----------------------------------------------------------------

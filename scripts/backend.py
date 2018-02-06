@@ -22,7 +22,6 @@ Usage:
 """
 
 import os
-import subprocess
 import sys
 from typing import List
 
@@ -67,7 +66,7 @@ def run() -> None:
     venv.activate()
     os.environ['FLASK_APP'] = 'backend/src/app.py'
     try:
-        subprocess.run(["flask", "run"])
+        sys_calls.run(["flask", "run"])
     except KeyboardInterrupt:
         pass
 
@@ -80,8 +79,7 @@ def run_detached() -> None:
     """
     venv.activate()
     os.environ['FLASK_APP'] = 'backend/src/app.py'
-    subprocess.run("flask run &>/dev/null &",
-                   shell=True)
+    sys_calls.run_as_shell("flask run &>/dev/null &")
     print("Backend server started at localhost:5000. Remember to stop it after.")
 
 
@@ -104,7 +102,7 @@ def install() -> None:
     """
     venv.create()
     venv.activate()
-    subprocess.run(["pip", "install", "-r", "requirements.txt"])
+    sys_calls.run(["pip", "install", "-r", "requirements.txt"])
 
 
 # -------------------------------------
@@ -116,8 +114,8 @@ def check_types() -> None:
     Calls MyPy to check for type errors.
     """
     venv.activate()
-    subprocess.run(["mypy", "--strict-optional", "--ignore-missing-imports",
-                    "--package", "src"], cwd='backend/')
+    sys_calls.run(["mypy", "--strict-optional", "--ignore-missing-imports",
+                   "--package", "src"], cwd='backend/')
 
 
 # -------------------------------------
@@ -131,7 +129,7 @@ def _freeze_requirements() -> None:
     Updates the requirements.txt file with new dependencies.
     """
     with open('requirements.txt', 'w') as requirements:
-        subprocess.run(['pip', 'freeze'], stdout=requirements)
+        sys_calls.run(['pip', 'freeze'], stdout=requirements)
     git.remind_to_commit("requirements.txt")
 
 
@@ -142,7 +140,7 @@ def catchup() -> None:
     # TODO: pull from master
     # TODO: actually check for differences in requirements.txt
     venv.activate()
-    subprocess.run(["pip", "install", "-r", "requirements.txt"])
+    sys_calls.run(["pip", "install", "-r", "requirements.txt"])
 
 
 def list_outdated() -> None:
@@ -150,7 +148,7 @@ def list_outdated() -> None:
     List pip packages that should be updated.
     """
     venv.activate()
-    subprocess.run(["pip", "list", "--outdated", "--format=columns"])
+    sys_calls.run(["pip", "list", "--outdated", "--format=columns"])
 
 
 def dependency_tree() -> None:
@@ -158,7 +156,7 @@ def dependency_tree() -> None:
     Visualize which dependencies depend upon which.
     """
     venv.activate()
-    subprocess.run(["pipdeptree"])
+    sys_calls.run(["pipdeptree"])
 
 
 def add(dependencies: List[Dependency]) -> None:
@@ -166,7 +164,7 @@ def add(dependencies: List[Dependency]) -> None:
     Add one or more pip packages.
     """
     venv.activate()
-    subprocess.run(["pip", "install"] + dependencies)
+    sys_calls.run(["pip", "install"] + dependencies)
     _freeze_requirements()
 
 
@@ -175,7 +173,7 @@ def upgrade(dependencies: List[Dependency]) -> None:
     Upgrade one or more out-of-date pip packages.
     """
     venv.activate()
-    subprocess.run(["pip", "install", "--upgrade"] + dependencies)
+    sys_calls.run(["pip", "install", "--upgrade"] + dependencies)
     _freeze_requirements()
 
 
@@ -184,7 +182,7 @@ def remove(dependencies: List[Dependency]) -> None:
     Remove one or more pip packages.
     """
     venv.activate()
-    subprocess.run(["pip", "uninstall"] + dependencies)
+    sys_calls.run(["pip", "uninstall"] + dependencies)
     _freeze_requirements()
 
 

@@ -2,8 +2,7 @@
 Utilities to interface with Python's venv (virtual environment).
 """
 
-from scripts.utils import sys_calls, prereq_checker
-import subprocess
+from scripts.utils import prereq_checker, sys_calls
 
 
 # -----------------------------------------------------------------
@@ -47,6 +46,6 @@ def create() -> None:
     """
     command = ['-m', 'venv', 'backend/']
     if sys_calls.is_windows_environment():
-        subprocess.run(['python'] + command)
+        sys_calls.run(['python'] + command)
     else:
-        subprocess.run(['python3'] + command)
+        sys_calls.run(['python3'] + command)
