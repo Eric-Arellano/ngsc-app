@@ -30,21 +30,51 @@ for further context on how to get this project working effectively on a PC.
 1. Heroku, 64 bit installer from https://devcenter.heroku.com/articles/heroku-cli
     1. Accept defaults
     
-## Install
-### Mac
-`./run.py install`
+### Running commands on PC
+Use Git Bash instead of Command Prompt, because Git Bash offers Unix-style tools.
 
-### PC
-1. `./backend.sh install`
-1. `./frontend.sh install`
+Due to issues with the way Python is installed on PCs, the normal command method of `./run.py` won't work. Instead,
+*every time you see `./run.py`, replace it with`py run.py`*.
 
-## Run app
-### Mac
-1. `./run.py`
-1. `./run.py stop`
+## Basic Usage
+1. `./run.py install`, installs all the libraries
+1. `./run.py`, starts the app at `localhost:3000` (go to this in your browser)
+1. `./run.py stop`, stops the app
 
-### PC
-1. `./backend.sh detached`
-1. `./frontend.sh detached`
-1. `./backend.sh stop`
-1. `./frontend.sh stop`
+## Advanced Usage
+There are many different ways to run this application, such as only starting the backend server or only starting the frontend server.
+
+#### Understanding the below syntax
+You will encounter these symbols:
+* `a|b` = a or b. You must choose one.
+* `[a]` = a is optional. You can add it as an argument if you'd like, otherwise the defaults will be used. 
+
+### Install
+`./run.py install [--target backend|frontend]`
+
+### Run
+* Start app: `./run.py [--target backend|frontend]`
+* Stop app: `./run.py stop [--target backend|frontend]`
+
+### Test
+* Run unit tests: `./run.py test [--target script]`
+* Check types: `./run.py types [--target backend|frontend|script]`
+
+
+### Update static student info
+We are saving everyone's IDs, names, committees, mission teams, etc into a Python dictionary to avoid having to make an 
+API call for that info, since it doesn't change often. Whenever a change happens to the Master spreadsheet, this 
+needs to be updated.
+
+`./run.py student-info`
+
+### Deploy
+`./run.py deploy`
+
+### Dependency management
+* Catchup from changes made by others: `./run.py catchup [--target backend|frontend]`
+* View outdated dependencies: `./run.py outdated [--target backend|frontend]`
+* View dependency tree: `./run.py deptree [--target backend]` (not supported on frontend)
+* Add package(s): `./run.py add package1 [package2...] --target backend|frontend`
+* Upgrade package(s): `./run.py upgrade package1 [package2...] --target backend|frontend`
+* Remove package(s): `./run.py remove package1 [package2...] --target backend|frontend`
