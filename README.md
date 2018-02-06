@@ -49,6 +49,10 @@ You will encounter these symbols:
 * `a|b` = a or b. You must choose one.
 * `[a]` = a is optional. You can add it as an argument if you'd like, otherwise the defaults will be used. 
 
+#### Targeting environment
+Most of these commands default to running on every possible environment (scripts, backend, and frontend). 
+You can often specify a specific target with `--target [env]`, or the abbreviation `-t [env]`.
+
 ### Install
 `./run.py install [--target backend|frontend]`
 
