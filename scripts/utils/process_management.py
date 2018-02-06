@@ -20,7 +20,7 @@ def check_prereqs_installed() -> None:
     """
     prereq_checker.check_is_installed(['grep', 'awk'])
     prereq_checker.check_is_installed(['lsof', 'kill'], windows_support=False)
-    prereq_checker.check_is_installed(['netstat', 'tskill', 'findstr'], posix_support=False)
+    prereq_checker.check_is_installed(['netstat', 'taskkill', 'findstr'], posix_support=False)
     sys_calls.check_prereqs_installed()
 
 
@@ -53,7 +53,7 @@ def kill_process(pid: PID) -> None:
     Kills the specified PID.
     """
     if sys_calls.is_windows_environment():
-        command = 'tskill'
+        command = ['taskkill', '/F', '/PID']
     else:
-        command = 'kill'
-    sys_calls.run([command, pid])
+        command = ['kill']
+    sys_calls.run(command + [pid])
