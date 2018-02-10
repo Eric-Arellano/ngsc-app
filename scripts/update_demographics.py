@@ -56,7 +56,7 @@ def redeploy() -> None:
     """
     Commit changes and deploy to GitHub and Heroku.
     """
-    git.add(['backend/src/demographics.py'])
+    git.add(['backend/src/data/demographics.py'])
     git.commit('update demographics')
     deploy.main()
 
