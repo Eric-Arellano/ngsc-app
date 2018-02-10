@@ -2,7 +2,7 @@ import json
 
 import flask
 
-from backend.src.queries import get_all_demographics, get_demographics, get_engagement, get_attendance
+from backend.src.queries import attendance, demographics, engagement
 
 app = flask.Flask(__name__,
                   static_folder="../../frontend/build/static",
@@ -22,25 +22,25 @@ def api_test():
 
 @app.route('/api/demographics/all_students')
 def api_get_all_demographics():
-    result = get_all_demographics()
+    result = demographics.get_all()
     return flask.jsonify(result)
 
 
 @app.route('/api/demographics/<int:student_id>')
 def api_get_name(student_id: int):
-    result = get_demographics(student_id)
+    result = demographics.get(student_id)
     return return_json(result)
 
 
 @app.route('/api/engagement/<int:student_id>')
 def api_get_engagement(student_id: int):
-    result = get_engagement(student_id)
+    result = engagement.get(student_id)
     return return_json(result)
 
 
 @app.route('/api/attendance/<int:student_id>')
 def api_get_attendance(student_id: int):
-    result = get_attendance(student_id)
+    result = attendance.get(student_id)
     return return_json(result)
 
 

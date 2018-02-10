@@ -48,15 +48,15 @@ def update_student_ids_file() -> None:
     json = sys_calls.get_stdout(['curl',
                                  'http://ngsc-app.org/api/demographics/all_students',
                                  '--silent'])
-    with open('backend/src/student_ids.py', 'w') as file:
-        file.write(f'student_ids = {json}')
+    with open('backend/src/demographics.py', 'w') as file:
+        file.write(f'demographics_data = {json}')
 
 
 def redeploy() -> None:
     """
     Commit changes and deploy to GitHub and Heroku.
     """
-    git.add(['backend/src/student_ids.py'])
+    git.add(['backend/src/demographics.py'])
     git.commit('update demographics')
     deploy.main()
 
