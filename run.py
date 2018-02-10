@@ -14,12 +14,13 @@ Usage:
             run (detached): `./run.py [--target backend|frontend]`
             stop: `./run.py stop [--target backend|frontend]`
     install...
-            install: `./run.py install [--target backend|frontend] `
+            install: `./run.py install [--target backend|frontend]`
+            reinstall: ./run.py reinstall [--target backend|frontend]`
+            catchup: `./run.py catchup [--target backend|frontend]`
     test...
             run tests: `./run.py test [--target script]`
             check types: `./run.py types [--target backend|frontend]`
     dependency management...
-            catchup: `./run.py catchup [--target backend|frontend]`
             view outdated: `./run.py outdated [--target backend|frontend]`
             add: `./run.py add package1 [package2..] --target backend|frontend`
             upgrade: `./run.py upgrade package1 [package2..] --target backend|frontend`
@@ -129,6 +130,30 @@ def install(*, target: Target = 'all') -> None:
                                   frontend_action=frontend.install)
 
 
+def reinstall(*, target: Target = 'all') -> None:
+    """
+    Deletes original packages and re-installs everything.
+    """
+    execute_on_target_environment(target,
+                                  all_action=lambda: (
+                                      backend.reinstall(),
+                                      frontend.reinstall()),
+                                  backend_action=backend.reinstall,
+                                  frontend_action=frontend.reinstall)
+
+
+def catchup(*, target: Target = 'all') -> None:
+    """
+    Check server for changes, and install new dependencies if necessary.
+    """
+    execute_on_target_environment(target,
+                                  all_action=lambda: (
+                                      backend.catchup(),
+                                      frontend.catchup()),
+                                  backend_action=backend.catchup,
+                                  frontend_action=frontend.catchup)
+
+
 # -------------------------------------
 # Test commands
 # -------------------------------------
@@ -162,18 +187,6 @@ def check_types(*, target: Target = 'all') -> None:
 # Dependency management commands
 # -------------------------------------
 Dependency = str  # type alias
-
-
-def catchup(*, target: Target = 'all') -> None:
-    """
-    Check if any dependencies added from others remotely, and then install them if so.
-    """
-    execute_on_target_environment(target,
-                                  all_action=lambda: (
-                                      backend.catchup(),
-                                      frontend.catchup()),
-                                  backend_action=backend.catchup,
-                                  frontend_action=frontend.catchup)
 
 
 def list_outdated(*, target: Target = 'all') -> None:
@@ -258,9 +271,10 @@ def update_student_info(target: Target = 'all') -> None:
 command_map = {'run': run,
                'stop': stop,
                'install': install,
+               'reinstall': reinstall,
+               'catchup': catchup,
                'test': test,
                'types': check_types,
-               'catchup': catchup,
                'outdated': list_outdated,
                'deptree': dependency_tree,
                'add': add,

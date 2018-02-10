@@ -38,7 +38,7 @@ def resolve_git_issues() -> None:
         git.checkout('master')
     if not git.is_clean_local():
         raise SystemExit('Make sure the branch is clean before running this script.')
-    git.fast_forward_remote('origin', 'master')
+    git.fast_forward('origin', 'master')
 
 
 def update_student_ids_file() -> None:
