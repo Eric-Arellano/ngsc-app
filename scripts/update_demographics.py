@@ -48,7 +48,7 @@ def update_student_ids_file() -> None:
     json = sys_calls.get_stdout(['curl',
                                  'http://ngsc-app.org/api/demographics/all_students',
                                  '--silent'])
-    with open('backend/src/demographics.py', 'w') as file:
+    with open('backend/src/data/demographics.py', 'w') as file:
         file.write(f'demographics_data = {json}')
 
 
