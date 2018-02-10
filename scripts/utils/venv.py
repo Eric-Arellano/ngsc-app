@@ -56,7 +56,7 @@ def create() -> None:
     """
     if is_created():
         print('venv already created.')
-    sys_calls.run_python(['-m', 'venv', '.'])
+    sys_calls.run_python(['-m', 'venv', 'backend/'])
 
 
 def remove() -> None:

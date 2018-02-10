@@ -103,6 +103,7 @@ def install() -> None:
     """
     venv.create()
     venv.activate()
+    sys_calls.run(["pip", "install", "--upgrade", 'pip', 'setuptools'])
     sys_calls.run(["pip", "install", "-r", "requirements.txt"])
 
 
