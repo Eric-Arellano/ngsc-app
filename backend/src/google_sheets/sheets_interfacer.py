@@ -1,3 +1,7 @@
+"""
+Utilities for interfacing with Google Sheet's API.
+"""
+
 from typing import List
 
 from backend.src.google_sheets import authentication

@@ -1,13 +1,20 @@
+"""
+Authentication to connect to Google Sheets API.
+"""
+
 import os
 
-from apiclient import discovery
+from googleapiclient import discovery
 from httplib2 import Http
 from oauth2client.service_account import ServiceAccountCredentials
 
 scopes = ['https://www.googleapis.com/auth/sqlservice.admin', 'https://www.googleapis.com/auth/spreadsheets.readonly']
 
 
-def build_service():
+def build_service() -> discovery.Resource:
+    """
+    Instantiate Google Sheets service with correct credentials and API keys.
+    """
     credentials = get_credentials()
     http_auth = credentials.authorize(Http())
     discovery_url = ('https://sheets.googleapis.com/$discovery/rest?'
@@ -16,7 +23,10 @@ def build_service():
                            discoveryServiceUrl=discovery_url)
 
 
-def get_credentials():
+def get_credentials() -> ServiceAccountCredentials:
+    """
+    Load API keys for Google Sheets.
+    """
     current_dir = os.getcwd()
     credential_path = os.path.join(current_dir, 'backend/service_key.json')
     credentials = ServiceAccountCredentials.from_json_keyfile_name(

@@ -1,3 +1,7 @@
+"""
+Queries for student's static demographic info.
+"""
+
 from typing import Dict, Optional
 
 from backend.src.data import spreadsheet_ids
@@ -6,6 +10,9 @@ from backend.src.google_sheets import sheets_interfacer
 
 
 def get(student_id: int) -> Optional[Dict]:
+    """
+    Get student's name, cohort, mission team, committee, and leadership position.
+    """
     result = demographics_data.get(str(student_id), None)
     if result is None:
         return None
@@ -20,6 +27,9 @@ def get(student_id: int) -> Optional[Dict]:
 
 
 def get_all() -> Dict:
+    """
+    Get every student's demographic info as a dictionary indexed by student id.
+    """
     results = sheets_interfacer.get_values(spreadsheet_ids.MASTER_SPRING_2018,
                                            'Master!A2:O')
     demographic = {}
