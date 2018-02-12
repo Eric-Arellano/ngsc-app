@@ -1,5 +1,5 @@
-# NGSC Service Hours
-App to allow students in NGSC program to check their participation and  service hours. 
+# NGSC App
+App to allow students in NGSC program to check their participation status, internships, and upcoming events in the program. 
 
 Uses React for frontend, Python 3 and Flask for backend server, and Google Docs API for data source.
 
