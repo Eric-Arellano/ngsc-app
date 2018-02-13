@@ -119,12 +119,13 @@ def catchup() -> None:
     """
     Check server for changes, and install new dependencies if necessary.
     """
-    if not git.is_clean_local():
-        raise SystemExit('Must first commit your changes before catching up.')
-    old_hash = git.get_file_hash('requirements.txt')
-    git.fast_forward('origin', git.get_current_branch())
-    new_hash = git.get_file_hash('requirements.txt')
-    if old_hash != new_hash:
+    git.assert_clean_local()
+    git.assert_remote_branch_exists('origin', git.get_current_branch(),
+                                    error_message='The current branch has not been added to GitHub, '
+                                                  'so there is nothing to catchup.')
+    files_changed = git.fast_forward_and_diff('origin', git.get_current_branch(),
+                                              ['requirements.txt'])
+    if files_changed:
         venv.activate()
         sys_calls.run(["pip", "install", "-r", "requirements.txt"])
 

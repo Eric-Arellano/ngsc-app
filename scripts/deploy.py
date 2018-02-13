@@ -49,10 +49,9 @@ def resolve_git_issues() -> None:
     """
     Confirm on master branch, branch is clean, and check for changes from remote.
     """
+    git.assert_clean_local()
     if not git.is_on_branch('master'):
         git.checkout('master')
-    if not git.is_clean_local():
-        raise SystemExit('Make sure the branch is clean before running this script.')
     git.fast_forward('origin', 'master')
     git.fast_forward('heroku', 'master')
 

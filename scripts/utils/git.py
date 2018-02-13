@@ -51,6 +51,38 @@ def is_clean_local() -> bool:
     return response.returncode == 0
 
 
+def remote_branch_exists(remote: Remote, branch: Branch) -> bool:
+    """
+    Returns True if branch exists on the remote.
+    """
+    response = sys_calls.get_stdout(['git', 'ls-remote', '--heads', remote, branch])
+    return branch in response
+
+
+# -----------------------------------------------------------------
+# Assert status
+# -----------------------------------------------------------------
+
+def assert_clean_local(*, error_message: str = '') -> None:
+    """
+    Raise exception if not clean local.
+    """
+    if not error_message:
+        error_message = 'Error: You must first commit your changes before running this command.'
+    if not is_clean_local():
+        raise SystemExit(error_message)
+
+
+def assert_remote_branch_exists(remote: Remote, branch: Branch, *, error_message: str = '') -> None:
+    """
+    Raise exception if remote branch not added.
+    """
+    if not error_message:
+        error_message = f'Error: The branch {branch} has not been added to the remote {remote}.'
+    if not remote_branch_exists(remote, branch):
+        raise SystemExit(error_message)
+
+
 # -----------------------------------------------------------------
 # Get current environment
 # -----------------------------------------------------------------
@@ -70,7 +102,7 @@ def get_file_hash(file: str) -> str:
 
 
 # -----------------------------------------------------------------
-# Git commands
+# Primitive Git commands
 # -----------------------------------------------------------------
 
 def fast_forward(remote: Remote, branch: Branch) -> None:
@@ -114,6 +146,20 @@ def add_remote(remote: Remote, url: RemoteURL) -> None:
     Add given remote to local git.
     """
     sys_calls.run(['git', 'remote', 'add', remote, url])
+
+
+# -----------------------------------------------------------------
+# Custom Git commands
+# -----------------------------------------------------------------
+
+def fast_forward_and_diff(remote: Remote, branch: Branch, files: List[str]) -> bool:
+    """
+    Fast forward to remote and return True if the given files were modified.
+    """
+    old_file_hashes = [get_file_hash(file) for file in files]
+    fast_forward(remote, branch)
+    new_file_hashes = [get_file_hash(file) for file in files]
+    return old_file_hashes != new_file_hashes
 
 
 # -----------------------------------------------------------------
