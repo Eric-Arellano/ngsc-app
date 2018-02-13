@@ -1,4 +1,5 @@
 import json
+import os
 
 import flask
 import flask_sslify
@@ -9,9 +10,12 @@ app = flask.Flask(__name__,
                   static_folder="../../frontend/build/static",
                   template_folder="../../frontend/build")
 
-# server configuration
+# allow slash after endpoint
 app.url_map.strict_slashes = False
-sslify = flask_sslify.SSLify(app)
+
+# force HTTPS
+if 'DYNO' in os.environ:
+    sslify = flask_sslify.SSLify(app)
 
 
 @app.route('/')
