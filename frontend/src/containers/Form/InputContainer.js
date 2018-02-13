@@ -18,15 +18,17 @@ type State = {
   validationState: ValidationState
 }
 
-class InputContainer extends Component<Props, State> {
-
+class InputContainer extends Component<Props, State, DefaultProps> {
+  static defaultProps = {
+    debounceDelay: 1000
+  }
   state = {
     currentValue: '',
     validationState: 'neutral'
   }
 
   componentDidMount() {
-    this.validateInput = debounce(this.validateInput, 1000)
+    this.validateInput = debounce(this.validateInput, this.props.debounceDelay)
   }
 
   validateInput = str => {
