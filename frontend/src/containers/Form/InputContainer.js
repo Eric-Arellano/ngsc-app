@@ -18,9 +18,9 @@ type State = {
   validationState: ValidationState
 }
 
-class InputContainer extends Component<Props, State, DefaultProps> {
+class InputContainer extends Component<Props, State> {
   static defaultProps = {
-    debounceDelay: 1000
+    debounceDelay: 800
   }
   state = {
     currentValue: '',
