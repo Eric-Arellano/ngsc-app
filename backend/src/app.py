@@ -1,13 +1,17 @@
 import json
 
 import flask
+import flask_sslify
 
 from backend.src.queries import attendance, demographics, engagement
 
 app = flask.Flask(__name__,
                   static_folder="../../frontend/build/static",
                   template_folder="../../frontend/build")
+
+# server configuration
 app.url_map.strict_slashes = False
+sslify = flask_sslify.SSLify(app)
 
 
 @app.route('/')
