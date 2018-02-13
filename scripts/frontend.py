@@ -118,10 +118,13 @@ def catchup() -> None:
     """
     if not git.is_clean_local():
         raise SystemExit('Must first commit your changes before catching up.')
-    old_hash = git.get_file_hash('frontend/package.json')
+    old_package_json_hash = git.get_file_hash('frontend/package.json')
+    old_yarn_lock_hash = git.get_file_hash('frontend/yarn.lock')
     git.fast_forward('origin', git.get_current_branch())
-    new_hash = git.get_file_hash('frontend/package.json')
-    if old_hash != new_hash:
+    new_package_json_hash = git.get_file_hash('frontend/package.json')
+    new_yarn_lock_hash = git.get_file_hash('frontend/yarn.lock')
+    if old_package_json_hash != new_package_json_hash or \
+            old_yarn_lock_hash != new_yarn_lock_hash:
         sys_calls.run(["yarn", "install"])
 
 
