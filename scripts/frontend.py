@@ -116,7 +116,7 @@ def catchup() -> None:
     """
     Check server for changes, and install new dependencies if necessary.
     """
-    # git.assert_clean_local()
+    git.assert_clean_local()
     git.assert_remote_branch_exists('origin', git.get_current_branch(),
                                     error_message='The current branch has not been added to GitHub, '
                                                   'so there is nothing to catchup.')
