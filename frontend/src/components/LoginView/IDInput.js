@@ -5,25 +5,35 @@ import { InputContainer } from 'containers'
 
 type Props = {
   validationState: ValidationState,
-  determineValidationState: (string) => ValidationState,
   handleEnterKey: SyntheticInputEvent<HTMLInputElement> => void,
   updateCurrentValue: string => void,
   updateValidationState: ValidationState => void,
   handleSubmit: () => void,
+  determineValidationState: (string) => ValidationState
 }
 
 const IDInput = ({
-                   validationState, determineValidationState, updateCurrentValue, updateValidationState,
-                   handleEnterKey, handleSubmit
-                 }: Props) => {
+  validationState,
+  determineValidationState,
+  updateCurrentValue,
+  updateValidationState,
+  handleEnterKey,
+  handleSubmit
+}: Props) => {
   const isSubmitDisabled = validationState !== 'valid'
   return (
     <form>
-      <Label>Student ID:</Label>
-      <InputContainer placeholder={'Enter student ID'} determineValidationState={determineValidationState}
-                      handleEnterKey={handleEnterKey} updateCurrentValue={updateCurrentValue}
-                      updateValidationState={updateValidationState} />
-      <Button disabled={isSubmitDisabled} handleClick={handleSubmit}>Submit</Button>
+      <Label>{'Student ID:'}</Label>
+      <InputContainer
+        placeholder={'Enter student ID'}
+        determineValidationState={determineValidationState}
+        handleEnterKey={handleEnterKey}
+        updateCurrentValue={updateCurrentValue}
+        updateValidationState={updateValidationState}
+      />
+      <Button disabled={isSubmitDisabled} handleClick={handleSubmit}>
+        {'Submit'}
+      </Button>
     </form>
   )
 }

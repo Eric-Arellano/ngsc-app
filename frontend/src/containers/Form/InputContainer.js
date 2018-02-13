@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import { Input } from 'components'
+import debounce from 'lodash/debounce'
 
 type ValidationState = 'neutral' | 'invalid' | 'valid'
 
@@ -18,10 +19,21 @@ type State = {
 }
 
 class InputContainer extends Component<Props, State> {
-
+  static defaultProps = {
+    debounceDelay: 800
+  }
   state = {
     currentValue: '',
     validationState: 'neutral'
+  }
+
+  componentDidMount() {
+    this.validateInput = debounce(this.validateInput, this.props.debounceDelay)
+  }
+
+  validateInput = str => {
+    const newState = this.props.determineValidationState(str)
+    this.setState({validationState: newState})
   }
 
   handleKeyInput = (e: SyntheticInputEvent<HTMLInputElement>) => {
@@ -30,7 +42,8 @@ class InputContainer extends Component<Props, State> {
     this.setState({currentValue: input}, () => {
       const {currentValue} = this.state
       const state = determineValidationState(currentValue)
-      this.setState({validationState: state})
+      // this.setState({validationState: state})
+      this.validateInput(this.state.currentValue)
       updateCurrentValue(currentValue)
       updateValidationState(state)
     })
