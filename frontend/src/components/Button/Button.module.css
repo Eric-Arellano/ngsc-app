@@ -2,7 +2,7 @@
 
 .base {
     box-sizing: border-box;
-    background: white;
+    background: red;
     border: 1px solid currentColor;
     font-weight: 300;
     font-size: 1.1em;
