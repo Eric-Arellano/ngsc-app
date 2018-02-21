@@ -16,6 +16,7 @@ import App from './App/App'
 import Attendance from './ParticipationView/Attendance'
 import Bio from './ContactUsView/Bio'
 import BioGroup from './ContactUsView/BioGroup'
+import ContactUsView from './ContactUsView/ContactUsView'
 import Confirmation from './LoginView/Confirmation'
 import Demographics from './ParticipationView/Demographics'
 import IDInput from './LoginView/IDInput'
@@ -29,6 +30,7 @@ export {
   BioGroup,
   Button,
   ButtonGroup,
+  ContactUsView,
   Confirmation,
   Footer,
   Demographics,
