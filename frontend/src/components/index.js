@@ -14,6 +14,7 @@ import PanelWithLoading from './Panel/PanelWithLoading'
 import AcceptedEngagement from './ParticipationView/AcceptedEngagement'
 import App from './App/App'
 import Attendance from './ParticipationView/Attendance'
+import Bio from './ContactUsView/Bio'
 import Confirmation from './LoginView/Confirmation'
 import Demographics from './ParticipationView/Demographics'
 import IDInput from './LoginView/IDInput'
@@ -23,6 +24,7 @@ import ParticipationView from './ParticipationView/ParticipationView'
 
 export {
   App,
+  Bio,
   Button,
   ButtonGroup,
   Confirmation,
