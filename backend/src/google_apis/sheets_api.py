@@ -4,7 +4,7 @@ Utilities for interfacing with Google Sheet's API.
 
 from typing import List
 
-from backend.src.google_sheets import authentication
+from backend.src.google_apis import authentication
 
 
 def get_values(spreadsheet_id: str, range_: str) -> List:

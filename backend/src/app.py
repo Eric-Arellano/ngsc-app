@@ -4,7 +4,7 @@ import os
 import flask
 import flask_sslify
 
-from backend.src.queries import attendance, demographics, engagement
+from backend.src.app_queries import attendance, demographics, engagement
 
 app = flask.Flask(__name__,
                   static_folder="../../frontend/build/static",
