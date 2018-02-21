@@ -15,6 +15,7 @@ import AcceptedEngagement from './ParticipationView/AcceptedEngagement'
 import App from './App/App'
 import Attendance from './ParticipationView/Attendance'
 import Bio from './ContactUsView/Bio'
+import BioGroup from './ContactUsView/BioGroup'
 import Confirmation from './LoginView/Confirmation'
 import Demographics from './ParticipationView/Demographics'
 import IDInput from './LoginView/IDInput'
@@ -25,6 +26,7 @@ import ParticipationView from './ParticipationView/ParticipationView'
 export {
   App,
   Bio,
+  BioGroup,
   Button,
   ButtonGroup,
   Confirmation,
