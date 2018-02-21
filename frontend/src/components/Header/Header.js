@@ -8,7 +8,7 @@ const Header = () => (
     <a href="/">
       <img src={logo} className={s.logo} alt="logo" />
     </a>
-    <h1 className={s.title}>NGSC Engagement Requirements</h1>
+    <h1 className={s.title}>NGSC App</h1>
   </header>
 )
 
