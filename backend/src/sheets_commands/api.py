@@ -1,14 +1,15 @@
-# TODO: convert this to Flask Plus
 import flask
 
 from backend.src.sheets_commands import hide_values
 
-app = flask.Flask(__name__,
-                  static_folder="../../frontend/build/static",
-                  template_folder="../../frontend/build")
-app.url_map.strict_slashes = False
+sheets_api = flask.Blueprint('sheets_api', __name__)
 
 
-@app.route('/api/sheets/hide_ids')
-def api_copy_file():
+@sheets_api.route('/hide/all_ids')
+def api_hide_all_ids():
     hide_values.hide_all_ids()
+
+
+@sheets_api.route('/asurite/all_attendance')
+def api_convert_asurite():
+    return "Testing ASUrite route!"

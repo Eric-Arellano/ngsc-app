@@ -1,34 +1,31 @@
-# TODO: convert this to Flask Plus
 import json
 
 import flask
 
 from backend.src.app_queries import attendance, demographics, engagement
 
-app = flask.Flask(__name__,
-                  static_folder="../../frontend/build/static",
-                  template_folder="../../frontend/build")
+app_api = flask.Blueprint('app_api', __name__)
 
 
-@app.route('/api/app/demographics/all_students')
+@app_api.route('/demographics/all_students')
 def api_get_all_demographics():
     result = demographics.get_all()
     return flask.jsonify(result)
 
 
-@app.route('/api/app/demographics/<int:student_id>')
+@app_api.route('/demographics/<int:student_id>')
 def api_get_name(student_id: int):
     result = demographics.get(student_id)
     return return_json(result)
 
 
-@app.route('/api/app/engagement/<int:student_id>')
+@app_api.route('/engagement/<int:student_id>')
 def api_get_engagement(student_id: int):
     result = engagement.get(student_id)
     return return_json(result)
 
 
-@app.route('/api/app/attendance/<int:student_id>')
+@app_api.route('/attendance/<int:student_id>')
 def api_get_attendance(student_id: int):
     result = attendance.get(student_id)
     return return_json(result)
