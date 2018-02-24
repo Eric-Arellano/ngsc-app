@@ -20,7 +20,7 @@ def batch_update(spreadsheet_id: str, requests: List) -> None:
         .execute()
 
 
-def get_values(spreadsheet_id: str, range_: str) -> List:
+def get_values(spreadsheet_id: str, range_: str) -> List[List[Any]]:
     """
     Query spreadsheet from provided range and return its values.
     """
@@ -34,20 +34,12 @@ def get_values(spreadsheet_id: str, range_: str) -> List:
     return result.get('values', [])
 
 
-def read_cell(spreadsheet_id: str, range_: str) -> Any:
+def update_values(spreadsheet_id: str, range_: str, values: List[List[Any]]) -> None:
     """
-    Query spreadsheet for specific cell return its values.
-    """
-    result = get_values(spreadsheet_id, range_)
-    return result[0][0]
-
-
-def update_cell(spreadsheet_id: str, range_: str, value: Any) -> None:
-    """
-    Update specific cell with given value.
+    Update range with given values.
     """
     sheets_service = authentication.build_service()
-    body = {'values': [[value]]}
+    body = {'values': values}
     sheets_service.spreadsheets() \
         .values() \
         .update(
