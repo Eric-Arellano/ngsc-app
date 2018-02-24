@@ -1,9 +1,9 @@
 // @flow
 import * as React from 'react'
-import { Footer, Header, ParticipationView } from 'components'
-import { LoginViewContainer } from 'containers'
-import type { Student } from 'flow/types'
-import s from './App.module.css'
+import {Footer, Header, ParticipationView} from 'components'
+import {LoginViewContainer} from 'containers'
+import type {Student} from 'flow/types'
+import s from './AppView.module.css'
 
 type Props = {
   isLoggedIn: boolean,
@@ -21,6 +21,6 @@ const App = ({isLoggedIn, student, login, resetState}: Props) => (
     </div>
     <Footer />
   </div>
-)
+);
 
 export default App
