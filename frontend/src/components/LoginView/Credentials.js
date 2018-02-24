@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { Button, Input, Label } from 'components'
-import { InputContainer } from 'containers'
+import type { ValidationState } from 'types'
 
 type Props = {
   validationState: ValidationState,

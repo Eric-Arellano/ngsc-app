@@ -17,7 +17,7 @@ import AppView from './AppView/AppView'
 import Attendance from './ParticipationView/Attendance'
 import Confirmation from './LoginView/Confirmation'
 import Demographics from './ParticipationView/Demographics'
-import IDInput from './LoginView/IDInput'
+import Credentials from './LoginView/Credentials'
 import LoginView from './LoginView/LoginView'
 import LoggedEngagement from './ParticipationView/LoggedEngagement'
 import ParticipationView from './ParticipationView/ParticipationView'
@@ -32,7 +32,7 @@ export {
   Entry,
   Error,
   Header,
-  IDInput,
+  Credentials,
   Input,
   Label,
   LoginView,

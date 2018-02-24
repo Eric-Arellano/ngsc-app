@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react'
-import { IDInput } from 'components'
+import { Credentials } from 'components'
 import type { ValidationState } from 'types'
 
 type Props = {
@@ -62,10 +62,10 @@ class IDInputContainer extends Component<Props, State> {
   }
 
   render () {
-    return <IDInput {...this.state}
-                    handleSubmit={this.handleSubmit}
-                    handleEnterKey={this.handleEnterKey}
-                    updateCurrentValue={this.updateCurrentValue} />
+    return <Credentials {...this.state}
+                        handleSubmit={this.handleSubmit}
+                        handleEnterKey={this.handleEnterKey}
+                        updateCurrentValue={this.updateCurrentValue} />
   }
 }
 
