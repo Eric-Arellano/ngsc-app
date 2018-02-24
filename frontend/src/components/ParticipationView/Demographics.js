@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import type { Student } from 'flow/types'
+import type { Student } from 'types'
 import { Entry, Panel } from 'components'
 
 type Props = {

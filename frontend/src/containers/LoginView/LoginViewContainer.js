@@ -2,8 +2,8 @@
 import React, { Component } from 'react'
 import { LoginView } from 'components'
 import { withLoadingAndError } from 'decorators'
-import { getDemographics } from 'utils/api'
-import type { Student } from 'flow/types'
+import { getDemographics } from 'api'
+import type { Student } from 'types'
 
 type Props = {
   login: (Student) => void

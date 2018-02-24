@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { Button, ButtonGroup } from 'components'
-import type { Name } from 'flow/types'
+import type { Name } from 'types'
 
 type Props = {
   name: Name,

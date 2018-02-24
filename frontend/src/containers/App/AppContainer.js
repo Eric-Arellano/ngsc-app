@@ -1,7 +1,7 @@
 // @flow
-import React, {Component} from 'react'
-import {AppView} from 'components'
-import type {Student} from 'flow/types'
+import React, { Component } from 'react'
+import { AppView } from 'components'
+import type { Student } from 'types'
 
 type Props = {}
 

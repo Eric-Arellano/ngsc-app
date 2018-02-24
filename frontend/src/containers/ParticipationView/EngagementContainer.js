@@ -2,8 +2,8 @@
 import React, { Component } from 'react'
 import { AcceptedEngagement, LoggedEngagement } from 'components'
 import { withError } from 'decorators'
-import { getEngagement } from 'utils/api'
-import type { EngagementEvent, Student } from 'flow/types'
+import { getEngagement } from 'api'
+import type { EngagementEvent, Student } from 'types'
 
 type Props = {
   student: Student,

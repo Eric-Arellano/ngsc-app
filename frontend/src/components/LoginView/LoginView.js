@@ -2,7 +2,7 @@
 import React from 'react'
 import { Confirmation } from 'components'
 import { IDInputContainer } from 'containers'
-import type { Student } from 'flow/types'
+import type { Student } from 'types'
 
 type Props = {
   isValidated: boolean,

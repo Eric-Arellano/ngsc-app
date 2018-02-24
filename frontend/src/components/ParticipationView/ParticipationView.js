@@ -2,7 +2,7 @@
 import React from 'react'
 import { Demographics } from 'components'
 import { AttendanceContainer, EngagementContainer } from 'containers'
-import type { Student } from 'flow/types'
+import type { Student } from 'types'
 
 type Props = {
   student: Student,

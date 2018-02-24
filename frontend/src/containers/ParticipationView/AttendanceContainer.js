@@ -2,8 +2,8 @@
 import React, { Component } from 'react'
 import { Attendance } from 'components'
 import { withError } from 'decorators'
-import { getAttendance } from 'utils/api'
-import type { Student } from 'flow/types'
+import { getAttendance } from 'api'
+import type { Student } from 'types'
 
 type Props = {
   student: Student,
