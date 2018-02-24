@@ -12,6 +12,8 @@ import Panel from './Panel/Panel'
 import PanelWithLoading from './Panel/PanelWithLoading'
 // Views
 import AcceptedEngagement from './ParticipationView/AcceptedEngagement'
+import AdminView from './AdminView/AdminView'
+import App from './App/App'
 import AppView from './AppView/AppView'
 import Attendance from './ParticipationView/Attendance'
 import Confirmation from './LoginView/Confirmation'
@@ -37,6 +39,7 @@ export {
   LoginView,
   ParticipationView,
   AcceptedEngagement,
+    AdminView,
   Attendance,
   LoggedEngagement,
   Loading,
