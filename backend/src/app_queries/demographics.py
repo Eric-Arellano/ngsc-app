@@ -30,7 +30,7 @@ def get_all() -> Dict:
     """
     Get every student's demographic info as a dictionary indexed by student id.
     """
-    results = sheets_api.get_values(spreadsheet_ids.MASTER_SPRING_2018,
+    results = sheets_api.get_values(spreadsheet_ids.master,
                                     'Master!A2:O')
     demographic = {}
     for row in results:

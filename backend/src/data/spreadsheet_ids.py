@@ -1,5 +1,5 @@
-MASTER_SPRING_2018 = '1gtsVgj8NeSdOGKd8HHRSNHjOTRDXJVls-Xw-gvoRONI'
-ENGAGEMENT_SPRING_2018 = '1U_YR0McviIfa7wqu7_DBEPDUdWjcaJzkzjQlSqV9lqE'
+master = '1gtsVgj8NeSdOGKd8HHRSNHjOTRDXJVls-Xw-gvoRONI'
+engagement = '1U_YR0McviIfa7wqu7_DBEPDUdWjcaJzkzjQlSqV9lqE'
 
 mission_team_attendance = {
     "1": "1ewBlXaJRgdfXIetHk__2IvZ12Xz7Dp2LNPf6V-u5fEU",

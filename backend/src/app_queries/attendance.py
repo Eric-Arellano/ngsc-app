@@ -12,7 +12,7 @@ def get(student_id: int) -> Optional[Dict]:
     """
     Get student's mission team, committee, OLS, and no show attendance.
     """
-    all_rows = sheets_api.get_values(spreadsheet_ids.MASTER_SPRING_2018, 'Master!C2:Q')
+    all_rows = sheets_api.get_values(spreadsheet_ids.master, 'Master!C2:Q')
     row = next((row for row in all_rows if int(row[0]) == student_id), None)
     if row is None:
         return None

@@ -25,7 +25,7 @@ def _get_logged_events(student_id: int) -> List:
     """
     Get every event logged by student, including the event's status.
     """
-    all_rows = sheets_api.get_values(spreadsheet_ids.ENGAGEMENT_SPRING_2018,
+    all_rows = sheets_api.get_values(spreadsheet_ids.engagement,
                                      'Responses!A2:G')
     return [{'type': row[2],
              'status': row[1],
@@ -52,7 +52,7 @@ def _get_accepted(student_id: int) -> Tuple[Optional[float], Optional[float]]:
     """
     Get student's accepted service and civil mil.
     """
-    all_rows = sheets_api.get_values(spreadsheet_ids.ENGAGEMENT_SPRING_2018,
+    all_rows = sheets_api.get_values(spreadsheet_ids.engagement,
                                      'Requirements!A2:C')
     row = next((row for row in all_rows if int(row[0]) == student_id), None)
     if row is None:
