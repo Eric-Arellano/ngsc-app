@@ -19,7 +19,7 @@ def convert_roster_ids_to_asurite(spreadsheet_id: str, *,
     Converts IDs to ASUrite for given roster.
     """
     rows = sheets_api.get_values(spreadsheet_id, 'A2:A')
-    asurites = [[id_to_asurite.get(student_id)]
+    asurites = [[id_to_asurite.get(student_id, student_id)]  # if not found, keep old value
                 for row in rows
                 for student_id in row]
     # sheets_api.update_values(spreadsheet_id, 'A2:A', asurites)
