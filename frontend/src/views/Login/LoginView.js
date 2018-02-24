@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
-import { Confirmation } from 'components'
-import { CredentialsContainer } from 'containers'
+import Confirmation from './Confirmation'
+import CredentialsContainer from './CredentialsContainer'
 import type { Student } from 'types'
 
 type Props = {

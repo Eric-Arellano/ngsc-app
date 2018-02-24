@@ -1,9 +1,9 @@
 // @flow
 import React, { Component } from 'react'
-import { Attendance } from 'components'
 import { withError } from 'decorators'
 import { getAttendance } from 'api'
 import type { Student } from 'types'
+import Attendance from './Attendance'
 
 type Props = {
   student: Student,

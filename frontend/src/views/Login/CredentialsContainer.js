@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react'
-import { Credentials } from 'components'
+import Credentials from './Credentials'
 import type { ValidationState } from 'types'
 
 type Props = {
@@ -12,7 +12,7 @@ type State = {
   validationState: ValidationState
 }
 
-class IDInputContainer extends Component<Props, State> {
+class CredentialsContainer extends Component<Props, State> {
 
   state = {
     currentValue: '',
@@ -69,4 +69,4 @@ class IDInputContainer extends Component<Props, State> {
   }
 }
 
-export default IDInputContainer
+export default CredentialsContainer

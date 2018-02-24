@@ -7,14 +7,12 @@ type Props = {
   validationState: ValidationState,
   handleEnterKey: SyntheticInputEvent<HTMLInputElement> => void,
   updateCurrentValue: string => void,
-  updateValidationState: ValidationState => void,
   handleSubmit: () => void,
 }
 
-const IDInput = ({
+const Credentials = ({
   validationState,
   updateCurrentValue,
-  updateValidationState,
   handleEnterKey,
   handleSubmit
 }: Props) => {
@@ -35,4 +33,4 @@ const IDInput = ({
   )
 }
 
-export default IDInput
+export default Credentials
