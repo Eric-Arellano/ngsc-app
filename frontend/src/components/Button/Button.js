@@ -1,20 +1,19 @@
 // @flow
 import * as React from 'react'
 import s from './Button.module.css'
-
-type ButtonType = 'success' | 'danger' | 'ngsc'
+import type { ValidationState } from 'types'
 
 type Props = {
   children: React.Element<string>,
   handleClick: () => mixed,
-  btnType?: ButtonType,
+  validationState?: ValidationState,
   disabled?: boolean
 }
 
-const Button = ({children, handleClick, btnType = 'ngsc', disabled = false}: Props) => (
+const Button = ({children, handleClick, validationState = 'neutral', disabled = false}: Props) => (
   <button
     onClick={handleClick}
-    className={s[btnType]}
+    className={s[validationState]}
     disabled={disabled}
     type={'button'}
   >
