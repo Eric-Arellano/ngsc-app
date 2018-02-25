@@ -1,22 +1,18 @@
 // @flow
 import React from 'react'
-import { Button, Label } from 'components'
-import { InputContainer } from 'containers'
+import { Button, Input, Label } from 'components'
+import type { ValidationState } from 'types'
 
 type Props = {
   validationState: ValidationState,
   handleEnterKey: SyntheticInputEvent<HTMLInputElement> => void,
   updateCurrentValue: string => void,
-  updateValidationState: ValidationState => void,
   handleSubmit: () => void,
-  determineValidationState: (string) => ValidationState
 }
 
-const IDInput = ({
+const Credentials = ({
   validationState,
-  determineValidationState,
   updateCurrentValue,
-  updateValidationState,
   handleEnterKey,
   handleSubmit
 }: Props) => {
@@ -24,12 +20,11 @@ const IDInput = ({
   return (
     <form>
       <Label>{'Student ID:'}</Label>
-      <InputContainer
+      <Input
         placeholder={'Enter student ID'}
-        determineValidationState={determineValidationState}
+        validationState={validationState}
         handleEnterKey={handleEnterKey}
         updateCurrentValue={updateCurrentValue}
-        updateValidationState={updateValidationState}
       />
       <Button disabled={isSubmitDisabled} handleClick={handleSubmit}>
         {'Submit'}
@@ -38,4 +33,4 @@ const IDInput = ({
   )
 }
 
-export default IDInput
+export default Credentials

@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react'
-import { AppView } from 'components'
+import AppView from './AppView'
 import type { Student } from 'types'
 
 type Props = {}
@@ -10,7 +10,7 @@ type State = {
   student: ?Student
 }
 
-class AppContainer extends Component<Props, State> {
+class AppViewContainer extends Component<Props, State> {
 
   state = {
     isLoggedIn: false,
@@ -36,4 +36,4 @@ class AppContainer extends Component<Props, State> {
   }
 }
 
-export default AppContainer
+export default AppViewContainer

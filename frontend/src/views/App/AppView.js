@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
-import { Footer, Header, ParticipationView } from 'components'
-import { LoginViewContainer } from 'containers'
+import { Footer, Header } from 'components'
+import { LoginViewContainer, ParticipationView } from 'views'
 import type { Student } from 'types'
 import s from './AppView.module.css'
 
@@ -12,7 +12,7 @@ type Props = {
   login: (Student) => void
 }
 
-const App = ({isLoggedIn, student, login, resetState}: Props) => (
+const AppView = ({isLoggedIn, student, login, resetState}: Props) => (
   <div className={s.app}>
     <Header />
     <div className={s.body}>
@@ -23,4 +23,4 @@ const App = ({isLoggedIn, student, login, resetState}: Props) => (
   </div>
 )
 
-export default App
+export default AppView

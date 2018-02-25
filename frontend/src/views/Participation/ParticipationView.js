@@ -1,7 +1,8 @@
 // @flow
 import React from 'react'
-import { Demographics } from 'components'
-import { AttendanceContainer, EngagementContainer } from 'containers'
+import AttendanceContainer from './AttendanceContainer'
+import Demographics from './Demographics'
+import EngagementContainer from './EngagementContainer'
 import type { Student } from 'types'
 
 type Props = {

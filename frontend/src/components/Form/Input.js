@@ -1,23 +1,44 @@
 // @flow
-import React from 'react'
+import React, { Component } from 'react'
+import type { ValidationState } from 'types'
 import s from './Input.module.css'
 
 type Props = {
-  currentValue: string,
   validationState: ValidationState,
-  placeholder: string,
-  handleKeyInput: SyntheticInputEvent<HTMLInputElement> => void,
-  handleEnterKey: SyntheticInputEvent<HTMLInputElement> => void
+  placeholder: ?string,
+  updateCurrentValue: (string) => void,
+  handleEnterKey: ?(SyntheticInputEvent<HTMLInputElement> => void)
 }
 
-const Input = ({currentValue, validationState, placeholder, handleKeyInput, handleEnterKey}: Props) => (
-  <input type={'number'} value={currentValue} placeholder={placeholder} onKeyDown={handleEnterKey}
-         onChange={handleKeyInput} className={s[validationState]} />
-)
+type State = {
+  currentValue: string,
+}
 
-Input.defaultProps = {
-  currentValue: '',
-  validationState: 'neutral'
+class Input extends Component<Props, State> {
+
+  static defaultProps = {
+    validationState: 'neutral'
+  }
+
+  state = {
+    currentValue: ''
+  }
+
+  handleKeyInput = (e: SyntheticInputEvent<HTMLInputElement>) => {
+    const {updateCurrentValue} = this.props
+    const input = e.currentTarget.value
+    this.setState({currentValue: input}, () => {
+      const {currentValue} = this.state
+      updateCurrentValue(currentValue)
+    })
+  }
+
+  render () {
+    const {validationState, placeholder, handleEnterKey} = this.props
+    const {currentValue} = this.state
+    return <input type={'number'} value={currentValue} placeholder={placeholder} onKeyDown={handleEnterKey}
+                  onChange={this.handleKeyInput} className={s[validationState]} />
+  }
 }
 
 export default Input

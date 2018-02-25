@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react'
-import { LoginView } from 'components'
+import LoginView from './LoginView'
 import { withLoadingAndError } from 'decorators'
 import { getDemographics } from 'api'
 import type { Student } from 'types'
