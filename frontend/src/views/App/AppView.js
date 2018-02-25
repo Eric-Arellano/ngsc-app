@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 import { Footer, Header } from 'components'
-import { LoginViewContainer, ParticipationView } from 'views'
+import { LoginViewContainer, ParticipationView, EventsView } from 'views'
 import type { Student } from 'types'
 import s from './AppView.module.css'
 
@@ -19,6 +19,7 @@ const AppView = ({isLoggedIn, student, login, resetState}: Props) => (
       {isLoggedIn ? <ParticipationView student={student} resetState={resetState} /> :
         <LoginViewContainer login={login} />}
     </div>
+      <EventsView />
     <Footer />
   </div>
 )
