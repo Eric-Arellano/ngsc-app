@@ -10,7 +10,7 @@ def convert_all_ids_to_asurite() -> None:
     spreadsheet = '1omms6ldwSZWgDXRf2HYDtGoCwzekfuSt7OAA8yVyRwY'
     read = sheets_api.get_values(spreadsheet, 'A2:A')
     print(read)
-    # sheets_api.update_values(spreadsheet, 'A2', [[12]])  # TODO: authentication error
+    sheets_api.update_values(spreadsheet, 'A2', [[12]])
 
 
 def convert_roster_ids_to_asurite(spreadsheet_id: str, *,
