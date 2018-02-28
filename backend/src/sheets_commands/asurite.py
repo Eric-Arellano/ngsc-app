@@ -1,7 +1,7 @@
 from typing import Dict
 
 from backend.src.google_apis import sheets_api
-from backend.src.sheets_commands import _environment_chooser
+from backend.src.sheets_commands import _environment_chooser, _list_generator
 
 
 def convert_all_ids_to_asurite() -> None:
@@ -20,8 +20,10 @@ def convert_roster_ids_to_asurite(spreadsheet_id: str, *,
     """
     Converts IDs to ASUrite for given roster.
     """
-    rows = sheets_api.get_values(spreadsheet_id, 'A2:A')
-    asurites = [[id_to_asurite.get(student_id, student_id)  # if not found, keep old value
-                 for student_id in row]
-                for row in rows]
+    all_cells = sheets_api.get_values(spreadsheet_id, 'A2:A')
+    asurites = _list_generator.update_column(updated_values=id_to_asurite,
+                                             all_cells=all_cells,
+                                             key_index=0,
+                                             target_index=0,
+                                             overwrite=True)
     sheets_api.update_values(spreadsheet_id, 'A2:A', asurites)
