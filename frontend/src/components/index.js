@@ -10,6 +10,7 @@ import Label from './Form/Label'
 import Loading from './Loading/Loading'
 import Panel from './Panel/Panel'
 import PanelWithLoading from './Panel/PanelWithLoading'
+import PrivateRoute from './Routes/PrivateRoute'
 
 export {
   Button,
@@ -23,4 +24,5 @@ export {
   Loading,
   Panel,
   PanelWithLoading,
+    PrivateRoute,
 }

@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 import {Switch, Route} from 'react-router-dom'
-import { Footer, Header } from 'components'
+import { Footer, Header, PrivateRoute } from 'components'
 import { LoginViewContainer, ParticipationView } from 'views'
 import type { Student } from 'types'
 import s from './AppView.module.css'
@@ -15,17 +15,11 @@ type Props = {
 
 const AppView = ({isLoggedIn, student, login, resetState}: Props) => (
     <div className={s.app}>
-        <Header/>
+        <Header />
         <Switch>
-            <Route exact path='/' render={() => (
-                <LoginViewContainer login={login}/>)}/>
-            <Route exact path='/participation' render={() => (
-                <ParticipationView student={student} resetState={resetState}/>)}/>
+            {/*<PrivateRoute path={'/'} isLoggedIn={isLoggedIn} student={student} resetState={resetState} login={login}/>*/}
+            <PrivateRoute path={'/participation'} isLoggedIn={isLoggedIn} student={student} resetState={resetState} login={login}/>
         </Switch>
-        {/*<div className={s.body}>*/}
-        {/*{isLoggedIn ? <ParticipationView student={student} resetState={resetState} /> :*/}
-        {/*<LoginViewContainer login={login} />}*/}
-        {/*</div>*/}
         <Footer/>
     </div>
 )
