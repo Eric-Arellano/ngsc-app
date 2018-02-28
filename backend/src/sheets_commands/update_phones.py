@@ -25,8 +25,7 @@ def update_roster_phone_numbers(spreadsheet_id: str, *,
     if phone_column_index is not None:
         all_data = sheets_api.get_values(spreadsheet_id, f'A2:{phone_column_letter}')
         updated_phones = [[asurite_to_phones.get(row[0])  # check phone for given asurite
-                           if len(row) < phone_column_index or not row[
-            phone_column_index]  # only check if phone is missing
+                           if len(row) < phone_column_index or not row[phone_column_index]  # only check if missing
                            else row[phone_column_index]]  # else return original phone
                           for row in all_data]
         sheets_api.update_values(spreadsheet_id, f'{phone_column_letter}2:{phone_column_letter}', updated_phones)
