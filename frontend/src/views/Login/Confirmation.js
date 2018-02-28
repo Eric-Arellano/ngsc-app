@@ -14,8 +14,8 @@ const Confirmation = ({name, confirmCorrectStudent, resetState}: Props) => {
     <div>
       <h3>Are you {name.first} {name.last}?</h3>
       <ButtonGroup>
-        <Button btnType={'success'} handleClick={() => confirmCorrectStudent(true)}>Yes</Button>
-        <Button btnType={'danger'} handleClick={resetState}>No, wrong person!</Button>
+        <Button validationState={'valid'} handleClick={() => confirmCorrectStudent(true)}>Yes</Button>
+        <Button validationState={'invalid'} handleClick={resetState}>No, wrong person!</Button>
       </ButtonGroup>
     </div>
   )

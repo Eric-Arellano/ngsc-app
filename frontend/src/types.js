@@ -20,3 +20,5 @@ export type Name = {
   first: string,
   last: string
 }
+
+export type ValidationState = 'valid' | 'invalid' | 'neutral'

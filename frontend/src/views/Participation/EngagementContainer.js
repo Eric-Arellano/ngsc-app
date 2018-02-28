@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react'
-import { AcceptedEngagement, LoggedEngagement } from 'components'
+import AcceptedEngagement from './AcceptedEngagement'
+import LoggedEngagement from './LoggedEngagement'
 import { withError } from 'decorators'
 import { getEngagement } from 'api'
 import type { EngagementEvent, Student } from 'types'

@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react'
-import { IDInput } from 'components'
+import Credentials from './Credentials'
+import type { ValidationState } from 'types'
 
 type Props = {
   onSubmit: (number) => void
@@ -11,12 +12,17 @@ type State = {
   validationState: ValidationState
 }
 
-class IDInputContainer extends Component<Props, State> {
+class CredentialsContainer extends Component<Props, State> {
 
   state = {
     currentValue: '',
     validationState: 'neutral'
   }
+
+  // TODO: add debounce to validation, using Lodash's debounce function.
+  // componentDidMount() {
+  //   this.determineValidationState = debounce(this.determineValidationState, 400)
+  // }
 
   determineValidationState = (input: string) => {
     if (!input) {
@@ -33,12 +39,12 @@ class IDInputContainer extends Component<Props, State> {
     return isNumber && length === 10
   }
 
-  updateValidationState = (validationState: ValidationState) => {
-    this.setState({validationState})
-  }
-
   updateCurrentValue = (currentValue: string) => {
-    this.setState({currentValue})
+    const validationState = this.determineValidationState(currentValue)
+    this.setState({
+      currentValue,
+      validationState
+    })
   }
 
   handleEnterKey = (e: SyntheticInputEvent<HTMLInputElement>) => {
@@ -56,13 +62,11 @@ class IDInputContainer extends Component<Props, State> {
   }
 
   render () {
-    return <IDInput {...this.state}
-                    determineValidationState={this.determineValidationState}
-                    handleSubmit={this.handleSubmit}
-                    handleEnterKey={this.handleEnterKey}
-                    updateCurrentValue={this.updateCurrentValue}
-                    updateValidationState={this.updateValidationState} />
+    return <Credentials {...this.state}
+                        handleSubmit={this.handleSubmit}
+                        handleEnterKey={this.handleEnterKey}
+                        updateCurrentValue={this.updateCurrentValue} />
   }
 }
 
-export default IDInputContainer
+export default CredentialsContainer

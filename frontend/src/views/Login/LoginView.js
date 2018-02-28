@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
-import { Confirmation } from 'components'
-import { IDInputContainer } from 'containers'
+import Confirmation from './Confirmation'
+import CredentialsContainer from './CredentialsContainer'
 import type { Student } from 'types'
 
 type Props = {
@@ -15,7 +15,7 @@ type Props = {
 
 const LoginView = ({isValidated, isConfirmed, verifyStudentId, confirmCorrectStudent, resetState, student}: Props) => (
   <div>
-    {!isValidated && <IDInputContainer onSubmit={verifyStudentId} />}
+    {!isValidated && <CredentialsContainer onSubmit={verifyStudentId} />}
     {isValidated && !isConfirmed &&
     <Confirmation confirmCorrectStudent={confirmCorrectStudent} name={student.name} resetState={resetState} />}
   </div>

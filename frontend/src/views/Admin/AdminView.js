@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import { Button, Input, Label } from 'components'
-import { InputContainer } from 'containers'
 
 const AdminView = () => (
   <div>
@@ -41,7 +40,7 @@ const AdminView = () => (
     <section>
       <p>Supply the necessary information:</p>
       <Label>Source file name:</Label>
-      <InputContainer placeholder='ex: Leadership/Retreat 1/Google Drive.gslides' />
+      <Input placeholder='ex: Leadership/Retreat 1/Google Drive.gslides' />
       <p>[IF ACTION HAS FILE] Choose which file type?</p>
       <ul>
         <li>Google Form</li>
