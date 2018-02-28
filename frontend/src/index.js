@@ -1,13 +1,13 @@
 // react
 import React from 'react'
-import {render} from 'react-dom'
+import { render } from 'react-dom'
 import {BrowserRouter} from 'react-router-dom'
-import {AppContainer} from 'containers'
+import { AppViewContainer } from 'views'
 import './resets.css'
 
 render((
         <BrowserRouter>
-            <AppContainer/>
+            <AppViewContainer/>
         </BrowserRouter>),
     document.getElementById('root')
 )

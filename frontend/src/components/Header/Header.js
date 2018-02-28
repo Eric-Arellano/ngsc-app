@@ -19,7 +19,7 @@ const Header = () => (
               {/*<li><Link to={'/contact-us'}>Contact Us</Link></li>*/}
               </ul>
       </nav>
-    <h1 className={s.title}>NGSC Engagement Requirements</h1>
+    <h1 className={s.title}>NGSC App</h1>
   </header>
 )
 
