@@ -18,7 +18,7 @@ Usage:
             reinstall: ./run.py reinstall [--target backend|frontend]`
             catchup: `./run.py catchup [--target backend|frontend]`
     test...
-            run tests: `./run.py test [--target script]`
+            run tests: `./run.py test [--target backend|script]`
             check types: `./run.py types [--target backend|frontend]`
     dependency management...
             view outdated: `./run.py outdated [--target backend|frontend]`
@@ -165,7 +165,9 @@ def test(*, target: Target = 'all') -> None:
     """
     execute_on_target_environment(target,
                                   all_action=lambda: (
+                                      backend.test(),
                                       scripts_test_runner.test()),
+                                  backend_action=backend.test,
                                   script_action=scripts_test_runner.test)
 
 
