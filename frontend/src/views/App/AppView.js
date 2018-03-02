@@ -2,7 +2,7 @@
 import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { Footer, Header, PrivateRoute } from 'components'
-import { AdminView, LoginViewContainer, ParticipationView } from 'views'
+import { AdminView, ContactUsView, LoginViewContainer, ParticipationView } from 'views'
 import type { Student } from 'types'
 import s from './AppView.module.css'
 
@@ -21,7 +21,7 @@ const AppView = ({isLoggedIn, student, login, resetState}: Props) => (
                     resetState={resetState} login={login} />
       <Route exact path='/admin' component={AdminView} />
       <Route exact path='/events' component={AdminView} />
-      <Route exact path='/leadership' component={AdminView} />
+      <Route exact path='/leadership' component={ContactUsView} />
     </Switch>
     <Footer />
   </div>
