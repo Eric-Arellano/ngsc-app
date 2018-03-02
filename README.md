@@ -68,7 +68,7 @@ You can often specify a specific target with `--target [env]`, or the abbreviati
 * Stop app: `./run.py stop [--target backend|frontend]`
 
 ### Test
-* Run unit tests: `./run.py test [--target script]`
+* Run unit tests: `./run.py test [--target backend|script]`
 * Check types: `./run.py types [--target backend|frontend|script]`
 
 

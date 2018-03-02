@@ -16,43 +16,43 @@
     cursor: not-allowed;
 }
 
-.ngsc {
+.neutral {
     composes: base;
     color: black;
     background: gold;
     border-color: #dcb700;
 }
 
-.ngsc:hover {
+.neutral:hover {
     background: #dcb700;
 }
 
-.ngsc:disabled {
+.neutral:disabled {
     color: black;
     background: #eaeaea;
     border-color: #b7b7b7;
 }
 
-.ngsc:disabled:hover {
+.neutral:disabled:hover {
     background: #b7b7b7;
 }
 
-.success {
+.valid {
     composes: base;
     color: green;
 }
 
-.success:hover {
+.valid:hover {
     color: white;
     background: green
 }
 
-.danger {
+.invalid {
     composes: base;
     color: red;
 }
 
-.danger:hover {
+.invalid:hover {
     color: white;
     background: red
 }
