@@ -19,9 +19,9 @@ const AppView = ({isLoggedIn, student, login, resetState}: Props) => (
     <Switch>
       <PrivateRoute exact path='/' isLoggedIn={isLoggedIn} component={ParticipationView} student={student}
                     resetState={resetState} login={login} />
-      <PrivateRoute exact path='/participation' isLoggedIn={isLoggedIn} component={ParticipationView}
-                    student={student} resetState={resetState} login={login} />
       <Route exact path='/admin' component={AdminView} />
+      <Route exact path='/events' component={AdminView} />
+      <Route exact path='/leadership' component={AdminView} />
     </Switch>
     <Footer />
   </div>
