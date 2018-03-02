@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import {Switch, Route} from 'react-router-dom'
+import { Switch } from 'react-router-dom'
 import { Footer, Header, PrivateRoute } from 'components'
 import { LoginViewContainer, ParticipationView } from 'views'
 import type { Student } from 'types'
@@ -14,14 +14,17 @@ type Props = {
 }
 
 const AppView = ({isLoggedIn, student, login, resetState}: Props) => (
-    <div className={s.app}>
-        <Header />
-        <Switch>
-            {/*<PrivateRoute path={'/'} isLoggedIn={isLoggedIn} student={student} resetState={resetState} login={login}/>*/}
-            <PrivateRoute path={'/participation'} isLoggedIn={isLoggedIn} student={student} resetState={resetState} login={login}/>
-        </Switch>
-        <Footer/>
-    </div>
+  <div className={s.app}>
+    <Header />
+    <Switch>
+      {/* TODO:  why can't you have the same component render on both routes? */}
+      <PrivateRoute path={'/'} isLoggedIn={isLoggedIn} component={ParticipationView} student={student}
+                    resetState={resetState} login={login} />
+      {/*<PrivateRoute path={'/participation'} isLoggedIn={isLoggedIn} component={ParticipationView} student={student}*/}
+      {/*resetState={resetState} login={login} />*/}
+    </Switch>
+    <Footer />
+  </div>
 )
 
 export default AppView
