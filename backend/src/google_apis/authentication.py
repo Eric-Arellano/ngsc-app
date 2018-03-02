@@ -8,7 +8,7 @@ from googleapiclient import discovery
 from httplib2 import Http
 from oauth2client.service_account import ServiceAccountCredentials
 
-scopes = ['https://www.googleapis.com/auth/sqlservice.admin', 'https://www.googleapis.com/auth/spreadsheets.readonly']
+scopes = ['https://www.googleapis.com/auth/sqlservice.admin', 'https://www.googleapis.com/auth/spreadsheets']
 
 
 def build_service() -> discovery.Resource:
