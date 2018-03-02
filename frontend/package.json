@@ -8,7 +8,9 @@
     "custom-react-scripts": "^0.2.1",
     "flow-bin": "^0.65.0",
     "lodash": "^4.17.5",
+    "moment": "^2.20.1",
     "react": "^16.2.0",
+    "react-big-calendar": "^0.18.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
     "react-table": "^6.7.6"
