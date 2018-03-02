@@ -6,9 +6,9 @@ import s from './Header.module.css'
 
 const Header = () => (
   <header className={s.container}>
-    <a href="/">
+    <Link to="/">
       <img src={logo} className={s.logo} alt="logo" />
-    </a>
+    </Link>
       <nav>
           <ul>
 
