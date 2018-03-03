@@ -5,6 +5,7 @@ import s from './RadioGroup.module.css'
 
 type Props = {
   options: Array<string>,
+  default: ?string,
   updateCurrentSelection: (string) => void,
 }
 
@@ -15,7 +16,7 @@ type State = {
 class RadioGroup extends Component<Props, State> {
 
   state = {
-    currentSelection: ''
+    currentSelection: this.props.default
   }
 
   handleSelection = (e: SyntheticInputEvent<HTMLInputElement>) => {
