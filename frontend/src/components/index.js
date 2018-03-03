@@ -11,6 +11,7 @@ import Loading from './Loading/Loading'
 import Panel from './Panel/Panel'
 import PanelWithLoading from './Panel/PanelWithLoading'
 import PrivateRoute from './Routes/PrivateRoute'
+import RadioGroup from './Form/RadioGroup'
 
 export {
   Button,
@@ -24,5 +25,6 @@ export {
   Loading,
   Panel,
   PanelWithLoading,
-    PrivateRoute,
+  PrivateRoute,
+  RadioGroup,
 }

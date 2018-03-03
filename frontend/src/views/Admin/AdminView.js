@@ -1,6 +1,30 @@
 // @flow
 import React from 'react'
-import { Button, Input, Label } from 'components'
+import { Button, Input, Label, RadioGroup } from 'components'
+
+const updateCurrentSelection = (s: string) => {
+
+}
+
+const actionList = [
+  'Create empty file',
+  'Create empty folder',
+  'Copy file',
+  'Copy folder',
+  'Move file',
+  'Move folder',
+  'Remove file',
+  'Remove folder',
+  'Rename file',
+  'Rename folder',
+]
+
+const fileType = [
+  'Google doc',
+  'Google sheet',
+  'Google slide',
+  'Google form',
+]
 
 const AdminView = () => (
   <div>
@@ -22,18 +46,7 @@ const AdminView = () => (
 
     <section>
       <p>Choose which action you'd like to take:</p>
-      <ul>
-        <li>Create empty file</li>
-        <li>Create empty folder</li>
-        <li>Copy file</li>
-        <li>Copy folder</li>
-        <li>Move file</li>
-        <li>Move folder</li>
-        <li>Remove file</li>
-        <li>Remove folder</li>
-        <li>Rename file</li>
-        <li>Rename folder</li>
-      </ul>
+      <RadioGroup options={actionList} updateCurrentSelection={updateCurrentSelection} />
     </section>
     <br />
 
@@ -41,19 +54,19 @@ const AdminView = () => (
       <p>Supply the necessary information:</p>
       <Label>Source file name:</Label>
       <Input placeholder='ex: Leadership/Retreat 1/Google Drive.gslides' />
+    </section>
+    <br />
+
+    <section>
       <p>[IF ACTION HAS FILE] Choose which file type?</p>
-      <ul>
-        <li>Google Form</li>
-        <li>Google Doc</li>
-        <li>Google Sheet</li>
-        <li>Google Slides</li>
-      </ul>
+      <RadioGroup options={fileType} updateCurrentSelection={updateCurrentSelection} />
     </section>
     <br />
 
     <section>
       <Button>Submit</Button>
     </section>
+
   </div>
 )
 
