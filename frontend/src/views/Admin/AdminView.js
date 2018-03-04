@@ -1,73 +1,75 @@
 // @flow
-import React from 'react'
-import { Button, Input, Label, RadioGroup } from 'components'
+import React, { Component } from 'react'
+import { Button, CheckboxGroup, Input, Label, RadioGroup } from 'components'
+import { actionList, folderTargets } from './Options.js'
+import type { CheckboxOption, RadioOption } from 'types'
 
-const updateCurrentSelection = (s: string) => {
+type Props = {}
 
+type State = {
+  targetFolders: Array<CheckboxOption>,
+  action: ?RadioOption,
+  sourcePath: ?string,
+  targetPaths: ?Array<string>
 }
 
-const actionList = [
-  'Create empty file',
-  'Create empty folder',
-  'Copy file',
-  'Copy folder',
-  'Move file',
-  'Move folder',
-  'Remove file',
-  'Remove folder',
-  'Rename file',
-  'Rename folder',
-]
+class AdminView extends Component<Props, State> {
 
-const fileType = [
-  'Google doc',
-  'Google sheet',
-  'Google slide',
-  'Google form',
-]
+  state = {
+    targetFolders: folderTargets,
+    action: null,
+    sourcePath: null,
+    targetPaths: null
+  }
 
-const AdminView = () => (
-  <div>
-    <section>
-      <p>This will be the admin view.</p>
-    </section>
-    <br />
+  updateAction = (action: RadioOption) => {
+    this.setState({action})
+  }
 
-    <section>
-      <p>Choose which groups you would like to apply the action to:</p>
-      <ul>
-        <li>Committee chair folders</li>
-        <li>Committee lead folders</li>
-        <li>Mission team folders</li>
-        <li>Section leader folders</li>
-      </ul>
-    </section>
-    <br />
+  updateFolderTargets = (targetFolders: Array<CheckboxOption>) => {
+    this.setState({targetFolders})
+  }
 
-    <section>
-      <p>Choose which action you'd like to take:</p>
-      <RadioGroup options={actionList} updateCurrentSelection={updateCurrentSelection} />
-    </section>
-    <br />
+  updateSourcePath = (sourcePath: string) => {
+    this.setState({sourcePath})
+  }
 
-    <section>
-      <p>Supply the necessary information:</p>
-      <Label>Source file name:</Label>
-      <Input placeholder='ex: Leadership/Retreat 1/Google Drive.gslides' />
-    </section>
-    <br />
+  updateTargetPaths = (targetPaths: Array<string>) => {
+    this.setState({targetPaths})
+  }
 
-    <section>
-      <p>[IF ACTION HAS FILE] Choose which file type?</p>
-      <RadioGroup options={fileType} updateCurrentSelection={updateCurrentSelection} />
-    </section>
-    <br />
+  submit = () => {
 
-    <section>
-      <Button>Submit</Button>
-    </section>
+  }
 
-  </div>
-)
+  render () {
+    const {action, targetFolders} = this.state
+    return <div>
+      <section>
+        <p>Choose which groups you would like to apply the action to:</p>
+        <CheckboxGroup options={targetFolders}
+                       updateCurrentChecked={this.updateFolderTargets} />
+      </section>
+      <br />
+      <section>
+        <p>Choose which action you'd like to take:</p>
+        <RadioGroup options={actionList}
+                    updateCurrentSelection={this.updateAction} />
+      </section>
+      <br />
+      {action && action.needsSource && <section>
+        <Label>Source file name:</Label>
+        <Input placeholder='ex: Leadership/Retreat 1/Google Drive.gslides' />
+      </section>}
+      {action && action.needsTarget && <section>
+        <Label>Target file name:</Label>
+        <Input placeholder='ex: Leadership/Retreat 1/Google Drive.gslides' />
+      </section>}
+      <section>
+        <Button handleClick={this.submit}>Submit</Button>
+      </section>
+    </div>
+  }
+}
 
 export default AdminView

@@ -2,6 +2,7 @@
 import Footer from './Footer/Footer'
 import Button from './Button/Button'
 import ButtonGroup from './Button/ButtonGroup'
+import CheckboxGroup from './Form/CheckboxGroup'
 import Entry from './Panel/Entry'
 import Error from './Error/Error'
 import Header from './Header/Header'
@@ -16,6 +17,7 @@ import RadioGroup from './Form/RadioGroup'
 export {
   Button,
   ButtonGroup,
+  CheckboxGroup,
   Footer,
   Entry,
   Error,

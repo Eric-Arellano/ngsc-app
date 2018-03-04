@@ -1,16 +1,17 @@
 // @flow
 import React, { Component } from 'react'
 import { Label } from 'components'
+import type { RadioOption } from 'types'
 import s from './RadioGroup.module.css'
 
 type Props = {
-  options: Array<string>,
-  default: ?string,
-  updateCurrentSelection: (string) => void,
+  options: Array<RadioOption>,
+  default: ?RadioOption,
+  updateCurrentSelection: (RadioOption) => void,
 }
 
 type State = {
-  currentSelection: string,
+  currentSelection: RadioOption,
 }
 
 class RadioGroup extends Component<Props, State> {
@@ -20,11 +21,11 @@ class RadioGroup extends Component<Props, State> {
   }
 
   handleSelection = (e: SyntheticInputEvent<HTMLInputElement>) => {
-    const {updateCurrentSelection} = this.props
+    const {options, updateCurrentSelection} = this.props
     const input = e.currentTarget.value
-    this.setState({currentSelection: input}, () => {
-      const {currentSelection} = this.state
-      updateCurrentSelection(currentSelection)
+    const newSelection: RadioOption = options.find(option => option.label === input)
+    this.setState({currentSelection: newSelection}, () => {
+      updateCurrentSelection(newSelection)
     })
   }
 
@@ -32,15 +33,15 @@ class RadioGroup extends Component<Props, State> {
     const {currentSelection} = this.state
     const {options} = this.props
     return <ul>
-      {options.map((option: string) => (
+      {options.map((option: RadioOption) => (
         <li>
           <Label>
             <input type='radio'
-                   value={option}
+                   value={option.label}
                    checked={currentSelection === option}
                    onChange={this.handleSelection}
                    className={s.radio} />
-            {option}
+            {option.label}
           </Label>
         </li>
       ))
