@@ -17,8 +17,9 @@ const AppView = ({isLoggedIn, student, login, resetState}: Props) => (
     <div className={s.app}>
         <Header />
         <Switch>
-            {/*<PrivateRoute path={'/'} isLoggedIn={isLoggedIn} student={student} resetState={resetState} login={login}/>*/}
+
             <PrivateRoute path={'/participation'} isLoggedIn={isLoggedIn} student={student} resetState={resetState} login={login}/>
+            <PrivateRoute path={'/'} isLoggedIn={isLoggedIn} student={student} resetState={resetState} login={login}/>
         </Switch>
         <Footer/>
     </div>
