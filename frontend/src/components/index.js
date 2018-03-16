@@ -11,6 +11,7 @@ import Loading from './Loading/Loading'
 import Panel from './Panel/Panel'
 import PanelWithLoading from './Panel/PanelWithLoading'
 import PrivateRoute from './Routes/PrivateRoute'
+import Nav from './Header/Nav'
 
 export {
   Button,
@@ -22,6 +23,7 @@ export {
   Input,
   Label,
   Loading,
+    Nav,
   Panel,
   PanelWithLoading,
     PrivateRoute,

@@ -3,13 +3,14 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import logo from './logo.png'
 import s from './Header.module.css'
-import Nav from 'Header'
+import Nav from './Header'
 
 const Header = () => (
   <header className={s.container}>
     <a href="/">
       <img src={logo} className={s.logo} alt="logo" />
     </a>
+      <Nav />
       {/*<nav>*/}
           {/*<ul>*/}
 
@@ -20,8 +21,8 @@ const Header = () => (
               {/*/!*<li><Link to={'/contact-us'}>Contact Us</Link></li>*!/*/}
               {/*</ul>*/}
       {/*</nav>*/}
-    {/*<h1 className={s.title}>NGSC App</h1>*/}
-  <Nav />
+    <h1 className={s.title}>NGSC App</h1>
+
     </header>
 )
 
