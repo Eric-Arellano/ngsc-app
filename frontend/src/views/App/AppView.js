@@ -21,6 +21,7 @@ const AppView = ({isLoggedIn, student, login, resetState}: Props) => (
                     resetState={resetState} login={login} />
       <Route exact path='/admin' component={AdminView} />
       <Route exact path='/events' component={EventsView} />
+      {/*<Route exact path='/internships' component={EventsView} /> // TODO: implement internships */}
       <Route exact path='/leadership' component={ContactUsView} />
     </Switch>
     <Footer />
