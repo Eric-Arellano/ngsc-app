@@ -17,6 +17,7 @@ def main() -> None:
     check_prereqs_installed()
     resolve_git_issues()
     update_student_ids_file()
+    check_valid_update()
     redeploy()
 
 
@@ -49,6 +50,16 @@ def update_student_ids_file() -> None:
                                  '--silent'])
     with open('backend/src/data/demographics.py', 'w') as file:
         file.write(f'demographics_data = {json}')
+
+
+def check_valid_update() -> None:
+    """
+    Check file correctly updated and ready to be deployed.
+    """
+    num_lines = sum(1 for line in open('backend/src/data/demographics.py'))
+    if num_lines < 3_000:
+        raise SystemExit(
+                'It appears there was an issue with writing to demographics.py. Check and consider reverting any changes.')
 
 
 def redeploy() -> None:

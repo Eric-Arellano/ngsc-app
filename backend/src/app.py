@@ -24,8 +24,9 @@ app.register_blueprint(drive_api, url_prefix='/api/drive')
 app.register_blueprint(sheets_api, url_prefix='/api/sheets')
 
 
-@app.route('/')
-def render_react():
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def render_react(path):
     return flask.send_from_directory('../../frontend/build', 'index.html')
 
 
