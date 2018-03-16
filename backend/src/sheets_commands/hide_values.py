@@ -6,16 +6,20 @@ def hide_all_ids() -> None:
     """
     Hide the student ID column from all rosters.
     """
-    _environment_chooser.operate_on_all_attendance(hide_values,
+    _environment_chooser.operate_on_all_attendance(toggle_hiding_columns,
                                                    start_index=0,
-                                                   end_index=1)
+                                                   end_index=1,
+                                                   hidden=True)
 
 
 # ------------------------------------------------------
 # Generic commands
 # ------------------------------------------------------
 
-def hide_values(spreadsheet_id: str, start_index, end_index) -> None:
+def toggle_hiding_columns(spreadsheet_id: str, *,
+                          start_index: int,
+                          end_index: int,
+                          hidden: bool) -> None:
     """
     Hide the columns for provided column range.
     """
@@ -29,7 +33,7 @@ def hide_values(spreadsheet_id: str, start_index, end_index) -> None:
                 "endIndex": end_index,
             },
             "properties": {
-                "hiddenByUser": True,
+                "hiddenByUser": hidden,
             },
             "fields": 'hiddenByUser',
         }}]

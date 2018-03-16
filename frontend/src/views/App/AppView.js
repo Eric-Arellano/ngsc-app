@@ -1,8 +1,8 @@
 // @flow
 import * as React from 'react'
-import {Switch, Route} from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import { Footer, Header, PrivateRoute } from 'components'
-import { LoginViewContainer, ParticipationView } from 'views'
+import { AdminView, ContactUsView, EventsView, LoginViewContainer, ParticipationView } from 'views'
 import type { Student } from 'types'
 import s from './AppView.module.css'
 
@@ -14,15 +14,17 @@ type Props = {
 }
 
 const AppView = ({isLoggedIn, student, login, resetState}: Props) => (
-    <div className={s.app}>
-        <Header />
-        <Switch>
-
-            <PrivateRoute path={'/participation'} isLoggedIn={isLoggedIn} student={student} resetState={resetState} login={login}/>
-            <PrivateRoute path={'/'} isLoggedIn={isLoggedIn} student={student} resetState={resetState} login={login}/>
-        </Switch>
-        <Footer/>
-    </div>
+  <div className={s.app}>
+    <Header />
+    <Switch>
+      <PrivateRoute exact path='/' isLoggedIn={isLoggedIn} component={ParticipationView} student={student}
+                    resetState={resetState} login={login} />
+      <Route exact path='/admin' component={AdminView} />
+      <Route exact path='/events' component={EventsView} />
+      <Route exact path='/leadership' component={ContactUsView} />
+    </Switch>
+    <Footer />
+  </div>
 )
 
 export default AppView

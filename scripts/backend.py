@@ -13,6 +13,7 @@ Usage:
             reinstall: `./backend.py reinstall`
             catchup: `./backend.py catchup`
     test...
+            run unit tests: `./backend.py test`
             check types: `./backend.py types`
     dependency management...
             view outdated: `./backend.py outdated`
@@ -134,6 +135,14 @@ def catchup() -> None:
 # Test commands
 # -------------------------------------
 
+def test() -> None:
+    """
+    Run unit tests.
+    """
+    venv.activate()
+    sys_calls.run(['pytest', '-q'], cwd='backend/src')
+
+
 def check_types() -> None:
     """
     Calls MyPy to check for type errors.
@@ -210,6 +219,7 @@ command_map = command_line_args.CommandMap({'run': run,
                                             'install': install,
                                             'reinstall': reinstall,
                                             'catchup': catchup,
+                                            'test': test,
                                             'types': check_types,
                                             'outdated': list_outdated,
                                             'deptree': dependency_tree,
