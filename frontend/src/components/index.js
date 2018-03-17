@@ -13,16 +13,16 @@ import PanelWithLoading from './Panel/PanelWithLoading'
 import PrivateRoute from './Routes/PrivateRoute'
 
 export {
-  Button,
-  ButtonGroup,
-  Footer,
-  Entry,
-  Error,
-  Header,
-  Input,
-  Label,
-  Loading,
-  Panel,
-  PanelWithLoading,
+    Button,
+    ButtonGroup,
+    Footer,
+    Entry,
+    Error,
+    Header,
+    Input,
+    Label,
+    Loading,
+    Panel,
+    PanelWithLoading,
     PrivateRoute,
 }
