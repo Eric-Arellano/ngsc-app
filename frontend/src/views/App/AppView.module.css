@@ -1,19 +1,18 @@
 /* App */
 
-.app {
+.outerContainer {
     height: 100%;
     text-align: center;
     font-size: 1.1em;
 }
 
-.body {
-    padding: 2.5%;
-    padding-bottom: 6em;
+.mainContent {
+    padding: 2em 2.5em;
 }
 
 @media screen and (max-width: 768px) {
 
-    .body {
+    .outerContainer {
         font-size: 1em;
     }
 }
