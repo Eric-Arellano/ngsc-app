@@ -8,6 +8,7 @@ import Header from './Header/Header'
 import Input from './Form/Input'
 import Label from './Form/Label'
 import Loading from './Loading/Loading'
+import Nav from './Header/Nav'
 import Panel from './Panel/Panel'
 import PanelWithLoading from './Panel/PanelWithLoading'
 import PrivateRoute from './Routes/PrivateRoute'
@@ -22,7 +23,8 @@ export {
   Input,
   Label,
   Loading,
+  Nav,
   Panel,
   PanelWithLoading,
-    PrivateRoute,
+  PrivateRoute,
 }

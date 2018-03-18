@@ -14,15 +14,17 @@ type Props = {
 }
 
 const AppView = ({isLoggedIn, student, login, resetState}: Props) => (
-  <div className={s.app}>
+  <div className={s.outerContainer}>
     <Header />
-    <Switch>
-      <PrivateRoute exact path='/' isLoggedIn={isLoggedIn} component={ParticipationView} student={student}
-                    resetState={resetState} login={login} />
-      <Route exact path='/admin' component={AdminView} />
-      <Route exact path='/events' component={EventsViewContainer} />
-      <Route exact path='/leadership' component={ContactUsView} />
-    </Switch>
+    <div className={s.mainContent}>
+      <Switch>
+        <PrivateRoute exact path='/' isLoggedIn={isLoggedIn} component={ParticipationView} student={student}
+                      resetState={resetState} login={login} />
+        <Route exact path='/admin' component={AdminView} />
+        <Route exact path='/events' component={EventsViewContainer} />
+        <Route exact path='/leadership' component={ContactUsView} />
+      </Switch>
+    </div>
     <Footer />
   </div>
 )

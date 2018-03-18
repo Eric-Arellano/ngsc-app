@@ -2,15 +2,12 @@
 
 .container {
     width:100%;
-    margin-top: 1em;
-    padding-bottom: 1em;
+    display: flex;
+    flex: 0 0 2.5em;
     align-items: center;
     justify-content: center;
-    position: absolute;
-    height: 6em;
-    bottom: 0;
-    background-color: black;
-    z-index: 100;
+    background-color: #222;
+    padding: 1.5em 0;
 }
 
 .container p {
@@ -25,11 +22,4 @@
 .container a:hover {
     color: gold;
     cursor: pointer;
-}
-
-.text {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 100%;
 }
