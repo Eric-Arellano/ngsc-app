@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 import { Route } from 'react-router-dom'
-import { LoginViewContainer, ParticipationView } from 'views'
+import { LoginViewContainer } from 'views'
 import type { Student } from 'types'
 
 type Props = {

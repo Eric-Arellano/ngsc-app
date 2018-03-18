@@ -261,7 +261,7 @@ def deploy_to_heroku(target: Target = 'all') -> None:
 
 def update_student_info(target: Target = 'all') -> None:
     """
-    Check for changes to hardcoded student information and then redeploy.
+    Check for changes to hardcoded student information and then commit changes.
     """
     execute_on_target_environment(target,
                                   all_action=update_demographics.main)

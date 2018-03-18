@@ -9,7 +9,6 @@ import sys
 # path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
-from scripts import deploy
 from scripts.utils import git, sys_calls, prereq_checker
 
 
@@ -17,7 +16,8 @@ def main() -> None:
     check_prereqs_installed()
     resolve_git_issues()
     update_student_ids_file()
-    redeploy()
+    check_valid_update()
+    commit_changes()
 
 
 def check_prereqs_installed() -> None:
@@ -27,7 +27,6 @@ def check_prereqs_installed() -> None:
     prereq_checker.check_is_installed(['curl'])
     git.check_prereqs_installed()
     sys_calls.check_prereqs_installed()
-    deploy.check_prereqs_installed()
 
 
 def resolve_git_issues() -> None:
@@ -51,13 +50,23 @@ def update_student_ids_file() -> None:
         file.write(f'demographics_data = {json}')
 
 
-def redeploy() -> None:
+def check_valid_update() -> None:
+    """
+    Check file correctly updated and ready to be deployed.
+    """
+    num_lines = sum(1 for line in open('backend/src/data/demographics.py'))
+    if num_lines < 3_000:
+        raise SystemExit(
+                'It appears there was an issue with writing to demographics.py. Check and consider reverting any changes.')
+
+
+def commit_changes() -> None:
     """
     Commit changes and deploy to GitHub and Heroku.
     """
     git.add(['backend/src/data/demographics.py'])
     git.commit('update demographics')
-    deploy.main()
+    print('Deploy with `./run.py deploy`')
 
 
 if __name__ == '__main__':
