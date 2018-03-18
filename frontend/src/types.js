@@ -1,5 +1,11 @@
 // @flow
 
+export type CalendarEvent = {
+  title: string,
+  start: Date,
+  end: Date
+}
+
 export type EngagementEvent = {
   name: string,
   type: string,
