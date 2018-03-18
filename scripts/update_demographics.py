@@ -9,7 +9,6 @@ import sys
 # path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
-from scripts import deploy
 from scripts.utils import git, sys_calls, prereq_checker
 
 
@@ -18,7 +17,7 @@ def main() -> None:
     resolve_git_issues()
     update_student_ids_file()
     check_valid_update()
-    redeploy()
+    commit_changes()
 
 
 def check_prereqs_installed() -> None:
@@ -28,7 +27,6 @@ def check_prereqs_installed() -> None:
     prereq_checker.check_is_installed(['curl'])
     git.check_prereqs_installed()
     sys_calls.check_prereqs_installed()
-    deploy.check_prereqs_installed()
 
 
 def resolve_git_issues() -> None:
@@ -62,13 +60,13 @@ def check_valid_update() -> None:
                 'It appears there was an issue with writing to demographics.py. Check and consider reverting any changes.')
 
 
-def redeploy() -> None:
+def commit_changes() -> None:
     """
     Commit changes and deploy to GitHub and Heroku.
     """
     git.add(['backend/src/data/demographics.py'])
     git.commit('update demographics')
-    deploy.main()
+    print('Deploy with `./run.py deploy`')
 
 
 if __name__ == '__main__':
