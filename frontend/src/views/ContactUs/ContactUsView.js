@@ -3,8 +3,6 @@ import React from 'react'
 import Bio from './Bio'
 import BioGroup from './BioGroup'
 
-type Props = {}
-
 const ContactUsView = () => (
     <div>
         <BioGroup header={"Professional Staff"}>

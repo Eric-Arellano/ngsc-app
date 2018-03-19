@@ -1,5 +1,15 @@
 // @flow
 
+export type CalendarEvent = {
+  title: string,
+  start: Date,
+  end: Date
+}
+
+// -------------------------------------------------------
+// Data models
+// -------------------------------------------------------
+
 export type EngagementEvent = {
   name: string,
   type: string,
@@ -21,4 +31,17 @@ export type Name = {
   last: string
 }
 
+// -------------------------------------------------------
+// UI Types
+// -------------------------------------------------------
+
 export type ValidationState = 'valid' | 'invalid' | 'neutral'
+
+export type RadioOption = {
+  label: string,
+}
+
+export type CheckboxOption = {
+  label: string,
+  checked: bool,
+}

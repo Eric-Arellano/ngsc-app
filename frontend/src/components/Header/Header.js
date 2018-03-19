@@ -10,7 +10,7 @@ const Header = () => (
     <Link to="/">
       <img src={logo} className={s.logo} alt="logo" />
     </Link>
-    <Nav />
+    {/*<Nav />*/}
     <h1 className={s.title}>NGSC App</h1>
   </header>
 )
