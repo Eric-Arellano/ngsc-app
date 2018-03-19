@@ -24,12 +24,17 @@ app.register_blueprint(drive_api, url_prefix='/api/drive')
 app.register_blueprint(sheets_api, url_prefix='/api/sheets')
 
 
+@app.route('/api/test')
+def api_test():
+    return 'Server is running! Good luck debugging :O'
+
+
+@app.route('/assets/<path:path>')
+def render_react_asset(path):
+    return flask.send_from_directory('../../frontend/build/assets', path)
+
+
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def render_react(path):
     return flask.send_from_directory('../../frontend/build', 'index.html')
-
-
-@app.route('/api/test')
-def api_test():
-    return 'Server is running! Good luck debugging :O'
