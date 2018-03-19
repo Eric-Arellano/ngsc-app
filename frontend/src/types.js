@@ -1,5 +1,11 @@
 // @flow
 
+export type CalendarEvent = {
+  title: string,
+  start: Date,
+  end: Date
+}
+
 // -------------------------------------------------------
 // Data models
 // -------------------------------------------------------

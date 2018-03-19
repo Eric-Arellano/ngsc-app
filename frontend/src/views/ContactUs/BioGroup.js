@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react'
 import {Bio} from 'components'
+import s from './Bio.module.css'
 
 type Props = {
     header: string,
@@ -10,7 +11,7 @@ type Props = {
 const BioGroup = ({header, children}: Props) => (
     <div>
         <h3>{header}</h3>
-        <div>{children}</div>
+        <div className={s.wrapper}>{children}</div>
     </div>
 )
 

@@ -10,12 +10,12 @@ type Props = {
 }
 
 const Bio = ({pictureURL, position, name, email}: Props) => (
-        <div>
-            <img src={pictureURL} className={s.image}/>
-            <p>{position}</p>
-            <p>{name}</p>
-            <p>{email}</p>
-        </div>
-    )
+    <div className={s.bio}>
+        <img src={pictureURL} className={s.image}/>
+        <p>{position}</p>
+        <p>{name}</p>
+        <p>{email}</p>
+    </div>
+)
 
 export default Bio
