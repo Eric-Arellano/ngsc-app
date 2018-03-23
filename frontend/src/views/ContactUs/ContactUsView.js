@@ -11,7 +11,7 @@ const ContactUsView = () => (
             <Bio name={"Jessica Eldridge"} position={"Assistant Director"} email={"jessica.eldridge@asu.edu"}
                  pictureURL={"https://media.licdn.com/media/p/2/000/2b4/161/38a250d.jpg"}/>
             <Bio name={"Laura Tan"} position={"Community Engagement Coordinator"} email={"laura.tan@asu.edu"}
-                 pictureURL={"https://media.licdn.com/media/p/6/005/09c/2ca/2e7e1f7.jpg"}/>
+                 pictureURL={"https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/295423_262292843879255_1708700154_n.jpg?_nc_cat=0&oh=c969c25dab33530cf315c0c53bb22750&oe=5B344FA3"}/>
             <Bio name={"Veronica Gutierrez"} position={"Curriculum and Course Manager"}
                  email={"veronica.gutierrez@asu.edu"}
                  pictureURL={"https://scontent.fphx1-1.fna.fbcdn.net/v/t31.0-8/26678217_10109089048805231_1239174116842371196_o.jpg?oh=d353c7b96da89b13b54e5cf4791f8bc0&oe=5B09F765"}/>
@@ -21,7 +21,7 @@ const ContactUsView = () => (
             <Bio name={"Eric Arellano"} position={"Chief of Staff"} email={"eric.arellano@asu.edu"}
                  pictureURL={"https://scontent.fphx1-1.fna.fbcdn.net/v/t1.0-9/26815372_1505477482841281_4162892782714660624_n.jpg?oh=1d246da8e20a909b20410066bdb65d4a&oe=5B10E643"}/>
             <Bio name={"Michelle Thomas"} position={"Culture Lead"} email={"mthoma38@asu.edu"}
-                 pictureURL={"https://media.licdn.com/media/AAIA_wDGAAAAAQAAAAAAAAmlAAAAJGFhOTg2MzVhLTVmMTAtNDcyNC1hNGU1LTIxMzkwOTEzZjNkOA.jpg"}/>
+                 pictureURL={"https://media.licdn.com/dms/image/C5603AQEXiq_AKD82eA/profile-displayphoto-shrink_800_800/0?e=1526958000&v=alpha&t=NY13bYaATIZaZGXwGhiXaF-6BHqfJTJaJNer5KGplyg"}/>
             <Bio name={"Kelly Bitler"} position={"Education Lead"} email={"kelly.bitler@asu.edu"}
                  pictureURL={"https://media.licdn.com/media/AAEAAQAAAAAAAAcvAAAAJDA3NDIwZWFlLTc5ODMtNGUyMy1hNTlmLTFhMDkzMzViM2IyMA.jpg"}/>
             <Bio name={"Steven Sawtelle"} position={"Engagement Lead"} email={"steven.sawtelle@asu.edu"}
@@ -44,7 +44,7 @@ const ContactUsView = () => (
             <Bio name={"Courtney Langerud"} position={"Service"} email={"courtney.langerud@asu.edu"}
                  pictureURL={"https://scontent.fphx1-1.fna.fbcdn.net/v/t1.0-9/25353791_1574152102679880_3886755589891247003_n.jpg?oh=a355728f293fd955894d3e89f9e153ea&oe=5ADE90EA"}/>
             <Bio name={"Kara Lehmann"} position={"Social"} email={"kara.lehmann@asu.edu"}
-                 pictureURL={"https://media.licdn.com/media/AAEAAQAAAAAAAAebAAAAJGJhMTNmOTQ5LWYwM2YtNGU4NC1iZDE0LTNkZmQ4MmVhZDk3MA.jpg"}/>
+                 pictureURL={"https://media.licdn.com/dms/image/C5103AQEg_3HmNMpWaQ/profile-displayphoto-shrink_800_800/0?e=1526958000&v=alpha&t=njM_XCGl86jW0l6wiaIqXbHcZ2Vk4l8bNQexRDnkqjI"}/>
             <Bio name={"Adam Thompson"} position={"Training"} email={"adam.richard.thompson@asu.edu"}
                  pictureURL={"https://scontent.fphx1-1.fna.fbcdn.net/v/t1.0-9/27750841_1452239774905278_109012201486380910_n.jpg?oh=3d4239d32c9776c1627cb9a634b996de&oe=5B2637CD"}/>
         </BioGroup>
@@ -61,11 +61,11 @@ const ContactUsView = () => (
             <Bio name={"Kelly Walsh"} position={"Section 5"} email={"kewalsh@asu.edu"}
                  pictureURL={"https://scontent.fphx1-1.fna.fbcdn.net/v/t1.0-9/28168137_1924087197619212_9059379090590928983_n.jpg?oh=6b68d043baff5affcf9ebd34c2fdc8fc&oe=5B4CDBDA"}/>
             <Bio name={"Lauren Barnes"} position={"Section 6"} email={"labarne4@asu.edu"}
-                 pictureURL={"https://media.licdn.com/media/AAIABADGAAAAAQAAAAAAAAsZAAAAJDAzMzE4MGFkLTJkZGUtNDIwZi1hMDQwLWVmN2ZiZjBjOGFkOA.jpg"}/>
+                 pictureURL={"https://scontent-lax3-1.xx.fbcdn.net/v/t31.0-8/26758421_1775545569169019_9147300189104792444_o.jpg?_nc_cat=0&oh=9548612d0ab57946df86ca5790bf57fc&oe=5B479E6C"}/>
             <Bio name={"Arianna Kurtz"} position={"Section 7"} email={"arianna.kurtz@asu.edu"}
                  pictureURL={"https://scontent.fphx1-1.fna.fbcdn.net/v/t1.0-1/c0.78.320.320/p320x320/26165782_1528798800546371_6954385807188231029_n.jpg?oh=41964eed2237a048febc47a3d19fa0e1&oe=5B1DA3FA"}/>
             <Bio name={"Markanday Ravi"} position={"Section 8"} email={"mravi2@asu.edu"}
-                 pictureURL={"https://media.licdn.com/media/AAEAAQAAAAAAAAleAAAAJDViNzlhY2E2LWY0MTUtNDI4Mi1iZDQ5LTg2MjIwNzFmYTBkYw.jpg"}/>
+                 pictureURL={"https://media.licdn.com/dms/image/C5603AQGWvkqXvsIOSw/profile-displayphoto-shrink_800_800/0?e=1526958000&v=alpha&t=uhZp-3gUxE2iURRW2dq4QkaJlV2EiNowABJwXdHn1Vo"}/>
             <Bio name={"Raquel Torres"} position={"Section 9"} email={"rtorres3830@gmail.com"}
                  pictureURL={"https://scontent.fphx1-1.fna.fbcdn.net/v/t31.0-8/25626362_1646213235435383_3142513556461247602_o.jpg?oh=4982117ddde7453e54b2a1b85ef6b4cf&oe=5B0A5530"}/>
             <Bio name={"Anirudh Koka"} position={"Section 10"} email={"anirudh.koka@asu.edu"}
