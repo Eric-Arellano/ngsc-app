@@ -2,6 +2,7 @@
 import React from 'react'
 import { Button, ButtonGroup } from 'components'
 import type { Name } from 'types'
+import s from './LoginView.module.css'
 
 type Props = {
   name: Name,
@@ -11,7 +12,7 @@ type Props = {
 
 const Confirmation = ({name, confirmCorrectStudent, resetState}: Props) => {
   return (
-    <div>
+    <div className={s.containerOffsetTop}>
       <h3>Are you {name.first} {name.last}?</h3>
       <ButtonGroup>
         <Button validationState={'valid'} handleClick={() => confirmCorrectStudent(true)}>Yes</Button>
