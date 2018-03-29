@@ -1,6 +1,6 @@
 // @flow
 
-import type { BioGroup } from './bioTypes'
+import type { BioGroupType } from './bioTypes'
 
 export const BioGroups: Array<BioGroup> = [
   {

@@ -2,6 +2,9 @@
 import React from 'react'
 import Bio from './Bio'
 import BioGroup from './BioGroup'
+import {BioGroups} from './data'
+import type {BioGroupType} from './bioTypes'
+import s from './Bio.module.css'
 
 const ContactUsView = () => (
     <div>
@@ -89,7 +92,7 @@ const ContactUsView = () => (
             <Bio name={"Britton Jones"} position={"MT7: Justice"} email={"britton.jones@asu.edu"}
                  pictureURL={"https://scontent.fphx1-1.fna.fbcdn.net/v/t1.0-9/12651114_132666753783045_5799098087211508946_n.jpg?oh=170ba652a7da5994ce95faf70f13b6d2&oe=5B07FC3E"}/>
             <Bio name={"Jake Baker"} position={"MT8: Justice"} email={"jake.baker.1@asu.edu"}
-                 pictureURL={"https://media.licdn.com/media/AAEAAQAAAAAAAAx2AAAAJDMwOGFjYjA2LTY5M2QtNDYyYS1hNDBiLTM3MTc1NTFmMzM5OQ.jpg"}/>
+                 pictureURL={"https://media.licdn.com/dms/image/C5603AQGf_efey2oiUA/profile-displayphoto-shrink_800_800/0?e=1526958000&v=alpha&t=1ZaxKWMoWObFide5y6KR_7zAIVk1QGb554v3BJ3xaz4"}/>
             <Bio name={"Miguel Montanez"} position={"MT9: Homelessness"} email={"miguel.montanez@asu.edu"}
                  pictureURL={"https://scontent.fphx1-1.fna.fbcdn.net/v/t1.0-9/13043607_1144563332305216_7805747488942075802_n.jpg?oh=98f9e80bd7499278c66a582858614009&oe=5B0902FB"}/>
             <Bio name={"Kirsten Spencer"} position={"MT10: Youth Development"} email={"kirsten.spencher@asu.edu"}
@@ -114,7 +117,7 @@ const ContactUsView = () => (
             <Bio name={"Dominique Player"} position={"MT18: Mental Health"} email={"dvplayer@asu.edu"}
                  pictureURL={"https://scontent.fphx1-1.fna.fbcdn.net/v/t1.0-9/27657171_10155071330356160_3174511979431011649_n.jpg?oh=57e144f6118e815477b190a1a4e34f0e&oe=5B015518"}/>
             <Bio name={"Claudia Luna"} position={"MT19: Public Health"} email={"cluna11@asu.edu"}
-                 pictureURL={"https://instagram.fphx1-1.fna.fbcdn.net/vp/a3ba9a52e630b883c17de9ea349e1896/5B0DB102/t51.2885-19/s150x150/27580567_152807045432722_6795003540650590208_n.jpg"}/>
+                 pictureURL={"https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/13599760_1616508518660312_3875394416905235807_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeEY8psPydgYC2cX-0yTQ_kZvPlrsNBkWJoDznOYc9h2s24kk2IMfzPUz-OZFhRiCWiGOTtVbdhTJT-PGPjO6dBw1uKfnnYYALOVxCHvTblQwQ&oh=3ae53036ad8b4133b981cf837288c753&oe=5B457689"}/>
             <Bio name={"Victoria Alonso"} position={"MT20: Healthcare Access"} email={"victoria.i.alonso@asu.edu"}
                  pictureURL={"https://pbs.twimg.com/profile_images/877314427720052736/zXNXEr3B.jpg"}/>
             <Bio name={"Haley Rivard-Lentz"} position={"MT21: Hunger & Nutrition"} email={"haley.rivard-lentz@asu.edu"}
@@ -125,12 +128,12 @@ const ContactUsView = () => (
             <Bio name={"Kathryn Harris"} position={"MT23: Sustainability"} email={"kathryn.j.harris@asu.edu"}
                  pictureURL={"https://scontent.fphx1-1.fna.fbcdn.net/v/t1.0-9/11224362_1037093356356352_3275845753120358040_n.jpg?oh=71d7467884e112437bb467cdcfd10cf9&oe=5B0E1DF0"}/>
             <Bio name={"Julie Pham"} position={"MT24: Energy & Climate Sustainability"} email={"juliepham@gmail.com"}
-                 pictureURL={"https://media.licdn.com/media/AAEAAQAAAAAAAArJAAAAJDYyMjA2ZTBmLWQwM2UtNDg4Ny04MGExLTQ0ZWQ1NDAyZWY2MQ.jpg"}/>
+                 pictureURL={"https://media.licdn.com/dms/image/C5603AQGf_efey2oiUA/profile-displayphoto-shrink_800_800/0?e=1526958000&v=alpha&t=1ZaxKWMoWObFide5y6KR_7zAIVk1QGb554v3BJ3xaz4"}/>
             <Bio name={"Casey Blue"} position={"MT25: Sustainability"} email={"casey.blue@asu.edu"}
                  pictureURL={"https://scontent.fphx1-1.fna.fbcdn.net/v/t1.0-9/27971875_364141777386489_6382860131233502331_n.jpg?oh=a55555d32d9a329cb3701732b356e36e&oe=5B06CE96"}/>
             <Bio name={"Brett Goldsmith"} position={"MT26: Water Access & Sustainability"}
                  email={"brett.goldsmith@asu.edu"}
-                 pictureURL={"https://scontent.fphx1-1.fna.fbcdn.net/v/t1.0-9/16508830_869749203128810_4642246434102943763_n.jpg?oh=dac6587752af5aa7390b0068d353c4c6&oe=5B081B6B"}/>
+                 pictureURL={"https://scontent-lax3-1.xx.fbcdn.net/v/t31.0-8/25626278_392519651194200_5935979054438932270_o.jpg?_nc_cat=0&_nc_eui2=v1%3AAeEjLitl-FwLE7HKM76qwkZH1Q0L35xZ3jaOGMaoqpdOZTbftMifai7Vxsbu2pvY7FE2VnxuQ1mHNkyj0Fk5jrCyuFQq-geo8FboAiy-glUGtw&oh=86e31b3fd51b92e74c6ca93f70cb6be5&oe=5B42B355"}/>
             <Bio name={"William Atkin"} position={"MT27: Energy & Climate Sustainability"}
                  email={"william.atkin@asu.edu"}
                  pictureURL={"https://scontent.fphx1-1.fna.fbcdn.net/v/t1.0-9/13418962_1023816641029122_4755008855237312740_n.jpg?oh=9d834a115b7a1155eb9e5d19717332dc&oe=5B4DF98B"}/>

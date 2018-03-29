@@ -12,9 +12,8 @@
     width: 200px;
 }
 
-.wrapper {
+.row {
     display: flex;
     justify-content: center;
     flex-direction: row;
-    align-content: space-between;
 }

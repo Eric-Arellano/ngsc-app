@@ -11,7 +11,7 @@ type Props = {
 const BioGroup = ({header, children}: Props) => (
     <div>
         <h3>{header}</h3>
-        <div className={s.wrapper}>{children}</div>
+        <div className={s.row}>{children}</div>
     </div>
 )
 
