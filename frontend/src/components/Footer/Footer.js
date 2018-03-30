@@ -6,8 +6,8 @@ const Footer = () => (
   <footer className={s.container}>
     <p>Check out upcoming NGSC events at the&nbsp;
       <a href="https://psa.asu.edu/next-generation-service-corps/student-portal" target="_blank">student
-        portal</a>.<br />
-    </p>
+        portal</a>.
+    </p><br />
     <p>Stay updated on social media!
     <a href="https://www.facebook.com/groups/NGSC2015" target="_blank">Facebook 
         Page</a>.
