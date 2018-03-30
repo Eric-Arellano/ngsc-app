@@ -8,7 +8,14 @@ const Footer = () => (
       <a href="https://psa.asu.edu/next-generation-service-corps/student-portal" target="_blank">student
         portal</a>.
     </p>
-    <p>Hello!&nbsp;
+    <p>Stay updated on social media!
+    <a href="https://www.facebook.com/groups/NGSC2015" target="_blank">Facebook 
+        Page</a>.
+    <a href="https://twitter.com/ASU_PSAJobs" target="_blank">Twitter:Jobs and
+        Internships </a>.
+    <a href="https://www.instagram.com/ngscsocial/" target="_blank">Social Committee
+        Instagram </a>.
+        
     </p>
   </footer>
 )
