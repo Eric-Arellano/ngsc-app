@@ -7,8 +7,8 @@ const Footer = () => (
     <p>Check out upcoming NGSC events at the&nbsp;
       <a href="https://psa.asu.edu/next-generation-service-corps/student-portal" target="_blank">student
         portal</a>.
-    </p><br />
-    <p>Stay updated on social media!
+    </p>
+    <p>Stay updated on social media!<br />
     <a href="https://www.facebook.com/groups/NGSC2015" target="_blank">Facebook 
         Page</a>.
     <a href="https://twitter.com/ASU_PSAJobs" target="_blank">Twitter:Jobs and
