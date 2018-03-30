@@ -10,10 +10,5 @@
 
 .bio {
     width: 200px;
-}
-
-.row {
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
+    margin-bottom: 25px;
 }
