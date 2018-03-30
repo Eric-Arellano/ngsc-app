@@ -8,7 +8,7 @@ const Footer = () => (
       <a href="https://psa.asu.edu/next-generation-service-corps/student-portal" target="_blank">student
         portal</a>.
     </p>
-    <p>Hello!
+    <p>Hello!&nbsp;
     </p>
   </footer>
 )
