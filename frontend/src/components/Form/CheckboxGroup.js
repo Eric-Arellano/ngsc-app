@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import { Label } from 'components'
 import type { CheckboxOption } from 'types'
+import s from './CheckboxGroup.module.css'
 
 type Props = {
   options: Array<CheckboxOption>,
@@ -34,7 +35,9 @@ class CheckboxGroup extends Component<Props, State> {
             <input type='checkbox'
                    value={option.label}
                    checked={option.checked}
-                   onChange={this.handleToggle} />
+                   onChange={this.handleToggle}
+                   className={s.checkbox}
+            />
             {option.label}
           </Label>
         </li>
