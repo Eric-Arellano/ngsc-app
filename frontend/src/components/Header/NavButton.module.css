@@ -1,32 +1,46 @@
 /*!* Button *!*/
 
 /*.base {*/
-    /*box-sizing: border-box;*/
-    /*background: green;*/
-    /*border: 1px solid currentColor;*/
-    /*font-weight: 300;*/
-    /*font-size: 1.1em;*/
-    /*margin: 1em;*/
-    /*padding: 0.33em 1.33em;*/
-    /*transition: all 0.3s;*/
-    /*cursor: pointer;*/
+/*box-sizing: border-box;*/
+/*background: green;*/
+/*border: 1px solid currentColor;*/
+/*font-weight: 300;*/
+/*font-size: 1.1em;*/
+/*margin: 1em;*/
+/*padding: 0.33em 1.33em;*/
+/*transition: all 0.3s;*/
+/*cursor: pointer;*/
 /*}*/
 
 /*.base:disabled {*/
-    /*cursor: not-allowed;*/
+/*cursor: not-allowed;*/
 /*}*/
+
 .container {
-    border: red 1px solid;
-    border-radius: 4px;
+    /*!*display: -webkit-flex;*!*/
+    /*display: flex;*/
+    /*justify-content: space-around;*/
+    /*-webkit-flex-direction: row;*/
+    /*flex-direction: row;*/
+    border: white 3px solid;
+    border-radius: 0px; /*rounds edges of boxes*/
     box-sizing: border-box;
-    margin-bottom: 1em;
-    box-shadow: 0 7.5px 17.5px rgba(50, 50, 93, .1), 0 2.5px 7.5px rgba(0, 0, 0, .07);
+    /*margin-bottom: 0.5px;*/
+    /*box-shadow: 7.5px 1.5px rgba(255, 213, 0, .01), 2.5px 1.5px rgba(255, 213, 0, .9); /*horizontal offset, vertical offset*/
     overflow: hidden; /* bug when using box-shadow with border radius */
-    margin: 0;
-    padding: 0.3em 0;
-    text-transform: uppercase;
-    background: #222;
-    color: white;
-    font-weight: 300;
+    margin: 2px;
+    padding: 0.0em 0; /*makes bottom/top distance larger/ smaller*/
+    text-transform: lowercase;
+    background: white;
+    color: black;
+    font-weight: 800;
+
 }
 
+.shorten {
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+    align-content: flex-start;
+
+}

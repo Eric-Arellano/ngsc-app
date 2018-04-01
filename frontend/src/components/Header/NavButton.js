@@ -8,9 +8,12 @@ type Props = {
     link: string
 }
 const NavButton = ({children, link}: Props) => (
-    <li className={s.container}>
-        <Link to= {link}>{children}</Link>
-    </li>
+    <div className={s.shorten}>
+    <div className={s.container}>
+        <Link to= {link}>{''+children+''}</Link>
+    </div>
+        </div>
+
 )
 
 export default NavButton
