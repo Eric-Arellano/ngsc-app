@@ -1,13 +1,12 @@
 /* Bio */
 
 .image {
+    border: solid 5px;
     border-radius: 50%;
-    border-style: solid;
-    border-width: 5px;
     height: 10em;
     width: 10em;
 }
 
-.bio {
+.container {
     margin-bottom: 25px;
 }

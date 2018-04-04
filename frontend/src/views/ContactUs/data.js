@@ -1,8 +1,20 @@
 // @flow
 
-import type { BioGroupType } from './bioTypes'
+import type {Name} from 'types'
 
-export const BioGroups: Array<BioGroup> = [
+export type BioType = {
+  name: string,
+  position: string,
+  email: string,
+  pictureURL: string,
+}
+
+export type BioGroupType = {
+  group: string,
+  bios: Array<BioType>,
+}
+
+export const bioGroupsData: Array<BioGroupType> = [
   {
     group: 'Professional Staff',
     bios: [
@@ -10,13 +22,13 @@ export const BioGroups: Array<BioGroup> = [
         name: 'Brett Hunt',
         position: 'Executive Director',
         email: 'brett.hunt@asu.edu',
-        photoUrl: 'https://media.licdn.com/media/p/6/005/06f/10d/37f07f4.jpg'
+        pictureURL: 'https://media.licdn.com/media/p/6/005/06f/10d/37f07f4.jpg'
       },
       {
         name: 'Jessica Eldridge',
         position: 'Assistant Director',
         email: 'jessica.eldridge@asu.edu',
-        pictureUrl: 'https://media.licdn.com/media/p/2/000/2b4/161/38a250d.jpg'
+        pictureURL: 'https://media.licdn.com/media/p/2/000/2b4/161/38a250d.jpg'
       }
     ]
   },
