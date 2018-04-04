@@ -8,10 +8,12 @@ from googleapiclient import discovery
 from httplib2 import Http
 from oauth2client.service_account import ServiceAccountCredentials
 
-scopes = ['https://www.googleapis.com/auth/sqlservice.admin', 'https://www.googleapis.com/auth/spreadsheets']
+scopes = ['https://www.googleapis.com/auth/sqlservice.admin',
+          'https://www.googleapis.com/auth/spreadsheets',
+          'https://www.googleapis.com/auth/drive.metadata.readonly']
 
 
-def build_service() -> discovery.Resource:
+def build_sheets_service() -> discovery.Resource:
     """
     Instantiate Google Sheets service with correct credentials and API keys.
     """
@@ -21,6 +23,15 @@ def build_service() -> discovery.Resource:
                      'version=v4')
     return discovery.build('sheets', 'v4', http=http_auth,
                            discoveryServiceUrl=discovery_url)
+
+
+def build_drive_service() -> discovery.Resource:
+    """
+    Instantiate Google Drive service with correct credentials and API keys.
+    """
+    credentials = get_credentials()
+    http_auth = credentials.authorize(Http())
+    return discovery.build('drive', 'v3', http=http_auth)
 
 
 def get_credentials() -> ServiceAccountCredentials:
