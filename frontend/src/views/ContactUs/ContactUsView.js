@@ -1,13 +1,12 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import Bio from './Bio'
 import BioGroup from './BioGroup'
-import {bioGroupsData} from './data'
-import type {BioGroupType, BioType} from './data'
-
+import type { BioGroupType, BioType } from './data'
+import { bioGroupsData } from './data'
 
 const ContactUsView = () => (
-  <div>
+  <React.Fragment>
     {bioGroupsData.map((bioGroup: BioGroupType) => (
       <BioGroup header={bioGroup.group}>
         {bioGroup.bios.map((bio: BioType) => (
@@ -19,6 +18,7 @@ const ContactUsView = () => (
         ))}
       </BioGroup>
     ))}
-  </div>)
+  </React.Fragment>
+)
 
 export default ContactUsView
