@@ -66,7 +66,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Chief of Staff',
         email: '',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/15170783_1415096675175086_4730606509373821185_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeHJ3-1GLZArXq26gPpAuEPB0gyFjdwLbW3oDm0CAwm6PpDg-QpHSMyYh8jP044hXmGdICD0l4mcxNSMz2Pecj2P37mZ-eUc-ml2kYC4IdItsg&oh=f11e384a801000c6ac6700be0c2d2021&oe=5B7364AB'
+        pictureURL: 'https://media.licdn.com/dms/image/C5103AQEg_3HmNMpWaQ/profile-displayphoto-shrink_800_800/0?e=1527994800&v=alpha&t=N8xvwwupgSVbciIHWMoS_lpSeHaWmpNuU1kLnTycdO4'
       },
       {
         name: {
@@ -148,11 +148,11 @@ export const bioGroupsData: Array<BioGroupType> = [
       {
         name: {
           first: 'Marianna',
-          last: 'Pena'
+          last: 'Peña'
         },
         position: 'Section 6',
         email: '',
-        pictureURL: ''
+        pictureURL: 'https://media.licdn.com/dms/image/C4D03AQEgu8rLnSkEQg/profile-displayphoto-shrink_800_800/0?e=1527994800&v=alpha&t=LzzqiO7P_L30ZaCSzrUlWmetay7BaEN_cDmG6DXKGGk'
       },
       {
         name: {
@@ -161,7 +161,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Section 7',
         email: '',
-        pictureURL: ''
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/29792700_1086979038111957_2769352569781246734_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeHbCd1O3Zbon-S0SR5_k7ORTR8W38MMXhIPFhxqrYQgDFSZNP52sfLYBQizNW04w5EZuWpaaNbutGv1nZr51hCxoEO-1uRYbxQlZK61mDkQjA&oh=0c3b699e4e1a4955e7b1851d0544dd07&oe=5B664505'
       },
       {
         name: {
@@ -179,16 +179,16 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Section 9',
         email: '',
-        pictureURL: ''
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/15747557_1292463974147727_4193737941078067186_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeHuFCpm6PPhiFIHVACNZQOnskr0AqDu4aGdwZSgE-Gp9g8QGQYy87axZB9qRQiSgcBj53edQQDetGFYZsx8-Ov7xdKgo24Cx1vacnrYLZ7eYA&oh=96578ee475e8cce4f8053e6f2444cdc8&oe=5B35DDC2'
       },
       {
         name: {
-          first: 'Maddy',
+          first: 'Maddie',
           last: 'Arnold'
         },
         position: 'Section 10',
         email: '',
-        pictureURL: ''
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/15107444_1612269835454493_2333612002911913476_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeGKfLEXIMpd0Bbu0C41rdDBCy4yp3SXdMX5cdwl5podXBNCXlm6F2rA1fpvaefiQm22R7CLJsFBBhal1WBbS8WSACWRtiXYjFNrppfxX9Mgiw&oh=25ee0fe9fc8d8d1a80cb573f962a5f86&oe=5B680FB9'
       },
     ]
   },
@@ -202,7 +202,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Admin Chair',
         email: '',
-        pictureURL: ''
+        pictureURL: 'https://media.licdn.com/dms/image/C5603AQGledn5coGyVw/profile-displayphoto-shrink_800_800/0?e=1527994800&v=alpha&t=xVjDZW-qa651bieLyMI5R5NYJWuJjlgExQA_yKcTSJQ'
       },
       {
         name: {
@@ -211,7 +211,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Ambassadors Chair',
         email: '',
-        pictureURL: ''
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/16831977_1867537380189704_7874044308575759814_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeH3NySFx2GnOeXTEmZHlTe9QWa7mgPvvKm_yTFH7A33rpuTIpOaADc5YeeTVzzjv009bQa6TCTWOB3LQVy-i90DhekS-OWBpOpjsh-Z40dCyQ&oh=d2d33a9df39049d2a545e5785a568149&oe=5B2A395A'
       },
       {
         name: {
@@ -220,7 +220,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Civil-Mil Chair',
         email: '',
-        pictureURL: ''
+        pictureURL: 'https://media.licdn.com/dms/image/C5603AQG1Q0pMozaYcg/profile-displayphoto-shrink_800_800/0?e=1527994800&v=alpha&t=ntZBsTmCahfu_khTskVx_3AtXvgkmca_JpUj64z1lhE'
       },
       {
         name: {
@@ -229,7 +229,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Communications Chair',
         email: '',
-        pictureURL: ''
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/19060026_10212235284504635_4234299516823943275_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeFZV6sCWBusApiI7pYoAyILFL9YB-k4lrnaaLjiBw4YaJ1twcrQI1_VgOaM3Jnnz780BFGnn30F3uFHQVjZ1aM48Z3UB-ST9raAWhDcEPEwcA&oh=aa57ec0ef4a06373ea8686aed3bcdfc1&oe=5B362EC1'
       },
       {
         name: {
@@ -238,7 +238,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Events Chair',
         email: '',
-        pictureURL: ''
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t31.0-8/21768940_1929571243934485_8974410512505753576_o.jpg?_nc_cat=0&_nc_eui2=v1%3AAeGWc0OZESLyWlxwbSesk9kVFomqzfekfHxKpFOJkuvH0N9sI6uXaApNyLesXH4TEVhwrC_eGg77HTQvZ2g33OAEPoYU3BJN-qoHjPo21HGnZg&oh=dadc032135d729fd1475b04326a55af1&oe=5B299651'
       },
       {
         name: {
@@ -247,7 +247,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Mentorship Chair',
         email: '',
-        pictureURL: ''
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t31.0-8/17880148_780493898782379_5991580927269278218_o.jpg?_nc_cat=0&_nc_eui2=v1%3AAeGSx3jRrLqDOdtDw4vyyMxn_uadYF74I-iKRetqs2M-OYkod8Tv-eGPr2GGsMfZYNihqtbIEcmoEQkVLUaxaMJswAAcTWeskB-SsZMcK2cPqA&oh=a2cda67d900b5dab071ee1fddb4a2d22&oe=5B73DCB9'
       },
       {
         name: {
@@ -256,7 +256,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Service',
         email: '',
-        pictureURL: ''
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/10624643_732878030092678_8120086573989626366_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeGZr19m9hvv4TcXNg7R0WArFEthIKHfFwUqP9EFzle4trqvskGvrGn9JJKR5YJEP67zNu4W9eJZXzOXEaR9MMJKj1D7lpWW5XFCwmmFkJNo8A&oh=356b2aa4a51c06208dd3f38d5fd69f1f&oe=5B358479'
       },
       {
         name: {
@@ -265,7 +265,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Social',
         email: '',
-        pictureURL: ''
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/23473282_153980968547040_560708824949638159_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeG3aCa3v_11Gemuk9Gy3MA7qQiJAZaXVsasP2fupR2wfvLv_RPKEiU-4yUVJJS8EkL29z3lW7bItTIz5ByORld-vDpfFDxEclQ_IJ3l1yo1jQ&oh=edbe3bfa83c1893c9b821c61f5604581&oe=5B75F4AB'
       },
       {
         name: {
@@ -274,7 +274,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Training',
         email: '',
-        pictureURL: ''
+        pictureURL: 'https://media.licdn.com/dms/image/C5603AQGC_HeC0N6ugQ/profile-displayphoto-shrink_800_800/0?e=1527994800&v=alpha&t=Q72A6KmeoG_R_W3tlI3wZf9kZFYI_voraTevDsHnGvg'
       },
       {
         name: {
@@ -283,7 +283,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Transfer',
         email: '',
-        pictureURL: ''
+        pictureURL: 'https://media.licdn.com/dms/image/C4D03AQGJivSPiznj2w/profile-displayphoto-shrink_800_800/0?e=1527994800&v=alpha&t=H_Ab3BCNHtLUsKyuWSboth4wlwK6P4wlWsCsDe01hMs'
       },
 
     ]
