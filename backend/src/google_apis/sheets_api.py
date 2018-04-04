@@ -2,8 +2,8 @@
 Utilities for interfacing with Google Sheet's API.
 """
 
-from typing import Any, List, Optional
 import string
+from typing import Any, List, Optional
 
 from backend.src.google_apis import authentication
 
@@ -12,7 +12,7 @@ def batch_update(spreadsheet_id: str, requests: List) -> None:
     """
     Perform an operation on the spreadsheet.
     """
-    sheets_service = authentication.build_service()
+    sheets_service = authentication.build_sheets_service()
     body = {'requests': requests}
     sheets_service.spreadsheets() \
         .batchUpdate(
@@ -25,7 +25,7 @@ def get_values(spreadsheet_id: str, range_: str) -> List[List[Any]]:
     """
     Query spreadsheet from provided range and return its values.
     """
-    sheets_service = authentication.build_service()
+    sheets_service = authentication.build_sheets_service()
     result = sheets_service.spreadsheets() \
         .values() \
         .get(
@@ -39,7 +39,7 @@ def update_values(spreadsheet_id: str, range_: str, values: List[List[Any]]) -> 
     """
     Update range with given values.
     """
-    sheets_service = authentication.build_service()
+    sheets_service = authentication.build_sheets_service()
     body = {'values': values}
     sheets_service.spreadsheets() \
         .values() \
