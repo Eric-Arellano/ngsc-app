@@ -1,16 +1,19 @@
 // @flow
 import React from 'react'
-import { Link } from 'react-router-dom'
+import NavButton from './NavButton'
+import s from './NavButton.module.css'
 
 const Nav = () => (
-  <nav>
-    <ul>
-      <li><Link to={'/'}>Home</Link></li>
-      <li><Link to={'/internships'}>Internships</Link></li>
-      <li><Link to={'/calendar'}>Calendar</Link></li>
-      <li><Link to={'/leadership'}>Leadership</Link></li>
-    </ul>
-  </nav>
+    <nav>
+        <ul>
+            <div className={s.shorten}>
+            <NavButton link='./'>Home</NavButton>
+            <NavButton link='./internships'>Internships</NavButton>
+            <NavButton link='./calendar'>Calendar</NavButton>
+            <NavButton link='./leadership'>Leadership</NavButton>
+            </div>
+        </ul>
+    </nav>
 )
 
 export default Nav
