@@ -1,20 +1,12 @@
 /* Bio */
 
 .image {
-    width: 10em;
-    height: 10em;
-    border-width: 5px;
-    border-style: solid;
+    border: solid 5px;
     border-radius: 50%;
+    height: 10em;
+    width: 10em;
 }
 
-.bio {
-    width: 200px;
-}
-
-.wrapper {
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    align-content: space-between;
+.container {
+    margin-bottom: 25px;
 }
