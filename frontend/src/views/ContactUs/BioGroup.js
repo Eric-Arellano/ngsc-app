@@ -1,18 +1,18 @@
 // @flow
 import * as React from 'react'
-import {Bio} from 'components'
-import s from './Bio.module.css'
+import Bio from './Bio'
+import s from './BioGroup.module.css'
 
 type Props = {
-    header: string,
-    children: React.ChildrenArray<React.Element<typeof Bio>>
+  header: string,
+  children: React.ChildrenArray<React.Element<typeof Bio>>
 }
 
 const BioGroup = ({header, children}: Props) => (
-    <div>
-        <h3>{header}</h3>
-        <div className={s.wrapper}>{children}</div>
-    </div>
+  <div>
+    <h3 className={s.header}>{header}</h3>
+    <div className={s.children}>{children}</div>
+  </div>
 )
 
 export default BioGroup
