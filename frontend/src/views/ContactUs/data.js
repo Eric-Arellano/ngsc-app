@@ -39,7 +39,24 @@ export const bioGroupsData: Array<BioGroupType> = [
     ]
   },
   {
-    group: 'Chief of staff and leads',
+    group: 'Chief of Staff and Committee Leads',
     bios: []
-  }
+  },
+  {
+    group: 'Section Leads',
+    bios: []
+  },
+  {
+    group: 'Committee Chairs',
+    bios: []
+  },
+  {
+    group: 'Mission Team 1-15',
+    bios: []
+  },
+  {
+    group: 'Mission Team 16-30',
+    bios: []
+  },
+
 ]
