@@ -3,7 +3,7 @@
 import type {Name} from 'types'
 
 export type BioType = {
-  name: string,
+  name: Name,
   position: string,
   email: string,
   pictureURL: string,
@@ -19,13 +19,19 @@ export const bioGroupsData: Array<BioGroupType> = [
     group: 'Professional Staff',
     bios: [
       {
-        name: 'Brett Hunt',
+        name: {
+          first: 'Brett',
+          last: 'Hunt'
+        },
         position: 'Executive Director',
         email: 'brett.hunt@asu.edu',
         pictureURL: 'https://media.licdn.com/media/p/6/005/06f/10d/37f07f4.jpg'
       },
       {
-        name: 'Jessica Eldridge',
+        name: {
+          first: 'Jessica',
+          last: 'Eldridge'
+        },
         position: 'Assistant Director',
         email: 'jessica.eldridge@asu.edu',
         pictureURL: 'https://media.licdn.com/media/p/2/000/2b4/161/38a250d.jpg'
