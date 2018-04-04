@@ -98,8 +98,8 @@ def run(*, target: Target = 'all') -> None:
                                   all_action=lambda: (
                                       backend.run_detached(),
                                       frontend.run_detached()),
-                                  backend_action=backend.run_detached,
-                                  frontend_action=frontend.run_detached)
+                                  backend_action=backend.run,
+                                  frontend_action=frontend.run)
 
 
 def stop(*, target: Target = 'all') -> None:
