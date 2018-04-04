@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react'
+import * as React from 'react'
 import AcceptedEngagement from './AcceptedEngagement'
 import LoggedEngagement from './LoggedEngagement'
 import { withError } from 'decorators'
@@ -19,7 +19,7 @@ type State = {
   engagementEvents: Array<EngagementEvent>,
 }
 
-class EngagementContainer extends Component<Props, State> {
+class EngagementContainer extends React.Component<Props, State> {
 
   state = {
     isLoading: true,
@@ -54,10 +54,12 @@ class EngagementContainer extends Component<Props, State> {
 
   @withError('There was an error. Please try again.')
   render () {
-    return [
-      <AcceptedEngagement {...this.state} key={0} />,
-      <LoggedEngagement {...this.state} key={1} />
-    ]
+    return (
+      <React.Fragment>
+        <AcceptedEngagement {...this.state} key={0} />
+        <LoggedEngagement {...this.state} key={1} />
+      </React.Fragment>
+    )
   }
 }
 
