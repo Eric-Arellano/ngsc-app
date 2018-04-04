@@ -1,7 +1,7 @@
 // @flow
-import React, { Component } from 'react'
+import * as React from 'react'
 import { Button, CheckboxGroup, Input, Label, RadioGroup } from 'components'
-import { actionList, folderTargets } from './Options.js'
+import { actionList, folderTargets } from './options.js'
 import type { CheckboxOption, RadioOption } from 'types'
 
 type Props = {}
@@ -13,7 +13,7 @@ type State = {
   targetPaths: ?Array<string>
 }
 
-class AdminView extends Component<Props, State> {
+class AdminView extends React.Component<Props, State> {
 
   state = {
     targetFolders: folderTargets,
@@ -42,33 +42,47 @@ class AdminView extends Component<Props, State> {
 
   }
 
+  fileOrFolder = (action: RadioOption): string => (
+    action.isFile ? 'file' : 'folder'
+  )
+
+  sourcePlaceholder = (action: RadioOption): string => (
+    action.isFile ? 'Leadership/Example.gslides' : 'Leadership/Retreat 1'
+  )
+
+  targetPlaceholder = (action: RadioOption): string => (
+    action.isFile ? 'Example.gslides' : 'Retreat 1'
+  )
+
   render () {
     const {action, targetFolders} = this.state
-    return <div>
-      <section>
-        <p>Choose which groups you would like to apply the action to:</p>
-        <CheckboxGroup options={targetFolders}
-                       updateCurrentChecked={this.updateFolderTargets} />
-      </section>
-      <br />
-      <section>
-        <p>Choose which action you'd like to take:</p>
-        <RadioGroup options={actionList}
-                    updateCurrentSelection={this.updateAction} />
-      </section>
-      <br />
-      {action && action.needsSource && <section>
-        <Label>Source file name:</Label>
-        <Input placeholder='ex: Leadership/Retreat 1/Google Drive.gslides' />
-      </section>}
-      {action && action.needsTarget && <section>
-        <Label>Target file name:</Label>
-        <Input placeholder='ex: Leadership/Retreat 1/Google Drive.gslides' />
-      </section>}
-      <section>
-        <Button handleClick={this.submit}>Submit</Button>
-      </section>
-    </div>
+    return (
+      <React.Fragment>
+        <section>
+          <p>Choose which action you'd like to take:</p>
+          <RadioGroup options={actionList}
+                      updateCurrentSelection={this.updateAction} />
+        </section>
+        <br />
+        <section>
+          <p>Choose which groups you would like to apply the action to:</p>
+          <CheckboxGroup options={targetFolders}
+                         updateCurrentChecked={this.updateFolderTargets} />
+        </section>
+        <br />
+        {action && action.needsSource && <section>
+          <Label>Source {this.fileOrFolder(action)} name:</Label>
+          <Input placeholder={this.sourcePlaceholder(action)} />
+        </section>}
+        {action && action.needsTarget && <section>
+          <Label>Target {this.fileOrFolder(action)} name:</Label>
+          <Input placeholder={this.targetPlaceholder(action)} />
+        </section>}
+        <section>
+          <Button handleClick={this.submit}>Submit</Button>
+        </section>
+      </React.Fragment>
+    )
   }
 }
 
