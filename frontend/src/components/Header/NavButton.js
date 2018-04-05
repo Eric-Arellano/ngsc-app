@@ -1,24 +1,17 @@
 // @flow
 import * as React from 'react'
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import s from './NavButton.module.css'
 
 type Props = {
-    children: React.Node,  // can be any valid react element, e.g. array of Entry
-    link: string
+  label: string,
+  link: string
 }
-const NavButton = ({children, link}: Props) => (
-    <div className={s.shorten}>
-    <div className={s.container}>
-        <Link to= {link}>{''+children+''}</Link>
-    </div>
-        </div>
 
+const NavButton = ({label, link}: Props) => (
+  <Link to={link} className={s.container}>
+    <p>{label}</p>
+  </Link>
 )
 
 export default NavButton
-
-/*// children is between tags, input children to be type on button*/
-
-
-

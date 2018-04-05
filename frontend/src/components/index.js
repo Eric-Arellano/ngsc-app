@@ -10,7 +10,6 @@ import Input from './Form/Input'
 import Label from './Form/Label'
 import Loading from './Loading/Loading'
 import Nav from './Header/Nav'
-import NavButton from './Header/NavButton'
 import Panel from './Panel/Panel'
 import PanelWithLoading from './Panel/PanelWithLoading'
 import PrivateRoute from './Routes/PrivateRoute'
@@ -28,7 +27,6 @@ export {
   Label,
   Loading,
   Nav,
-    NavButton,
   Panel,
   PanelWithLoading,
   PrivateRoute,
