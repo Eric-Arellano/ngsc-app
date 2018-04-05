@@ -42,8 +42,9 @@ class EventsViewContainer extends Component<Props, State> {
   }
 
   parseEvents = (googleEvents: Array<any>): Array<CalendarEvent> => (
-    googleEvents.map((event) => (
+    googleEvents.map((event, index: number) => (
       {
+        id: index,
         start: event.start.date || event.start.dateTime,
         end: event.start.date || event.end.dateTime,
         title: event.summary,
