@@ -33,7 +33,7 @@ type Props = {
 
 const EventsView = ({events}: Props) => (
   <BigCalendar
-    events={fakeEvents}
+    events={events}
     startAcessor={'startDate'}
     endAccessor={'endDate'}
   />
