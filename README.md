@@ -65,6 +65,8 @@ You can often specify a specific target with `--target [env]`, or the abbreviati
 
 ### Run
 * Start app: `./run.py [--target backend|frontend]`
+    * Targeting the `backend` or `frontend` will output the status of the server to the console, unlike how we normally 
+    hide it with `./run.py`. This is really useful for debugging!
 * Stop app: `./run.py stop [--target backend|frontend]`
 
 ### Test
