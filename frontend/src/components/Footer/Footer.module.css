@@ -1,9 +1,11 @@
 /* -------  Footer  ------- */
 
 .container {
-    width:100%;
+    width: 100%;
     display: flex;
     flex: 0 0 2.5em;
+    flex-wrap: wrap;
+    box-sizing: content-box;
     align-items: center;
     justify-content: center;
     background-color: #222;
@@ -12,6 +14,7 @@
 
 .container p {
     color: white;
+    width: 100%;
 }
 
 .container a {
