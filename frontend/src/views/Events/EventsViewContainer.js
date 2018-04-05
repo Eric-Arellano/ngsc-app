@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from 'react'
+import moment from 'moment'
 import { getRequest } from 'api'
 import EventsView from './EventsView'
 import { withError } from 'decorators'
@@ -42,11 +43,10 @@ class EventsViewContainer extends Component<Props, State> {
   }
 
   parseEvents = (googleEvents: Array<any>): Array<CalendarEvent> => (
-    googleEvents.map((event, index: number) => (
+    googleEvents.map((event) => (
       {
-        id: index,
-        start: event.start.date || event.start.dateTime,
-        end: event.start.date || event.end.dateTime,
+        start: moment(event.start.date || event.start.dateTime).toDate(),
+        end: moment(event.start.date || event.end.dateTime).toDate(),
         title: event.summary,
       }))
   )

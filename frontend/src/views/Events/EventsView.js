@@ -17,7 +17,7 @@ const EventsView = ({events}: Props) => (
     events={events}
     className={s.container}
     defaultView='agenda'
-    selectable
+    views={['agenda', 'month', 'week']}
     defaultDate={new Date()}
   />
 )
