@@ -1,0 +1,10 @@
+/* EventsView */
+
+.rbc-toolbar {
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.rbc-toolbar .rbc-toolbar-label {
+    padding: 0.5em;
+}
