@@ -13,13 +13,30 @@ type Props = {
   events: Array<CalendarEvent>,
 }
 
+const customAgendaEvent = (event: CalendarEvent) => (
+  <span>
+    <em>{event.title}</em>
+    <p>{event.description}</p>
+  </span>
+)
+
+const today = (): Date => {
+  const today = new Date()
+  return new Date(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDay())
+}
+
 const EventsView = ({events}: Props) => (
   <BigCalendar
     events={events}
     className={s.container}
     defaultView='agenda'
     views={['agenda', 'month', 'week']}
-    defaultDate={new Date()}
+    defaultDate={today()}
+    components={{
+      agenda: {
+        event: customAgendaEvent
+      }
+    }}
   />
 )
 
