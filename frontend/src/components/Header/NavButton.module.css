@@ -1,0 +1,14 @@
+/* NavButton */
+
+.container {
+    border: white 3px solid;
+    border-radius: 0; /*rounds edges of boxes*/
+    box-sizing: border-box;
+    overflow: hidden; /* bug when using box-shadow with border radius */
+    margin: 2px;
+    padding: 0;
+    text-transform: lowercase;
+    background: white;
+    color: black;
+    font-weight: 700;
+}

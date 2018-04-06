@@ -1,10 +1,10 @@
 // @flow
-import React, {Component} from 'react'
-import axios from 'axios'
+import React, { Component } from 'react'
+import moment from 'moment'
+import { getRequest } from 'api'
 import EventsView from './EventsView'
-import {withError} from 'decorators'
-import {getEngagement} from 'api'
-import type {CalendarEvent} from 'types'
+import { withError } from 'decorators'
+import type { CalendarEvent } from 'types'
 
 type Props = {}
 
@@ -22,44 +22,34 @@ class EventsViewContainer extends Component<Props, State> {
     events: [],
   }
 
-  componentDidMount() {
-    const events = this.getEvents()
-    if (!events.length) {
-      this.setState({
+  componentDidMount () {
+    this.getEvents()
+      .then(data => this.setState({
+        isLoading: false,
+        events: this.parseEvents(data.items)
+      }))
+      .catch(error => this.setState({
         isError: true,
         isLoading: false,
         events: [],
-      })
-    } else {
-      this.setState({
-        isLoading: false,
-        events: events,
-      })
-    }
+      }))
   }
 
-  getEvents = (): Array<CalendarEvent> => {
+  getEvents = (): Promise<any> => {
     const calendar_id = 'nldr7mmpe52c337cdf0kdj5va4@group.calendar.google.com'
     const api_key = 'AIzaSyCrUF2cdnFowx-MKlEnMNFUweOXlnU4Vc8'
     const url = `https://www.googleapis.com/calendar/v3/calendars/${calendar_id}/events?key=${api_key}`
-    let events = []
-    axios
-      .get(url)
-      .then(info => {
-        events = (info.data.items).map((event) => (
-            {
-              start: event.start.date || event.start.dateTime,
-              end: event.start.date || event.end.dateTime,
-              title: event.summary,
-            }
-          )
-        )
-      })
-      .catch(error => { console.log(error)
-      })
-    return events
+    return getRequest(url)
   }
 
+  parseEvents = (googleEvents: Array<any>): Array<CalendarEvent> => (
+    googleEvents.map((event) => (
+      {
+        start: moment(event.start.date || event.start.dateTime).toDate(),
+        end: moment(event.start.date || event.end.dateTime).toDate(),
+        title: event.summary,
+      }))
+  )
 
   resetState = () => {
     this.setState({
@@ -70,7 +60,7 @@ class EventsViewContainer extends Component<Props, State> {
   } // Quirk with decorators and scope of this. Don't delete.
 
   @withError('There was an error. Please try again.')
-  render() {
+  render () {
     return (<EventsView {...this.state} />)
   }
 }

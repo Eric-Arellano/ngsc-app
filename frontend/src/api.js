@@ -16,7 +16,7 @@ export const getAttendance = (id: number) => {
     return getRequest(api)
 };
 
-const getRequest = (api: string) => {
+export const getRequest = (api: string) => {
   return axios.get(api)
     .then(info => info.data)
     .catch(error => error.status)

@@ -14,6 +14,7 @@ import Panel from './Panel/Panel'
 import PanelWithLoading from './Panel/PanelWithLoading'
 import PrivateRoute from './Routes/PrivateRoute'
 import RadioGroup from './Form/RadioGroup'
+import Social from './Footer/Social'
 
 export {
   Button,
@@ -31,4 +32,5 @@ export {
   PanelWithLoading,
   PrivateRoute,
   RadioGroup,
+  Social,
 }
