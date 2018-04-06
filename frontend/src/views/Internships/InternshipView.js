@@ -1,9 +1,9 @@
 //@flow
 import React from 'react'
 import {Panel} from 'components'
-import blackBoardHome from './blackBoardHome.png'
-import myOrgs from './myOrgs.png'
-import internshipsInfo from './internshipsInfo.png'
+import blackBoardHome from './photos/blackBoardHome.png'
+import myOrgs from './photos/myOrgs.png'
+import internshipsInfo from './photos/internshipsInfo.png'
 import s from './InternshipView.module.css'
 
 const InternshipView = () => (
