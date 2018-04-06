@@ -7,13 +7,14 @@ import { bioGroupsData } from './data'
 
 const ContactUsView = () => (
   <React.Fragment>
-    {bioGroupsData.map((bioGroup: BioGroupType) => (
-      <BioGroup header={bioGroup.group}>
-        {bioGroup.bios.map((bio: BioType) => (
+    {bioGroupsData.map((bioGroup: BioGroupType, index: number) => (
+      <BioGroup header={bioGroup.group} key={index}>
+        {bioGroup.bios.map((bio: BioType, bioIndex: number) => (
           <Bio name={bio.name}
                position={bio.position}
                email={bio.email}
                pictureURL={bio.pictureURL}
+               key={bioIndex}
           />
         ))}
       </BioGroup>

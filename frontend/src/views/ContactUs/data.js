@@ -1,6 +1,7 @@
 // @flow
 
 import type {Name} from 'types'
+import jacobRagsdale from './photos/jacob-ragsdale.jpg'
 
 export type BioType = {
   name: Name,
@@ -170,7 +171,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Section 8',
         email: 'Jacob.Ragsdale@asu.edu',
-        pictureURL: 'https://drive.google.com/file/d/1gi257uL6GH33oXQBk1UPBc-BX2qTXRtk/view?usp=sharing'
+        pictureURL: jacobRagsdale
       },
       {
         name: {

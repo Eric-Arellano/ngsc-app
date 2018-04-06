@@ -12,7 +12,7 @@ type Props = {
 
 const Bio = ({pictureURL, position, name, email}: Props) => (
   <div className={s.container}>
-    <img src={pictureURL} className={s.image}/>
+    <img src={pictureURL} className={s.image} alt={`Head shot of ${name.first} ${name.last}`} />
     <p>{position}</p>
     <p>{name.first} {name.last}</p>
     <p>{email}</p>
