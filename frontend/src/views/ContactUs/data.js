@@ -170,7 +170,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Section 8',
         email: 'Jacob.Ragsdale@asu.edu',
-        pictureURL: 'https://mail.google.com/mail/u/1/?ui=2&ik=d2c31acb53&view=fimg&th=162943c5442cc742&attid=0.1&disp=emb&realattid=162943b828ec99f4a511&attbid=ANGjdJ_WOeGLiJeYjIQdfVxL8fBFsWYNQfctmguvSA7S09AvJBC8kbsLm7nljTT6AnFjcmXSQphz9tX62xbyUcs80YTfTbGJd1TRkNu_NNCYaPrPn0BQUGweC4vfG_w&sz=s0-l75-ft&ats=1522915625384&rm=162943c5442cc742&zw&atsh=1'
+        pictureURL: 'https://drive.google.com/file/d/1gi257uL6GH33oXQBk1UPBc-BX2qTXRtk/view?usp=sharing'
       },
       {
         name: {
