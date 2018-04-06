@@ -3,7 +3,9 @@
 export type CalendarEvent = {
   title: string,
   start: Date,
-  end: Date
+  end: Date,
+  description: ?string,
+  location: ?string,
 }
 
 // -------------------------------------------------------
