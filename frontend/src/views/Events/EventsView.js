@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import BigCalendar from 'react-big-calendar'
 import moment from 'moment'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
@@ -13,12 +13,19 @@ type Props = {
   events: Array<CalendarEvent>,
 }
 
-const customAgendaEvent = (event: CalendarEvent) => (
-  <span>
+const customAgendaEvent = ({event}) => (
+  <span key={event.title}>
     <em>{event.title}</em>
-    <p>{event.description}</p>
+    {event.location && <p>{event.location}</p>}
+    {event.description && <React.Fragment>{event.description}</React.Fragment>}
   </span>
 )
+
+// TODO: get this code working to convert links to <a> elements
+// const linkify = (text: string) => {
+//   const regex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig
+//   return text.split(regex).map((part, index) => index % 2 === 0 ? part : <a href={part}>{part}</a>)
+// }
 
 const today = (): Date => {
   const today = new Date()

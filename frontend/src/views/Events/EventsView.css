@@ -1,4 +1,4 @@
-/* EventsView */
+/* EventsView (overwrites of default styling) */
 
 .rbc-toolbar {
     flex-wrap: wrap;
@@ -7,4 +7,8 @@
 
 .rbc-toolbar .rbc-toolbar-label {
     padding: 0.5em;
+}
+
+.rbc-agenda-view table.rbc-agenda-table thead > tr > th {
+    text-align: center;
 }

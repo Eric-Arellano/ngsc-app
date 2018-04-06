@@ -48,6 +48,8 @@ class EventsViewContainer extends Component<Props, State> {
         start: moment(event.start.date || event.start.dateTime).toDate(),
         end: moment(event.start.date || event.end.dateTime).toDate(),
         title: event.summary,
+        description: event.description || '',
+        location: event.location || '',
       }))
   )
 
