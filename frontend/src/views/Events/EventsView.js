@@ -39,6 +39,7 @@ const EventsView = ({events}: Props) => (
     defaultView='agenda'
     views={['agenda', 'month', 'week']}
     defaultDate={today()}
+    popup
     components={{
       agenda: {
         event: customAgendaEvent
