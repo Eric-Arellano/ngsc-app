@@ -1,7 +1,6 @@
 import flask
 
 from backend.src.drive_commands import copy, create, move, remove, rename
-from backend.src.google_apis.authentication import build_drive_service
 
 drive_api = flask.Blueprint('drive_api', __name__)
 
@@ -11,17 +10,19 @@ def api_test():
     """
     Throw away text connecting google drive api
     """
-    service = build_drive_service()
-    results = service.files().list(
-        pageSize=10, fields="nextPageToken, files(id, name)").execute()
-    items = results.get('files', [])
-    if not items:
-        return 'No files found.'
-    else:
-        output = 'Files:'
-        for item in items:
-            output += f"{item['name']} {item['id']}"
-        return output
+    create.folder(folder_name='new folder')
+    return create.file(file_name='new document')
+    # service = build_drive_service()
+    # results = service.files().list(
+    #     pageSize=10, fields="nextPageToken, files(id, name)").execute()
+    # items = results.get('files', [])
+    # if not items:
+    #     return 'No files found.'
+    # else:
+    #     output = 'Files:'
+    #     for item in items:
+    #         output += f"{item['name']} {item['id']}"
+    #     return output
 
 
 @drive_api.route('/copy/file', methods=['POST'])
@@ -45,7 +46,7 @@ def api_create_file():
 @drive_api.route('/create/folder', methods=['POST'])
 def api_create_folder():
     data = flask.request.get_json()
-    create.folder(data)
+    return create.folder(data)
 
 
 @drive_api.route('/move/file', methods=['POST'])
