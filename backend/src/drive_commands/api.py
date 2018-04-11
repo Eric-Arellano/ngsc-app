@@ -11,7 +11,8 @@ def api_test():
     Throw away text connecting google drive api
     """
     create.folder(folder_name='new folder')
-    return create.file(file_name='new document')
+    create.file(file_name='new document')
+    return 'Attempted to create'
     # service = build_drive_service()
     # results = service.files().list(
     #     pageSize=10, fields="nextPageToken, files(id, name)").execute()
