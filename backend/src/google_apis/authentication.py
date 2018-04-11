@@ -10,7 +10,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 scopes = ['https://www.googleapis.com/auth/sqlservice.admin',
           'https://www.googleapis.com/auth/spreadsheets',
-          'https://www.googleapis.com/auth/drive.metadata.readonly']
+          'https://www.googleapis.com/auth/drive']
 
 
 def build_sheets_service() -> discovery.Resource:
