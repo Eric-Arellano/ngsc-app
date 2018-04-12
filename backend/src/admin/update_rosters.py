@@ -12,10 +12,9 @@ def hide_all_ids() -> None:
     """
     Hide the student ID column from all rosters.
     """
-    _environment_chooser.operate_on_all_attendance(display.toggle_hiding_columns,
+    _environment_chooser.operate_on_all_attendance(display.hide_columns,
                                                    start_index=0,
-                                                   end_index=1,
-                                                   hidden=True)
+                                                   end_index=1)
 
 
 # --------------------------------------------------------------

@@ -3,7 +3,7 @@ Setup the Google Drive for a new semester.
 """
 from backend.src.data import column_indexes, file_ids
 from backend.src.drive_commands import create
-from backend.src.sheets_commands import columns, sheet
+from backend.src.sheets_commands import columns, display, sheet
 
 
 def create_empty_folders() -> None:
@@ -49,9 +49,10 @@ def create_rosters() -> None:
     """
     Create rosters for committees and mission teams, pulling data from Master.
     """
+    spreadsheet = '1SvUhsqnIiMwozc_toDCBpHWoeqNKQMrbTIseuIYF0-A'
     # add header row
     headers = [['ASUrite', 'Participation Rate', 'First name', 'Last name', 'Email', 'Cell', 'Campus', 'Cohort']]
-    sheet.update_values(spreadsheet_id='1SvUhsqnIiMwozc_toDCBpHWoeqNKQMrbTIseuIYF0-A',
+    sheet.update_values(spreadsheet_id=spreadsheet,
                         range_='A1:1',
                         values=headers)
     # add data
@@ -70,12 +71,14 @@ def create_rosters() -> None:
                                            column_indexes.master['cohort']])
     no_status = columns.remove(all_cells=reordered, target_indexes=[3])
     blank_participation = columns.add_blank(all_cells=no_status, target_index=1)
-    sheet.update_values(spreadsheet_id='1SvUhsqnIiMwozc_toDCBpHWoeqNKQMrbTIseuIYF0-A',
+    sheet.update_values(spreadsheet_id=spreadsheet,
                         range_='A2:Z',
                         values=blank_participation)
     # TODO: add participation formula
     # TODO: add attendance dropdown
-    # TODO: hide ASUrite column
+    # modify display
+    display.hide_columns(spreadsheet, start_index=0, end_index=1)
+    display.freeze(spreadsheet, num_rows=1)
 
 
 def copy_important_files() -> None:

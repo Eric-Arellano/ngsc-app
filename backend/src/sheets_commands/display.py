@@ -1,10 +1,10 @@
-import backend.src.sheets_commands.sheet
+from backend.src.sheets_commands import sheet
 
 
-def toggle_hiding_columns(spreadsheet_id: str, *,
-                          start_index: int,
-                          end_index: int,
-                          hidden: bool) -> None:
+def hide_columns(spreadsheet_id: str, *,
+                 start_index: int,
+                 end_index: int,
+                 hidden: bool = True) -> None:
     """
     Hide the columns for provided column range.
     """
@@ -22,4 +22,20 @@ def toggle_hiding_columns(spreadsheet_id: str, *,
             },
             "fields": 'hiddenByUser',
         }}]
-    backend.src.sheets_commands.sheet.batch_update(spreadsheet_id, requests)
+    sheet.batch_update(spreadsheet_id, requests)
+
+
+def freeze(spreadsheet_id: str, *, num_rows: int = 0, num_columns: int = 0) -> None:
+    sheet_id = '0'
+    requests = [{
+        'updateSheetProperties': {
+            "properties": {
+                "sheetId": sheet_id,
+                "gridProperties": {
+                    "frozenRowCount": num_rows,
+                    "frozenColumnCount": num_columns
+                }
+            },
+            'fields': 'gridProperties(frozenRowCount, frozenColumnCount)'
+        }}]
+    sheet.batch_update(spreadsheet_id, requests)
