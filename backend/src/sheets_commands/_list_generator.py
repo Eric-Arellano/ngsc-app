@@ -5,10 +5,41 @@ def select_columns(*,
                    all_cells: List[List[Any]],
                    target_indexes: List[int]) -> List[List[Any]]:
     """
-    Given all cells, return only the specified columns. Zero-indexed.
+    Given all cells, return only the specified columns.
     """
     return [[cell for col_index, cell in enumerate(row)
              if col_index in target_indexes]
+            for row in all_cells]
+
+
+def remove_columns(*,
+                   all_cells: List[List[Any]],
+                   target_indexes: List[int]) -> List[List[Any]]:
+    """
+    Remove columns from cells.
+    """
+    return [[cell for col_index, cell in enumerate(row)
+             if col_index not in target_indexes]
+            for row in all_cells]
+
+
+def add_blank_column(*,
+                     all_cells: List[List[Any]],
+                     target_index: int) -> List[List[Any]]:
+    """
+    Add blank column at specified columns.
+    """
+    return [row[:target_index] + [""] + row[target_index:]
+            for row in all_cells]
+
+
+def reorder_columns(*,
+                    all_cells: List[List[Any]],
+                    new_order: List[Any]) -> List[List[Any]]:
+    """
+    Reorder to the specified order.
+    """
+    return [[row[index] for index in new_order]
             for row in all_cells]
 
 
@@ -30,7 +61,7 @@ def update_column(*,
                   target_index: int,
                   overwrite: bool) -> List[List[Any]]:
     """
-    Generate an updated list for the entire column, optionally overwriting values. Zero-indexed.
+    Generate an updated list for the entire column, optionally overwriting values.
     """
     if overwrite:
         return [[updated_values.get(row[key_index], row[key_index])]  # if nothing found in dict, keep original value

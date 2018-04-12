@@ -38,6 +38,57 @@ def test_select_column_missing_cells():
 
 
 # --------------------------------------------------------------------
+# Remove columns
+# --------------------------------------------------------------------
+
+def test_remove():
+    original_cells = [
+        ['Eric', '1'],
+        ['Sami', '2'],
+    ]
+    selected = _list_generator.remove_columns(all_cells=original_cells,
+                                              target_indexes=[1])
+    assert selected == [
+        ['Eric'],
+        ['Sami'],
+    ]
+
+
+# --------------------------------------------------------------------
+# Add blank columns
+# --------------------------------------------------------------------
+
+def test_add_blank_column():
+    original_cells = [
+        ['Eric', '1'],
+        ['Sami', '2'],
+    ]
+    selected = _list_generator.add_blank_column(all_cells=original_cells,
+                                                target_index=0)
+    assert selected == [
+        ['', 'Eric', '1'],
+        ['', 'Sami', '2'],
+    ]
+
+
+# --------------------------------------------------------------------
+# Reorder columns
+# --------------------------------------------------------------------
+
+def test_reorder():
+    original_cells = [
+        ['Eric', '1'],
+        ['Sami', '2'],
+    ]
+    selected = _list_generator.reorder_columns(all_cells=original_cells,
+                                               new_order=[1, 0])
+    assert selected == [
+        ['1', 'Eric'],
+        ['2', 'Sami'],
+    ]
+
+
+# --------------------------------------------------------------------
 # Filter
 # --------------------------------------------------------------------
 
