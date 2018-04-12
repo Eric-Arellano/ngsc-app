@@ -2,7 +2,7 @@ import json
 
 import flask
 
-from backend.src.app_queries import attendance, demographics, engagement
+from backend.src.app import attendance, demographics, engagement
 
 app_api = flask.Blueprint('app_api', __name__)
 

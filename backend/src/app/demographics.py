@@ -6,7 +6,7 @@ from typing import Dict, Optional
 
 from backend.src.data import column_indexes, file_ids
 from backend.src.data.demographics import demographics_data
-from backend.src.google_apis import sheets_api
+from backend.src.sheets_commands import sheet
 
 
 def get(student_id: int) -> Optional[Dict]:
@@ -29,8 +29,8 @@ def get_all() -> Dict:
     """
     Get every student's demographic info as a dictionary indexed by student id.
     """
-    results = sheets_api.get_values(file_ids.master,
-                                    'Master!A2:O')
+    results = sheet.get_values(file_ids.master,
+                               'Master!A2:O')
     demographic = {}
     for row in results:
         student_id = int(row[column_indexes.master['id']])

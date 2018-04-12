@@ -1,11 +1,9 @@
 """
 Setup the Google Drive for a new semester.
 """
-
 from backend.src.data import column_indexes, file_ids
 from backend.src.drive_commands import create
-from backend.src.google_apis import sheets_api
-from backend.src.sheets_commands import _list_generator
+from backend.src.sheets_commands import columns, sheet
 
 
 def create_empty_folders() -> None:
@@ -53,28 +51,28 @@ def create_rosters() -> None:
     """
     # add header row
     headers = [['ASUrite', 'Participation Rate', 'First name', 'Last name', 'Email', 'Cell', 'Campus', 'Cohort']]
-    sheets_api.update_values(spreadsheet_id='1SvUhsqnIiMwozc_toDCBpHWoeqNKQMrbTIseuIYF0-A',
-                             range_='A1:1',
-                             values=headers)
+    sheet.update_values(spreadsheet_id='1SvUhsqnIiMwozc_toDCBpHWoeqNKQMrbTIseuIYF0-A',
+                        range_='A1:1',
+                        values=headers)
     # add data
-    master = sheets_api.get_values(file_ids.master, 'Master!A2:Z')
-    filtered = _list_generator.filter_by_cell(all_cells=master,
-                                              target_index=column_indexes.master['mt'],
-                                              target_value='1')
-    reordered = _list_generator.reorder_columns(all_cells=filtered,
-                                                new_order=[column_indexes.master['id'],
-                                                           column_indexes.master['first'],
-                                                           column_indexes.master['last'],
-                                                           column_indexes.master['status'],
-                                                           column_indexes.master['email'],
-                                                           column_indexes.master['phone'],
-                                                           column_indexes.master['campus'],
-                                                           column_indexes.master['cohort']])
-    no_status = _list_generator.remove_columns(all_cells=reordered, target_indexes=[3])
-    blank_participation = _list_generator.add_blank_column(all_cells=no_status, target_index=1)
-    sheets_api.update_values(spreadsheet_id='1SvUhsqnIiMwozc_toDCBpHWoeqNKQMrbTIseuIYF0-A',
-                             range_='A2:Z',
-                             values=blank_participation)
+    master = sheet.get_values(file_ids.master, 'Master!A2:Z')
+    filtered = columns.filter_by_cell(all_cells=master,
+                                      target_index=column_indexes.master['mt'],
+                                      target_value='1')
+    reordered = columns.reorder(all_cells=filtered,
+                                new_order=[column_indexes.master['id'],
+                                           column_indexes.master['first'],
+                                           column_indexes.master['last'],
+                                           column_indexes.master['status'],
+                                           column_indexes.master['email'],
+                                           column_indexes.master['phone'],
+                                           column_indexes.master['campus'],
+                                           column_indexes.master['cohort']])
+    no_status = columns.remove(all_cells=reordered, target_indexes=[3])
+    blank_participation = columns.add_blank(all_cells=no_status, target_index=1)
+    sheet.update_values(spreadsheet_id='1SvUhsqnIiMwozc_toDCBpHWoeqNKQMrbTIseuIYF0-A',
+                        range_='A2:Z',
+                        values=blank_participation)
     # TODO: add participation formula
     # TODO: add attendance dropdown
     # TODO: hide ASUrite column

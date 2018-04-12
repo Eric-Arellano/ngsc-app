@@ -2,8 +2,8 @@
 Create an empty file or folder into the specified targets.
 """
 
-from backend.src.google_apis.authentication import build_drive_service
 from backend.src.data import folder_ids
+from backend.src.google_apis import drive_api
 
 FileID = str
 
@@ -31,7 +31,7 @@ def _create_resource(name: str,
     """
     Create Google Drive file with specific MIME type.
     """
-    service = build_drive_service()
+    service = drive_api.build_service()
     file_metadata = {
         'name': name,
         'mimeType': f'application/vnd.google-apps.{mime_type}',

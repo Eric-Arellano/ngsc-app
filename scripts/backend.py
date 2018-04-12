@@ -66,7 +66,7 @@ def run() -> None:
     Start backend server normally.
     """
     venv.activate()
-    os.environ['FLASK_APP'] = 'backend/src/app.py'
+    os.environ['FLASK_APP'] = 'backend/src/server.py'
     try:
         sys_calls.run(["flask", "run"])
     except KeyboardInterrupt:
@@ -80,7 +80,7 @@ def run_detached() -> None:
     Must later kill process.
     """
     venv.activate()
-    os.environ['FLASK_APP'] = 'backend/src/app.py'
+    os.environ['FLASK_APP'] = 'backend/src/server.py'
     sys_calls.run_detached(["flask", "run"])
     print("Backend server started at localhost:5000. Remember to stop it after.")
 

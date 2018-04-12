@@ -5,7 +5,7 @@ Queries for student's civil mil and service.
 from typing import Dict, List, Optional, Tuple
 
 from backend.src.data import column_indexes, file_ids
-from backend.src.google_apis import sheets_api
+from backend.src.sheets_commands import sheet
 
 
 def get(student_id: int) -> Optional[Dict]:
@@ -25,8 +25,8 @@ def _get_logged_events(student_id: int) -> List:
     """
     Get every event logged by student, including the event's status.
     """
-    all_rows = sheets_api.get_values(file_ids.engagement,
-                                     'Responses!A2:G')
+    all_rows = sheet.get_values(file_ids.engagement,
+                                'Responses!A2:G')
     return [{'type': row[column_indexes.engagement_responses['type']],
              'status': row[column_indexes.engagement_responses['status']],
              'name': row[column_indexes.engagement_responses['name']],
@@ -52,8 +52,8 @@ def _get_accepted(student_id: int) -> Tuple[Optional[float], Optional[float]]:
     """
     Get student's accepted service and civil mil.
     """
-    all_rows = sheets_api.get_values(file_ids.engagement,
-                                     'Requirements!A2:C')
+    all_rows = sheet.get_values(file_ids.engagement,
+                                'Requirements!A2:C')
     row = next((row for row in all_rows
                 if int(row[column_indexes.engagement_accepted['id']]) == student_id),
                None)
