@@ -1,6 +1,6 @@
 from typing import Callable
 
-from backend.src.data import spreadsheet_ids
+from backend.src.data import file_ids
 
 
 # -------------------------------------------------------
@@ -19,7 +19,7 @@ def operate_on_all_mission_team_attendance(func: Callable, *args, **kwargs) -> N
     """
     Call the passed function on mission team rosters.
     """
-    for mt_spreadsheet_id in spreadsheet_ids.mission_team_attendance.values():
+    for mt_spreadsheet_id in file_ids.mission_team_attendance.values():
         func(mt_spreadsheet_id, *args, **kwargs)
 
 
@@ -27,5 +27,5 @@ def operate_on_all_committee_attendance(func: Callable, *args, **kwargs) -> None
     """
     Call the passed function on committee rosters.
     """
-    for committee_spreadsheet_id in spreadsheet_ids.committee_attendance.values():
+    for committee_spreadsheet_id in file_ids.committee_attendance.values():
         func(committee_spreadsheet_id, *args, **kwargs)
