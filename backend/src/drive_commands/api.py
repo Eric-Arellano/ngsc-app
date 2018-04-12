@@ -1,6 +1,6 @@
 import flask
 
-from backend.src.drive_commands import copy, create, move, remove, rename
+from backend.src.drive_commands import copy, create, move, remove, rename, setup_semester
 
 drive_api = flask.Blueprint('drive_api', __name__)
 
@@ -10,8 +10,10 @@ def api_test():
     """
     Throw away text connecting google drive api
     """
-    create.folder(folder_name='new folder')
-    create.file(file_name='new document')
+    setup_semester.create_rosters()
+    # setup_semester.create_empty_folders()
+    # create.folder(folder_name='new folder')
+    # create.file(file_name='new document')
     return 'Attempted to create'
     # service = build_drive_service()
     # results = service.files().list(

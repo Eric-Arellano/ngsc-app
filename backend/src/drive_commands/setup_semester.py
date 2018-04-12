@@ -1,0 +1,94 @@
+"""
+Setup the Google Drive for a new semester.
+"""
+
+from backend.src.data import column_indexes, file_ids
+from backend.src.drive_commands import create
+from backend.src.google_apis import sheets_api
+from backend.src.sheets_commands import _list_generator
+
+
+def create_empty_folders() -> None:
+    """
+    Set up the folder structure.
+    """
+    # Root level
+    root = create.folder('Spring 2018')
+    create.folder('Templates', parent_folder_id=root)
+    # All students
+    all_students = create.folder('All students', parent_folder_id=root)
+    create.folder('On Leadership', parent_folder_id=all_students)
+    create.folder('Summit', parent_folder_id=all_students)
+    create.folder('Participation', parent_folder_id=all_students)
+    # Leadership
+    leadership = create.folder('Leadership', parent_folder_id=root)
+    create.folder('Staff Briefings', parent_folder_id=leadership)
+    # Sections & MTs
+    sections = create.folder('Sections', parent_folder_id=root)
+    for section_index in range(1, 11):
+        section_folder_id = create.folder(f'Section {section_index}', parent_folder_id=sections)
+        for mt_index in range(1, 4):
+            mt_number = mt_index + (3 * (section_index - 1))
+            create.folder(f'Mission Team {mt_number}', parent_folder_id=section_folder_id)
+    # Committees
+    committees = create.folder('Committees', parent_folder_id=root)
+    engagement = create.folder('Engagement', parent_folder_id=committees)
+    education = create.folder('Education', parent_folder_id=committees)
+    culture = create.folder('Culture', parent_folder_id=committees)
+    create.folder('Admin', parent_folder_id=committees)
+    create.folder('Transfers', parent_folder_id=engagement)
+    create.folder('Civil-Mil', parent_folder_id=engagement)
+    create.folder('Service', parent_folder_id=engagement)
+    create.folder('Training', parent_folder_id=education)
+    create.folder('Mentorship', parent_folder_id=education)
+    create.folder('Ambassadors', parent_folder_id=education)
+    create.folder('Communications', parent_folder_id=culture)
+    create.folder('Events', parent_folder_id=culture)
+    create.folder('Social', parent_folder_id=culture)
+
+
+def create_rosters() -> None:
+    """
+    Create rosters for committees and mission teams, pulling data from Master.
+    """
+    # add header row
+    headers = [['ASUrite', 'Participation Rate', 'First name', 'Last name', 'Email', 'Cell', 'Campus', 'Cohort']]
+    sheets_api.update_values(spreadsheet_id='1SvUhsqnIiMwozc_toDCBpHWoeqNKQMrbTIseuIYF0-A',
+                             range_='A1:1',
+                             values=headers)
+    # add data
+    master = sheets_api.get_values(file_ids.master, 'Master!A2:Z')
+    filtered = _list_generator.filter_by_cell(all_cells=master,
+                                              target_index=column_indexes.master['mt'],
+                                              target_value='1')
+    reordered = _list_generator.reorder_columns(all_cells=filtered,
+                                                new_order=[column_indexes.master['id'],
+                                                           column_indexes.master['first'],
+                                                           column_indexes.master['last'],
+                                                           column_indexes.master['status'],
+                                                           column_indexes.master['email'],
+                                                           column_indexes.master['phone'],
+                                                           column_indexes.master['campus'],
+                                                           column_indexes.master['cohort']])
+    no_status = _list_generator.remove_columns(all_cells=reordered, target_indexes=[3])
+    blank_participation = _list_generator.add_blank_column(all_cells=no_status, target_index=1)
+    sheets_api.update_values(spreadsheet_id='1SvUhsqnIiMwozc_toDCBpHWoeqNKQMrbTIseuIYF0-A',
+                             range_='A2:Z',
+                             values=blank_participation)
+    # TODO: add participation formula
+    # TODO: add attendance dropdown
+    # TODO: hide ASUrite column
+
+
+def copy_important_files() -> None:
+    """
+    Copy the Master, all-student attendance, no shows, & templates.
+    """
+    raise NotImplementedError
+
+
+def add_permissions() -> None:
+    """
+    Share folders within student leadership.
+    """
+    raise NotImplementedError
