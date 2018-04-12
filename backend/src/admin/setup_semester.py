@@ -79,6 +79,7 @@ def create_rosters() -> None:
     # modify display
     display.hide_columns(spreadsheet, start_index=0, end_index=1)
     display.freeze(spreadsheet, num_rows=1)
+    display.auto_resize(spreadsheet)
 
 
 def copy_important_files() -> None:

@@ -25,7 +25,9 @@ def hide_columns(spreadsheet_id: str, *,
     sheet.batch_update(spreadsheet_id, requests)
 
 
-def freeze(spreadsheet_id: str, *, num_rows: int = 0, num_columns: int = 0) -> None:
+def freeze(spreadsheet_id: str, *,
+           num_rows: int = 0,
+           num_columns: int = 0) -> None:
     sheet_id = '0'
     requests = [{
         'updateSheetProperties': {
@@ -37,5 +39,21 @@ def freeze(spreadsheet_id: str, *, num_rows: int = 0, num_columns: int = 0) -> N
                 }
             },
             'fields': 'gridProperties(frozenRowCount, frozenColumnCount)'
+        }}]
+    sheet.batch_update(spreadsheet_id, requests)
+
+
+def auto_resize(spreadsheet_id: str, *,
+                start_index: int = 0,
+                end_index: int = 20) -> None:
+    sheet_id = '0'
+    requests = [{
+        'autoResizeDimensions': {
+            "dimensions": {
+                "sheetId": sheet_id,
+                "dimension": 'COLUMNS',
+                "startIndex": start_index,
+                "endIndex": end_index,
+            }
         }}]
     sheet.batch_update(spreadsheet_id, requests)
