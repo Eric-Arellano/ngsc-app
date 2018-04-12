@@ -3,7 +3,7 @@ Setup the Google Drive for a new semester.
 """
 from backend.src.data import column_indexes, file_ids
 from backend.src.drive_commands import create
-from backend.src.sheets_commands import columns, display, sheet
+from backend.src.sheets_commands import columns, display, formulas, sheet
 
 
 def create_empty_folders() -> None:
@@ -51,7 +51,15 @@ def create_rosters() -> None:
     """
     spreadsheet = '1SvUhsqnIiMwozc_toDCBpHWoeqNKQMrbTIseuIYF0-A'
     # add header row
-    headers = [['ASUrite', 'Participation Rate', 'First name', 'Last name', 'Email', 'Cell', 'Campus', 'Cohort']]
+    headers = [['ASUrite',
+                'Participation Rate',
+                'First name',
+                'Last name',
+                'Email',
+                'Cell',
+                'Campus',
+                'Cohort',
+                'Ex: 9/12']]
     sheet.update_values(spreadsheet_id=spreadsheet,
                         range_='A1:1',
                         values=headers)
@@ -74,7 +82,20 @@ def create_rosters() -> None:
     sheet.update_values(spreadsheet_id=spreadsheet,
                         range_='A2:Z',
                         values=blank_participation)
-    # TODO: add participation formula
+
+    # add participation formula
+    def count_if(criterion: str) -> str:
+        return f'COUNTIF(I$:AA$, "{criterion}")'  # `$` replaced with row index
+
+    participation_formula = f'''=TO_PERCENT(IFERROR(
+            ({count_if("yes")} + {count_if("remote")} + {count_if("excused")}) / 
+            ({count_if("yes")} + {count_if("no")} + {count_if("remote")} + {count_if("excused")})
+            , ""))'''
+    participation_column = formulas.generate_adaptive_row_index(formula=participation_formula,
+                                                                num_rows=len(blank_participation))
+    sheet.update_values(spreadsheet_id=spreadsheet,
+                        range_='B2:B',
+                        values=participation_column)
     # TODO: add attendance dropdown
     # modify display
     display.hide_columns(spreadsheet, start_index=0, end_index=1)

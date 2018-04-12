@@ -71,3 +71,13 @@ def update(*,
                  if len(row) < target_index or not row[target_index]  # only check if missing
                  else row[target_index]]  # else use original
                 for row in all_cells]
+
+
+def generate(*,
+             initial_value: str = "",
+             num_rows: int,
+             num_columns: int = 1):
+    """
+    Generate new grid with the given initial value.
+    """
+    return [[initial_value] * num_columns] * num_rows

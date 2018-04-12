@@ -30,10 +30,14 @@ def get_values(spreadsheet_id: str, range_: str) -> List[List[Any]]:
     return result.get('values', [])
 
 
-def update_values(spreadsheet_id: str, range_: str, values: List[List[Any]]) -> None:
+def update_values(spreadsheet_id: str, *,
+                  range_: str,
+                  values: List[List[Any]],
+                  raw: bool = False) -> None:
     """
     Update range with given values.
     """
+    input_mode = 'RAW' if raw else 'USER_ENTERED'
     sheets_service = sheets_api.build_service()
     body = {'values': values}
     sheets_service.spreadsheets() \
@@ -41,6 +45,6 @@ def update_values(spreadsheet_id: str, range_: str, values: List[List[Any]]) -> 
         .update(
             spreadsheetId=spreadsheet_id,
             range=range_,
-            valueInputOption='USER_ENTERED',
+            valueInputOption=input_mode,
             body=body) \
         .execute()
