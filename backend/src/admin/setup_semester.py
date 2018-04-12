@@ -3,7 +3,7 @@ Setup the Google Drive for a new semester.
 """
 from backend.src.data import column_indexes, file_ids
 from backend.src.drive_commands import create
-from backend.src.sheets_commands import columns, display, formulas, sheet
+from backend.src.sheets_commands import columns, display, formulas, sheet, validation
 
 
 def create_empty_folders() -> None:
@@ -92,11 +92,18 @@ def create_rosters() -> None:
             ({count_if("yes")} + {count_if("no")} + {count_if("remote")} + {count_if("excused")})
             , ""))'''
     participation_column = formulas.generate_adaptive_row_index(formula=participation_formula,
-                                                                num_rows=len(blank_participation))
+                                                                num_rows=len(blank_participation) + 10)
     sheet.update_values(spreadsheet_id=spreadsheet,
                         range_='B2:B',
                         values=participation_column)
-    # TODO: add attendance dropdown
+    # add attendance dropdown
+    attendance_options = ['yes', 'no', 'remote', 'excused']
+    validation.dropdown_options(spreadsheet_id=spreadsheet,
+                                options=attendance_options,
+                                row_start_index=1,
+                                row_end_index=len(blank_participation) + 10,
+                                column_start_index=8,
+                                column_end_index=20)
     # modify display
     display.hide_columns(spreadsheet, start_index=0, end_index=1)
     display.freeze(spreadsheet, num_rows=1)
