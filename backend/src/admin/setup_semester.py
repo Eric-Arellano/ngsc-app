@@ -1,7 +1,7 @@
 """
 Setup the Google Drive for a new semester.
 """
-from typing import Dict, List
+from typing import Dict, List, Union
 
 from backend.src.data import column_indexes, file_ids
 from backend.src.drive_commands import create
@@ -14,50 +14,94 @@ from backend.src.sheets_commands import columns, display, formulas, sheet, valid
 
 def setup_folder_system() -> None:
     create_empty_folders()
-    save_folder_ids([{}])
+    save_folder_ids({})
     raise NotImplementedError
 
 
-def create_empty_folders() -> None:  # TODO: return list of dictionaries of folder IDs
+ResourceID = str
+IdMap = Dict[str, Union[ResourceID, Dict[str, ResourceID]]]
+
+
+def create_empty_folders() -> IdMap:
     """
-    Set up the folder structure.
+    Set up the folder structure and return their IDs.
     """
+    id_map: IdMap = {}
     # Root level
     root = create.folder('Spring 2018')
-    create.folder('Templates', parent_folder_id=root)
+    id_map['semester_root'] = root
+    # Templates
+    templates = create.folder('Templates', parent_folder_id=root)
+    id_map['templates'] = templates
     # All students
     all_students = create.folder('All students', parent_folder_id=root)
-    create.folder('On Leadership', parent_folder_id=all_students)
-    create.folder('Summit', parent_folder_id=all_students)
-    create.folder('Participation', parent_folder_id=all_students)
+    id_map['all_students_root'] = all_students
+    on_leadership = create.folder('On Leadership', parent_folder_id=all_students)
+    summit = create.folder('Summit', parent_folder_id=all_students)
+    participation = create.folder('Participation', parent_folder_id=all_students)
+    id_map['all_students'] = {
+        'on_leadership': on_leadership,
+        'summit': summit,
+        'participation': participation
+    }
     # Leadership
     leadership = create.folder('Leadership', parent_folder_id=root)
-    create.folder('Staff Briefings', parent_folder_id=leadership)
+    id_map['leadership_root'] = leadership
+    briefings = create.folder('Staff Briefings', parent_folder_id=leadership)
+    id_map['leadership'] = {
+        'staff_briefings': briefings
+    }
     # Sections & MTs
     sections = create.folder('Sections', parent_folder_id=root)
+    id_map['sections_root'] = sections
+    id_map['sections'] = {}
+    id_map['mission_teams'] = {}
     for section_index in range(1, 11):
         section_folder_id = create.folder(f'Section {section_index}', parent_folder_id=sections)
+        id_map['sections'][section_index] = section_folder_id
         for mt_index in range(1, 4):
             mt_number = mt_index + (3 * (section_index - 1))
-            create.folder(f'Mission Team {mt_number}', parent_folder_id=section_folder_id)
+            mt_folder_id = create.folder(f'Mission Team {mt_number}', parent_folder_id=section_folder_id)
+            id_map['mission_teams'][mt_number] = mt_folder_id
     # Committees
     committees = create.folder('Committees', parent_folder_id=root)
+    id_map['committees_root'] = committees
+    # Committee Leads
     engagement = create.folder('Engagement', parent_folder_id=committees)
     education = create.folder('Education', parent_folder_id=committees)
     culture = create.folder('Culture', parent_folder_id=committees)
-    create.folder('Admin', parent_folder_id=committees)
-    create.folder('Transfers', parent_folder_id=engagement)
-    create.folder('Civil-Mil', parent_folder_id=engagement)
-    create.folder('Service', parent_folder_id=engagement)
-    create.folder('Training', parent_folder_id=education)
-    create.folder('Mentorship', parent_folder_id=education)
-    create.folder('Ambassadors', parent_folder_id=education)
-    create.folder('Communications', parent_folder_id=culture)
-    create.folder('Events', parent_folder_id=culture)
-    create.folder('Social', parent_folder_id=culture)
+    id_map['committee_leads'] = {
+        'engagement': engagement,
+        'education': education,
+        'culture': culture
+    }
+    # Committee Chairs
+    admin = create.folder('Admin', parent_folder_id=committees)
+    transfers = create.folder('Transfers', parent_folder_id=engagement)
+    civil_mil = create.folder('Civil-Mil', parent_folder_id=engagement)
+    service = create.folder('Service', parent_folder_id=engagement)
+    training = create.folder('Training', parent_folder_id=education)
+    mentorship = create.folder('Mentorship', parent_folder_id=education)
+    ambassadors = create.folder('Ambassadors', parent_folder_id=education)
+    communications = create.folder('Communications', parent_folder_id=culture)
+    events = create.folder('Events', parent_folder_id=culture)
+    social = create.folder('Social', parent_folder_id=culture)
+    id_map['committee_chairs'] = {
+        'admin': admin,
+        'transfers': transfers,
+        'civil_mil': civil_mil,
+        'service': service,
+        'training': training,
+        'mentorship': mentorship,
+        'ambassadors': ambassadors,
+        'communications': communications,
+        'events': events,
+        'social': social
+    }
+    return id_map
 
 
-def save_folder_ids(ids: List[Dict[str, str]]) -> None:
+def save_folder_ids(ids: IdMap) -> None:
     """
     Write the given folder IDs to the file `data/folder_ids.py`.
     """
@@ -77,14 +121,14 @@ def setup_rosters() -> None:
     raise NotImplementedError
 
 
-def create_empty_rosters() -> List[Dict[str, str]]:
+def create_empty_rosters() -> IdMap:
     """
 
     """
     raise NotImplementedError
 
 
-def save_roster_file_ids(ids: List[Dict[str, str]]) -> None:
+def save_roster_file_ids(ids: IdMap) -> None:
     """
     Write the given folder IDs to the file `data/file_ids.py`.
     """
