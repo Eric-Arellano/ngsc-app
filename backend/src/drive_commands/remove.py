@@ -1,17 +1,31 @@
 """
 Remove a file or folder for the specified targets.
 """
+from backend.src.google_apis import drive_api
+
+ResourceID = str
 
 
-def file(data):
+def file(file_id: ResourceID) -> None:
     """
     Remove file.
     """
-    raise NotImplementedError
+    _delete_resource(file_id)
 
 
-def folder(data):
+def folder(folder_id: ResourceID) -> None:
     """
     Recursively remove entire folder.
     """
-    raise NotImplementedError
+    _delete_resource(folder_id)
+
+
+def _delete_resource(file_id: ResourceID) -> None:
+    """
+    Helper for deleting files and folders
+    """
+    service = drive_api.build_service()
+    service \
+        .files() \
+        .delete(fileId=file_id) \
+        .execute()
