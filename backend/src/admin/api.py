@@ -10,14 +10,14 @@ def api_test():
     """
     Throw away text connecting google drive api
     """
-    copy.file('', 'Copied File', '1QOsOQq3FMYfpXau6v3ubem5wrC97yWwo')
+    remove.file('1o5E14gViyfXh6Zai4iic0NcUsR4lBahW')
     # # setup_semester.prepare_roster(spreadsheet='1SvUhsqnIiMwozc_toDCBpHWoeqNKQMrbTIseuIYF0-A',
     #                               filter_column_index=column_indexes.master['mt'],
     #                               filter_value='24')
     # setup_semester.create_empty_folders()
     # create.folder(folder_name='new folder')
     # create.file(file_name='new document')
-    return 'Attempted to copy'
+    return 'Attempted to delete'
     # service = build_service()
     # results = service.files().list(
     #     pageSize=10, fields="nextPageToken, files(id, name)").execute()
