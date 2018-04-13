@@ -8,16 +8,16 @@ from backend.src.google_apis import drive_api
 FileID = str
 
 
-def file(file_name: str,
+def file(file_name: str, *,
+         mime_type: str,
          parent_folder_id: FileID = folder_ids.drive_playground) -> FileID:
     """
     Create an empty file.
     """
-    # TODO: Change mime_type to allow multiple different mime types not just 'document'
-    return _create_resource(name=file_name, mime_type='document', parent_folder_id=parent_folder_id)
+    return _create_resource(name=file_name, mime_type=mime_type, parent_folder_id=parent_folder_id)
 
 
-def folder(folder_name: str,
+def folder(folder_name: str, *,
            parent_folder_id: FileID = folder_ids.drive_playground) -> FileID:
     """
     Create an empty folder.
