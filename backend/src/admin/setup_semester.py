@@ -1,22 +1,31 @@
 """
 Setup the Google Drive for a new semester.
 """
-from typing import Dict, List, Union
+import pprint
+from typing import Dict, Union
 
-from backend.src.data import column_indexes, file_ids
+from backend.src.data import column_indexes, file_ids, folder_ids
 from backend.src.drive_commands import create
 from backend.src.sheets_commands import columns, display, formulas, sheet, validation
 
 
-# ------------------------------------------------------------------
-# Create folders
-# ------------------------------------------------------------------
+def setup_semester() -> None:
+    # create resources
+    folder_id_map = create_empty_folders()
+    roster_ids = create_empty_rosters(folder_id_map)
+    important_files = copy_important_files(folder_id_map)
+    # save to hardcoded files
+    save_folder_ids(folder_id_map)
+    save_file_ids({**roster_ids, **important_files})
+    # prepare files
+    prepare_all_rosters(roster_ids)
+    update_master_links()
+    # return remaining steps
 
-def setup_folder_system() -> None:
-    create_empty_folders()
-    save_folder_ids({})
-    raise NotImplementedError
 
+# ------------------------------------------------------------------
+# Create resources
+# ------------------------------------------------------------------
 
 ResourceID = str
 IdMap = Dict[str, Union[ResourceID, Dict[str, ResourceID]]]
@@ -26,8 +35,12 @@ def create_empty_folders() -> IdMap:
     """
     Set up the folder structure and return their IDs.
     """
-    id_map: IdMap = {}
-    # Root level
+    # NGSC root level
+    id_map = {
+        'ngsc_root': folder_ids.ngsc_root,
+        'drive_playground': folder_ids.drive_playground
+    }
+    # Semester root
     root = create.folder('Spring 2018')
     id_map['semester_root'] = root
     # Templates
@@ -86,58 +99,107 @@ def create_empty_folders() -> IdMap:
     communications = create.folder('Communications', parent_folder_id=culture)
     events = create.folder('Events', parent_folder_id=culture)
     social = create.folder('Social', parent_folder_id=culture)
-    id_map['committee_chairs'] = {
-        'admin': admin,
-        'transfers': transfers,
-        'civil_mil': civil_mil,
-        'service': service,
-        'training': training,
-        'mentorship': mentorship,
-        'ambassadors': ambassadors,
-        'communications': communications,
-        'events': events,
-        'social': social
+    id_map['committees'] = {
+        'Admin': admin,
+        'Transfers': transfers,
+        'Civil-Mil': civil_mil,
+        'Service': service,
+        'Training': training,
+        'Mentorship': mentorship,
+        'Ambassadors': ambassadors,
+        'Communications': communications,
+        'Events': events,
+        'Social': social
     }
     return id_map
 
+
+def create_empty_rosters(folder_id_map: IdMap) -> IdMap:
+    """
+    Create the roster spreadsheets (not set up) and save their IDs.
+    """
+    id_map = {
+        'committee_attendance': {},
+        'mission_team_attendance': {}
+    }
+    # Committee rosters
+    for committee, committee_folder_id in folder_id_map['committees'].items():
+        committee_roster_id = create.file(file_name=f'Attendance - {committee} - Fall 2018',
+                                          mime_type='spreadsheet',
+                                          parent_folder_id=committee_folder_id)
+        id_map['committee_attendance'][committee] = committee_roster_id
+    # Mission team rosters
+    for mt_number, mt_folder_id in folder_id_map['mission_teams'].items():
+        mt_roster_id = create.file(file_name=f'Attendance - Mission Team {mt_number} - Fall 2018',
+                                   mime_type='spreadsheet',
+                                   parent_folder_id=mt_folder_id)
+        id_map['mission_team_attendance'][mt_number] = mt_roster_id
+    return id_map
+
+
+def copy_important_files(folder_id_map: IdMap) -> IdMap:
+    """
+    Copy the Master, schedule, all-student attendance, no shows, & templates.
+    """
+    raise NotImplementedError
+
+
+# ------------------------------------------------------------------
+# Save IDs to hardcoded files.
+# ------------------------------------------------------------------
 
 def save_folder_ids(ids: IdMap) -> None:
     """
     Write the given folder IDs to the file `data/folder_ids.py`.
     """
-    raise NotImplementedError
+    output = _format_id_output(ids)
+    with open('backend/src/data/folder_ids_test.py', 'w') as file:
+        file.writelines(output)
+
+
+def save_file_ids(ids: IdMap) -> None:
+    """
+    Write the given file IDs to the file `data/file_ids.py`.
+    """
+    output = _format_id_output(ids)
+    with open('backend/src/data/file_ids_test.py', 'w') as file:
+        file.writelines(output)
+
+
+def _format_id_output(ids: IdMap) -> str:
+    """
+    Convert ID dict to output as variables separated by newlines.
+    """
+    variable_syntax = [f'{k} = \'{v}\'' if isinstance(v, str)
+                       else f'{k} = {pprint.pformat(v)}'
+                       for k, v in ids.items()]
+    return "\n\n".join(variable_syntax)
 
 
 # ------------------------------------------------------------------
-# Create rosters
+# Prepare rosters
 # ------------------------------------------------------------------
 
-def setup_rosters() -> None:
+def prepare_all_rosters(file_id_map: IdMap) -> None:
     """
-    Will create, set up, and save the IDs for rosters for committees & mission teams.
+    Setup every roster with data and formatting.
     """
-    roster_file_ids = create_empty_rosters()
-    save_roster_file_ids(roster_file_ids)
-    raise NotImplementedError
+    for mt_number, mt_roster_id in file_id_map['mission_team_attendance'].items():
+        prepare_roster(spreadsheet_id=mt_roster_id,
+                       filter_column_index=column_indexes.master['mt'],
+                       filter_value=str(mt_number),
+                       master_spreadsheet_id=file_id_map['master'])
+    for committee, committee_roster_id in file_id_map['committee_attendance'].items():
+        prepare_roster(spreadsheet_id=committee_roster_id,
+                       filter_column_index=column_indexes.master['committee'],
+                       filter_value=committee,
+                       master_spreadsheet_id=file_id_map['master'])
 
 
-def create_empty_rosters() -> IdMap:
-    """
-
-    """
-    raise NotImplementedError
-
-
-def save_roster_file_ids(ids: IdMap) -> None:
-    """
-    Write the given folder IDs to the file `data/file_ids.py`.
-    """
-    raise NotImplementedError
-
-
-def prepare_roster(*, spreadsheet: str,
+def prepare_roster(spreadsheet_id: str, *,
                    filter_column_index: int,
-                   filter_value: str) -> None:
+                   filter_value: str,
+                   master_spreadsheet_id: str = file_ids.master) -> None:
     """
     Setup provided roster's data and formatting, pulling data from Master.
     """
@@ -151,11 +213,11 @@ def prepare_roster(*, spreadsheet: str,
                 'Campus',
                 'Cohort',
                 'Ex: 9/12']]
-    sheet.update_values(spreadsheet_id=spreadsheet,
+    sheet.update_values(spreadsheet_id=spreadsheet_id,
                         range_='A1:1',
                         values=headers)
     # add data
-    master = sheet.get_values(file_ids.master, 'Master!A2:Z')
+    master = sheet.get_values(master_spreadsheet_id, 'Master!A2:Z')
     filtered = columns.filter_by_cell(all_cells=master,
                                       target_index=filter_column_index,
                                       target_value=filter_value)
@@ -170,7 +232,7 @@ def prepare_roster(*, spreadsheet: str,
                                            column_indexes.master['cohort']])
     no_status = columns.remove(all_cells=reordered, target_indexes=[3])
     blank_participation = columns.add_blank(all_cells=no_status, target_index=1)
-    sheet.update_values(spreadsheet_id=spreadsheet,
+    sheet.update_values(spreadsheet_id=spreadsheet_id,
                         range_='A2:Z',
                         values=blank_participation)
 
@@ -184,12 +246,12 @@ def prepare_roster(*, spreadsheet: str,
             , ""))'''
     participation_column = formulas.generate_adaptive_row_index(formula=participation_formula,
                                                                 num_rows=len(blank_participation) + 10)
-    sheet.update_values(spreadsheet_id=spreadsheet,
+    sheet.update_values(spreadsheet_id=spreadsheet_id,
                         range_='B2:B',
                         values=participation_column)
     # add attendance dropdown
     attendance_options = ['yes', 'no', 'remote', 'excused']
-    validation.dropdown_options(spreadsheet_id=spreadsheet,
+    validation.dropdown_options(spreadsheet_id=spreadsheet_id,
                                 options=attendance_options,
                                 row_start_index=1,
                                 row_end_index=len(blank_participation) + 10,
@@ -197,29 +259,15 @@ def prepare_roster(*, spreadsheet: str,
                                 column_end_index=25)
     # TODO: lock first 2 columns
     # modify display
-    display.hide_columns(spreadsheet, start_index=0, end_index=1)
-    display.freeze(spreadsheet, num_rows=1)
-    display.auto_resize(spreadsheet)
-    display.alternating_colors(spreadsheet)
+    display.hide_columns(spreadsheet_id, start_index=0, end_index=1)
+    display.freeze(spreadsheet_id, num_rows=1)
+    display.auto_resize(spreadsheet_id)
+    display.alternating_colors(spreadsheet_id)
 
 
 # ------------------------------------------------------------------
-# Setup important files like Master
+# Update important files like Master
 # ------------------------------------------------------------------
-
-def copy_important_files() -> None:
-    """
-    Copy the Master, all-student attendance, no shows, & templates.
-    """
-    raise NotImplementedError
-
-
-def save_important_file_ids(ids: List[Dict[str, str]]) -> None:
-    """
-    Write the given folder IDs to the file `data/file_ids.py`.
-    """
-    raise NotImplementedError
-
 
 def update_master_links() -> None:
     """

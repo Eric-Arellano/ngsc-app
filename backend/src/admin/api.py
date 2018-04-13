@@ -1,7 +1,6 @@
 import flask
 
-from backend.src.admin import setup_semester
-from backend.src.data import column_indexes
+from backend.src.admin import setup_semester, temp
 from backend.src.drive_commands import copy, create, move, remove, rename
 
 admin_api = flask.Blueprint('admin_api', __name__)
@@ -12,24 +11,9 @@ def api_test():
     """
     Throw away text connecting google drive api
     """
-    setup_semester.prepare_roster(spreadsheet='1SvUhsqnIiMwozc_toDCBpHWoeqNKQMrbTIseuIYF0-A',
-                                  filter_column_index=column_indexes.master['mt'],
-                                  filter_value='24')
-    # setup_semester.create_empty_folders()
-    # create.folder(folder_name='new folder')
-    # create.file(file_name='new document')
-    return 'Attempted to create'
-    # service = build_service()
-    # results = service.files().list(
-    #     pageSize=10, fields="nextPageToken, files(id, name)").execute()
-    # items = results.get('files', [])
-    # if not items:
-    #     return 'No files found.'
-    # else:
-    #     output = 'Files:'
-    #     for item in items:
-    #         output += f"{item['name']} {item['id']}"
-    #     return output
+    file_ids = setup_semester.create_empty_rosters(temp.folder_ids)
+    setup_semester.save_file_ids(file_ids)
+    return 'Did it save to the right file?'
 
 
 @admin_api.route('/copy/file', methods=['POST'])
