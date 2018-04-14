@@ -4,7 +4,7 @@ Setup the Google Drive for a new semester.
 import pprint
 from typing import Dict, Union
 
-from backend.src.data import column_indexes, file_ids, folder_ids
+from backend.src.data import column_indexes, file_ids, folder_ids, formulas
 from backend.src.drive_commands import copy, create
 from backend.src.sheets_commands import columns, display, formulas, sheet, validation
 
@@ -282,14 +282,7 @@ def prepare_roster(spreadsheet_id: str, *,
                         values=blank_participation)
 
     # add participation formula
-    def count_if(criterion: str) -> str:
-        return f'COUNTIF(I$:AA$, "{criterion}")'  # `$` replaced with row index
-
-    participation_formula = f'''=TO_PERCENT(IFERROR(
-            ({count_if("yes")} + {count_if("remote")} + {count_if("excused")}) / 
-            ({count_if("yes")} + {count_if("no")} + {count_if("remote")} + {count_if("excused")})
-            , ""))'''
-    participation_column = formulas.generate_adaptive_row_index(formula=participation_formula,
+    participation_column = formulas.generate_adaptive_row_index(formula=formulas.rosters['participation'],
                                                                 num_rows=len(blank_participation) + 10)
     sheet.update_values(spreadsheet_id=spreadsheet_id,
                         range_='B2:B',
