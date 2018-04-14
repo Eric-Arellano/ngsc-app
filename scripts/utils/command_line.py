@@ -20,7 +20,7 @@ def check_prereqs_installed() -> None:
 
 
 # -------------------------------------
-# Parser
+# Command line arguments
 # -------------------------------------
 
 def create_parser(command_map: CommandMap, *,
@@ -46,10 +46,6 @@ def create_parser(command_map: CommandMap, *,
     return parser
 
 
-# -------------------------------------
-# Execute command
-# -------------------------------------
-
 def execute_command(args: argparse.Namespace,
                     command_map: CommandMap) -> None:
     """
@@ -66,3 +62,35 @@ def execute_command(args: argparse.Namespace,
     del additional_arguments['command']
     # unpack additional arguments into function as named parameters
     func(**additional_arguments)
+
+
+# -------------------------------------
+# Interactive CLI
+# -------------------------------------
+
+def ask_yes_no(question: str, *, default: str = 'yes') -> bool:
+    """
+    Ask given prompt and expect Y or N as answer.
+    """
+    options = {'yes': True, 'y': True, 'ye': True,
+               'no': False, 'n': False}
+    # determine prompt
+    if default is None:
+        prompt = '[y/n]'
+    elif default == 'yes':
+        prompt = '[Y/n]'
+    elif default == 'no':
+        prompt = '[y/N]'
+    else:
+        raise ValueError(f'invalid default answer: {default}')
+    # ask prompt
+    print(f'{question} {prompt}')
+    # interpret result
+    choice = input().lower()
+    if default is not None and choice == '':
+        return options[default]
+    if choice in options:
+        return options[choice]
+    else:
+        print("Please respond with 'yes' or 'no' (or 'y' or 'n').\n")
+        ask_yes_no(question)

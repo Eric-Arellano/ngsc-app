@@ -15,14 +15,14 @@ import sys
 # path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
-from scripts.utils import venv, sys_calls, command_line_args
+from scripts.utils import venv, sys_calls, command_line
 
 
 def main() -> None:
-    parser = command_line_args.create_parser(command_map)
+    parser = command_line.create_parser(command_map)
     args = parser.parse_args()
     check_prereqs_installed()
-    command_line_args.execute_command(args, command_map)
+    command_line.execute_command(args, command_map)
 
 
 # -------------------------------------
@@ -33,7 +33,7 @@ def check_prereqs_installed() -> None:
     """
     Confirms all required software installed.
     """
-    command_line_args.check_prereqs_installed()
+    command_line.check_prereqs_installed()
     sys_calls.check_prereqs_installed()
     venv.check_prereqs_installed()
 
@@ -61,9 +61,9 @@ def test() -> None:
 # -------------------------------------
 # Command line options
 # -------------------------------------
-command_map = command_line_args.CommandMap({'test': test,
+command_map = command_line.CommandMap({'test': test,
                                             'types': check_types,
-                                            })
+                                       })
 
 # -------------------------------------
 # Run script

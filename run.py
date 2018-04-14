@@ -33,14 +33,14 @@ Usage:
 from typing import Callable, List
 
 from scripts import backend, deploy, frontend, scripts_test_runner, update_demographics
-from scripts.utils import command_line_args
+from scripts.utils import command_line
 
 
 def main() -> None:
-    parser = command_line_args.create_parser(command_map, accept_target_environment=True)
+    parser = command_line.create_parser(command_map, accept_target_environment=True)
     args = parser.parse_args()
     check_prereqs()
-    command_line_args.execute_command(args, command_map)
+    command_line.execute_command(args, command_map)
 
 
 # -------------------------------------
@@ -56,7 +56,7 @@ def check_prereqs() -> None:
     deploy.check_prereqs_installed()
     update_demographics.check_prereqs_installed()
     scripts_test_runner.check_prereqs_installed()
-    command_line_args.check_prereqs_installed()
+    command_line.check_prereqs_installed()
 
 
 # -------------------------------------

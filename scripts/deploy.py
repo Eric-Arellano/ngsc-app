@@ -9,21 +9,23 @@ import sys
 # path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
-from scripts.utils import heroku, git
+from scripts.utils import heroku, git, command_line
 
 
 def main() -> None:
     check_prereqs_installed()
     check_remote_added()
     check_logged_in()
-    resolve_git_issues()
-    deploy()
+    # resolve_git_issues()
+    confirm_code_quality()
+    # deploy()
 
 
 def check_prereqs_installed() -> None:
     """
     Confirms all required software installed.
     """
+    command_line.check_prereqs_installed()
     heroku.check_prereqs_installed()
     git.check_prereqs_installed()
 
@@ -54,6 +56,14 @@ def resolve_git_issues() -> None:
         git.checkout('master')
     git.fast_forward('origin', 'master')
     git.fast_forward('heroku', 'master')
+
+
+def confirm_code_quality() -> None:
+    """
+    Ask if they have confirmed the project is ready to deploy.
+    """
+    if not command_line.ask_yes_no('Have you tested the project adequately?'):
+        raise SystemExit('You should test the project before deploying.')
 
 
 def deploy() -> None:

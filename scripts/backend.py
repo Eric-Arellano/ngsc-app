@@ -30,14 +30,14 @@ from typing import List
 # path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
-from scripts.utils import prereq_checker, process_management, git, sys_calls, venv, command_line_args
+from scripts.utils import prereq_checker, process_management, git, sys_calls, venv, command_line
 
 
 def main() -> None:
-    parser = command_line_args.create_parser(command_map)
+    parser = command_line.create_parser(command_map)
     args = parser.parse_args()
     check_prereqs()
-    command_line_args.execute_command(args, command_map)
+    command_line.execute_command(args, command_map)
 
 
 # -------------------------------------
@@ -50,7 +50,7 @@ def check_prereqs() -> None:
     """
     prereq_checker.check_is_installed(['python3'], windows_support=False)
     prereq_checker.check_is_installed(['python'], posix_support=False)
-    command_line_args.check_prereqs_installed()
+    command_line.check_prereqs_installed()
     process_management.check_prereqs_installed()
     git.check_prereqs_installed()
     sys_calls.check_prereqs_installed()
@@ -213,7 +213,7 @@ def remove(dependencies: List[Dependency]) -> None:
 # -------------------------------------
 # Command line options
 # -------------------------------------
-command_map = command_line_args.CommandMap({'run': run,
+command_map = command_line.CommandMap({'run': run,
                                             'detached': run_detached,
                                             'stop': stop,
                                             'install': install,
@@ -221,12 +221,12 @@ command_map = command_line_args.CommandMap({'run': run,
                                             'catchup': catchup,
                                             'test': test,
                                             'types': check_types,
-                                            'outdated': list_outdated,
-                                            'deptree': dependency_tree,
-                                            'add': add,
-                                            'upgrade': upgrade,
-                                            'remove': remove
-                                            })
+                                       'outdated': list_outdated,
+                                       'deptree': dependency_tree,
+                                       'add': add,
+                                       'upgrade': upgrade,
+                                       'remove': remove
+                                       })
 
 # -------------------------------------
 # Run script
