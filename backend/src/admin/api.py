@@ -1,6 +1,6 @@
 import flask
 
-from backend.src.admin import setup_semester, temp
+from backend.src.admin import setup_semester
 from backend.src.drive_commands import copy, create, move, remove, rename
 
 admin_api = flask.Blueprint('admin_api', __name__)
@@ -11,8 +11,7 @@ def api_test():
     """
     Throw away text connecting google drive api
     """
-    file_ids = setup_semester.create_empty_rosters(temp.folder_ids)
-    setup_semester.save_file_ids(file_ids)
+    setup_semester.setup_semester()
     return 'Did it save to the right file?'
 
 

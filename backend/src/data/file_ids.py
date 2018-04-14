@@ -1,5 +1,18 @@
 master = '1gtsVgj8NeSdOGKd8HHRSNHjOTRDXJVls-Xw-gvoRONI'
-engagement = '1U_YR0McviIfa7wqu7_DBEPDUdWjcaJzkzjQlSqV9lqE'
+schedule = '1fk23kv3YeJ2k6iwg55UuK_VARy-_rPoXOZ_RRQFb1Ec'
+
+templates = {
+    'rsvp': '1tV8zJuB11UWDUOXT5WY7bjY-N919QXrMqJ7PY4mFloo',
+    'initial_meeting': '1WVmRCObwuADDEx24qRN4lCWmdIy5IExVbIOG1TvBIoQ',
+    'event_proposal': '1H4u7GQiG4qTXSCgjxc8_F3HbjX1Oh5ucIlUFRTydU5M',
+    'ols_cancel_rsvp': '1LCuc2bgvIIvW5iv8424hXn-05gOnF1hMpUK3nYTaRLE'
+}
+
+participation = {
+    'no_shows': '1qQucivtsqXo5yZqHfH0efMOue65rV_U54jWAnCqZerk',
+    'engagement': '1U_YR0McviIfa7wqu7_DBEPDUdWjcaJzkzjQlSqV9lqE',
+    'all_students': '1JvLFr_2_vxFHgtz7w9Jt3lpsUSsEKPYaLhbUfpHj6Uw'
+}
 
 mission_team_attendance = {
     "1": "1ewBlXaJRgdfXIetHk__2IvZ12Xz7Dp2LNPf6V-u5fEU",

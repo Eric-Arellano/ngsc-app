@@ -5,7 +5,7 @@ import pprint
 from typing import Dict, Union
 
 from backend.src.data import column_indexes, file_ids, folder_ids
-from backend.src.drive_commands import create
+from backend.src.drive_commands import copy, create
 from backend.src.sheets_commands import columns, display, formulas, sheet, validation
 
 
@@ -19,7 +19,7 @@ def setup_semester() -> None:
     save_file_ids({**roster_ids, **important_files})
     # prepare files
     prepare_all_rosters(roster_ids)
-    update_master_links()
+    # update_master_links()
     # return remaining steps
 
 
@@ -141,7 +141,52 @@ def copy_important_files(folder_id_map: IdMap) -> IdMap:
     """
     Copy the Master, schedule, all-student attendance, no shows, & templates.
     """
-    raise NotImplementedError
+    id_map = {}
+    # master
+    master = copy.file(origin_file_id=file_ids.master,
+                       parent_folder_id=folder_id_map['semester_root'],
+                       copy_name='Master - Fall 2018')
+    id_map['master'] = master
+    # schedule
+    schedule = copy.file(origin_file_id=file_ids.schedule,
+                         parent_folder_id=folder_id_map['semester_root'],
+                         copy_name='Schedule - Fall 2018')
+    id_map['schedule'] = schedule
+    # participation   TODO: copying the spreadsheet doesn't copy form. Will have to manually link form?
+    engagement = copy.file(origin_file_id=file_ids.participation['engagement'],
+                           parent_folder_id=folder_id_map['all_students']['participation'],
+                           copy_name='Engagement - Fall 2018')
+    no_shows = copy.file(origin_file_id=file_ids.participation['no_shows'],
+                         parent_folder_id=folder_id_map['all_students']['participation'],
+                         copy_name='No Shows - Fall 2018')
+    all_students = copy.file(origin_file_id=file_ids.participation['all_students'],
+                             parent_folder_id=folder_id_map['all_students']['participation'],
+                             copy_name='All Students - Fall 2018')
+    id_map['participation'] = {
+        'all_students': all_students,
+        'engagement': engagement,
+        'no_shows': no_shows
+    }
+    # templates
+    rsvp = copy.file(origin_file_id=file_ids.templates['rsvp'],
+                     parent_folder_id=folder_id_map['templates'],
+                     copy_name='RSVP Template')
+    initial_meeting = copy.file(origin_file_id=file_ids.templates['initial_meeting'],
+                                parent_folder_id=folder_id_map['templates'],
+                                copy_name='Initial meeting template')
+    event_proposal = copy.file(origin_file_id=file_ids.templates['event_proposal'],
+                               parent_folder_id=folder_id_map['templates'],
+                               copy_name='Event proposal template')
+    ols_cancel_rsvp = copy.file(origin_file_id=file_ids.templates['ols_cancel_rsvp'],
+                                parent_folder_id=folder_id_map['templates'],
+                                copy_name='OLS cancel RSVP template')
+    id_map['templates'] = {
+        'rsvp': rsvp,
+        'initial_meeting': initial_meeting,
+        'event_proposal': event_proposal,
+        'ols_cancel_rsvp': ols_cancel_rsvp
+    }
+    return id_map
 
 
 # ------------------------------------------------------------------
@@ -153,7 +198,7 @@ def save_folder_ids(ids: IdMap) -> None:
     Write the given folder IDs to the file `data/folder_ids.py`.
     """
     output = _format_id_output(ids)
-    with open('backend/src/data/folder_ids_test.py', 'w') as file:
+    with open('backend/src/data/folder_ids_new.py', 'w') as file:
         file.writelines(output)
 
 
@@ -162,7 +207,7 @@ def save_file_ids(ids: IdMap) -> None:
     Write the given file IDs to the file `data/file_ids.py`.
     """
     output = _format_id_output(ids)
-    with open('backend/src/data/file_ids_test.py', 'w') as file:
+    with open('backend/src/data/file_ids_new.py', 'w') as file:
         file.writelines(output)
 
 
@@ -173,7 +218,7 @@ def _format_id_output(ids: IdMap) -> str:
     variable_syntax = [f'{k} = \'{v}\'' if isinstance(v, str)
                        else f'{k} = {pprint.pformat(v)}'
                        for k, v in ids.items()]
-    return "\n\n".join(variable_syntax)
+    return '\n\n'.join(variable_syntax)
 
 
 # ------------------------------------------------------------------
