@@ -1,26 +1,61 @@
+#!/usr/bin/env python3.6
+
 """
-Setup the Google Drive for a new semester.
+CLI script to setup the Google Drive for a new semester.
+
+Should be run locally, not on the server.
 """
+import os
+import sys
+from pathlib import Path
+
+# path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
+current_file_path = Path(os.path.realpath(__file__))
+sys.path.append(str(current_file_path.parents[1]))
+sys.path.append(str(current_file_path.parents[3]))
+
 import pprint
+import re
 from typing import Dict, Union
 
+from scripts.utils import command_line
 from backend.src.data import column_indexes, file_ids, folder_ids, formulas
 from backend.src.drive_commands import copy, create
 from backend.src.sheets_commands import columns, display, formulas, sheet, validation
 
 
-def setup_semester() -> None:
-    # create resources
-    folder_id_map = create_empty_folders()
-    roster_ids = create_empty_rosters(folder_id_map)
-    important_files = copy_important_files(folder_id_map)
-    # save to hardcoded files
-    save_folder_ids(folder_id_map)
-    save_file_ids({**roster_ids, **important_files})
-    # prepare files
-    prepare_all_rosters(roster_ids)
-    # update_master_links()
-    # return remaining steps
+def main() -> None:
+    semester = ask_semester_target()
+    # command_line.ask_yes_no('Can you hear me?!?')
+    # # create resources
+    # folder_id_map = create_empty_folders()
+    # roster_ids = create_empty_rosters(folder_id_map)
+    # important_files = copy_important_files(folder_id_map)
+    # # save to hardcoded files
+    # save_folder_ids(folder_id_map)
+    # save_file_ids({**roster_ids, **important_files})
+    # # prepare files
+    # prepare_all_rosters(roster_ids)
+    # # update_master_links()
+    # # return remaining steps
+
+
+def ask_semester_target() -> str:
+    """
+    Ask CLI user for the target semester in correct format, e.g. 'Spring 2018'.
+    """
+
+    def is_valid_semester(answer: str) -> bool:
+        words = answer.split()
+        if len(words) != 2:
+            return False
+        prefix_is_semester = words[0] == 'Fall' or words[0] == 'Spring'
+        postfix_is_year = bool(re.match('^(20)\d{2}$', words[1]))
+        return prefix_is_semester and postfix_is_year
+
+    return command_line.ask_input(
+            'What semester are you creating this for?\nEnter in the format \'Spring 2018\', \'Fall 2019\'.',
+            is_valid=is_valid_semester)
 
 
 # ------------------------------------------------------------------
@@ -323,3 +358,11 @@ def add_permissions() -> None:
     Share folders within student leadership.
     """
     raise NotImplementedError
+
+
+# -------------------------------------
+# Run script
+# -------------------------------------
+
+if __name__ == '__main__':
+    main()

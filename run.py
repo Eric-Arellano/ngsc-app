@@ -33,7 +33,7 @@ Usage:
 from typing import Callable, List
 
 from scripts import backend, deploy, frontend, scripts_test_runner, update_demographics
-from scripts.utils import command_line
+from scripts.utils import command_line, sys_calls, venv
 
 
 def main() -> None:
@@ -267,6 +267,17 @@ def update_student_info(target: Target = 'all') -> None:
                                   all_action=update_demographics.main)
 
 
+def setup_semester(target: Target = 'all') -> None:
+    """
+    Create the new Google Drive for upcoming semester, e.g. preparing rosters and copying files.
+    """
+    venv.activate()
+    execute_on_target_environment(target,
+                                  all_action=lambda: (
+                                      sys_calls.run_python(['./backend/src/admin/setup_semester_script.py'])
+                                  ))
+
+
 # -------------------------------------
 # Command line options
 # -------------------------------------
@@ -283,7 +294,8 @@ command_map = {'run': run,
                'upgrade': upgrade,
                'remove': remove,
                'deploy': deploy_to_heroku,
-               'student-info': update_student_info
+               'student-info': update_student_info,
+               'setup-semester': setup_semester
                }
 
 # -------------------------------------

@@ -1,6 +1,5 @@
 import flask
 
-from backend.src.admin import setup_semester
 from backend.src.drive_commands import copy, create, move, remove, rename
 
 admin_api = flask.Blueprint('admin_api', __name__)
@@ -11,8 +10,7 @@ def api_test():
     """
     Throw away text connecting google drive api
     """
-    setup_semester.setup_semester()
-    return 'Did it save to the right file?'
+    return 'Testing admin api'
 
 
 @admin_api.route('/copy/file', methods=['POST'])
