@@ -68,6 +68,18 @@ def execute_command(args: argparse.Namespace,
 # Interactive CLI
 # -------------------------------------
 
+def ask_input(prompt: str, *, is_valid: Callable[[str], bool] = None) -> str:
+    """
+
+    """
+    print(prompt)
+    result = input()
+    if is_valid is not None and not is_valid(result):
+        print('Invalid input.\n')
+        ask_input(prompt, is_valid=is_valid)
+    return result
+
+
 def ask_yes_no(question: str, *, default: str = 'yes') -> bool:
     """
     Ask given prompt and expect Y or N as answer.
