@@ -1,4 +1,4 @@
-ngsc_root = ""
+ngsc_root = "0B4Ek7KKF4u8EMFJNN0duXzcxZXM"
 semester_root = ""
 
 drive_playground = "1QOsOQq3FMYfpXau6v3ubem5wrC97yWwo"

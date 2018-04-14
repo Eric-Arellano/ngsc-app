@@ -16,29 +16,39 @@ sys.path.append(str(current_file_path.parents[3]))
 
 import pprint
 import re
-from typing import Dict, Union
+import functools
+from typing import Dict, Union, Callable, Any
 
 from scripts.utils import command_line
-from backend.src.data import column_indexes, file_ids, folder_ids, formulas
+from backend.src.data import column_indexes, file_ids, folder_ids, sheet_formulas
 from backend.src.drive_commands import copy, create
 from backend.src.sheets_commands import columns, display, formulas, sheet, validation
+
+Semester = str
+ResourceID = str
+IdMap = Dict[str, Union[ResourceID, Dict[str, ResourceID]]]
 
 
 def main() -> None:
     semester = ask_semester_target()
-    # command_line.ask_yes_no('Can you hear me?!?')
-    # # create resources
-    # folder_id_map = create_empty_folders()
-    # roster_ids = create_empty_rosters(folder_id_map)
-    # important_files = copy_important_files(folder_id_map)
-    # # save to hardcoded files
-    # save_folder_ids(folder_id_map)
-    # save_file_ids({**roster_ids, **important_files})
-    # # prepare files
-    # prepare_all_rosters(roster_ids)
-    # # update_master_links()
-    # # return remaining steps
+    # create resources
+    folder_id_map = create_empty_folders(semester)
+    roster_ids = create_empty_rosters(folder_id_map, semester)
+    important_files = copy_important_files(folder_id_map, semester)
+    file_id_map = {**roster_ids, **important_files}
+    # save to hardcoded files
+    save_folder_ids(folder_id_map)
+    save_file_ids(file_id_map)
+    # prepare files
+    prepare_all_rosters(file_id_map)
+    # update_master_formulas()
+    # remaining steps
+    print_remaining_steps()
 
+
+# ------------------------------------------------------------------
+# Script helpers
+# ------------------------------------------------------------------
 
 def ask_semester_target() -> str:
     """
@@ -58,15 +68,32 @@ def ask_semester_target() -> str:
             is_valid=is_valid_semester)
 
 
+def print_remaining_steps() -> None:
+    pass
+
+
+def log(*, start_message: str = None, end_message: str = None) -> Callable[[Any], Any]:
+    def decorate(func: Callable[[Any], Any]):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            if start_message is not None:
+                print(start_message)
+            result = func(*args, **kwargs)
+            if end_message is not None:
+                print(end_message)
+            return result
+
+        return wrapper
+
+    return decorate
+
+
 # ------------------------------------------------------------------
 # Create resources
 # ------------------------------------------------------------------
 
-ResourceID = str
-IdMap = Dict[str, Union[ResourceID, Dict[str, ResourceID]]]
-
-
-def create_empty_folders() -> IdMap:
+@log(start_message='Creating empty folders.', end_message='Empty folders created\n')
+def create_empty_folders(semester: Semester) -> IdMap:
     """
     Set up the folder structure and return their IDs.
     """
@@ -76,7 +103,7 @@ def create_empty_folders() -> IdMap:
         'drive_playground': folder_ids.drive_playground
     }
     # Semester root
-    root = create.folder('Spring 2018')
+    root = create.folder(semester)
     id_map['semester_root'] = root
     # Templates
     templates = create.folder('Templates', parent_folder_id=root)
@@ -149,7 +176,8 @@ def create_empty_folders() -> IdMap:
     return id_map
 
 
-def create_empty_rosters(folder_id_map: IdMap) -> IdMap:
+@log(start_message='Creating empty rosters.', end_message='Empty rosters created\n')
+def create_empty_rosters(folder_id_map: IdMap, semester: Semester) -> IdMap:
     """
     Create the roster spreadsheets (not set up) and save their IDs.
     """
@@ -159,20 +187,21 @@ def create_empty_rosters(folder_id_map: IdMap) -> IdMap:
     }
     # Committee rosters
     for committee, committee_folder_id in folder_id_map['committees'].items():
-        committee_roster_id = create.file(file_name=f'Attendance - {committee} - Fall 2018',
+        committee_roster_id = create.file(file_name=f'Attendance - {committee} - {semester}',
                                           mime_type='spreadsheet',
                                           parent_folder_id=committee_folder_id)
         id_map['committee_attendance'][committee] = committee_roster_id
     # Mission team rosters
     for mt_number, mt_folder_id in folder_id_map['mission_teams'].items():
-        mt_roster_id = create.file(file_name=f'Attendance - Mission Team {mt_number} - Fall 2018',
+        mt_roster_id = create.file(file_name=f'Attendance - Mission Team {mt_number} - {semester}',
                                    mime_type='spreadsheet',
                                    parent_folder_id=mt_folder_id)
         id_map['mission_team_attendance'][mt_number] = mt_roster_id
     return id_map
 
 
-def copy_important_files(folder_id_map: IdMap) -> IdMap:
+@log(start_message='Copying important files.', end_message='Important files copied.\n')
+def copy_important_files(folder_id_map: IdMap, semester: Semester) -> IdMap:
     """
     Copy the Master, schedule, all-student attendance, no shows, & templates.
     """
@@ -180,23 +209,25 @@ def copy_important_files(folder_id_map: IdMap) -> IdMap:
     # master
     master = copy.file(origin_file_id=file_ids.master,
                        parent_folder_id=folder_id_map['semester_root'],
-                       copy_name='Master - Fall 2018')
+                       copy_name=f'Master - {semester}')
     id_map['master'] = master
     # schedule
     schedule = copy.file(origin_file_id=file_ids.schedule,
                          parent_folder_id=folder_id_map['semester_root'],
-                         copy_name='Schedule - Fall 2018')
+                         copy_name=f'Schedule - {semester}')
     id_map['schedule'] = schedule
-    # participation   TODO: copying the spreadsheet doesn't copy form. Will have to manually link form?
+    # participation
+    # TODO: copying the spreadsheet will also copy the form, but form will stay in original parent w/ name 'Copy of x'.
+    # TODO: Must find the copied form, rename it, and move to new parent.
     engagement = copy.file(origin_file_id=file_ids.participation['engagement'],
                            parent_folder_id=folder_id_map['all_students']['participation'],
-                           copy_name='Engagement - Fall 2018')
+                           copy_name=f'Engagement - {semester}')
     no_shows = copy.file(origin_file_id=file_ids.participation['no_shows'],
                          parent_folder_id=folder_id_map['all_students']['participation'],
-                         copy_name='No Shows - Fall 2018')
+                         copy_name=f'No Shows - {semester}')
     all_students = copy.file(origin_file_id=file_ids.participation['all_students'],
                              parent_folder_id=folder_id_map['all_students']['participation'],
-                             copy_name='All Students - Fall 2018')
+                             copy_name=f'All Students - {semester}')
     id_map['participation'] = {
         'all_students': all_students,
         'engagement': engagement,
@@ -228,6 +259,7 @@ def copy_important_files(folder_id_map: IdMap) -> IdMap:
 # Save IDs to hardcoded files.
 # ------------------------------------------------------------------
 
+@log(end_message='Folder IDs saved to `backend/src/data/folder_ids_new.py`\n')
 def save_folder_ids(ids: IdMap) -> None:
     """
     Write the given folder IDs to the file `data/folder_ids.py`.
@@ -237,6 +269,7 @@ def save_folder_ids(ids: IdMap) -> None:
         file.writelines(output)
 
 
+@log(end_message='File IDs saved to `backend/src/data/file_ids_new.py`\n')
 def save_file_ids(ids: IdMap) -> None:
     """
     Write the given file IDs to the file `data/file_ids.py`.
@@ -260,6 +293,7 @@ def _format_id_output(ids: IdMap) -> str:
 # Prepare rosters
 # ------------------------------------------------------------------
 
+@log(start_message='Setting up rosters.', end_message='Rosters set up.\n')
 def prepare_all_rosters(file_id_map: IdMap) -> None:
     """
     Setup every roster with data and formatting.
@@ -317,7 +351,7 @@ def prepare_roster(spreadsheet_id: str, *,
                         values=blank_participation)
 
     # add participation formula
-    participation_column = formulas.generate_adaptive_row_index(formula=formulas.rosters['participation'],
+    participation_column = formulas.generate_adaptive_row_index(formula=sheet_formulas.rosters['participation'],
                                                                 num_rows=len(blank_participation) + 10)
     sheet.update_values(spreadsheet_id=spreadsheet_id,
                         range_='B2:B',
@@ -342,7 +376,8 @@ def prepare_roster(spreadsheet_id: str, *,
 # Update important files like Master
 # ------------------------------------------------------------------
 
-def update_master_links() -> None:
+@log(start_message='Updating formulas in Master.', end_message='Master formulas updated.\n')
+def update_master_formulas() -> None:
     """
     Link master to all of the rosters and attendance sheets.
     """
@@ -353,6 +388,7 @@ def update_master_links() -> None:
 # Share & add permissions
 # ------------------------------------------------------------------
 
+@log(start_message='Adding permissions to folders & sharing.', end_message='Master formulas updated.\n')
 def add_permissions() -> None:
     """
     Share folders within student leadership.
