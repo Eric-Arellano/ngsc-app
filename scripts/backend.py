@@ -25,11 +25,13 @@ Usage:
 
 import os
 import sys
-from typing import List
+from pathlib import Path
 
 # path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
-sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+current_file_path = Path(os.path.realpath(__file__))
+sys.path.append(str(current_file_path.parents[1]))
 
+from typing import List
 from scripts.utils import prereq_checker, process_management, git, sys_calls, venv, command_line
 
 
@@ -214,13 +216,13 @@ def remove(dependencies: List[Dependency]) -> None:
 # Command line options
 # -------------------------------------
 command_map = command_line.CommandMap({'run': run,
-                                            'detached': run_detached,
-                                            'stop': stop,
-                                            'install': install,
-                                            'reinstall': reinstall,
-                                            'catchup': catchup,
-                                            'test': test,
-                                            'types': check_types,
+                                       'detached': run_detached,
+                                       'stop': stop,
+                                       'install': install,
+                                       'reinstall': reinstall,
+                                       'catchup': catchup,
+                                       'test': test,
+                                       'types': check_types,
                                        'outdated': list_outdated,
                                        'deptree': dependency_tree,
                                        'add': add,

@@ -5,9 +5,11 @@ Utility to deploy app to GitHub and Heroku.
 """
 import os
 import sys
+from pathlib import Path
 
 # path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
-sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+current_file_path = Path(os.path.realpath(__file__))
+sys.path.append(str(current_file_path.parents[1]))
 
 from scripts.utils import heroku, git, command_line
 
