@@ -8,6 +8,38 @@ from backend.src.google_apis import drive_api
 FileID = str
 
 
+def gdoc(file_name: str, *,
+         parent_folder_id: FileID = folder_ids.drive_playground) -> FileID:
+    """
+    Create an empty file.
+    """
+    return _create_resource(name=file_name, mime_type='document', parent_folder_id=parent_folder_id)
+
+
+def gsheet(file_name: str, *,
+           parent_folder_id: FileID = folder_ids.drive_playground) -> FileID:
+    """
+    Create an empty file.
+    """
+    return _create_resource(name=file_name, mime_type='spreadsheet', parent_folder_id=parent_folder_id)
+
+
+def gslides(file_name: str, *,
+            parent_folder_id: FileID = folder_ids.drive_playground) -> FileID:
+    """
+    Create an empty file.
+    """
+    return _create_resource(name=file_name, mime_type='presentation', parent_folder_id=parent_folder_id)
+
+
+def gform(file_name: str, *,
+          parent_folder_id: FileID = folder_ids.drive_playground) -> FileID:
+    """
+    Create an empty file.
+    """
+    return _create_resource(name=file_name, mime_type='form', parent_folder_id=parent_folder_id)
+
+
 def file(file_name: str, *,
          mime_type: str,
          parent_folder_id: FileID = folder_ids.drive_playground) -> FileID:
