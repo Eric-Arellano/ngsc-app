@@ -1,10 +1,10 @@
-from typing import Any, List
+from backend.src.sheets_commands import sheet
 
 
 def generate_adaptive_row_index(*,
                                 formula: str,
                                 num_rows: int,
-                                row_index_offset: int = 2) -> List[Any]:
+                                row_index_offset: int = 2) -> sheet.Column:
     """
     Generate column with the given formula, replacing every `$` with the current row index.
     """

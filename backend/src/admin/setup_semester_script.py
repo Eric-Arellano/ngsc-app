@@ -340,7 +340,6 @@ def prepare_roster(spreadsheet_id: str, *,
     # add participation formula
     participation_column = formulas.generate_adaptive_row_index(formula=sheet_formulas.rosters['participation'],
                                                                 num_rows=len(with_additional_rows))
-    pprint.pprint(participation_column)
     with_participation = columns.add(all_cells=with_additional_rows, column=participation_column, target_index=1)
     # add header row
     headers = [['ASUrite',
@@ -353,7 +352,6 @@ def prepare_roster(spreadsheet_id: str, *,
                 'Cohort',
                 'Ex: 9/12']]
     with_headers = headers + with_participation
-    print(with_headers[2][1])
     # add attendance dropdown
     attendance_options = ['yes', 'no', 'remote', 'excused']
     dropdown_request = validation.dropdown_options_request(options=attendance_options,
@@ -368,7 +366,7 @@ def prepare_roster(spreadsheet_id: str, *,
     resize_request = display.auto_resize_request()
     colors_request = display.alternating_colors_request()
     # send API requests
-    sheet.update_values(spreadsheet_id,  # TODO: crashing because of formula
+    sheet.update_values(spreadsheet_id,
                         range_='A1:Z',
                         values=with_headers)
     sheet.batch_update(spreadsheet_id, [dropdown_request,

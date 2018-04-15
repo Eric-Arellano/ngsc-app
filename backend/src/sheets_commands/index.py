@@ -4,7 +4,7 @@ from typing import Optional
 from backend.src.sheets_commands import sheet
 
 
-def get_numeric(spreadsheet_id: str, column_name: str) -> Optional[int]:
+def get_numeric(spreadsheet_id: sheet.ID, column_name: str) -> Optional[int]:
     """
     Searches for given column name and returns list index, e.g. '0' or '3'.
     """
@@ -18,7 +18,7 @@ def get_numeric(spreadsheet_id: str, column_name: str) -> Optional[int]:
         return column_index
 
 
-def get_letter(spreadsheet_id: str, column_name: str) -> Optional[str]:
+def get_letter(spreadsheet_id: sheet.ID, column_name: str) -> Optional[str]:
     """
     Searches for given column name and returns Google Sheet index, e.g. 'A' or 'C'.
     """

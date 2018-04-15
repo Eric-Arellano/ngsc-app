@@ -1,10 +1,11 @@
-from typing import Any, Dict, List, Union
+from typing import Dict, List
 
-Cell = Union[str, int, float]
+from backend.src.sheets_commands import sheet
+
 
 def select(*,
-           all_cells: List[List[Any]],
-           target_indexes: List[int]) -> List[List[Any]]:
+           all_cells: sheet.Grid,
+           target_indexes: List[int]) -> sheet.Grid:
     """
     Given all cells, return only the specified columns.
     """
@@ -14,8 +15,8 @@ def select(*,
 
 
 def remove(*,
-           all_cells: List[List[Any]],
-           target_indexes: List[int]) -> List[List[Any]]:
+           all_cells: sheet.Grid,
+           target_indexes: List[int]) -> sheet.Grid:
     """
     Remove columns from cells.
     """
@@ -25,9 +26,9 @@ def remove(*,
 
 
 def add(*,
-        all_cells: List[List[Cell]],
-        column: List[Cell],
-        target_index: int) -> List[List[Any]]:
+        all_cells: sheet.Grid,
+        column: sheet.Column,
+        target_index: int) -> sheet.Grid:
     """
     Add the provided column at specified index.
     """
@@ -36,8 +37,8 @@ def add(*,
 
 
 def add_blank(*,
-              all_cells: List[List[Any]],
-              target_index: int) -> List[List[Any]]:
+              all_cells: sheet.Grid,
+              target_index: int) -> sheet.Grid:
     """
     Add blank column at specified index.
     """
@@ -46,8 +47,8 @@ def add_blank(*,
 
 
 def reorder(*,
-            all_cells: List[List[Any]],
-            new_order: List[Any]) -> List[List[Any]]:
+            all_cells: sheet.Grid,
+            new_order: List[int]) -> sheet.Grid:
     """
     Reorder to the specified order.
     """
@@ -56,9 +57,9 @@ def reorder(*,
 
 
 def filter_by_cell(*,
-                   all_cells: List[List[Any]],
+                   all_cells: sheet.Grid,
                    target_index: int,
-                   target_value: str) -> List[List[Any]]:
+                   target_value: sheet.Cell) -> sheet.Grid:
     """
     Filter out rows without the target value for specified column. Does not modify rows.
     """
@@ -68,10 +69,10 @@ def filter_by_cell(*,
 
 def update(*,
            updated_values: Dict[str, str],
-           all_cells: List[List[Any]],
+           all_cells: sheet.Grid,
            key_index: int,
            target_index: int,
-           overwrite: bool) -> List[List[Any]]:
+           overwrite: bool) -> sheet.Grid:
     """
     Generate an updated list for the entire column, optionally overwriting values.
     """
@@ -84,12 +85,3 @@ def update(*,
                  else row[target_index]]  # else use original
                 for row in all_cells]
 
-
-def generate(*,
-             initial_value: str = "",
-             num_rows: int,
-             num_columns: int = 1):
-    """
-    Generate new grid with the given initial value.
-    """
-    return [[initial_value] * num_columns] * num_rows

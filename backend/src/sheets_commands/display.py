@@ -5,7 +5,7 @@ from backend.src.sheets_commands import sheet
 # Commands (immediate execution)
 # ---------------------------------------------------------------------
 
-def hide_columns(spreadsheet_id: str, *,
+def hide_columns(spreadsheet_id: sheet.ID, *,
                  start_index: int,
                  end_index: int,
                  hidden: bool = True,
@@ -17,7 +17,7 @@ def hide_columns(spreadsheet_id: str, *,
     sheet.batch_update(spreadsheet_id, [request])
 
 
-def freeze(spreadsheet_id: str, *,
+def freeze(spreadsheet_id: sheet.ID, *,
            num_rows: int = 0,
            num_columns: int = 0,
            sheet_id: str = '0') -> None:
@@ -28,7 +28,7 @@ def freeze(spreadsheet_id: str, *,
     sheet.batch_update(spreadsheet_id, [request])
 
 
-def auto_resize(spreadsheet_id: str, *,
+def auto_resize(spreadsheet_id: sheet.ID, *,
                 start_index: int = 0,
                 end_index: int = 20,
                 sheet_id: str = '0') -> None:
@@ -39,7 +39,7 @@ def auto_resize(spreadsheet_id: str, *,
     sheet.batch_update(spreadsheet_id, [request])
 
 
-def alternating_colors(spreadsheet_id: str,
+def alternating_colors(spreadsheet_id: sheet.ID,
                        sheet_id: str = '0') -> None:
     """
     Add alternating colors, with special header coloring.

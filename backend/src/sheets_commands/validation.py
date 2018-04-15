@@ -8,13 +8,13 @@ from backend.src.sheets_commands import sheet
 # ---------------------------------------------------------------------
 
 def dropdown_options(*,
-                     spreadsheet_id: str,
+                     spreadsheet_id: sheet.ID,
                      options: List[str],
                      row_start_index: int,
                      row_end_index: int,
                      column_start_index: int,
                      column_end_index: int,
-                     sheet_id: str = '0') -> None:
+                     tab_id: str = '0') -> None:
     """
     Add dropdown data validation - must be a member of the list.
     """
@@ -23,7 +23,7 @@ def dropdown_options(*,
                                        row_end_index=row_end_index,
                                        column_start_index=column_start_index,
                                        column_end_index=column_end_index,
-                                       sheet_id=sheet_id)
+                                       tab_id=tab_id)
     sheet.batch_update(spreadsheet_id, [request])
 
 
@@ -37,7 +37,7 @@ def dropdown_options_request(*,
                              row_end_index: int,
                              column_start_index: int,
                              column_end_index: int,
-                             sheet_id: str = '0') -> sheet.BatchRequest:
+                             tab_id: str = '0') -> sheet.BatchRequest:
     """
     Add dropdown data validation - must be a member of the list.
     """
@@ -45,7 +45,7 @@ def dropdown_options_request(*,
     return {
         'setDataValidation': {
             'range': {
-                'sheetId': sheet_id,
+                'sheetId': tab_id,
                 'startRowIndex': row_start_index,
                 'endRowIndex': row_end_index,
                 'startColumnIndex': column_start_index,

@@ -1,11 +1,19 @@
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Union
 
 from backend.src.google_apis import sheets_api
 
+ID = str
+Range = str
+
 BatchRequest = Dict[str, Any]
 
+Cell = Union[str, int, float]
+Row = List[Cell]
+Column = List[Cell]
+Grid = List[Column]  # nested list of rows, each made up of column cells
 
-def batch_update(spreadsheet_id: str, requests: List[BatchRequest]) -> None:
+
+def batch_update(spreadsheet_id: ID, requests: List[BatchRequest]) -> None:
     """
     Perform an operation on the spreadsheet.
     """
@@ -18,7 +26,7 @@ def batch_update(spreadsheet_id: str, requests: List[BatchRequest]) -> None:
         .execute()
 
 
-def get_values(spreadsheet_id: str, range_: str) -> List[List[Any]]:
+def get_values(spreadsheet_id: ID, range_: Range) -> Grid:
     """
     Query spreadsheet from provided range and return its values.
     """
@@ -32,9 +40,9 @@ def get_values(spreadsheet_id: str, range_: str) -> List[List[Any]]:
     return result.get('values', [])
 
 
-def update_values(spreadsheet_id: str, *,
-                  range_: str,
-                  values: List[List[Any]],
+def update_values(spreadsheet_id: ID, *,
+                  range_: Range,
+                  values: Grid,
                   raw: bool = False) -> None:
     """
     Update range with given values.
@@ -50,3 +58,13 @@ def update_values(spreadsheet_id: str, *,
             valueInputOption=input_mode,
             body=body) \
         .execute()
+
+
+def generate(*,
+             initial_value: str = "",
+             num_rows: int,
+             num_columns: int = 1) -> Grid:
+    """
+    Generate new grid with the given initial value.
+    """
+    return [[initial_value] * num_columns] * num_rows
