@@ -22,11 +22,12 @@ from typing import Dict, Union, Callable, Any
 from scripts.utils import command_line
 from backend.src.data import column_indexes, file_ids, folder_ids, sheet_formulas
 from backend.src.drive_commands import copy, create
-from backend.src.sheets_commands import columns, display, formulas, sheet, validation, rows
+from backend.src.sheets_commands import columns, display, formulas, sheet, validation, rows, tab
 
 Semester = str
 ResourceID = str
-IdMap = Dict[str, Union[ResourceID, Dict[str, ResourceID]]]
+Key = Union[str, int]
+IdMap = Dict[Key, Union[ResourceID, Dict[Key, ResourceID]]]
 
 
 def main() -> None:
@@ -39,6 +40,7 @@ def main() -> None:
     # save to hardcoded files
     save_folder_ids(folder_id_map)
     save_file_ids(file_id_map)
+    # clear old data
     # prepare files
     prepare_all_rosters(file_id_map)
     # update_master_formulas()
@@ -187,15 +189,13 @@ def create_empty_rosters(folder_id_map: IdMap, semester: Semester) -> IdMap:
     }
     # Committee rosters
     for committee, committee_folder_id in folder_id_map['committees'].items():
-        committee_roster_id = create.file(file_name=f'Attendance - {committee} - {semester}',
-                                          mime_type='spreadsheet',
-                                          parent_folder_id=committee_folder_id)
+        committee_roster_id = create.gsheet(file_name=f'Attendance - {committee} - {semester}',
+                                            parent_folder_id=committee_folder_id)
         id_map['committee_attendance'][committee] = committee_roster_id
     # Mission team rosters
     for mt_number, mt_folder_id in folder_id_map['mission_teams'].items():
-        mt_roster_id = create.file(file_name=f'Attendance - Mission Team {mt_number} - {semester}',
-                                   mime_type='spreadsheet',
-                                   parent_folder_id=mt_folder_id)
+        mt_roster_id = create.gsheet(file_name=f'Attendance - Mission Team {mt_number} - {semester}',
+                                     parent_folder_id=mt_folder_id)
         id_map['mission_team_attendance'][mt_number] = mt_roster_id
     return id_map
 
@@ -211,6 +211,7 @@ def copy_important_files(folder_id_map: IdMap, semester: Semester) -> IdMap:
                        parent_folder_id=folder_id_map['semester_root'],
                        copy_name=f'Master - {semester}')
     id_map['master'] = master
+    id_map['master_prior_semester'] = file_ids.master
     # schedule
     schedule = copy.file(origin_file_id=file_ids.schedule,
                          parent_folder_id=folder_id_map['semester_root'],
@@ -290,6 +291,11 @@ def _format_id_output(ids: IdMap) -> str:
 
 
 # ------------------------------------------------------------------
+# Clear old data
+# ------------------------------------------------------------------
+
+
+# ------------------------------------------------------------------
 # Prepare rosters
 # ------------------------------------------------------------------
 
@@ -319,9 +325,9 @@ def prepare_roster(spreadsheet_id: str, *,
     Setup provided roster's data and formatting.
     """
     # add data
-    filtered = columns.filter_by_cell(all_cells=master_all_cells,
-                                      target_index=filter_column_index,
-                                      target_value=filter_value)
+    filtered = rows.filter_by_cell(all_cells=master_all_cells,
+                                   target_index=filter_column_index,
+                                   target_value=filter_value)
     reordered = columns.reorder(all_cells=filtered,
                                 new_order=[column_indexes.master['id'],
                                            column_indexes.master['first'],
@@ -336,7 +342,7 @@ def prepare_roster(spreadsheet_id: str, *,
                                              num_rows=10,
                                              num_columns=8)
     # add participation formula
-    participation_column = formulas.generate_adaptive_row_index(formula=sheet_formulas.rosters['participation'],
+    participation_column = formulas.generate_adaptive_row_index(formula=sheet_formulas.roster_participation(),
                                                                 num_rows=len(with_additional_rows))
     with_participation = columns.add(all_cells=with_additional_rows, column=participation_column, target_index=1)
     # add header row
@@ -363,6 +369,8 @@ def prepare_roster(spreadsheet_id: str, *,
     freeze_request = display.freeze_request(num_rows=1)
     resize_request = display.auto_resize_request()
     colors_request = display.alternating_colors_request()
+    # rename tab
+    tab.rename(tab_name='Attendance')
     # send API requests
     sheet.update_values(spreadsheet_id,
                         range_='A1:Z',
@@ -379,11 +387,61 @@ def prepare_roster(spreadsheet_id: str, *,
 # ------------------------------------------------------------------
 
 @log(start_message='Updating formulas in Master.', end_message='Master formulas updated.\n')
-def update_master_formulas() -> None:
+def update_master_formulas(file_id_map: IdMap) -> None:
     """
     Link master to all of the rosters and attendance sheets.
     """
-    raise NotImplementedError
+    master_values = sheet.get_values(file_id_map['master'], 'A2:Z')
+    # generate columns
+    generate_master_formula = functools.partial(formulas.generate_adaptive_row_index,
+                                                num_rows=len(master_values))
+    service_column = generate_master_formula(
+            formula=sheet_formulas.master_service(engagement_id=file_id_map['participation']['engagement']))
+    civil_mil_column = generate_master_formula(
+            formula=sheet_formulas.master_civil_mil(engagement_id=file_id_map['participation']['engagement']))
+    committee_attendance_column = generate_master_formula(
+            formula=sheet_formulas.master_committee_attendance(committee_id_map=file_id_map['committee_attendance']))
+    mt_attendance_column = generate_master_formula(
+            formula=sheet_formulas.master_mt_attendance(mt_id_map=file_id_map['mission_team_attendance']))
+    all_student_column = generate_master_formula(
+            formula=sheet_formulas.master_all_student(all_student_id=file_id_map['participation']['all_students']))
+    no_show_column = generate_master_formula(
+            formula=sheet_formulas.master_no_shows(no_shows_id=file_id_map['participation']['no_shows']))
+    triggers_current_column = generate_master_formula(
+            formula=sheet_formulas.master_triggers_current())
+    triggers_last_column = generate_master_formula(
+            formula=sheet_formulas.master_triggers_earlier_semester(old_master_id=file_ids.master))
+    triggers_two_semesters_column = generate_master_formula(
+            formula=sheet_formulas.master_triggers_earlier_semester(old_master_id=file_ids.master_prior_semester))
+    # update grid
+    result = columns.replace(all_cells=master_values,
+                             column=service_column,
+                             target_index=column_indexes.master['service'])
+    result = columns.replace(all_cells=result,
+                             column=civil_mil_column,
+                             target_index=column_indexes.master['civil-mil'])
+    result = columns.replace(all_cells=result,
+                             column=committee_attendance_column,
+                             target_index=column_indexes.master['committee_attendance'])
+    result = columns.replace(all_cells=result,
+                             column=mt_attendance_column,
+                             target_index=column_indexes.master['mt_attendance'])
+    result = columns.replace(all_cells=result,
+                             column=all_student_column,
+                             target_index=column_indexes.master['ols'])
+    result = columns.replace(all_cells=result,
+                             column=no_show_column,
+                             target_index=column_indexes.master['no_shows'])
+    result = columns.replace(all_cells=result,
+                             column=triggers_current_column,
+                             target_index=column_indexes.master['triggers_current'])
+    result = columns.replace(all_cells=result,
+                             column=triggers_last_column,
+                             target_index=column_indexes.master['triggers_last'])
+    result = columns.replace(all_cells=result,
+                             column=triggers_two_semesters_column,
+                             target_index=column_indexes.master['triggers_two_semesters'])
+    sheet.update_values(file_id_map['master'], range_='A2:Z', values=result)
 
 
 # ------------------------------------------------------------------

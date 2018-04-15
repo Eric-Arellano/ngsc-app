@@ -1,4 +1,6 @@
 master = '1gtsVgj8NeSdOGKd8HHRSNHjOTRDXJVls-Xw-gvoRONI'
+master_prior_semester = '1H5leinJFGT1SDfb2hqbDpQgSC_2GYr1HFwKPpzFZ1Js'
+
 schedule = '1fk23kv3YeJ2k6iwg55UuK_VARy-_rPoXOZ_RRQFb1Ec'
 
 templates = {

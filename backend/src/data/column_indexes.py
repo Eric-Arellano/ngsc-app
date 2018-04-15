@@ -15,7 +15,10 @@ master = {
     'ols': 13,
     'mt_attendance': 14,
     'committee_attendance': 15,
-    'no_shows': 16
+    'no_shows': 16,
+    'triggers_current': 17,
+    'triggers_last': 18,
+    'triggers_two_semesters': 19
 }
 
 engagement_responses = {
@@ -31,4 +34,19 @@ engagement_accepted = {
     'id': 0,
     'service': 1,
     'civil_mil': 2
+}
+
+roster = {
+    'id': 0,
+    'participation': 1
+}
+
+no_shows = {
+    'id': 0,
+    'total': 1
+}
+
+all_students = {
+    'id': 0,
+    'total': 1
 }

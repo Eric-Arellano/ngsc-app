@@ -1,30 +1,113 @@
 import textwrap
+from typing import Dict, List, Union
+
+from backend.src.data import column_indexes
+from backend.src.sheets_commands import sheet
+
+Formula = str
 
 
-# ---------------------------------------------------------
-# Helper functions
-# ---------------------------------------------------------
+def roster_participation() -> Formula:
+    def count_if(criterion: str) -> str:
+        return f'COUNTIF(I@:AA@, "{criterion}")'  # Replace @ with row index
 
-def count_if(criterion: str, range_: str) -> str:
-    return f'COUNTIF({range_}, "{criterion}")'
-
-
-def roster_participation_count_if(criterion: str) -> str:
-    return count_if(criterion, 'I$:AA$')  # `$` replaced with row index
+    return f'''=TO_PERCENT(IFERROR(
+           ({count_if("yes")} + {count_if("remote")} + {count_if("excused")}) / 
+           ({count_if("yes")} + {count_if("no")} + {count_if("remote")} + {count_if("excused")})
+           , ""))'''
 
 
-# ---------------------------------------------------------
-# Formulas
-# ---------------------------------------------------------
+def query_for_id(*,
+                 spreadsheet_id: sheet.ID,
+                 tab_range: str,
+                 target_column: int,
+                 match_column: int) -> Formula:
+    """
+    Get accompanying value for matching ID.
 
-rosters = {
-    'participation': textwrap.dedent(
-            f'''=TO_PERCENT(IFERROR(
-           ({roster_participation_count_if("yes")} + {roster_participation_count_if("remote")} + {roster_participation_count_if("excused")}) / 
-           ({roster_participation_count_if("yes")} + {roster_participation_count_if("no")} + {roster_participation_count_if("remote")} + {roster_participation_count_if("excused")})
-           , ""))''')
-}
+    This function is zero-indexed, unlike the actual Sheets formula.
+    """
+    return textwrap.dedent(
+            f'''QUERY(IMPORTRANGE("https://docs.google.com/spreadsheets/d/{spreadsheet_id}", "{tab_range}"),
+            "select Col{target_column + 1} where Col{match_column + 1}=" &C@& "limit 1", -1)''')
 
-master = {
 
-}
+def roster_switch(*,
+                  roster_id_map: Dict[Union[str, int], sheet.ID],
+                  association_column_letter: str,
+                  leadership_role: str) -> Formula:
+    def switch_item(key: Union[str, int], roster_file_id: sheet.ID) -> Formula:
+        query = query_for_id(spreadsheet_id=roster_file_id,
+                             tab_range='Attendance!A$2:B',
+                             target_column=column_indexes.roster['participation'],
+                             match_column=column_indexes.roster['id'])
+        formatted_key = f'"{key}"' if isinstance(key, str) else key
+        return f'{formatted_key}, {query},\n'
+
+    statements: List[str] = [switch_item(key, roster_id) for key, roster_id in roster_id_map.items()]
+    return textwrap.dedent(
+            f'''=IF(K@="{leadership_role}", 100%, SWITCH({association_column_letter}@,
+            {''.join(statements)}
+            "", ""))
+            '''
+    )
+
+
+def master_service(*, engagement_id: sheet.ID) -> Formula:
+    return '=' + query_for_id(spreadsheet_id=engagement_id,
+                              tab_range='Requirements!A$2:C',
+                              target_column=column_indexes.engagement_accepted['service'],
+                              match_column=column_indexes.engagement_accepted['id'])
+
+
+def master_civil_mil(*, engagement_id: sheet.ID) -> Formula:
+    return '=' + query_for_id(spreadsheet_id=engagement_id,
+                              tab_range='Requirements!A$2:C',
+                              target_column=column_indexes.engagement_accepted['civil_mil'],
+                              match_column=column_indexes.engagement_accepted['id'])
+
+
+def master_all_student(*, all_student_id: sheet.ID) -> Formula:
+    return '=' + query_for_id(spreadsheet_id=all_student_id,
+                              tab_range='\'Total attendance\'!A$2:B',
+                              target_column=column_indexes.all_students['total'],
+                              match_column=column_indexes.all_students['id'])
+
+
+def master_no_shows(*, no_shows_id: sheet.ID) -> Formula:
+    return '=' + query_for_id(spreadsheet_id=no_shows_id,
+                              tab_range='\'Total no-shows\'!A$2:B',
+                              target_column=column_indexes.no_shows['total'],
+                              match_column=column_indexes.no_shows['id'])
+
+
+def master_committee_attendance(*, committee_id_map: Dict[str, sheet.ID]) -> Formula:
+    return roster_switch(roster_id_map=committee_id_map,
+                         association_column_letter='J',
+                         leadership_role='Committee Chair')
+
+
+def master_mt_attendance(*, mt_id_map: Dict[int, sheet.ID]) -> Formula:
+    return roster_switch(roster_id_map=mt_id_map,
+                         association_column_letter='I',
+                         leadership_role='MT Leader')
+
+
+def master_triggers_current() -> Formula:
+    return textwrap.dedent(
+            '''=SUM(
+            COUNTIF(L@, "<8"),
+            COUNTIF(M@, "<1"),
+            COUNTIF(N@, "<.5"),
+            COUNTIF(O@, "<.5"),
+            COUNTIF(P@, "<.5"),
+            COUNTIF(Q@, ">=2")
+            )'''
+    )
+
+
+def master_triggers_earlier_semester(*, old_master_id: sheet.ID) -> Formula:
+    return '=' + query_for_id(spreadsheet_id=old_master_id,
+                              tab_range='Master!A$2:Z',
+                              target_column=column_indexes.master['triggers_current'],
+                              match_column=column_indexes.master['id'])
