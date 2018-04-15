@@ -17,7 +17,7 @@ sys.path.append(str(current_file_path.parents[3]))
 import pprint
 import re
 import functools
-from typing import Dict, Union, Callable, Any, List
+from typing import Dict, Union, Callable, Any
 
 from scripts.utils import command_line
 from backend.src.data import column_indexes, file_ids, folder_ids, sheet_formulas
@@ -30,24 +30,20 @@ IdMap = Dict[str, Union[ResourceID, Dict[str, ResourceID]]]
 
 
 def main() -> None:
-    prepare_roster('1O6p-h7qqMnQcEDmi_PRmTbAo4p9DS623xjKfhqgc87k',
-                   filter_column_index=column_indexes.master['mt'],
-                   filter_value='23',
-                   master_all_cells=sheet.get_values(file_ids.master, 'Master!A2:Z'))
-    # semester = ask_semester_target()
-    # # create resources
-    # folder_id_map = create_empty_folders(semester)
-    # roster_ids = create_empty_rosters(folder_id_map, semester)
-    # important_files = copy_important_files(folder_id_map, semester)
-    # file_id_map = {**roster_ids, **important_files}
-    # # save to hardcoded files
-    # save_folder_ids(folder_id_map)
-    # save_file_ids(file_id_map)
-    # # prepare files
-    # prepare_all_rosters(file_id_map)
-    # # update_master_formulas()
-    # # remaining steps
-    # print_remaining_steps()
+    semester = ask_semester_target()
+    # create resources
+    folder_id_map = create_empty_folders(semester)
+    roster_ids = create_empty_rosters(folder_id_map, semester)
+    important_files = copy_important_files(folder_id_map, semester)
+    file_id_map = {**roster_ids, **important_files}
+    # save to hardcoded files
+    save_folder_ids(folder_id_map)
+    save_file_ids(file_id_map)
+    # prepare files
+    prepare_all_rosters(file_id_map)
+    # update_master_formulas()
+    # remaining steps
+    print_remaining_steps()
 
 
 # ------------------------------------------------------------------
@@ -263,7 +259,7 @@ def copy_important_files(folder_id_map: IdMap, semester: Semester) -> IdMap:
 # Save IDs to hardcoded files.
 # ------------------------------------------------------------------
 
-@log(end_message='Folder IDs saved to `backend/src/data/folder_ids_new.py`\n')
+@log(end_message='Folder IDs saved to `backend/src/data/folder_ids_new.py`.\n')
 def save_folder_ids(ids: IdMap) -> None:
     """
     Write the given folder IDs to the file `data/folder_ids.py`.
@@ -273,7 +269,7 @@ def save_folder_ids(ids: IdMap) -> None:
         file.writelines(output)
 
 
-@log(end_message='File IDs saved to `backend/src/data/file_ids_new.py`\n')
+@log(end_message='File IDs saved to `backend/src/data/file_ids_new.py`.\n')
 def save_file_ids(ids: IdMap) -> None:
     """
     Write the given file IDs to the file `data/file_ids.py`.
@@ -318,7 +314,7 @@ def prepare_all_rosters(file_id_map: IdMap) -> None:
 def prepare_roster(spreadsheet_id: str, *,
                    filter_column_index: int,
                    filter_value: str,
-                   master_all_cells: List[List[Any]]) -> None:
+                   master_all_cells: sheet.Grid) -> None:
     """
     Setup provided roster's data and formatting.
     """
@@ -336,7 +332,9 @@ def prepare_roster(spreadsheet_id: str, *,
                                            column_indexes.master['campus'],
                                            column_indexes.master['cohort']])
     without_status = columns.remove(all_cells=reordered, target_indexes=[3])
-    with_additional_rows = rows.append_blank(all_cells=without_status, num_rows=10)
+    with_additional_rows = rows.append_blank(all_cells=without_status,
+                                             num_rows=10,
+                                             num_columns=8)
     # add participation formula
     participation_column = formulas.generate_adaptive_row_index(formula=sheet_formulas.rosters['participation'],
                                                                 num_rows=len(with_additional_rows))
