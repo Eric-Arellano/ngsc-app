@@ -1,3 +1,5 @@
+import textwrap
+
 # ---------------------------------------------------------
 # Helper functions
 # ---------------------------------------------------------
@@ -7,7 +9,7 @@ def count_if(criterion: str, range_: str) -> str:
 
 
 def roster_participation_count_if(criterion: str) -> str:
-    return count_if(criterion, 'I$AA$')  # `$` replaced with row index
+    return count_if(criterion, 'I$:AA$')  # `$` replaced with row index
 
 
 # ---------------------------------------------------------
@@ -15,11 +17,11 @@ def roster_participation_count_if(criterion: str) -> str:
 # ---------------------------------------------------------
 
 rosters = {
-    'participation': f'''=TO_PERCENT(IFERROR(
+    'participation': textwrap.dedent(
+            f'''=TO_PERCENT(IFERROR(
            ({roster_participation_count_if("yes")} + {roster_participation_count_if("remote")} + {roster_participation_count_if("excused")}) / 
            ({roster_participation_count_if("yes")} + {roster_participation_count_if("no")} + {roster_participation_count_if("remote")} + {roster_participation_count_if("excused")})
-           , ""))'''
-
+           , ""))''')
 }
 
 master = {
