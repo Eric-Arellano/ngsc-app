@@ -1,9 +1,11 @@
-from typing import Any, List
+from typing import Any, Dict, List
 
 from backend.src.google_apis import sheets_api
 
+BatchRequest = Dict[str, Any]
 
-def batch_update(spreadsheet_id: str, requests: List) -> None:
+
+def batch_update(spreadsheet_id: str, requests: List[BatchRequest]) -> None:
     """
     Perform an operation on the spreadsheet.
     """

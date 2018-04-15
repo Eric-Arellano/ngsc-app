@@ -3,19 +3,46 @@ from typing import List
 from backend.src.sheets_commands import sheet
 
 
+# ---------------------------------------------------------------------
+# Commands (immediate execution)
+# ---------------------------------------------------------------------
+
 def dropdown_options(*,
                      spreadsheet_id: str,
                      options: List[str],
                      row_start_index: int,
                      row_end_index: int,
                      column_start_index: int,
-                     column_end_index: int) -> None:
+                     column_end_index: int,
+                     sheet_id: str = '0') -> None:
     """
     Add dropdown data validation - must be a member of the list.
     """
-    sheet_id = '0'
+    request = dropdown_options_request(options=options,
+                                       row_start_index=row_start_index,
+                                       row_end_index=row_end_index,
+                                       column_start_index=column_start_index,
+                                       column_end_index=column_end_index,
+                                       sheet_id=sheet_id)
+    sheet.batch_update(spreadsheet_id, [request])
+
+
+# ---------------------------------------------------------------------
+# Generate requests (allows delaying execution)
+# ---------------------------------------------------------------------
+
+def dropdown_options_request(*,
+                             options: List[str],
+                             row_start_index: int,
+                             row_end_index: int,
+                             column_start_index: int,
+                             column_end_index: int,
+                             sheet_id: str = '0') -> sheet.BatchRequest:
+    """
+    Add dropdown data validation - must be a member of the list.
+    """
     mapped_options = [{"userEnteredValue": option} for option in options]
-    requests = [{
+    return {
         'setDataValidation': {
             'range': {
                 'sheetId': sheet_id,
@@ -31,5 +58,4 @@ def dropdown_options(*,
                 },
                 'showCustomUi': True
             },
-        }}]
-    sheet.batch_update(spreadsheet_id, requests)
+        }}

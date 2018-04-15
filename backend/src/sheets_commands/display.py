@@ -1,15 +1,66 @@
 from backend.src.sheets_commands import sheet
 
 
+# ---------------------------------------------------------------------
+# Commands (immediate execution)
+# ---------------------------------------------------------------------
+
 def hide_columns(spreadsheet_id: str, *,
                  start_index: int,
                  end_index: int,
-                 hidden: bool = True) -> None:
+                 hidden: bool = True,
+                 sheet_id: str = '0') -> None:
     """
     Hide the columns for provided column range.
     """
-    sheet_id = '0'
-    requests = [{
+    request = hide_columns_request(start_index=start_index, end_index=end_index, hidden=hidden, sheet_id=sheet_id)
+    sheet.batch_update(spreadsheet_id, [request])
+
+
+def freeze(spreadsheet_id: str, *,
+           num_rows: int = 0,
+           num_columns: int = 0,
+           sheet_id: str = '0') -> None:
+    """
+    Freeze rows and column from the leftmost corner outwards.
+    """
+    request = freeze_request(num_rows=num_rows, num_columns=num_columns, sheet_id=sheet_id)
+    sheet.batch_update(spreadsheet_id, [request])
+
+
+def auto_resize(spreadsheet_id: str, *,
+                start_index: int = 0,
+                end_index: int = 20,
+                sheet_id: str = '0') -> None:
+    """
+    Automatically resize columns to their largest value.
+    """
+    request = auto_resize_request(start_index=start_index, end_index=end_index, sheet_id=sheet_id)
+    sheet.batch_update(spreadsheet_id, [request])
+
+
+def alternating_colors(spreadsheet_id: str,
+                       sheet_id: str = '0') -> None:
+    """
+    Add alternating colors, with special header coloring.
+    """
+    request = alternating_colors_request(sheet_id=sheet_id)
+    sheet.batch_update(spreadsheet_id, [request])
+
+
+# ---------------------------------------------------------------------
+# Generate requests (allows delaying execution)
+# ---------------------------------------------------------------------
+
+def hide_columns_request(*,
+                         start_index: int,
+                         end_index: int,
+                         hidden: bool = True,
+                         sheet_id: str = '0') -> sheet.BatchRequest:
+    """
+    Hide the columns for provided column range.
+    """
+    return {
         'updateDimensionProperties': {
             'range': {
                 'sheetId': sheet_id,
@@ -21,18 +72,17 @@ def hide_columns(spreadsheet_id: str, *,
                 'hiddenByUser': hidden,
             },
             'fields': 'hiddenByUser',
-        }}]
-    sheet.batch_update(spreadsheet_id, requests)
+        }}
 
 
-def freeze(spreadsheet_id: str, *,
-           num_rows: int = 0,
-           num_columns: int = 0) -> None:
+def freeze_request(*,
+                   num_rows: int = 0,
+                   num_columns: int = 0,
+                   sheet_id: str = '0') -> sheet.BatchRequest:
     """
     Freeze rows and column from the leftmost corner outwards.
     """
-    sheet_id = '0'
-    requests = [{
+    return {
         'updateSheetProperties': {
             'properties': {
                 'sheetId': sheet_id,
@@ -42,18 +92,17 @@ def freeze(spreadsheet_id: str, *,
                 }
             },
             'fields': 'gridProperties(frozenRowCount, frozenColumnCount)'
-        }}]
-    sheet.batch_update(spreadsheet_id, requests)
+        }}
 
 
-def auto_resize(spreadsheet_id: str, *,
-                start_index: int = 0,
-                end_index: int = 20) -> None:
+def auto_resize_request(*,
+                        start_index: int = 0,
+                        end_index: int = 20,
+                        sheet_id: str = '0') -> sheet.BatchRequest:
     """
     Automatically resize columns to their largest value.
     """
-    sheet_id = '0'
-    requests = [{
+    return {
         'autoResizeDimensions': {
             'dimensions': {
                 'sheetId': sheet_id,
@@ -61,16 +110,14 @@ def auto_resize(spreadsheet_id: str, *,
                 'startIndex': start_index,
                 'endIndex': end_index,
             }
-        }}]
-    sheet.batch_update(spreadsheet_id, requests)
+        }}
 
 
-def alternating_colors(spreadsheet_id: str) -> None:
+def alternating_colors_request(*, sheet_id: str = '0') -> sheet.BatchRequest:
     """
     Add alternating colors, with special header coloring.
     """
-    sheet_id = '0'
-    requests = [{
+    return {
         'addBanding': {
             'bandedRange': {
                 'bandedRangeId': 1,
@@ -98,5 +145,4 @@ def alternating_colors(spreadsheet_id: str) -> None:
                     }
                 }
             }
-        }}]
-    sheet.batch_update(spreadsheet_id, requests)
+        }}

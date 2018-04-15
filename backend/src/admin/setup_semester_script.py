@@ -17,12 +17,12 @@ sys.path.append(str(current_file_path.parents[3]))
 import pprint
 import re
 import functools
-from typing import Dict, Union, Callable, Any
+from typing import Dict, Union, Callable, Any, List
 
 from scripts.utils import command_line
 from backend.src.data import column_indexes, file_ids, folder_ids, sheet_formulas
 from backend.src.drive_commands import copy, create
-from backend.src.sheets_commands import columns, display, formulas, sheet, validation
+from backend.src.sheets_commands import columns, display, formulas, sheet, validation, rows
 
 Semester = str
 ResourceID = str
@@ -30,20 +30,24 @@ IdMap = Dict[str, Union[ResourceID, Dict[str, ResourceID]]]
 
 
 def main() -> None:
-    semester = ask_semester_target()
-    # create resources
-    folder_id_map = create_empty_folders(semester)
-    roster_ids = create_empty_rosters(folder_id_map, semester)
-    important_files = copy_important_files(folder_id_map, semester)
-    file_id_map = {**roster_ids, **important_files}
-    # save to hardcoded files
-    save_folder_ids(folder_id_map)
-    save_file_ids(file_id_map)
-    # prepare files
-    prepare_all_rosters(file_id_map)
-    # update_master_formulas()
-    # remaining steps
-    print_remaining_steps()
+    prepare_roster('1O6p-h7qqMnQcEDmi_PRmTbAo4p9DS623xjKfhqgc87k',
+                   filter_column_index=column_indexes.master['mt'],
+                   filter_value='23',
+                   master_all_cells=sheet.get_values(file_ids.master, 'Master!A2:Z'))
+    # semester = ask_semester_target()
+    # # create resources
+    # folder_id_map = create_empty_folders(semester)
+    # roster_ids = create_empty_rosters(folder_id_map, semester)
+    # important_files = copy_important_files(folder_id_map, semester)
+    # file_id_map = {**roster_ids, **important_files}
+    # # save to hardcoded files
+    # save_folder_ids(folder_id_map)
+    # save_file_ids(file_id_map)
+    # # prepare files
+    # prepare_all_rosters(file_id_map)
+    # # update_master_formulas()
+    # # remaining steps
+    # print_remaining_steps()
 
 
 # ------------------------------------------------------------------
@@ -296,43 +300,30 @@ def _format_id_output(ids: IdMap) -> str:
 @log(start_message='Setting up rosters.', end_message='Rosters set up.\n')
 def prepare_all_rosters(file_id_map: IdMap) -> None:
     """
-    Setup every roster with data and formatting.
+    Setup every roster with data and formatting, pulling data from Master.
     """
+    master_all_cells = sheet.get_values(file_id_map['master'], 'Master!A2:Z')
     for mt_number, mt_roster_id in file_id_map['mission_team_attendance'].items():
         prepare_roster(spreadsheet_id=mt_roster_id,
                        filter_column_index=column_indexes.master['mt'],
                        filter_value=str(mt_number),
-                       master_spreadsheet_id=file_id_map['master'])
+                       master_all_cells=master_all_cells)
     for committee, committee_roster_id in file_id_map['committee_attendance'].items():
         prepare_roster(spreadsheet_id=committee_roster_id,
                        filter_column_index=column_indexes.master['committee'],
                        filter_value=committee,
-                       master_spreadsheet_id=file_id_map['master'])
+                       master_all_cells=master_all_cells)
 
 
 def prepare_roster(spreadsheet_id: str, *,
                    filter_column_index: int,
                    filter_value: str,
-                   master_spreadsheet_id: str = file_ids.master) -> None:
+                   master_all_cells: List[List[Any]]) -> None:
     """
-    Setup provided roster's data and formatting, pulling data from Master.
+    Setup provided roster's data and formatting.
     """
-    # add header row
-    headers = [['ASUrite',
-                'Participation Rate',
-                'First name',
-                'Last name',
-                'Email',
-                'Cell',
-                'Campus',
-                'Cohort',
-                'Ex: 9/12']]
-    sheet.update_values(spreadsheet_id=spreadsheet_id,
-                        range_='A1:1',
-                        values=headers)
     # add data
-    master = sheet.get_values(master_spreadsheet_id, 'Master!A2:Z')
-    filtered = columns.filter_by_cell(all_cells=master,
+    filtered = columns.filter_by_cell(all_cells=master_all_cells,
                                       target_index=filter_column_index,
                                       target_value=filter_value)
     reordered = columns.reorder(all_cells=filtered,
@@ -344,32 +335,47 @@ def prepare_roster(spreadsheet_id: str, *,
                                            column_indexes.master['phone'],
                                            column_indexes.master['campus'],
                                            column_indexes.master['cohort']])
-    no_status = columns.remove(all_cells=reordered, target_indexes=[3])
-    blank_participation = columns.add_blank(all_cells=no_status, target_index=1)
-    sheet.update_values(spreadsheet_id=spreadsheet_id,
-                        range_='A2:Z',
-                        values=blank_participation)
-
+    without_status = columns.remove(all_cells=reordered, target_indexes=[3])
+    with_additional_rows = rows.append_blank(all_cells=without_status, num_rows=10)
     # add participation formula
     participation_column = formulas.generate_adaptive_row_index(formula=sheet_formulas.rosters['participation'],
-                                                                num_rows=len(blank_participation) + 10)
-    sheet.update_values(spreadsheet_id=spreadsheet_id,
-                        range_='B2:B',
-                        values=participation_column)
+                                                                num_rows=len(with_additional_rows))
+    pprint.pprint(participation_column)
+    with_participation = columns.add(all_cells=with_additional_rows, column=participation_column, target_index=1)
+    # add header row
+    headers = [['ASUrite',
+                'Participation Rate',
+                'First name',
+                'Last name',
+                'Email',
+                'Cell',
+                'Campus',
+                'Cohort',
+                'Ex: 9/12']]
+    with_headers = headers + with_participation
+    print(with_headers[2][1])
     # add attendance dropdown
     attendance_options = ['yes', 'no', 'remote', 'excused']
-    validation.dropdown_options(spreadsheet_id=spreadsheet_id,
-                                options=attendance_options,
-                                row_start_index=1,
-                                row_end_index=len(blank_participation) + 10,
-                                column_start_index=8,
-                                column_end_index=25)
+    dropdown_request = validation.dropdown_options_request(options=attendance_options,
+                                                           row_start_index=1,
+                                                           row_end_index=len(with_participation),
+                                                           column_start_index=8,
+                                                           column_end_index=25)
     # TODO: lock first 2 columns
     # modify display
-    display.hide_columns(spreadsheet_id, start_index=0, end_index=1)
-    display.freeze(spreadsheet_id, num_rows=1)
-    display.auto_resize(spreadsheet_id)
-    display.alternating_colors(spreadsheet_id)
+    hide_request = display.hide_columns_request(start_index=0, end_index=1)
+    freeze_request = display.freeze_request(num_rows=1)
+    resize_request = display.auto_resize_request()
+    colors_request = display.alternating_colors_request()
+    # send API requests
+    sheet.update_values(spreadsheet_id,  # TODO: crashing because of formula
+                        range_='A1:Z',
+                        values=with_headers)
+    sheet.batch_update(spreadsheet_id, [dropdown_request,
+                                        hide_request,
+                                        freeze_request,
+                                        resize_request,
+                                        colors_request])
 
 
 # ------------------------------------------------------------------
