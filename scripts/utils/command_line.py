@@ -105,4 +105,4 @@ def ask_yes_no(question: str, *, default: str = 'yes') -> bool:
         return options[choice]
     else:
         print("Please respond with 'yes' or 'no' (or 'y' or 'n').\n")
-        ask_yes_no(question)
+        return ask_yes_no(question)
