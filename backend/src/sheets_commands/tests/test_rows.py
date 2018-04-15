@@ -2,9 +2,43 @@ from backend.src.sheets_commands import rows
 
 
 # --------------------------------------------------------------------
-# Append columns
+# Select rows
 # --------------------------------------------------------------------
 
+def test_select():
+    original_grid = [
+        ['Eric', '1'],
+        ['Sami', '2'],
+        ['Danny', '3'],
+    ]
+    result = rows.select(grid=original_grid,
+                         target_indexes=[0, 2])
+    assert result == [
+        ['Eric', '1'],
+        ['Danny', '3'],
+    ]
+
+
+# --------------------------------------------------------------------
+# Remove rows
+# --------------------------------------------------------------------
+
+def test_remove():
+    original_grid = [
+        ['Eric', '1'],
+        ['Sami', '2'],
+        ['Danny', '3'],
+    ]
+    result = rows.remove(grid=original_grid,
+                         target_indexes=[0, 2])
+    assert result == [
+        ['Sami', '2'],
+    ]
+
+
+# --------------------------------------------------------------------
+# Append rows
+# --------------------------------------------------------------------
 
 def test_add_blank():
     original_cells = [
