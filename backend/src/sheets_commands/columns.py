@@ -56,17 +56,6 @@ def reorder(*,
             for row in all_cells]
 
 
-def filter_by_cell(*,
-                   all_cells: sheet.Grid,
-                   target_index: int,
-                   target_value: sheet.Cell) -> sheet.Grid:
-    """
-    Filter out rows without the target value for specified column. Does not modify rows.
-    """
-    return [row for row in all_cells
-            if len(row) > target_index and row[target_index] == target_value]
-
-
 def update(*,
            all_cells: sheet.Grid,
            key_index: int,

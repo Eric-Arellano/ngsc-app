@@ -32,3 +32,14 @@ def append_blank(*,
     """
     new_rows = [[''] * num_columns] * num_rows
     return all_cells + new_rows
+
+
+def filter_by_cell(*,
+                   all_cells: sheet.Grid,
+                   target_index: int,
+                   target_value: sheet.Cell) -> sheet.Grid:
+    """
+    Filter out rows without the target value for specified column. Does not modify rows.
+    """
+    return [row for row in all_cells
+            if len(row) > target_index and row[target_index] == target_value]

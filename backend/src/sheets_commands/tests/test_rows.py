@@ -66,3 +66,38 @@ def test_add_blank_to_empty():
         ['', ''],
         ['', ''],
     ]
+
+
+# --------------------------------------------------------------------
+# Filter
+# --------------------------------------------------------------------
+
+
+def test_filter():
+    original_grid = [
+        ['Eric', '1'],
+        ['Sami', '2'],
+        ['Diana', '2'],
+        ['Raul', '3']
+    ]
+    result = rows.filter_by_cell(all_cells=original_grid,
+                                 target_index=1,
+                                 target_value='2')
+    assert result == [
+        ['Sami', '2'],
+        ['Diana', '2'],
+    ]
+
+
+def test_filter_with_missing_cells():
+    original_grid = [
+        ['Eric', '1'],
+        ['Sami'],
+        ['Diana', '2'],
+    ]
+    result = rows.filter_by_cell(all_cells=original_grid,
+                                 target_index=1,
+                                 target_value='2')
+    assert result == [
+        ['Diana', '2'],
+    ]
