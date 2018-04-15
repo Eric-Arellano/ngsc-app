@@ -1,5 +1,6 @@
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Union
 
+Cell = Union[str, int, float]
 
 def select(*,
            all_cells: List[List[Any]],
@@ -23,11 +24,22 @@ def remove(*,
             for row in all_cells]
 
 
+def add(*,
+        all_cells: List[List[Cell]],
+        column: List[Cell],
+        target_index: int) -> List[List[Any]]:
+    """
+    Add the provided column at specified index.
+    """
+    return [row[:target_index] + [column[row_index]] + row[target_index:]
+            for row_index, row in enumerate(all_cells)]
+
+
 def add_blank(*,
               all_cells: List[List[Any]],
               target_index: int) -> List[List[Any]]:
     """
-    Add blank column at specified columns.
+    Add blank column at specified index.
     """
     return [row[:target_index] + [""] + row[target_index:]
             for row in all_cells]

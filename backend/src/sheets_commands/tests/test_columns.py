@@ -13,9 +13,9 @@ def test_select():
         ['Sami', 'Mooney', '2'],
         ['Diana', 'Chen', '3']
     ]
-    selected = columns.select(all_cells=original_cells,
-                              target_indexes=[0, 2])
-    assert selected == [
+    result = columns.select(all_cells=original_cells,
+                            target_indexes=[0, 2])
+    assert result == [
         ['Eric', '1'],
         ['Sami', '2'],
         ['Diana', '3']
@@ -28,9 +28,9 @@ def test_select_with_missing_cells():
         ['Sami'],
         ['Diana', '', '3']
     ]
-    selected = columns.select(all_cells=original_cells,
-                              target_indexes=[0, 2])
-    assert selected == [
+    result = columns.select(all_cells=original_cells,
+                            target_indexes=[0, 2])
+    assert result == [
         ['Eric', '1'],
         ['Sami'],
         ['Diana', '3']
@@ -46,26 +46,41 @@ def test_remove():
         ['Eric', '1'],
         ['Sami', '2'],
     ]
-    selected = columns.remove(all_cells=original_cells,
-                              target_indexes=[1])
-    assert selected == [
+    result = columns.remove(all_cells=original_cells,
+                            target_indexes=[1])
+    assert result == [
         ['Eric'],
         ['Sami'],
     ]
 
 
 # --------------------------------------------------------------------
-# Add blank columns
+# Add columns
 # --------------------------------------------------------------------
+
+def test_add():
+    original_cells = [
+        ['Eric', '1'],
+        ['Sami', '2'],
+    ]
+    new_column = ['A', 'B']
+    result = columns.add(all_cells=original_cells,
+                         column=new_column,
+                         target_index=1)
+    assert result == [
+        ['Eric', 'A', '1'],
+        ['Sami', 'B', '2'],
+    ]
+
 
 def test_add_blank():
     original_cells = [
         ['Eric', '1'],
         ['Sami', '2'],
     ]
-    selected = columns.add_blank(all_cells=original_cells,
-                                 target_index=0)
-    assert selected == [
+    result = columns.add_blank(all_cells=original_cells,
+                               target_index=0)
+    assert result == [
         ['', 'Eric', '1'],
         ['', 'Sami', '2'],
     ]
@@ -80,9 +95,9 @@ def test_reorder():
         ['Eric', '1'],
         ['Sami', '2'],
     ]
-    selected = columns.reorder(all_cells=original_cells,
-                               new_order=[1, 0])
-    assert selected == [
+    result = columns.reorder(all_cells=original_cells,
+                             new_order=[1, 0])
+    assert result == [
         ['1', 'Eric'],
         ['2', 'Sami'],
     ]
@@ -99,10 +114,10 @@ def test_filter():
         ['Diana', '2'],
         ['Raul', '3']
     ]
-    filtered = columns.filter_by_cell(all_cells=original_cells,
-                                      target_index=1,
-                                      target_value='2')
-    assert filtered == [
+    result = columns.filter_by_cell(all_cells=original_cells,
+                                    target_index=1,
+                                    target_value='2')
+    assert result == [
         ['Sami', '2'],
         ['Diana', '2'],
     ]
@@ -114,10 +129,10 @@ def test_filter_with_missing_cells():
         ['Sami'],
         ['Diana', '2'],
     ]
-    filtered = columns.filter_by_cell(all_cells=original_cells,
-                                      target_index=1,
-                                      target_value='2')
-    assert filtered == [
+    result = columns.filter_by_cell(all_cells=original_cells,
+                                    target_index=1,
+                                    target_value='2')
+    assert result == [
         ['Diana', '2'],
     ]
 
@@ -141,12 +156,12 @@ def test_update_with_overwrite(mock_updated_values):
         ['ecka13', ''],
         ['ecka13', '99']
     ]
-    updated_values = columns.update(updated_values=mock_updated_values,
-                                    all_cells=original_cells,
-                                    key_index=0,
-                                    target_index=1,
-                                    overwrite=True)
-    assert updated_values == [
+    result = columns.update(updated_values=mock_updated_values,
+                            all_cells=original_cells,
+                            key_index=0,
+                            target_index=1,
+                            overwrite=True)
+    assert result == [
         ['13'],
         ['44'],
         ['44']
@@ -159,12 +174,12 @@ def test_update_without_overwrite(mock_updated_values):
         ['ecka13', ''],
         ['ecka13', '99']
     ]
-    updated_values = columns.update(updated_values=mock_updated_values,
-                                    all_cells=original_cells,
-                                    key_index=0,
-                                    target_index=1,
-                                    overwrite=False)
-    assert updated_values == [
+    result = columns.update(updated_values=mock_updated_values,
+                            all_cells=original_cells,
+                            key_index=0,
+                            target_index=1,
+                            overwrite=False)
+    assert result == [
         ['13'],
         ['44'],
         ['99']
@@ -178,17 +193,17 @@ def test_update_empty_lists(mock_updated_values):
         [''],
         ['', '']
     ]
-    updated_values_with_overwrite = columns.update(updated_values=mock_updated_values,
-                                                   all_cells=original_cells,
-                                                   key_index=0,
-                                                   target_index=1,
-                                                   overwrite=True)
-    updated_values_without_overwrite = columns.update(updated_values=mock_updated_values,
-                                                      all_cells=original_cells,
-                                                      key_index=0,
-                                                      target_index=1,
-                                                      overwrite=False)
-    assert updated_values_with_overwrite == updated_values_without_overwrite == [
+    result_with_overwrite = columns.update(updated_values=mock_updated_values,
+                                           all_cells=original_cells,
+                                           key_index=0,
+                                           target_index=1,
+                                           overwrite=True)
+    result_without_overwrite = columns.update(updated_values=mock_updated_values,
+                                              all_cells=original_cells,
+                                              key_index=0,
+                                              target_index=1,
+                                              overwrite=False)
+    assert result_with_overwrite == result_without_overwrite == [
         ['13'],
         [],
         []
@@ -200,17 +215,17 @@ def test_update_additional_data(mock_updated_values):
         ['ecarell1', '', 'e'],
         ['ecka13', '', 'e']
     ]
-    updated_values_with_overwrite = columns.update(updated_values=mock_updated_values,
-                                                   all_cells=original_cells,
-                                                   key_index=0,
-                                                   target_index=1,
-                                                   overwrite=True)
-    updated_values_without_overwrite = columns.update(updated_values=mock_updated_values,
-                                                      all_cells=original_cells,
-                                                      key_index=0,
-                                                      target_index=1,
-                                                      overwrite=False)
-    assert updated_values_with_overwrite == updated_values_without_overwrite == [
+    result_with_overwrite = columns.update(updated_values=mock_updated_values,
+                                           all_cells=original_cells,
+                                           key_index=0,
+                                           target_index=1,
+                                           overwrite=True)
+    result_without_overwrite = columns.update(updated_values=mock_updated_values,
+                                              all_cells=original_cells,
+                                              key_index=0,
+                                              target_index=1,
+                                              overwrite=False)
+    assert result_with_overwrite == result_without_overwrite == [
         ['13'],
         ['44']
     ]
