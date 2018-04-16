@@ -92,3 +92,31 @@ def replace(*,
              else cell
              for col_index, cell in enumerate(row)]
             for row_index, row in enumerate(all_cells)]
+
+
+def clear(*,
+          all_cells: sheet.Grid,
+          target_indexes: List[int]) -> sheet.Grid:
+    """
+    Clear all values in the target column.
+    """
+    return [[''
+             if col_index in target_indexes
+             else cell
+             for col_index, cell in enumerate(row)]
+            for row in all_cells]
+
+
+def clear_if(*,
+             all_cells: sheet.Grid,
+             key_index: int,
+             key_values: List[sheet.Cell],
+             target_indexes: List[int]) -> sheet.Grid:
+    """
+    Clear value in target column if key cell has certain value.
+    """
+    return [[''
+             if col_index in target_indexes and row[key_index] in key_values
+             else cell
+             for col_index, cell in enumerate(row)]
+            for row in all_cells]

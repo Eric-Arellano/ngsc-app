@@ -260,3 +260,39 @@ def test_replace_empty_grid():
         ['ecarell1', 'n1'],
         [],
     ]
+
+
+# --------------------------------------------------------------------
+# Clear column
+# --------------------------------------------------------------------
+
+def test_clear():
+    original_grid = [
+        ['ecarell1', '1'],
+        ['ecka13', '2'],
+        ['ecka13', '3']
+    ]
+    result = columns.clear(all_cells=original_grid,
+                           target_indexes=[1])
+    assert result == [
+        ['ecarell1', ''],
+        ['ecka13', ''],
+        ['ecka13', '']
+    ]
+
+
+def test_clear_if():
+    original_grid = [
+        ['ecarell1', '1'],
+        ['ecka13', '2'],
+        ['ecka13', '3']
+    ]
+    result = columns.clear_if(all_cells=original_grid,
+                              target_indexes=[1],
+                              key_index=0,
+                              key_values=['ecka13'])
+    assert result == [
+        ['ecarell1', '1'],
+        ['ecka13', ''],
+        ['ecka13', '']
+    ]

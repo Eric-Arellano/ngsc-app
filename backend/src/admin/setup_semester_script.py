@@ -17,7 +17,7 @@ sys.path.append(str(current_file_path.parents[3]))
 import pprint
 import re
 import functools
-from typing import Dict, Union, Callable, Any
+from typing import Dict, Union, Callable, Any, Tuple
 
 from scripts.utils import command_line
 from backend.src.data import column_indexes, file_ids, folder_ids, sheet_formulas
@@ -41,9 +41,16 @@ def main() -> None:
     save_folder_ids(folder_id_map)
     save_file_ids(file_id_map)
     # clear old data
+    clear_engagement_data(engagement_file_id=file_id_map['participation']['engagement'])
+    clear_no_show_data(no_show_file_id=file_id_map['participation']['no_shows'])
+    clear_all_student_attendance_data(all_student_file_id=file_id_map['participation']['on_leadership'])
+    sophomore_cohort, senior_cohort = ask_rising_cohorts()
+    clear_required_committees_and_mt(master_file_id=file_id_map['master'],
+                                     senior_cohort=senior_cohort,
+                                     sophomore_cohort=sophomore_cohort)
     # prepare files
     prepare_all_rosters(file_id_map)
-    # update_master_formulas()
+    update_master_formulas()
     # remaining steps
     print_remaining_steps()
 
@@ -68,6 +75,23 @@ def ask_semester_target() -> str:
     return command_line.ask_input(
             'What semester are you creating this for?\nEnter in the format \'Spring 2018\', \'Fall 2019\'.',
             is_valid=is_valid_semester)
+
+
+def ask_rising_cohorts() -> Tuple[int, int]:
+    """
+    Ask who are rising sophomores and seniors.
+    """
+
+    def is_valid_cohort(answer: str) -> bool:
+        return bool(re.match('^[1-9][0-9]?$', answer))
+
+    sophomore = command_line.ask_input(
+            'Which cohort are the rising sophomores?\nEnter as a whole number.',
+            is_valid=is_valid_cohort)
+    senior = command_line.ask_input(
+            'Which cohort are the rising seniors?\nEnter as a whole number.',
+            is_valid=is_valid_cohort)
+    return int(sophomore), int(senior)
 
 
 def print_remaining_steps() -> None:
@@ -293,6 +317,69 @@ def _format_id_output(ids: IdMap) -> str:
 # ------------------------------------------------------------------
 # Clear old data
 # ------------------------------------------------------------------
+
+@log(start_message='Clearing engagement data.', end_message='Engagement data cleared.\n')
+def clear_engagement_data(*, engagement_file_id: sheet.ID) -> None:
+    """
+    Remove last semester's submissions.
+    """
+    original_grid = sheet.get_values(engagement_file_id, range_='Responses!A2:Z')
+    cleared_grid = columns.clear(all_cells=original_grid,
+                                 target_indexes=list(range(30)))
+    sheet.update_values(spreadsheet_id=engagement_file_id,
+                        range_='Responses!A2:Z',
+                        values=cleared_grid)
+
+
+@log(start_message='Clearing all-student attendance data.', end_message='All-student attendance data cleared.\n')
+def clear_all_student_attendance_data(*, all_student_file_id: sheet.ID) -> None:
+    """
+    Remove last semester's submissions.
+    """
+    raise NotImplementedError
+    # original_grid = sheet.get_values(file_id, range_='Responses!A2:Z')
+    # cleared_grid = columns.clear(all_cells=original_grid,
+    #                              target_indexes=list(range(30)))
+    # sheet.update_values(spreadsheet_id=file_id,
+    #                     range_='Responses!A2:Z',
+    #                     values=cleared_grid)
+
+
+@log(start_message='Clearing no-show data.', end_message='No-show data cleared.\n')
+def clear_no_show_data(*, no_show_file_id: sheet.ID) -> None:
+    """
+    Remove last semester's submissions.
+    """
+    raise NotImplementedError
+    # original_grid = sheet.get_values(no_show_file_id, range_='Responses!A2:Z')
+    # cleared_grid = columns.clear(all_cells=original_grid,
+    #                              target_indexes=list(range(30)))
+    # sheet.update_values(spreadsheet_id=no_show_file_id,
+    #                     range_='Responses!A2:Z',
+    #                     values=cleared_grid)
+
+
+@log(start_message='Clearing required committees for rising sophomores and mission teams for rising seniors.',
+     end_message='Cleared required committees and mission teams.\n')
+def clear_required_committees_and_mt(*,
+                                     master_file_id: sheet.ID,
+                                     sophomore_cohort: int,
+                                     senior_cohort: int) -> None:
+    """
+    Remove committees for rising sophomores and mission teams for rising seniors.
+    """
+    original_grid = sheet.get_values(master_file_id, range_='A2:Z')
+    cleared_committees = columns.clear_if(all_cells=original_grid,
+                                          key_index=column_indexes.master['cohort'],
+                                          key_values=[str(sophomore_cohort)],
+                                          target_indexes=[column_indexes.master['committee']])
+    cleared_mission_teams = columns.clear_if(all_cells=cleared_committees,
+                                             key_index=column_indexes.master['cohort'],
+                                             key_values=[str(senior_cohort)],
+                                             target_indexes=[column_indexes.master['mt']])
+    sheet.update_values(spreadsheet_id=master_file_id,
+                        range_='A2:Z',
+                        values=cleared_mission_teams)
 
 
 # ------------------------------------------------------------------
