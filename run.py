@@ -33,14 +33,14 @@ Usage:
 from typing import Callable, List
 
 from scripts import backend, deploy, frontend, scripts_test_runner, update_demographics
-from scripts.utils import command_line_args
+from scripts.utils import command_line, sys_calls, venv
 
 
 def main() -> None:
-    parser = command_line_args.create_parser(command_map, accept_target_environment=True)
+    parser = command_line.create_parser(command_map, accept_target_environment=True)
     args = parser.parse_args()
     check_prereqs()
-    command_line_args.execute_command(args, command_map)
+    command_line.execute_command(args, command_map)
 
 
 # -------------------------------------
@@ -56,7 +56,7 @@ def check_prereqs() -> None:
     deploy.check_prereqs_installed()
     update_demographics.check_prereqs_installed()
     scripts_test_runner.check_prereqs_installed()
-    command_line_args.check_prereqs_installed()
+    command_line.check_prereqs_installed()
 
 
 # -------------------------------------
@@ -267,6 +267,17 @@ def update_student_info(target: Target = 'all') -> None:
                                   all_action=update_demographics.main)
 
 
+def setup_semester(target: Target = 'all') -> None:
+    """
+    Create the new Google Drive for upcoming semester, e.g. preparing rosters and copying files.
+    """
+    venv.activate()
+    execute_on_target_environment(target,
+                                  all_action=lambda: (
+                                      sys_calls.run_python(['./backend/src/admin/setup_semester_script.py'])
+                                  ))
+
+
 # -------------------------------------
 # Command line options
 # -------------------------------------
@@ -283,7 +294,8 @@ command_map = {'run': run,
                'upgrade': upgrade,
                'remove': remove,
                'deploy': deploy_to_heroku,
-               'student-info': update_student_info
+               'student-info': update_student_info,
+               'setup-semester': setup_semester
                }
 
 # -------------------------------------

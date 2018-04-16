@@ -3,9 +3,8 @@ import os
 import flask
 import flask_sslify
 
-from backend.src.app_queries.api import app_api
-from backend.src.drive_commands.api import drive_api
-from backend.src.sheets_commands.api import sheets_api
+from backend.src.admin.api import admin_api
+from backend.src.app.api import app_api
 
 app = flask.Flask(__name__,
                   static_folder="../../frontend/build/static",
@@ -20,8 +19,7 @@ if 'DYNO' in os.environ:
 
 # register sub-APIs
 app.register_blueprint(app_api, url_prefix='/api/app')
-app.register_blueprint(drive_api, url_prefix='/api/drive')
-app.register_blueprint(sheets_api, url_prefix='/api/sheets')
+app.register_blueprint(admin_api, url_prefix='/api/admin')
 
 
 @app.route('/api/test')

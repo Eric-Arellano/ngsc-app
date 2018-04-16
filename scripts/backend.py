@@ -25,19 +25,21 @@ Usage:
 
 import os
 import sys
-from typing import List
+from pathlib import Path
 
 # path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
-sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+current_file_path = Path(os.path.realpath(__file__))
+sys.path.append(str(current_file_path.parents[1]))
 
-from scripts.utils import prereq_checker, process_management, git, sys_calls, venv, command_line_args
+from typing import List
+from scripts.utils import prereq_checker, process_management, git, sys_calls, venv, command_line
 
 
 def main() -> None:
-    parser = command_line_args.create_parser(command_map)
+    parser = command_line.create_parser(command_map)
     args = parser.parse_args()
     check_prereqs()
-    command_line_args.execute_command(args, command_map)
+    command_line.execute_command(args, command_map)
 
 
 # -------------------------------------
@@ -50,7 +52,7 @@ def check_prereqs() -> None:
     """
     prereq_checker.check_is_installed(['python3'], windows_support=False)
     prereq_checker.check_is_installed(['python'], posix_support=False)
-    command_line_args.check_prereqs_installed()
+    command_line.check_prereqs_installed()
     process_management.check_prereqs_installed()
     git.check_prereqs_installed()
     sys_calls.check_prereqs_installed()
@@ -66,7 +68,7 @@ def run() -> None:
     Start backend server normally.
     """
     venv.activate()
-    os.environ['FLASK_APP'] = 'backend/src/app.py'
+    os.environ['FLASK_APP'] = 'backend/src/server.py'
     try:
         sys_calls.run(["flask", "run"])
     except KeyboardInterrupt:
@@ -80,7 +82,7 @@ def run_detached() -> None:
     Must later kill process.
     """
     venv.activate()
-    os.environ['FLASK_APP'] = 'backend/src/app.py'
+    os.environ['FLASK_APP'] = 'backend/src/server.py'
     sys_calls.run_detached(["flask", "run"])
     print("Backend server started at localhost:5000. Remember to stop it after.")
 
@@ -213,20 +215,20 @@ def remove(dependencies: List[Dependency]) -> None:
 # -------------------------------------
 # Command line options
 # -------------------------------------
-command_map = command_line_args.CommandMap({'run': run,
-                                            'detached': run_detached,
-                                            'stop': stop,
-                                            'install': install,
-                                            'reinstall': reinstall,
-                                            'catchup': catchup,
-                                            'test': test,
-                                            'types': check_types,
-                                            'outdated': list_outdated,
-                                            'deptree': dependency_tree,
-                                            'add': add,
-                                            'upgrade': upgrade,
-                                            'remove': remove
-                                            })
+command_map = command_line.CommandMap({'run': run,
+                                       'detached': run_detached,
+                                       'stop': stop,
+                                       'install': install,
+                                       'reinstall': reinstall,
+                                       'catchup': catchup,
+                                       'test': test,
+                                       'types': check_types,
+                                       'outdated': list_outdated,
+                                       'deptree': dependency_tree,
+                                       'add': add,
+                                       'upgrade': upgrade,
+                                       'remove': remove
+                                       })
 
 # -------------------------------------
 # Run script
