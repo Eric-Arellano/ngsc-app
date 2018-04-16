@@ -1,6 +1,6 @@
 // @flow
 
-import type {Name} from 'types'
+import type { Name } from 'types'
 import jacobRagsdale from './photos/jacob-ragsdale.jpg'
 
 export type BioType = {
@@ -311,12 +311,12 @@ export const bioGroupsData: Array<BioGroupType> = [
       },
       {
         name: {
-          first: 'Rachel',
-          last: 'Spencer',
+          first: 'Jane',
+          last: 'Halfhill',
         },
         position: 'MT 3',
-        email: 'rmspenc2@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/25353841_1748903012072508_3414789447634174856_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeFbtTkdb4JNKLawP730CpXH-K92qNfQE5jcUAx4-_iiWsUHSTMNweNwlh2yo-SIP022AqsntBhjlf4YPIcwlzqUrTYPpoU1mVm5m4xdecX54w&oh=b99aebd061952a5ef46b1b19a84ebc53&oe=5B70EB6D',
+        email: 'jlhalfhi@asu.edu',
+        pictureURL: 'https://scontent-lax3-2.xx.fbcdn.net/v/t1.0-9/19884255_1044670422334359_202157560100418868_n.jpg?_nc_cat=0&oh=92da284b4539591a02097cc79cfa084d&oe=5B588428',
       },
       {
         name: {
@@ -392,12 +392,12 @@ export const bioGroupsData: Array<BioGroupType> = [
       },
       {
         name: {
-          first: 'Elliot',
-          last: 'Wasbotten',
+          first: 'Hunter',
+          last: 'Allen',
         },
         position: 'MT 12',
-        email: 'ewasbott@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/15181453_722640394556555_7158298907469467248_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeE3F3meoQNmA-T7nzBqqUP5B8oMjTrtNcskEc6qdH_gqv-gSCF4kwCw-_-iNaqE6tat6La57PPJvhMUH5FDEZrfFfKopxAnmfZXZI7AsxFjvw&oh=8832069b021078cf30c958d241e5962c&oe=5B35D00F',
+        email: 'haallen2@asu.edu',
+        pictureURL: 'https://scontent-lax3-2.xx.fbcdn.net/v/t1.0-9/27867825_1731411606905427_298820547642512337_n.jpg?_nc_cat=0&oh=8c2d69e1c91e48e11d0e9d7620e75163&oe=5B5D7255',
       },
       {
         name: {
@@ -523,12 +523,12 @@ export const bioGroupsData: Array<BioGroupType> = [
       },
       {
         name: {
-          first: 'John',
-          last: 'Janezic',
+          first: 'Sai',
+          last: 'Kottapalli',
         },
         position: 'MT 26',
-        email: 'jhjanezi@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/29594661_1047939812021659_2463906226667226102_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeHaFmsG4XcJHnj8FYq53dVDg9isykpqZgLkGU8HbWPK45qFTyHebaTE0t1D8u7wbIaV-jXcXaaOW57Foc1jP68rfFC9cw0a1S9Yr7PPvb3psw&oh=6f1465c26afd972e80fb9d438d41f7c1&oe=5B641427',
+        email: 'sbkottap@asu.edu',
+        pictureURL: 'https://scontent-lax3-2.xx.fbcdn.net/v/t1.0-9/28870687_1971882069506554_3813903811737922659_n.jpg?_nc_cat=0&oh=1ed24ca71cceac237776523bcb2ba911&oe=5B689707',
       },
       {
         name: {
