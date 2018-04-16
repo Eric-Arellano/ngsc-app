@@ -42,14 +42,14 @@ def get_values(spreadsheet_id: ID, range_: Range) -> Grid:
 
 def update_values(spreadsheet_id: ID, *,
                   range_: Range,
-                  values: Grid,
+                  grid: Grid,
                   raw: bool = False) -> None:
     """
     Update range with given values.
     """
     input_mode = 'RAW' if raw else 'USER_ENTERED'
     sheets_service = sheets_api.build_service()
-    body = {'values': values}
+    body = {'values': grid}
     sheets_service.spreadsheets() \
         .values() \
         .update(

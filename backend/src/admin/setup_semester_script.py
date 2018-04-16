@@ -324,11 +324,11 @@ def clear_engagement_data(*, engagement_file_id: sheet.ID) -> None:
     Remove last semester's submissions.
     """
     original_grid = sheet.get_values(engagement_file_id, range_='Responses!A2:Z')
-    cleared_grid = columns.clear(all_cells=original_grid,
+    cleared_grid = columns.clear(grid=original_grid,
                                  target_indexes=list(range(30)))
     sheet.update_values(spreadsheet_id=engagement_file_id,
                         range_='Responses!A2:Z',
-                        values=cleared_grid)
+                        grid=cleared_grid)
 
 
 @log(start_message='Clearing all-student attendance data.', end_message='All-student attendance data cleared.\n')
@@ -369,17 +369,17 @@ def clear_required_committees_and_mt(*,
     Remove committees for rising sophomores and mission teams for rising seniors.
     """
     original_grid = sheet.get_values(master_file_id, range_='A2:Z')
-    cleared_committees = columns.clear_if(all_cells=original_grid,
+    cleared_committees = columns.clear_if(grid=original_grid,
                                           key_index=column_indexes.master['cohort'],
                                           key_values=[str(sophomore_cohort)],
                                           target_indexes=[column_indexes.master['committee']])
-    cleared_mission_teams = columns.clear_if(all_cells=cleared_committees,
+    cleared_mission_teams = columns.clear_if(grid=cleared_committees,
                                              key_index=column_indexes.master['cohort'],
                                              key_values=[str(senior_cohort)],
                                              target_indexes=[column_indexes.master['mt']])
     sheet.update_values(spreadsheet_id=master_file_id,
                         range_='A2:Z',
-                        values=cleared_mission_teams)
+                        grid=cleared_mission_teams)
 
 
 # ------------------------------------------------------------------
@@ -391,31 +391,31 @@ def prepare_all_rosters(file_id_map: IdMap) -> None:
     """
     Setup every roster with data and formatting, pulling data from Master.
     """
-    master_all_cells = sheet.get_values(file_id_map['master'], 'Master!A2:Z')
+    master_grid = sheet.get_values(file_id_map['master'], 'Master!A2:Z')
     for mt_number, mt_roster_id in file_id_map['mission_team_attendance'].items():
         prepare_roster(spreadsheet_id=mt_roster_id,
                        filter_column_index=column_indexes.master['mt'],
                        filter_value=str(mt_number),
-                       master_all_cells=master_all_cells)
+                       master_grid=master_grid)
     for committee, committee_roster_id in file_id_map['committee_attendance'].items():
         prepare_roster(spreadsheet_id=committee_roster_id,
                        filter_column_index=column_indexes.master['committee'],
                        filter_value=committee,
-                       master_all_cells=master_all_cells)
+                       master_grid=master_grid)
 
 
 def prepare_roster(spreadsheet_id: str, *,
                    filter_column_index: int,
                    filter_value: str,
-                   master_all_cells: sheet.Grid) -> None:
+                   master_grid: sheet.Grid) -> None:
     """
     Setup provided roster's data and formatting.
     """
     # add data
-    filtered = rows.filter_by_cell(all_cells=master_all_cells,
+    filtered = rows.filter_by_cell(grid=master_grid,
                                    target_index=filter_column_index,
                                    target_value=filter_value)
-    reordered = columns.reorder(all_cells=filtered,
+    reordered = columns.reorder(grid=filtered,
                                 new_order=[column_indexes.master['id'],
                                            column_indexes.master['first'],
                                            column_indexes.master['last'],
@@ -424,14 +424,14 @@ def prepare_roster(spreadsheet_id: str, *,
                                            column_indexes.master['phone'],
                                            column_indexes.master['campus'],
                                            column_indexes.master['cohort']])
-    without_status = columns.remove(all_cells=reordered, target_indexes=[3])
-    with_additional_rows = rows.append_blank(all_cells=without_status,
+    without_status = columns.remove(grid=reordered, target_indexes=[3])
+    with_additional_rows = rows.append_blank(grid=without_status,
                                              num_rows=10,
                                              num_columns=8)
     # add participation formula
     participation_column = formulas.generate_adaptive_row_index(formula=sheet_formulas.roster_participation(),
                                                                 num_rows=len(with_additional_rows))
-    with_participation = columns.add(all_cells=with_additional_rows, column=participation_column, target_index=1)
+    with_participation = columns.add(grid=with_additional_rows, column=participation_column, target_index=1)
     # add header row
     headers = [['ASUrite',
                 'Participation Rate',
@@ -461,7 +461,7 @@ def prepare_roster(spreadsheet_id: str, *,
     # send API requests
     sheet.update_values(spreadsheet_id,
                         range_='A1:Z',
-                        values=with_headers)
+                        grid=with_headers)
     sheet.batch_update(spreadsheet_id, [dropdown_request,
                                         hide_request,
                                         freeze_request,
@@ -501,34 +501,34 @@ def update_master_formulas(file_id_map: IdMap) -> None:
     triggers_two_semesters_column = generate_master_formula(
             formula=sheet_formulas.master_triggers_earlier_semester(old_master_id=file_ids.master_prior_semester))
     # update grid
-    result = columns.replace(all_cells=master_values,
+    result = columns.replace(grid=master_values,
                              column=service_column,
                              target_index=column_indexes.master['service'])
-    result = columns.replace(all_cells=result,
+    result = columns.replace(grid=result,
                              column=civil_mil_column,
                              target_index=column_indexes.master['civil-mil'])
-    result = columns.replace(all_cells=result,
+    result = columns.replace(grid=result,
                              column=committee_attendance_column,
                              target_index=column_indexes.master['committee_attendance'])
-    result = columns.replace(all_cells=result,
+    result = columns.replace(grid=result,
                              column=mt_attendance_column,
                              target_index=column_indexes.master['mt_attendance'])
-    result = columns.replace(all_cells=result,
+    result = columns.replace(grid=result,
                              column=all_student_column,
                              target_index=column_indexes.master['ols'])
-    result = columns.replace(all_cells=result,
+    result = columns.replace(grid=result,
                              column=no_show_column,
                              target_index=column_indexes.master['no_shows'])
-    result = columns.replace(all_cells=result,
+    result = columns.replace(grid=result,
                              column=triggers_current_column,
                              target_index=column_indexes.master['triggers_current'])
-    result = columns.replace(all_cells=result,
+    result = columns.replace(grid=result,
                              column=triggers_last_column,
                              target_index=column_indexes.master['triggers_last'])
-    result = columns.replace(all_cells=result,
+    result = columns.replace(grid=result,
                              column=triggers_two_semesters_column,
                              target_index=column_indexes.master['triggers_two_semesters'])
-    sheet.update_values(file_id_map['master'], range_='A2:Z', values=result)
+    sheet.update_values(file_id_map['master'], range_='A2:Z', grid=result)
 
 
 # ------------------------------------------------------------------

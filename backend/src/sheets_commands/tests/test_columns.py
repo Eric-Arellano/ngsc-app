@@ -13,7 +13,7 @@ def test_select():
         ['Sami', 'Mooney', '2'],
         ['Diana', 'Chen', '3']
     ]
-    result = columns.select(all_cells=original_grid,
+    result = columns.select(grid=original_grid,
                             target_indexes=[0, 2])
     assert result == [
         ['Eric', '1'],
@@ -28,7 +28,7 @@ def test_select_with_missing_cells():
         ['Sami'],
         ['Diana', '', '3']
     ]
-    result = columns.select(all_cells=original_grid,
+    result = columns.select(grid=original_grid,
                             target_indexes=[0, 2])
     assert result == [
         ['Eric', '1'],
@@ -46,7 +46,7 @@ def test_remove():
         ['Eric', '1'],
         ['Sami', '2'],
     ]
-    result = columns.remove(all_cells=original_grid,
+    result = columns.remove(grid=original_grid,
                             target_indexes=[1])
     assert result == [
         ['Eric'],
@@ -64,7 +64,7 @@ def test_add():
         ['Sami', '2'],
     ]
     new_column = ['A', 'B']
-    result = columns.add(all_cells=original_grid,
+    result = columns.add(grid=original_grid,
                          column=new_column,
                          target_index=1)
     assert result == [
@@ -78,7 +78,7 @@ def test_add_blank():
         ['Eric', '1'],
         ['Sami', '2'],
     ]
-    result = columns.add_blank(all_cells=original_grid,
+    result = columns.add_blank(grid=original_grid,
                                target_index=0)
     assert result == [
         ['', 'Eric', '1'],
@@ -95,7 +95,7 @@ def test_reorder():
         ['Eric', '1'],
         ['Sami', '2'],
     ]
-    result = columns.reorder(all_cells=original_grid,
+    result = columns.reorder(grid=original_grid,
                              new_order=[1, 0])
     assert result == [
         ['1', 'Eric'],
@@ -123,7 +123,7 @@ def test_update_with_overwrite(mock_updated_values):
         ['ecka13', '99']
     ]
     result = columns.update(updated_values=mock_updated_values,
-                            all_cells=original_grid,
+                            grid=original_grid,
                             key_index=0,
                             target_index=1,
                             overwrite=True)
@@ -141,7 +141,7 @@ def test_update_without_overwrite(mock_updated_values):
         ['ecka13', '99']
     ]
     result = columns.update(updated_values=mock_updated_values,
-                            all_cells=original_grid,
+                            grid=original_grid,
                             key_index=0,
                             target_index=1,
                             overwrite=False)
@@ -159,12 +159,12 @@ def test_update_empty_grid(mock_updated_values):
         ['', '']
     ]
     result_with_overwrite = columns.update(updated_values=mock_updated_values,
-                                           all_cells=original_grid,
+                                           grid=original_grid,
                                            key_index=0,
                                            target_index=1,
                                            overwrite=True)
     result_without_overwrite = columns.update(updated_values=mock_updated_values,
-                                              all_cells=original_grid,
+                                              grid=original_grid,
                                               key_index=0,
                                               target_index=1,
                                               overwrite=False)
@@ -181,12 +181,12 @@ def test_update_additional_data(mock_updated_values):
         ['ecka13', '', 'e']
     ]
     result_with_overwrite = columns.update(updated_values=mock_updated_values,
-                                           all_cells=original_grid,
+                                           grid=original_grid,
                                            key_index=0,
                                            target_index=1,
                                            overwrite=True)
     result_without_overwrite = columns.update(updated_values=mock_updated_values,
-                                              all_cells=original_grid,
+                                              grid=original_grid,
                                               key_index=0,
                                               target_index=1,
                                               overwrite=False)
@@ -206,7 +206,7 @@ def test_replace():
         ['ecka13', ''],
         ['ecka13', '99']
     ]
-    result = columns.replace(all_cells=original_grid,
+    result = columns.replace(grid=original_grid,
                              target_index=1,
                              column=['n1', 'n2', 'n3'])
     assert result == [
@@ -222,7 +222,7 @@ def test_replace_longer_column():
         ['ecka13', ''],
         ['ecka13', '99']
     ]
-    result = columns.replace(all_cells=original_grid,
+    result = columns.replace(grid=original_grid,
                              target_index=1,
                              column=['n1', 'n2', 'n3', 'n4'])
     assert result == [
@@ -238,7 +238,7 @@ def test_replace_shorter_column():
         ['ecka13', ''],
         ['ecka13', '99']
     ]
-    result = columns.replace(all_cells=original_grid,
+    result = columns.replace(grid=original_grid,
                              target_index=1,
                              column=['n1', 'n2'])
     assert result == [
@@ -253,7 +253,7 @@ def test_replace_empty_grid():
         ['ecarell1', ''],
         [],
     ]
-    result = columns.replace(all_cells=original_grid,
+    result = columns.replace(grid=original_grid,
                              target_index=1,
                              column=['n1', 'n2'])
     assert result == [
@@ -272,7 +272,7 @@ def test_clear():
         ['ecka13', '2'],
         ['ecka13', '3']
     ]
-    result = columns.clear(all_cells=original_grid,
+    result = columns.clear(grid=original_grid,
                            target_indexes=[1])
     assert result == [
         ['ecarell1', ''],
@@ -287,7 +287,7 @@ def test_clear_if():
         ['ecka13', '2'],
         ['ecka13', '3']
     ]
-    result = columns.clear_if(all_cells=original_grid,
+    result = columns.clear_if(grid=original_grid,
                               target_indexes=[1],
                               key_index=0,
                               key_values=['ecka13'])

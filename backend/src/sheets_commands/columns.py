@@ -4,60 +4,60 @@ from backend.src.sheets_commands import sheet
 
 
 def select(*,
-           all_cells: sheet.Grid,
+           grid: sheet.Grid,
            target_indexes: List[int]) -> sheet.Grid:
     """
     Given all cells, return only the specified columns.
     """
     return [[cell for col_index, cell in enumerate(row)
              if col_index in target_indexes]
-            for row in all_cells]
+            for row in grid]
 
 
 def remove(*,
-           all_cells: sheet.Grid,
+           grid: sheet.Grid,
            target_indexes: List[int]) -> sheet.Grid:
     """
     Remove columns from cells.
     """
     return [[cell for col_index, cell in enumerate(row)
              if col_index not in target_indexes]
-            for row in all_cells]
+            for row in grid]
 
 
 def add(*,
-        all_cells: sheet.Grid,
+        grid: sheet.Grid,
         column: sheet.Column,
         target_index: int) -> sheet.Grid:
     """
     Add the provided column at specified index.
     """
     return [row[:target_index] + [column[row_index]] + row[target_index:]
-            for row_index, row in enumerate(all_cells)]
+            for row_index, row in enumerate(grid)]
 
 
 def add_blank(*,
-              all_cells: sheet.Grid,
+              grid: sheet.Grid,
               target_index: int) -> sheet.Grid:
     """
     Add blank column at specified index.
     """
     return [row[:target_index] + [""] + row[target_index:]
-            for row in all_cells]
+            for row in grid]
 
 
 def reorder(*,
-            all_cells: sheet.Grid,
+            grid: sheet.Grid,
             new_order: List[int]) -> sheet.Grid:
     """
     Reorder to the specified order.
     """
     return [[row[index] for index in new_order]
-            for row in all_cells]
+            for row in grid]
 
 
 def update(*,
-           all_cells: sheet.Grid,
+           grid: sheet.Grid,
            key_index: int,
            target_index: int,
            updated_values: Dict[str, str],
@@ -70,18 +70,18 @@ def update(*,
                  if col_index == target_index
                  else cell
                  for col_index, cell in enumerate(row)]
-                for row in all_cells]
+                for row in grid]
     else:
         return [[updated_values.get(row[key_index], cell)  # if nothing found in dict, keep original value
                  if col_index == target_index and
                     (len(row) < target_index or not row[target_index])  # only check if missing
                  else cell  # else use original
                  for col_index, cell in enumerate(row)]
-                for row in all_cells]
+                for row in grid]
 
 
 def replace(*,
-            all_cells: sheet.Grid,
+            grid: sheet.Grid,
             column: sheet.Column,
             target_index: int) -> sheet.Grid:
     """
@@ -91,11 +91,11 @@ def replace(*,
              if col_index == target_index and row_index < len(column)
              else cell
              for col_index, cell in enumerate(row)]
-            for row_index, row in enumerate(all_cells)]
+            for row_index, row in enumerate(grid)]
 
 
 def clear(*,
-          all_cells: sheet.Grid,
+          grid: sheet.Grid,
           target_indexes: List[int]) -> sheet.Grid:
     """
     Clear all values in the target column.
@@ -104,11 +104,11 @@ def clear(*,
              if col_index in target_indexes
              else cell
              for col_index, cell in enumerate(row)]
-            for row in all_cells]
+            for row in grid]
 
 
 def clear_if(*,
-             all_cells: sheet.Grid,
+             grid: sheet.Grid,
              key_index: int,
              key_values: List[sheet.Cell],
              target_indexes: List[int]) -> sheet.Grid:
@@ -119,4 +119,4 @@ def clear_if(*,
              if col_index in target_indexes and row[key_index] in key_values
              else cell
              for col_index, cell in enumerate(row)]
-            for row in all_cells]
+            for row in grid]

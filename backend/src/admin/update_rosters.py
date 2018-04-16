@@ -47,13 +47,13 @@ def update_roster_phone_numbers(spreadsheet_id: str, *,
     range_ = f'A2:{phone_column_letter}'
     grid = sheet.get_values(spreadsheet_id, range_)
     updated_phones = columns.update(updated_values=asurite_to_phones,
-                                    all_cells=grid,
+                                    grid=grid,
                                     key_index=0,
                                     target_index=phone_column_index,
                                     overwrite=overwrite)
     sheet.update_values(spreadsheet_id,
                         range_=range_,
-                        values=updated_phones)
+                        grid=updated_phones)
 
 
 # --------------------------------------------------------------
@@ -79,8 +79,8 @@ def convert_roster_ids_to_asurite(spreadsheet_id: str, *,
     range_ = 'A2:A'
     grid = sheet.get_values(spreadsheet_id, range_)
     asurites = columns.update(updated_values=id_to_asurite,
-                              all_cells=grid,
+                              grid=grid,
                               key_index=0,
                               target_index=0,
                               overwrite=True)
-    sheet.update_values(spreadsheet_id, range_=range_, values=asurites)
+    sheet.update_values(spreadsheet_id, range_=range_, grid=asurites)
