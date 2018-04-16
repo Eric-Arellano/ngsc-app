@@ -18,9 +18,9 @@ def main() -> None:
     check_prereqs_installed()
     check_remote_added()
     check_logged_in()
-    # resolve_git_issues()
+    resolve_git_issues()
     confirm_code_quality()
-    # deploy()
+    deploy()
 
 
 def check_prereqs_installed() -> None:
