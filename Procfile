@@ -1,1 +1,1 @@
-web: gunicorn backend.src.app:app --worker-class gthread --log-file -
+web: gunicorn backend.src.server:app --worker-class gthread --log-file -
