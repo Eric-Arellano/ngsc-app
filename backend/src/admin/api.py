@@ -10,13 +10,9 @@ def api_test():
     """
     Throw away text connecting google drive api
     """
-    move.folder(origin_folder_id='1LhTXK8raJeD5PuTQnu_px8Q34-hNhMTy',
-                target_folder_id='1x3E1SbZeWwDSOToTPbW4INmn9Mz2OJ9J')
-
-    move.file(origin_file_id='1CmPw_6gxGX1WRj-nJa8-ndVOqnYaLG5lhWTYTjSVfrc',
-              target_folder_id='1x3E1SbZeWwDSOToTPbW4INmn9Mz2OJ9J')
-    return 'The file was moved'
-
+    rename.file(file_id='1LhTXK8raJeD5PuTQnu_px8Q34-hNhMTy',
+                new_name='New Folder')
+    return 'The folder was renamed.'
 
 
 @admin_api.route('/copy/file', methods=['POST'])

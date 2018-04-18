@@ -20,12 +20,12 @@ def folder(folder_id: ResourceID) -> None:
     _delete_resource(folder_id)
 
 
-def _delete_resource(file_id: ResourceID) -> None:
+def _delete_resource(resource_id: ResourceID) -> None:
     """
     Helper for deleting files and folders
     """
     service = drive_api.build_service()
     service \
         .files() \
-        .delete(fileId=file_id) \
+        .delete(fileId=resource_id) \
         .execute()

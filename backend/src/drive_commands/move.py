@@ -28,13 +28,16 @@ def folder(origin_folder_id: ResourceID,
 def _move_resource(origin_resource_id: ResourceID,
                    target_folder_id: ResourceID) -> None:
     """
-    Move file helper.
+    Move resource helper.
     """
     service = drive_api.build_service()
     file_metadata = service.files().get(fileId=origin_resource_id,
                                         fields='parents').execute()
     previous_parents = ",".join(file_metadata.get('parents'))
-    service.files().update(fileId=origin_resource_id,
-                           addParents=target_folder_id,
-                           removeParents=previous_parents,
-                           fields='id, parents').execute()
+    service \
+        .files() \
+        .update(fileId=origin_resource_id,
+                addParents=target_folder_id,
+                removeParents=previous_parents,
+                fields='id, parents') \
+        .execute()
