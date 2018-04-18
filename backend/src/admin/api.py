@@ -1,6 +1,6 @@
 import flask
 
-from backend.src.drive_commands import copy, create, move, remove, rename
+from backend.src.drive_commands import copy, create, move, remove, rename, find
 
 admin_api = flask.Blueprint('admin_api', __name__)
 
@@ -10,9 +10,7 @@ def api_test():
     """
     Throw away text connecting google drive api
     """
-    rename.file(file_id='1LhTXK8raJeD5PuTQnu_px8Q34-hNhMTy',
-                new_name='New Folder')
-    return 'The folder was renamed.'
+    return find.file(file_name='Nonsense')
 
 
 @admin_api.route('/copy/file', methods=['POST'])
