@@ -1,5 +1,6 @@
 import flask
 
+from backend.src.data import mime_types
 from backend.src.drive_commands import copy, create, move, remove, rename, find
 
 admin_api = flask.Blueprint('admin_api', __name__)
@@ -10,7 +11,9 @@ def api_test():
     """
     Throw away text connecting google drive api
     """
-    return find.file(file_name='Nonsense')
+    return find.file(file_name='Same same but different',
+                     parent_folder_id='1QOsOQq3FMYfpXau6v3ubem5wrC97yWwo',
+                     mime_type=mime_types.gdoc)
 
 
 @admin_api.route('/copy/file', methods=['POST'])

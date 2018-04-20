@@ -2,7 +2,7 @@
 Create an empty file or folder into the specified targets.
 """
 
-from backend.src.data import folder_ids
+from backend.src.data import folder_ids, mime_types
 from backend.src.google_apis import drive_api
 
 FileID = str
@@ -13,7 +13,7 @@ def gdoc(file_name: str, *,
     """
     Create an empty file.
     """
-    return _create_resource(name=file_name, mime_type='document', parent_folder_id=parent_folder_id)
+    return _create_resource(name=file_name, mime_type=mime_types.gdoc, parent_folder_id=parent_folder_id)
 
 
 def gsheet(file_name: str, *,
@@ -21,7 +21,7 @@ def gsheet(file_name: str, *,
     """
     Create an empty file.
     """
-    return _create_resource(name=file_name, mime_type='spreadsheet', parent_folder_id=parent_folder_id)
+    return _create_resource(name=file_name, mime_type=mime_types.gsheets, parent_folder_id=parent_folder_id)
 
 
 def gslides(file_name: str, *,
@@ -29,7 +29,7 @@ def gslides(file_name: str, *,
     """
     Create an empty file.
     """
-    return _create_resource(name=file_name, mime_type='presentation', parent_folder_id=parent_folder_id)
+    return _create_resource(name=file_name, mime_type=mime_types.gslides, parent_folder_id=parent_folder_id)
 
 
 def gform(file_name: str, *,
@@ -37,7 +37,7 @@ def gform(file_name: str, *,
     """
     Create an empty file.
     """
-    return _create_resource(name=file_name, mime_type='form', parent_folder_id=parent_folder_id)
+    return _create_resource(name=file_name, mime_type=mime_types.gform, parent_folder_id=parent_folder_id)
 
 
 def file(file_name: str, *,
@@ -54,7 +54,7 @@ def folder(folder_name: str, *,
     """
     Create an empty folder.
     """
-    return _create_resource(name=folder_name, mime_type='folder', parent_folder_id=parent_folder_id)
+    return _create_resource(name=folder_name, mime_type=mime_types.folder, parent_folder_id=parent_folder_id)
 
 
 def _create_resource(name: str,

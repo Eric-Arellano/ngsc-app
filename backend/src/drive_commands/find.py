@@ -8,29 +8,32 @@ from backend.src.google_apis import drive_api
 ResourceID = str
 
 
-def file(file_name: str) -> Optional[ResourceID]:
+def file(file_name: str, *, parent_folder_id: ResourceID, mime_type: str = None) -> Optional[ResourceID]:
     """
     Find file.
     """
-    return _find_resource(file_name)
+    return _find_resource(file_name, parent_folder_id=parent_folder_id, mime_type=mime_type)
 
 
-def folder(folder_name: str) -> Optional[ResourceID]:
+def folder(folder_name: str, *, parent_folder_id: ResourceID, mime_type: str = None) -> Optional[ResourceID]:
     """
     Find folder.
     """
-    return _find_resource(folder_name)
+    return _find_resource(folder_name, parent_folder_id=parent_folder_id, mime_type=mime_type)
 
 
-# TODO: Connect Mimetype, Parameterize query, Return error message if too many results.
-def _find_resource(resource_name: str) -> Optional[ResourceID]:
+# TODO: Return error message if too many results.
+def _find_resource(resource_name: str, *, parent_folder_id: ResourceID, mime_type: str = None) -> Optional[ResourceID]:
     """
     Helper for finding files and folders
     """
+    query = f"name='{resource_name}' and '{parent_folder_id}' in parents"
+    if mime_type:
+        query += f" and mimeType='application/vnd.google-apps.{mime_type}'"
     service = drive_api.build_service()
     results = service \
         .files() \
-        .list(q="name='Leads Training' and '1F6LJ7Ws9S9YEzGvTZoRqIt23Tl60C6TI' in parents",
+        .list(q=query,
               pageSize=10,
               fields="nextPageToken, files(id, name)") \
         .execute()
