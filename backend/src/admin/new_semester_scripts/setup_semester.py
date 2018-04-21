@@ -33,6 +33,7 @@ IdMap = Dict[Key, Union[ResourceID, Dict[Key, ResourceID]]]
 
 
 def main() -> None:
+    print_debugging_tips()
     semester = ask_semester_target()
     # create resources
     folder_id_map = create_empty_folders(semester)
@@ -65,6 +66,26 @@ def main() -> None:
 # CLI
 # ------------------------------------------------------------------
 
+def print_debugging_tips() -> None:
+    """
+    Give instructions for if the script fails.
+    """
+    print(textwrap.dedent('''\
+        -------
+        Disclaimer: this is a very long script with multiple potential points of failure.
+        
+        If the script fails prematurely, before the new IDs are saved to files, delete the Google Drive folder created and restart the script.
+        
+        If the new IDs are already saved to the `data/new_semester` folder, then, in this script itself, you can comment out the commands already done and restart the script.
+        
+        Potential sources of failure (non-exhaustive):
+        - File names were changed from what this script is expecting (particularly the files referenced in `copy_important_files()`.
+        - Column indexes were changed. Compare actual indexes with this script and `data/column_indexes`.
+        - Occasionally Google's API server itself has failed, and the script simply needs to be run again.
+        -------\n
+    '''))
+
+
 def ask_semester_target() -> str:
     """
     Ask CLI user for the target semester in correct format, e.g. 'Spring 2018'.
@@ -81,7 +102,7 @@ def ask_semester_target() -> str:
     return command_line.ask_input(
             prompt=textwrap.dedent('''\
                         What semester are you creating this for?
-                        Enter in the format \'Spring 2018\', \'Fall 2019\'.'''),
+                        Enter in the format \'Spring 2018\', \'Fall 2023\'.'''),
             is_valid=is_valid_semester)
 
 
