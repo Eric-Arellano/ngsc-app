@@ -78,12 +78,20 @@ You can often specify a specific target with `--target [env]`, or the abbreviati
 `./run.py deploy`
 
 ### Update static student info
-We are saving everyone's IDs, names, committees, mission teams, etc into a Python dictionary to avoid having to make an 
-API call for that info, since it doesn't change often. Whenever a change happens to the Master spreadsheet, this 
-needs to be updated.
+Whenever a change happens to the Master spreadsheet, this script needs to be called.
 
 1. `./run.py student-info`
 1. `./run.py deploy`
+
+### Setup new semester
+Run these scripts to setup the new semester's Google Drive system.
+
+1. `./run.py setup-semester`
+1. `./run.py share-drive`
+
+If you need to rebuild the rosters, e.g. after freshmen are assigned to their committees:
+
+`./run.py rebuild-rosters`
 
 ### Dependency management
 * Catchup from changes made by others: `./run.py catchup [--target backend|frontend]`

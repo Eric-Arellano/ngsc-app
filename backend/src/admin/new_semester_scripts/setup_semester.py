@@ -12,12 +12,13 @@ from pathlib import Path
 # path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
 current_file_path = Path(os.path.realpath(__file__))
 sys.path.append(str(current_file_path.parents[1]))
-sys.path.append(str(current_file_path.parents[3]))
+sys.path.append(str(current_file_path.parents[4]))
 
 import pprint
 import re
 import functools
-from typing import Dict, Union, Callable, Any, Tuple
+import textwrap
+from typing import Dict, Union, Tuple
 
 from scripts.utils import command_line
 from backend.src.data import column_indexes, file_ids, folder_ids, sheet_formulas
@@ -51,16 +52,13 @@ def main() -> None:
     # prepare files
     prepare_all_rosters(file_id_map)
     update_master_formulas()
-    # share
-    add_permissions()  # TODO: move this to a new script "share_drive"
-    transfer_ownership()
     # remaining steps
     prompt_to_connect_master_links()
     print_remaining_steps()
 
 
 # ------------------------------------------------------------------
-# Script helpers
+# CLI
 # ------------------------------------------------------------------
 
 def ask_semester_target() -> str:
@@ -77,7 +75,9 @@ def ask_semester_target() -> str:
         return prefix_is_semester and postfix_is_year
 
     return command_line.ask_input(
-            'What semester are you creating this for?\nEnter in the format \'Spring 2018\', \'Fall 2019\'.',
+            prompt=textwrap.dedent('''\
+                        What semester are you creating this for?
+                        Enter in the format \'Spring 2018\', \'Fall 2019\'.'''),
             is_valid=is_valid_semester)
 
 
@@ -90,10 +90,14 @@ def ask_rising_cohorts() -> Tuple[int, int]:
         return bool(re.match('^[1-9][0-9]?$', answer))
 
     sophomore = command_line.ask_input(
-            'Which cohort are the rising sophomores?\nEnter as a whole number.',
+            prompt=textwrap.dedent('''\
+                        Which cohort are the rising sophomores?
+                        Enter as a whole number.'''),
             is_valid=is_valid_cohort)
     senior = command_line.ask_input(
-            'Which cohort are the rising seniors?\nEnter as a whole number.',
+            prompt=textwrap.dedent('''\
+                        Which cohort are the rising seniors?
+                        Enter as a whole number.'''),
             is_valid=is_valid_cohort)
     return int(sophomore), int(senior)
 
@@ -106,27 +110,12 @@ def print_remaining_steps() -> None:
     pass  # TODO: implement
 
 
-def log(*, start_message: str = None, end_message: str = None) -> Callable[[Any], Any]:
-    def decorate(func: Callable[[Any], Any]):
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            if start_message is not None:
-                print(start_message)
-            result = func(*args, **kwargs)
-            if end_message is not None:
-                print(end_message)
-            return result
-
-        return wrapper
-
-    return decorate
-
-
 # ------------------------------------------------------------------
 # Create resources
 # ------------------------------------------------------------------
 
-@log(start_message='Creating empty folders.', end_message='Empty folders created\n')
+@command_line.log(start_message='Creating empty folders.',
+                  end_message='Empty folders created\n')
 def create_empty_folders(semester: Semester) -> IdMap:
     """
     Set up the folder structure and return their IDs.
@@ -210,7 +199,8 @@ def create_empty_folders(semester: Semester) -> IdMap:
     return id_map
 
 
-@log(start_message='Creating empty rosters.', end_message='Empty rosters created\n')
+@command_line.log(start_message='Creating empty rosters.',
+                  end_message='Empty rosters created\n')
 def create_empty_rosters(folder_id_map: IdMap, semester: Semester) -> IdMap:
     """
     Create the roster spreadsheets (not set up) and save their IDs.
@@ -232,7 +222,8 @@ def create_empty_rosters(folder_id_map: IdMap, semester: Semester) -> IdMap:
     return id_map
 
 
-@log(start_message='Copying important files.', end_message='Important files copied.\n')
+@command_line.log(start_message='Copying important files.',
+                  end_message='Important files copied.\n')
 def copy_important_files(folder_id_map: IdMap, semester: Semester) -> IdMap:
     """
     Copy the Master, schedule, all-student attendance, no shows, & templates.
@@ -302,7 +293,7 @@ def copy_important_files(folder_id_map: IdMap, semester: Semester) -> IdMap:
 # Save IDs to hardcoded files.
 # ------------------------------------------------------------------
 
-@log(end_message='Folder IDs saved to `backend/src/data/folder_ids_new.py`.\n')
+@command_line.log(end_message='Folder IDs saved to `backend/src/data/folder_ids_new.py`.\n')
 def save_folder_ids(ids: IdMap) -> None:
     """
     Write the given folder IDs to the file `data/folder_ids.py`.
@@ -312,7 +303,7 @@ def save_folder_ids(ids: IdMap) -> None:
         file.writelines(output)
 
 
-@log(end_message='File IDs saved to `backend/src/data/file_ids_new.py`.\n')
+@command_line.log(end_message='File IDs saved to `backend/src/data/file_ids_new.py`.\n')
 def save_file_ids(ids: IdMap) -> None:
     """
     Write the given file IDs to the file `data/file_ids.py`.
@@ -336,7 +327,8 @@ def _format_id_output(ids: IdMap) -> str:
 # Clear old data
 # ------------------------------------------------------------------
 
-@log(start_message='Clearing engagement data.', end_message='Engagement data cleared.\n')
+@command_line.log(start_message='Clearing engagement data.',
+                  end_message='Engagement data cleared.\n')
 def clear_engagement_data(*, engagement_file_id: sheet.ID) -> None:
     """
     Remove last semester's submissions.
@@ -349,7 +341,8 @@ def clear_engagement_data(*, engagement_file_id: sheet.ID) -> None:
                         grid=cleared_grid)
 
 
-@log(start_message='Clearing all-student attendance data.', end_message='All-student attendance data cleared.\n')
+@command_line.log(start_message='Clearing all-student attendance data.',
+                  end_message='All-student attendance data cleared.\n')
 def clear_all_student_attendance_data(*, all_student_file_id: sheet.ID) -> None:
     """
     Remove last semester's submissions.
@@ -363,7 +356,8 @@ def clear_all_student_attendance_data(*, all_student_file_id: sheet.ID) -> None:
     #                     values=cleared_grid)
 
 
-@log(start_message='Clearing no-show data.', end_message='No-show data cleared.\n')
+@command_line.log(start_message='Clearing no-show data.',
+                  end_message='No-show data cleared.\n')
 def clear_no_show_data(*, no_show_file_id: sheet.ID) -> None:
     """
     Remove last semester's submissions.
@@ -377,8 +371,9 @@ def clear_no_show_data(*, no_show_file_id: sheet.ID) -> None:
     #                     values=cleared_grid)
 
 
-@log(start_message='Clearing required committees for rising sophomores and mission teams for rising seniors.',
-     end_message='Cleared required committees and mission teams.\n')
+@command_line.log(
+        start_message='Clearing required committees for rising sophomores and mission teams for rising seniors.',
+        end_message='Cleared required committees and mission teams.\n')
 def clear_required_committees_and_mt(*,
                                      master_file_id: sheet.ID,
                                      sophomore_cohort: int,
@@ -404,7 +399,8 @@ def clear_required_committees_and_mt(*,
 # Prepare rosters
 # ------------------------------------------------------------------
 
-@log(start_message='Setting up rosters.', end_message='Rosters set up.\n')
+@command_line.log(start_message='Setting up rosters.',
+                  end_message='Rosters set up.\n')
 def prepare_all_rosters(file_id_map: IdMap) -> None:
     """
     Setup every roster with data and formatting, pulling data from Master.
@@ -497,7 +493,8 @@ def prepare_roster(spreadsheet_id: str, *,
 # Update important files like Master
 # ------------------------------------------------------------------
 
-@log(start_message='Updating formulas in Master.', end_message='Master formulas updated.\n')
+@command_line.log(start_message='Updating formulas in Master.',
+                  end_message='Master formulas updated.\n')
 def update_master_formulas(file_id_map: IdMap) -> None:
     """
     Link master to all of the rosters and attendance sheets.
@@ -553,26 +550,6 @@ def update_master_formulas(file_id_map: IdMap) -> None:
                              column=triggers_two_semesters_column,
                              target_index=column_indexes.master['triggers_two_semesters'])
     sheet.update_values(file_id_map['master'], range_='A2:Z', grid=result)
-
-
-# ------------------------------------------------------------------
-# Share & add permissions
-# ------------------------------------------------------------------
-
-@log(start_message='Adding permissions to folders & sharing.', end_message='Master formulas updated.\n')
-def add_permissions() -> None:
-    """
-    Share folders within student leadership.
-    """
-    raise NotImplementedError
-
-
-@log(start_message='Transferring ownership of files to new Admin Chair.', end_message='Ownership transferred..\n')
-def transfer_ownership() -> None:
-    """
-    Share folders within student leadership.
-    """
-    raise NotImplementedError
 
 
 # -------------------------------------
