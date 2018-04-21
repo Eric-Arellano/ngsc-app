@@ -22,6 +22,7 @@ from typing import Dict, Union, Tuple
 
 from scripts.utils import command_line
 from backend.src.data import column_indexes, file_ids, folder_ids, sheet_formulas
+from backend.src.data.new_semester import new_leadership
 from backend.src.drive_commands import copy, create, find, rename, move
 from backend.src.sheets_commands import columns, display, formulas, sheet, validation, rows, tab
 
@@ -49,6 +50,9 @@ def main() -> None:
     clear_required_committees_and_mt(master_file_id=file_id_map['master'],
                                      senior_cohort=senior_cohort,
                                      sophomore_cohort=sophomore_cohort)
+    # steps before preparing rosters
+    prompt_to_add_admin_email()
+    prompt_to_update_leave_of_absence()
     # prepare files
     prepare_all_rosters(file_id_map)
     update_master_formulas()
@@ -102,12 +106,50 @@ def ask_rising_cohorts() -> Tuple[int, int]:
     return int(sophomore), int(senior)
 
 
+def prompt_to_add_admin_email() -> None:
+    """
+    Make sure new admin chair added to leadership data file. Necessary for preparing rosters.
+    """
+    command_line.ask_confirmation(question=textwrap.dedent('''\
+            1. Open up the file `backend/src/data/new_semester/new_leadership.py`. 
+            2. Add the emails for the new Admin Chair, Chief of Staff, and staff.'''),
+                                  default_to_yes=True)
+
+
+def prompt_to_update_leave_of_absence() -> None:
+    """
+    Prompt to transfer students on leave of absence back into Master spreadsheet.
+    """
+    command_line.ask_confirmation(question=textwrap.dedent('''\
+            1. Open up the new master spreadsheet at .... 
+            2. Select the tab \'Leave of absence\'.
+            3. Transfer any students who will be back during the upcoming semester back to the \'Master\' tab.'''),
+                                  default_to_yes=True)
+
+
 def prompt_to_connect_master_links() -> None:
-    pass
+    """
+    Prompt to connect Master to all the rosters and participation sheets.
+    """
+    command_line.ask_confirmation(question=textwrap.dedent('''\
+            1. Open up the new master spreadsheet at .... 
+            2. Scroll to the right to the participation section.
+            3. Highlight over cells with `#REF!` and press 'Allow access'.
+            4. Continue to add access until there are no more `#REF!`s.'''),
+                                  default_to_yes=True)
 
 
 def print_remaining_steps() -> None:
-    pass  # TODO: implement
+    print(textwrap.dedent('''\
+        The semester's drive is set up at...!
+        
+        Once you are ready to share with new leadership, run `./run.py share-drive`
+        If you need to rebuild the rosters, e.g. when freshmen join the program, run `./run.py rebuild-rosters`.
+        
+        Finally, you will need to copy all of the data under `backend/src/data/new_semester` 
+        Only do this once the current semester is completely done, because it will change the links used by the web app.
+        After you do this, run `./run.py student-info`, deploy, and make sure the web app still works.
+        '''))  # TODO: add link to semester root
 
 
 # ------------------------------------------------------------------
@@ -293,23 +335,23 @@ def copy_important_files(folder_id_map: IdMap, semester: Semester) -> IdMap:
 # Save IDs to hardcoded files.
 # ------------------------------------------------------------------
 
-@command_line.log(end_message='Folder IDs saved to `backend/src/data/folder_ids_new.py`.\n')
+@command_line.log(end_message='Folder IDs saved to `backend/src/data/new_semester/new_folder_ids.py`.\n')
 def save_folder_ids(ids: IdMap) -> None:
     """
     Write the given folder IDs to the file `data/folder_ids.py`.
     """
     output = _format_id_output(ids)
-    with open('backend/src/data/folder_ids_new.py', 'w') as file:
+    with open('backend/src/data/new_semester/new_folder_ids.py', 'w') as file:
         file.writelines(output)
 
 
-@command_line.log(end_message='File IDs saved to `backend/src/data/file_ids_new.py`.\n')
+@command_line.log(end_message='File IDs saved to `backend/src/data/new_semester/new_file_ids.py`.\n')
 def save_file_ids(ids: IdMap) -> None:
     """
     Write the given file IDs to the file `data/file_ids.py`.
     """
     output = _format_id_output(ids)
-    with open('backend/src/data/file_ids_new.py', 'w') as file:
+    with open('backend/src/data/new_semester/new_file_ids.py', 'w') as file:
         file.writelines(output)
 
 
@@ -465,7 +507,7 @@ def prepare_roster(spreadsheet_id: str, *,
                                                            column_start_index=8,
                                                            column_end_index=25)
     # lock first 2 columns
-    protected_range_request = validation.protected_range_request(editor_emails=None,  # TODO load editor emails
+    protected_range_request = validation.protected_range_request(editor_emails=new_leadership.drive_root_access,
                                                                  description='Participation formula',
                                                                  column_start_index=0,
                                                                  column_end_index=2)

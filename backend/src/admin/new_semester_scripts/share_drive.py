@@ -34,18 +34,15 @@ def confirm_sharing() -> None:
     """
     Make sure drive & leadership contact info set up.
     """
-    confirmation = command_line.ask_yes_no(
-            question=textwrap.dedent('''\
-                    This script will send an email to everyone in leadership.
-                    Have you checked that the Drive folders are good to go?'''),
-            default='yes')
-    if confirmation is False:
-        raise SystemExit('Canceling. Please check their folders and make sure that you are ready to send.')
-    leadership_updated = command_line.ask_yes_no(
-            question='Have you updated all emails in the file `backend/src/data/new_leadership.py`?',
-            default='yes')
-    if not leadership_updated:
-        raise SystemExit('Please update this file before running this script.')
+    command_line.ask_confirmation(question=textwrap.dedent('''\
+                    1. Open up the new semester's drive at ....
+                    2. Check the committee and mission team folders to make sure everything is good to go.
+                    (Reminder: this script will email everyone in new leadership immediately.)'''),
+                                  default_to_yes=True)  # TODO: generate link to new semester root
+    command_line.ask_confirmation(question=textwrap.dedent('''\
+                    3. Open up the file `backend/src/data/new_semester/new_leadership.py`
+                    4. Add the emails for everyone in new student leadership.'''),
+                                  default_to_yes=True)
 
 
 def check_files_exist() -> None:

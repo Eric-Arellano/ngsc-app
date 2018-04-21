@@ -40,10 +40,10 @@ def confirm_rebuild() -> None:
             default='no')
     if confirmation is False:
         raise SystemExit('Canceling. The rosters will be kept as is.')
-    master_updated = command_line.ask_yes_no(
-            question='Is all of the information on the new semester\'s master spreadsheet up-to-date?')
-    if not master_updated:
-        raise SystemExit('Please update the new semester\'s master before running this script.')
+    command_line.ask_confirmation(question=textwrap.dedent('''\
+                    1. Open up the new semester's master spreadsheet at ....
+                    2. Make sure all the information is up-to-date, e.g. the \'Leave of Absence\' tab is up-to-date.'''),
+                                  default_to_yes=True)  # TODO: generate link to new master sheet
 
 
 def check_files_exist() -> None:
