@@ -8,7 +8,7 @@ from backend.src.sheets_commands import sheet
 def rename(*,
            spreadsheet_id: sheet.ID,
            tab_name: str,
-           tab_id: str = '0') -> None:
+           tab_id: int = 0) -> None:
     """
     Rename specified tab.
     """
@@ -23,7 +23,7 @@ def rename(*,
 
 def rename_request(*,
                    tab_name: str,
-                   tab_id: str = '0') -> sheet.BatchRequest:
+                   tab_id: int = 0) -> sheet.BatchRequest:
     """
     Rename specified tab.
     """

@@ -51,7 +51,11 @@ def main() -> None:
     # prepare files
     prepare_all_rosters(file_id_map)
     update_master_formulas()
+    # share
+    add_permissions()
+    transfer_ownership()
     # remaining steps
+    prompt_to_connect_master_links()
     print_remaining_steps()
 
 
@@ -94,8 +98,12 @@ def ask_rising_cohorts() -> Tuple[int, int]:
     return int(sophomore), int(senior)
 
 
-def print_remaining_steps() -> None:
+def prompt_to_connect_master_links() -> None:
     pass
+
+
+def print_remaining_steps() -> None:
+    pass  # TODO: implement
 
 
 def log(*, start_message: str = None, end_message: str = None) -> Callable[[Any], Any]:
@@ -336,7 +344,7 @@ def clear_all_student_attendance_data(*, all_student_file_id: sheet.ID) -> None:
     """
     Remove last semester's submissions.
     """
-    raise NotImplementedError
+    raise NotImplementedError  # TODO: implement
     # original_grid = sheet.get_values(file_id, range_='Responses!A2:Z')
     # cleared_grid = columns.clear(all_cells=original_grid,
     #                              target_indexes=list(range(30)))
@@ -350,7 +358,7 @@ def clear_no_show_data(*, no_show_file_id: sheet.ID) -> None:
     """
     Remove last semester's submissions.
     """
-    raise NotImplementedError
+    raise NotImplementedError  # TODO: implement
     # original_grid = sheet.get_values(no_show_file_id, range_='Responses!A2:Z')
     # cleared_grid = columns.clear(all_cells=original_grid,
     #                              target_indexes=list(range(30)))
@@ -450,23 +458,29 @@ def prepare_roster(spreadsheet_id: str, *,
                                                            row_end_index=len(with_participation),
                                                            column_start_index=8,
                                                            column_end_index=25)
-    # TODO: lock first 2 columns
+    # lock first 2 columns
+    protected_range_request = validation.protected_range_request(editor_emails=None,  # TODO load editor emails
+                                                                 description='Participation formula',
+                                                                 column_start_index=0,
+                                                                 column_end_index=2)
     # modify display
-    hide_request = display.hide_columns_request(start_index=0, end_index=1)
+    hide_request = display.hide_columns_request(start_column_index=0, end_column_index=1)
     freeze_request = display.freeze_request(num_rows=1)
     resize_request = display.auto_resize_request()
     colors_request = display.alternating_colors_request()
     # rename tab
-    tab.rename(tab_name='Attendance')
+    rename_request = tab.rename_request(tab_name='Attendance')
     # send API requests
     sheet.update_values(spreadsheet_id,
                         range_='A1:Z',
                         grid=with_headers)
     sheet.batch_update(spreadsheet_id, [dropdown_request,
+                                        protected_range_request,
                                         hide_request,
                                         freeze_request,
                                         resize_request,
-                                        colors_request])
+                                        colors_request,
+                                        rename_request])
 
 
 # ------------------------------------------------------------------
@@ -537,6 +551,14 @@ def update_master_formulas(file_id_map: IdMap) -> None:
 
 @log(start_message='Adding permissions to folders & sharing.', end_message='Master formulas updated.\n')
 def add_permissions() -> None:
+    """
+    Share folders within student leadership.
+    """
+    raise NotImplementedError
+
+
+@log(start_message='Transferring ownership of files to new Admin Chair.', end_message='Ownership transferred..\n')
+def transfer_ownership() -> None:
     """
     Share folders within student leadership.
     """
