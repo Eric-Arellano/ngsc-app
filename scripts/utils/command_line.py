@@ -77,7 +77,7 @@ def ask_input(prompt: str, *, is_valid: Callable[[str], bool] = None) -> str:
     result = input()
     if is_valid is not None and not is_valid(result):
         print('Invalid input.\n')
-        ask_input(prompt, is_valid=is_valid)
+        return ask_input(prompt, is_valid=is_valid)
     return result
 
 
