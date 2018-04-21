@@ -22,8 +22,8 @@ from typing import Dict, Union, Tuple
 
 from scripts.utils import command_line
 from backend.src.data import column_indexes, file_ids, folder_ids, sheet_formulas
-from backend.src.data.new_semester import new_leadership
-from backend.src.drive_commands import copy, create, find, rename, move
+from backend.src.data.new_semester import new_leadership, new_file_ids, new_folder_ids
+from backend.src.drive_commands import copy, create, find, rename, move, generate_link
 from backend.src.sheets_commands import columns, display, formulas, sheet, validation, rows, tab
 
 Semester = str
@@ -120,8 +120,9 @@ def prompt_to_update_leave_of_absence() -> None:
     """
     Prompt to transfer students on leave of absence back into Master spreadsheet.
     """
-    command_line.ask_confirmation(question=textwrap.dedent('''\
-            1. Open up the new master spreadsheet at .... 
+    master_link = generate_link.gsheet(new_file_ids.master)
+    command_line.ask_confirmation(question=textwrap.dedent(f'''\
+            1. Open up the new master spreadsheet at {master_link}
             2. Select the tab \'Leave of absence\'.
             3. Transfer any students who will be back during the upcoming semester back to the \'Master\' tab.'''),
                                   default_to_yes=True)
@@ -131,8 +132,9 @@ def prompt_to_connect_master_links() -> None:
     """
     Prompt to connect Master to all the rosters and participation sheets.
     """
-    command_line.ask_confirmation(question=textwrap.dedent('''\
-            1. Open up the new master spreadsheet at .... 
+    master_link = generate_link.gsheet(new_file_ids.master)
+    command_line.ask_confirmation(question=textwrap.dedent(f'''\
+            1. Open up the new master spreadsheet at {master_link}
             2. Scroll to the right to the participation section.
             3. Highlight over cells with `#REF!` and press 'Allow access'.
             4. Continue to add access until there are no more `#REF!`s.'''),
@@ -140,8 +142,9 @@ def prompt_to_connect_master_links() -> None:
 
 
 def print_remaining_steps() -> None:
-    print(textwrap.dedent('''\
-        The semester's drive is set up at...!
+    semester_link = generate_link.folder(new_folder_ids.semester_root)
+    print(textwrap.dedent(f'''\
+        The semester's drive is set up! Check {semester_link}
         
         Once you are ready to share with new leadership, run `./run.py share-drive`
         If you need to rebuild the rosters, e.g. when freshmen join the program, run `./run.py rebuild-rosters`.
@@ -149,7 +152,7 @@ def print_remaining_steps() -> None:
         Finally, you will need to copy all of the data under `backend/src/data/new_semester` 
         Only do this once the current semester is completely done, because it will change the links used by the web app.
         After you do this, run `./run.py student-info`, deploy, and make sure the web app still works.
-        '''))  # TODO: add link to semester root
+        '''))
 
 
 # ------------------------------------------------------------------

@@ -17,6 +17,8 @@ sys.path.append(str(current_file_path.parents[4]))
 import textwrap
 
 from scripts.utils import command_line, files
+from backend.src.drive_commands import generate_link
+from backend.src.data.new_semester import new_file_ids
 
 
 def main() -> None:
@@ -40,10 +42,11 @@ def confirm_rebuild() -> None:
             default='no')
     if confirmation is False:
         raise SystemExit('Canceling. The rosters will be kept as is.')
-    command_line.ask_confirmation(question=textwrap.dedent('''\
-                    1. Open up the new semester's master spreadsheet at ....
+    master_link = generate_link.gsheet(new_file_ids.master)
+    command_line.ask_confirmation(question=textwrap.dedent(f'''\
+                    1. Open up the new semester's master spreadsheet at {master_link}
                     2. Make sure all the information is up-to-date, e.g. the \'Leave of Absence\' tab is up-to-date.'''),
-                                  default_to_yes=True)  # TODO: generate link to new master sheet
+                                  default_to_yes=True)
 
 
 def check_files_exist() -> None:
