@@ -42,19 +42,19 @@ def main() -> None:
     # save to hardcoded files
     save_folder_ids(folder_id_map)
     save_file_ids(file_id_map)
+    check_new_ids_different()
     # clear old data
-    clear_engagement_data(engagement_file_id=file_id_map['participation']['engagement'])
-    clear_no_show_data(no_show_file_id=file_id_map['participation']['no_shows'])
-    clear_all_student_attendance_data(all_student_file_id=file_id_map['participation']['on_leadership'])
+    clear_engagement_data()
+    clear_no_show_data()
+    clear_all_student_attendance_data()
     sophomore_cohort, senior_cohort = ask_rising_cohorts()
-    clear_required_committees_and_mt(master_file_id=file_id_map['master'],
-                                     senior_cohort=senior_cohort,
+    clear_required_committees_and_mt(senior_cohort=senior_cohort,
                                      sophomore_cohort=sophomore_cohort)
     # steps before preparing rosters
     prompt_to_add_admin_email()
     prompt_to_update_leave_of_absence()
     # prepare files
-    prepare_all_rosters(file_id_map)
+    prepare_all_rosters()
     update_master_formulas()
     # remaining steps
     prompt_to_connect_master_links()
@@ -358,6 +358,32 @@ def save_file_ids(ids: IdMap) -> None:
         file.writelines(output)
 
 
+@command_line.log(
+        start_message='Checking new IDs are different than current IDs so that the script doesn\'t overwrite current data.',
+        end_message='IDs are different. Safe to continue.')
+def check_new_ids_different() -> None:
+    """
+    Check new and old file & folder IDs are different.
+    """
+    files_different = (file_ids.master != new_file_ids.master) \
+                      and (file_ids.master_prior_semester != new_file_ids.master_prior_semester) \
+                      and (file_ids.committee_attendance != new_file_ids.committee_attendance) \
+                      and (file_ids.mission_team_attendance != new_file_ids.mission_team_attendance) \
+                      and (file_ids.participation != new_file_ids.participation) \
+                      and (file_ids.templates != new_file_ids.templates) \
+                      and (file_ids.schedule != new_file_ids.schedule)
+    if not files_different:
+        raise SystemExit('At least one new file ID is the same as a current file ID. Aborting script.')
+    folders_different = (folder_ids.semester_root != new_folder_ids.semester_root) \
+                        and (folder_ids.all_students != folder_ids.all_students) \
+                        and (folder_ids.committee_chair_folders != folder_ids.committee_chair_folders) \
+                        and (folder_ids.committee_lead_folders != folder_ids.committee_lead_folders) \
+                        and (folder_ids.section_folders != folder_ids.section_folders) \
+                        and (folder_ids.mission_team_folders != folder_ids.mission_team_folders)
+    if not files_different:
+        raise SystemExit('At least one new folder ID is the same as the current file IDs. Aborting script.')
+
+
 def _format_id_output(ids: IdMap) -> str:
     """
     Convert ID dict to output as variables separated by newlines.
@@ -374,59 +400,47 @@ def _format_id_output(ids: IdMap) -> str:
 
 @command_line.log(start_message='Clearing engagement data.',
                   end_message='Engagement data cleared.\n')
-def clear_engagement_data(*, engagement_file_id: sheet.ID) -> None:
+def clear_engagement_data() -> None:
     """
     Remove last semester's submissions.
     """
-    original_grid = sheet.get_values(engagement_file_id, range_='Responses!A2:Z')
+    original_grid = sheet.get_values(new_file_ids.participation['engagement'],
+                                     range_='Responses!A2:Z')
     cleared_grid = columns.clear(grid=original_grid,
                                  target_indexes=list(range(30)))
-    sheet.update_values(spreadsheet_id=engagement_file_id,
+    sheet.update_values(spreadsheet_id=new_file_ids.participation['engagement'],
                         range_='Responses!A2:Z',
                         grid=cleared_grid)
 
 
 @command_line.log(start_message='Clearing all-student attendance data.',
                   end_message='All-student attendance data cleared.\n')
-def clear_all_student_attendance_data(*, all_student_file_id: sheet.ID) -> None:
+def clear_all_student_attendance_data() -> None:
     """
     Remove last semester's submissions.
     """
     raise NotImplementedError  # TODO: implement
-    # original_grid = sheet.get_values(file_id, range_='Responses!A2:Z')
-    # cleared_grid = columns.clear(all_cells=original_grid,
-    #                              target_indexes=list(range(30)))
-    # sheet.update_values(spreadsheet_id=file_id,
-    #                     range_='Responses!A2:Z',
-    #                     values=cleared_grid)
 
 
 @command_line.log(start_message='Clearing no-show data.',
                   end_message='No-show data cleared.\n')
-def clear_no_show_data(*, no_show_file_id: sheet.ID) -> None:
+def clear_no_show_data() -> None:
     """
     Remove last semester's submissions.
     """
     raise NotImplementedError  # TODO: implement
-    # original_grid = sheet.get_values(no_show_file_id, range_='Responses!A2:Z')
-    # cleared_grid = columns.clear(all_cells=original_grid,
-    #                              target_indexes=list(range(30)))
-    # sheet.update_values(spreadsheet_id=no_show_file_id,
-    #                     range_='Responses!A2:Z',
-    #                     values=cleared_grid)
 
 
 @command_line.log(
         start_message='Clearing required committees for rising sophomores and mission teams for rising seniors.',
         end_message='Cleared required committees and mission teams.\n')
 def clear_required_committees_and_mt(*,
-                                     master_file_id: sheet.ID,
                                      sophomore_cohort: int,
                                      senior_cohort: int) -> None:
     """
     Remove committees for rising sophomores and mission teams for rising seniors.
     """
-    original_grid = sheet.get_values(master_file_id, range_='A2:Z')
+    original_grid = sheet.get_values(new_file_ids.master, range_='A2:Z')
     cleared_committees = columns.clear_if(grid=original_grid,
                                           key_index=column_indexes.master['cohort'],
                                           key_values=[str(sophomore_cohort)],
@@ -435,7 +449,7 @@ def clear_required_committees_and_mt(*,
                                              key_index=column_indexes.master['cohort'],
                                              key_values=[str(senior_cohort)],
                                              target_indexes=[column_indexes.master['mt']])
-    sheet.update_values(spreadsheet_id=master_file_id,
+    sheet.update_values(spreadsheet_id=new_file_ids.master,
                         range_='A2:Z',
                         grid=cleared_mission_teams)
 
@@ -446,17 +460,17 @@ def clear_required_committees_and_mt(*,
 
 @command_line.log(start_message='Setting up rosters.',
                   end_message='Rosters set up.\n')
-def prepare_all_rosters(file_id_map: IdMap) -> None:
+def prepare_all_rosters() -> None:
     """
     Setup every roster with data and formatting, pulling data from Master.
     """
-    master_grid = sheet.get_values(file_id_map['master'], 'Master!A2:Z')
-    for mt_number, mt_roster_id in file_id_map['mission_team_attendance'].items():
+    master_grid = sheet.get_values(new_file_ids.master, 'Master!A2:Z')
+    for mt_number, mt_roster_id in new_file_ids.mission_team_attendance.items():
         prepare_roster(spreadsheet_id=mt_roster_id,
                        filter_column_index=column_indexes.master['mt'],
                        filter_value=str(mt_number),
                        master_grid=master_grid)
-    for committee, committee_roster_id in file_id_map['committee_attendance'].items():
+    for committee, committee_roster_id in new_file_ids.committee_attendance.items():
         prepare_roster(spreadsheet_id=committee_roster_id,
                        filter_column_index=column_indexes.master['committee'],
                        filter_value=committee,
@@ -540,26 +554,26 @@ def prepare_roster(spreadsheet_id: str, *,
 
 @command_line.log(start_message='Updating formulas in Master.',
                   end_message='Master formulas updated.\n')
-def update_master_formulas(file_id_map: IdMap) -> None:
+def update_master_formulas() -> None:
     """
     Link master to all of the rosters and attendance sheets.
     """
-    master_values = sheet.get_values(file_id_map['master'], 'A2:Z')
+    master_values = sheet.get_values(new_file_ids.master, 'A2:Z')
     # generate columns
     generate_master_formula = functools.partial(formulas.generate_adaptive_row_index,
                                                 num_rows=len(master_values))
     service_column = generate_master_formula(
-            formula=sheet_formulas.master_service(engagement_id=file_id_map['participation']['engagement']))
+            formula=sheet_formulas.master_service(engagement_id=new_file_ids.participation['engagement']))
     civil_mil_column = generate_master_formula(
-            formula=sheet_formulas.master_civil_mil(engagement_id=file_id_map['participation']['engagement']))
+            formula=sheet_formulas.master_civil_mil(engagement_id=new_file_ids.participation['engagement']))
     committee_attendance_column = generate_master_formula(
-            formula=sheet_formulas.master_committee_attendance(committee_id_map=file_id_map['committee_attendance']))
+            formula=sheet_formulas.master_committee_attendance(committee_id_map=new_file_ids.committee_attendance))
     mt_attendance_column = generate_master_formula(
-            formula=sheet_formulas.master_mt_attendance(mt_id_map=file_id_map['mission_team_attendance']))
+            formula=sheet_formulas.master_mt_attendance(mt_id_map=new_file_ids.mission_team_attendance))
     all_student_column = generate_master_formula(
-            formula=sheet_formulas.master_all_student(all_student_id=file_id_map['participation']['all_students']))
+            formula=sheet_formulas.master_all_student(all_student_id=new_file_ids.participation['all_students']))
     no_show_column = generate_master_formula(
-            formula=sheet_formulas.master_no_shows(no_shows_id=file_id_map['participation']['no_shows']))
+            formula=sheet_formulas.master_no_shows(no_shows_id=new_file_ids.participation['no_shows']))
     triggers_current_column = generate_master_formula(
             formula=sheet_formulas.master_triggers_current())
     triggers_last_column = generate_master_formula(
@@ -594,7 +608,7 @@ def update_master_formulas(file_id_map: IdMap) -> None:
     result = columns.replace(grid=result,
                              column=triggers_two_semesters_column,
                              target_index=column_indexes.master['triggers_two_semesters'])
-    sheet.update_values(file_id_map['master'], range_='A2:Z', grid=result)
+    sheet.update_values(new_file_ids.master, range_='A2:Z', grid=result)
 
 
 # -------------------------------------
