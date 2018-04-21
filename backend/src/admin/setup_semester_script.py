@@ -21,7 +21,7 @@ from typing import Dict, Union, Callable, Any, Tuple
 
 from scripts.utils import command_line
 from backend.src.data import column_indexes, file_ids, folder_ids, sheet_formulas
-from backend.src.drive_commands import copy, create
+from backend.src.drive_commands import copy, create, find, rename, move
 from backend.src.sheets_commands import columns, display, formulas, sheet, validation, rows, tab
 
 Semester = str
@@ -52,7 +52,7 @@ def main() -> None:
     prepare_all_rosters(file_id_map)
     update_master_formulas()
     # share
-    add_permissions()
+    add_permissions()  # TODO: move this to a new script "share_drive"
     transfer_ownership()
     # remaining steps
     prompt_to_connect_master_links()
@@ -250,21 +250,31 @@ def copy_important_files(folder_id_map: IdMap, semester: Semester) -> IdMap:
                          copy_name=f'Schedule - {semester}')
     id_map['schedule'] = schedule
     # participation
-    # TODO: copying the spreadsheet will also copy the form, but form will stay in original parent w/ name 'Copy of x'.
-    # TODO: Must find the copied form, rename it, and move to new parent.
+    all_students = copy.file(origin_file_id=file_ids.participation['all_students'],
+                             parent_folder_id=folder_id_map['all_students']['participation'],
+                             copy_name=f'All student attendance - {semester}')
     engagement = copy.file(origin_file_id=file_ids.participation['engagement'],
                            parent_folder_id=folder_id_map['all_students']['participation'],
                            copy_name=f'Engagement - {semester}')
+    engagement_form = find.gform(file_name='Copy of Engagement - ',
+                                 parent_folder_id=folder_ids.all_students['participation'],
+                                 exact_match=False)
+    rename.file(file_id=engagement_form, new_name=f'Engagement - {semester}')
+    move.file(origin_file_id=engagement_form, target_folder_id=folder_id_map['all_students']['participation'])
     no_shows = copy.file(origin_file_id=file_ids.participation['no_shows'],
                          parent_folder_id=folder_id_map['all_students']['participation'],
-                         copy_name=f'No Shows - {semester}')
-    all_students = copy.file(origin_file_id=file_ids.participation['all_students'],
-                             parent_folder_id=folder_id_map['all_students']['participation'],
-                             copy_name=f'All Students - {semester}')
+                         copy_name=f'No shows - {semester}')
+    no_shows_form = find.gform(file_name='Copy of No shows - ',
+                               parent_folder_id=folder_ids.all_students['participation'],
+                               exact_match=False)
+    rename.file(file_id=engagement_form, new_name=f'No shows - {semester}')
+    move.file(origin_file_id=engagement_form, target_folder_id=folder_id_map['all_students']['participation'])
     id_map['participation'] = {
         'all_students': all_students,
         'engagement': engagement,
-        'no_shows': no_shows
+        'engagement_form': engagement_form,
+        'no_shows': no_shows,
+        'no_shows_form': no_shows_form
     }
     # templates
     rsvp = copy.file(origin_file_id=file_ids.templates['rsvp'],

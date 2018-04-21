@@ -3,6 +3,10 @@ semester_root = ""
 
 drive_playground = "1QOsOQq3FMYfpXau6v3ubem5wrC97yWwo"
 
+all_students = {
+    'participation': '1Aw01Ar17Dm4oWN6AL7dk24YFK3QUj27z'
+}
+
 section_folders = {
     "1": "",
     "2": "",
