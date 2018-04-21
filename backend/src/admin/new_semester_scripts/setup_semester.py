@@ -460,27 +460,35 @@ def clear_required_committees_and_mt(*,
 
 @command_line.log(start_message='Setting up rosters.',
                   end_message='Rosters set up.\n')
-def prepare_all_rosters() -> None:
+def prepare_all_rosters(*,
+                        include_committees: bool = True,
+                        include_mission_teams: bool = True,
+                        add_colors: bool = True) -> None:
     """
     Setup every roster with data and formatting, pulling data from Master.
     """
     master_grid = sheet.get_values(new_file_ids.master, 'Master!A2:Z')
-    for mt_number, mt_roster_id in new_file_ids.mission_team_attendance.items():
-        prepare_roster(spreadsheet_id=mt_roster_id,
-                       filter_column_index=column_indexes.master['mt'],
-                       filter_value=str(mt_number),
-                       master_grid=master_grid)
-    for committee, committee_roster_id in new_file_ids.committee_attendance.items():
-        prepare_roster(spreadsheet_id=committee_roster_id,
-                       filter_column_index=column_indexes.master['committee'],
-                       filter_value=committee,
-                       master_grid=master_grid)
+    if include_mission_teams:
+        for mt_number, mt_roster_id in new_file_ids.mission_team_attendance.items():
+            prepare_roster(spreadsheet_id=mt_roster_id,
+                           filter_column_index=column_indexes.master['mt'],
+                           filter_value=str(mt_number),
+                           master_grid=master_grid,
+                           add_colors=add_colors)
+    if include_committees:
+        for committee, committee_roster_id in new_file_ids.committee_attendance.items():
+            prepare_roster(spreadsheet_id=committee_roster_id,
+                           filter_column_index=column_indexes.master['committee'],
+                           filter_value=committee,
+                           master_grid=master_grid,
+                           add_colors=add_colors)
 
 
 def prepare_roster(spreadsheet_id: str, *,
                    filter_column_index: int,
                    filter_value: str,
-                   master_grid: sheet.Grid) -> None:
+                   master_grid: sheet.Grid,
+                   add_colors: bool = True) -> None:
     """
     Setup provided roster's data and formatting.
     """
@@ -539,13 +547,15 @@ def prepare_roster(spreadsheet_id: str, *,
     sheet.update_values(spreadsheet_id,
                         range_='A1:Z',
                         grid=with_headers)
-    sheet.batch_update(spreadsheet_id, [dropdown_request,
-                                        protected_range_request,
-                                        hide_request,
-                                        freeze_request,
-                                        resize_request,
-                                        colors_request,
-                                        rename_request])
+    requests = [dropdown_request,
+                protected_range_request,
+                hide_request,
+                freeze_request,
+                resize_request,
+                rename_request]
+    if add_colors:  # will crash app if colors already added
+        requests.append(colors_request)
+    sheet.batch_update(spreadsheet_id, requests)
 
 
 # ------------------------------------------------------------------

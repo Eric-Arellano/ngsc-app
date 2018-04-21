@@ -15,21 +15,23 @@ sys.path.append(str(current_file_path.parents[1]))
 sys.path.append(str(current_file_path.parents[4]))
 
 import textwrap
+from typing import NamedTuple
 
-from scripts.utils import command_line, files
+from scripts.utils import command_line
 from backend.src.drive_commands import generate_link
 from backend.src.data.new_semester import new_file_ids
+from backend.src.admin.new_semester_scripts import setup_semester
 
 
 def main() -> None:
+    setup_semester.check_new_ids_different()
     confirm_rebuild()
-    check_files_exist()
-    rebuild()
+    check_master_updated()
+    roster_targets = choose_rosters()
+    setup_semester.prepare_all_rosters(include_committees=roster_targets.committees,
+                                       include_mission_teams=roster_targets.mission_teams,
+                                       add_colors=False)
 
-
-# ------------------------------------------------------------------
-# CLI
-# ------------------------------------------------------------------
 
 def confirm_rebuild() -> None:
     """
@@ -42,37 +44,50 @@ def confirm_rebuild() -> None:
             default='no')
     if confirmation is False:
         raise SystemExit('Canceling. The rosters will be kept as is.')
+
+
+def check_master_updated() -> None:
+    """
+    Make sure information is ready to be copied.
+    """
     master_link = generate_link.gsheet(new_file_ids.master)
     command_line.ask_confirmation(question=textwrap.dedent(f'''\
                     1. Open up the new semester's master spreadsheet at {master_link}
-                    2. Make sure all the information is up-to-date, e.g. the \'Leave of Absence\' tab is up-to-date.'''),
+                    2. Make sure all the information is up-to-date, e.g. the \'Leave of Absence\' tab is up-to-date.
+                    (Reminder: this script will pull Master for the updated roster info.)'''),
                                   default_to_yes=True)
 
 
-def check_files_exist() -> None:
-    """
-    Checks for required files.
-    """
-    required_files = ['backend/src/data/new_folder_ids.py', 'backend/src/data/new_file_ids.py']
-    do_exist = files.do_exist(required_files)
-    if not do_exist:
-        raise SystemExit(
-                textwrap.dedent(f'''\
-                        One of the required files was not found: {' or '.join(required_files)}
-                        These files should have had been created after running `./run.py setup-semester`.'''))
+class RosterTargets(NamedTuple):
+    committees: bool
+    mission_teams: bool
 
 
-# ------------------------------------------------------------------
-# Add permissions & share
-# ------------------------------------------------------------------
+def choose_rosters() -> RosterTargets:
+    """
+    Ask if user wants to rebuild committees, mission teams, or both.
+    """
 
-@command_line.log(start_message='Rebuilding all rosters.',
-                  end_message='Rosters rebuilt.\n')
-def rebuild() -> None:
-    """
-    Share folders within student leadership.
-    """
-    raise NotImplementedError
+    def is_valid_option(answer: str) -> bool:
+        return answer in ['1', '2', '3']
+
+    option = command_line.ask_input(
+            prompt=textwrap.dedent('''\
+                        Which rosters do you want to rebuild?
+                        1. All rosters
+                        2. Committees only
+                        3. Mission teams only
+                        
+                        Enter as a whole number.'''),
+            is_valid=is_valid_option)
+    if option == '1':
+        return RosterTargets(committees=True, mission_teams=True)
+    elif option == '2':
+        return RosterTargets(committees=True, mission_teams=False)
+    elif option == '3':
+        return RosterTargets(committees=False, mission_teams=True)
+    else:
+        return RosterTargets(committees=False, mission_teams=False)
 
 
 # ------------------------------------------------------------------
