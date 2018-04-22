@@ -23,7 +23,7 @@ from typing import Dict, Union, Tuple
 from scripts.utils import command_line
 from backend.src.data import column_indexes, file_ids, folder_ids, sheet_formulas
 from backend.src.data.new_semester import new_leadership, new_file_ids, new_folder_ids
-from backend.src.drive_commands import copy, create, find, rename, move, generate_link
+from backend.src.drive_commands import copy, create, generate_link
 from backend.src.sheets_commands import columns, display, formulas, sheet, validation, rows, tab
 
 Semester = str
@@ -297,55 +297,51 @@ def copy_important_files(folder_id_map: IdMap, semester: Semester) -> IdMap:
     id_map = {}
     # master
     master = copy.file(origin_file_id=file_ids.master,
-                       parent_folder_id=folder_id_map['semester_root'],
-                       copy_name=f'Master - {semester}')
+                       target_parent_folder_id=folder_id_map['semester_root'],
+                       new_name=f'Master - {semester}')
     id_map['master'] = master
     id_map['master_prior_semester'] = file_ids.master
     # schedule
     schedule = copy.file(origin_file_id=file_ids.schedule,
-                         parent_folder_id=folder_id_map['semester_root'],
-                         copy_name=f'Schedule - {semester}')
+                         target_parent_folder_id=folder_id_map['semester_root'],
+                         new_name=f'Schedule - {semester}')
     id_map['schedule'] = schedule
     # participation
     all_students = copy.file(origin_file_id=file_ids.participation['all_students'],
-                             parent_folder_id=folder_id_map['all_students']['participation'],
-                             copy_name=f'All student attendance - {semester}')
-    engagement = copy.file(origin_file_id=file_ids.participation['engagement'],
-                           parent_folder_id=folder_id_map['all_students']['participation'],
-                           copy_name=f'Engagement - {semester}')
-    engagement_form = find.gform(file_name='Copy of Engagement - ',
-                                 parent_folder_id=folder_ids.all_students['participation'],
-                                 exact_match=False)
-    rename.file(file_id=engagement_form, new_name=f'Engagement - {semester}')
-    move.file(origin_file_id=engagement_form, target_folder_id=folder_id_map['all_students']['participation'])
-    no_shows = copy.file(origin_file_id=file_ids.participation['no_shows'],
-                         parent_folder_id=folder_id_map['all_students']['participation'],
-                         copy_name=f'No shows - {semester}')
-    no_shows_form = find.gform(file_name='Copy of No shows - ',
-                               parent_folder_id=folder_ids.all_students['participation'],
-                               exact_match=False)
-    rename.file(file_id=engagement_form, new_name=f'No shows - {semester}')
-    move.file(origin_file_id=engagement_form, target_folder_id=folder_id_map['all_students']['participation'])
+                             target_parent_folder_id=folder_id_map['all_students']['participation'],
+                             new_name=f'All student attendance - {semester}')
+    engagement = copy.linked_sheet_and_form(origin_sheet_id=file_ids.participation['engagement'],
+                                            origin_form_id=file_ids.participation['engagement_form'],
+                                            origin_parent_folder_id=folder_ids.all_students['participation'],
+                                            new_sheet_name=f'Engagement - {semester}',
+                                            new_form_name=f'Engagement - {semester}',
+                                            target_parent_folder_id=folder_id_map['all_students']['participation'])
+    no_shows = copy.linked_sheet_and_form(origin_sheet_id=file_ids.participation['no_shows'],
+                                          origin_form_id=file_ids.participation['no_shows_form'],
+                                          origin_parent_folder_id=folder_ids.all_students['participation'],
+                                          new_sheet_name=f'No shows - {semester}',
+                                          new_form_name=f'No shows - {semester}',
+                                          target_parent_folder_id=folder_id_map['all_students']['participation'])
     id_map['participation'] = {
         'all_students': all_students,
-        'engagement': engagement,
-        'engagement_form': engagement_form,
-        'no_shows': no_shows,
-        'no_shows_form': no_shows_form
+        'engagement': engagement.sheet,
+        'engagement_form': engagement.form,
+        'no_shows': no_shows.sheet,
+        'no_shows_form': no_shows.form
     }
     # templates
     rsvp = copy.file(origin_file_id=file_ids.templates['rsvp'],
-                     parent_folder_id=folder_id_map['templates'],
-                     copy_name='RSVP Template')
+                     target_parent_folder_id=folder_id_map['templates'],
+                     new_name='RSVP Template')
     initial_meeting = copy.file(origin_file_id=file_ids.templates['initial_meeting'],
-                                parent_folder_id=folder_id_map['templates'],
-                                copy_name='Initial meeting template')
+                                target_parent_folder_id=folder_id_map['templates'],
+                                new_name='Initial meeting template')
     event_proposal = copy.file(origin_file_id=file_ids.templates['event_proposal'],
-                               parent_folder_id=folder_id_map['templates'],
-                               copy_name='Event proposal template')
+                               target_parent_folder_id=folder_id_map['templates'],
+                               new_name='Event proposal template')
     ols_cancel_rsvp = copy.file(origin_file_id=file_ids.templates['ols_cancel_rsvp'],
-                                parent_folder_id=folder_id_map['templates'],
-                                copy_name='OLS cancel RSVP template')
+                                target_parent_folder_id=folder_id_map['templates'],
+                                new_name='OLS cancel RSVP template')
     id_map['templates'] = {
         'rsvp': rsvp,
         'initial_meeting': initial_meeting,
