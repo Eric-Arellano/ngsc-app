@@ -1,6 +1,7 @@
 """
 Copy a file or folder from source into the specified targets.
 """
+import time
 from typing import NamedTuple
 
 from googleapiclient import discovery
@@ -62,13 +63,14 @@ def linked_sheet_and_form(*,
                  target_parent_folder_id=target_parent_folder_id,
                  new_name=new_sheet_name,
                  drive_service=drive_service)
-    form_copy = find.gform(file_name=f'Copy of {original_form_name}',
-                           parent_folder_id=origin_parent_folder_id,
-                           drive_service=drive_service)
-    rename.file(file_id=form_copy,
+    time.sleep(20)  # make sure the accompanying form gets created
+    form_copy_id = find.gform(file_name=f'Copy of {original_form_name}',
+                              parent_folder_id=origin_parent_folder_id,
+                              drive_service=drive_service)
+    rename.file(file_id=form_copy_id,
                 new_name=new_form_name,
                 drive_service=drive_service)
-    move.file(origin_file_id=form_copy,
+    move.file(origin_file_id=form_copy_id,
               target_folder_id=target_parent_folder_id,
               drive_service=drive_service)
-    return SheetAndForm(sheet=sheet, form=form_copy)
+    return SheetAndForm(sheet=sheet, form=form_copy_id)

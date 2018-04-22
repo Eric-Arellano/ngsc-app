@@ -93,9 +93,12 @@ def print_debugging_tips() -> None:
         If the new IDs are already saved to the `data/new_semester` folder, then, in this script itself, you can comment out the commands already done and restart the script.
         
         Potential sources of failure (non-exhaustive):
-        - File names were changed from what this script is expecting (particularly the files referenced in `copy_important_files()`.
         - Column indexes were changed. Compare actual indexes with this script and `data/column_indexes`.
+        - Tab names were changed. Compare to the formulas in `data/sheet_formulas`.
         - Occasionally Google's API server itself has failed, and the script simply needs to be run again.
+        
+        These should not be sources of error, but check just in case:
+        - Changed file names. The scripts work by File IDs, instead of file names. 
         -------\n
     '''))
 

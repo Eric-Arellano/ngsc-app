@@ -1,7 +1,7 @@
 """
 Locate and return a file or folder ID for the specified targets.
 """
-from typing import Optional
+from typing import List, Optional
 
 from googleapiclient import discovery
 
@@ -137,13 +137,22 @@ def parent_folder(resource_id: ResourceID, *,
     """
     Find parent folder ID for resource.
     """
+    parents = parent_folder_list(resource_id=resource_id, drive_service=drive_service)
+    return parents[0]
+
+
+def parent_folder_list(resource_id: ResourceID, *,
+                       drive_service: discovery.Resource = None) -> List[ResourceID]:
+    """
+    Find all parent folder IDs for resource.
+    """
     if drive_service is None:
         drive_service = drive_api.build_service()
     result = drive_service \
         .files() \
         .get(fileId=resource_id, fields='parents') \
         .execute()
-    return result['parents'][0]
+    return result['parents']
 
 
 def name(resource_id: ResourceID, *,

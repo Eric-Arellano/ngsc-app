@@ -42,11 +42,12 @@ def _move_resource(*,
     """
     if drive_service is not None:
         drive_service = drive_api.build_service()
-    previous_parent = find.parent_folder(resource_id=origin_resource_id)
+    previous_parents = find.parent_folder_list(resource_id=origin_resource_id)
+    previous_parents_formatted = ', '.join(previous_parents)
     drive_service \
         .files() \
         .update(fileId=origin_resource_id,
                 addParents=target_folder_id,
-                removeParents=previous_parent,
+                removeParents=previous_parents_formatted,
                 fields='id, parents') \
         .execute()
