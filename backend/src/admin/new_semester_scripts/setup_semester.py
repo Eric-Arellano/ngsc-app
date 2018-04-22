@@ -64,9 +64,9 @@ def main() -> None:
     clear_engagement_data(sheets_service=sheets_service)
     clear_no_show_data(sheets_service=sheets_service)
     rising_cohorts = ask_rising_cohorts()
-    clear_required_committees_and_mt(sophomore_cohort=rising_cohorts.sophomores,
-                                     senior_cohort=rising_cohorts.seniors,
-                                     sheets_service=sheets_service)
+    clear_outdated_master(sophomore_cohort=rising_cohorts.sophomores,
+                          senior_cohort=rising_cohorts.seniors,
+                          sheets_service=sheets_service)
     prompt_to_clear_remaining_old_data()
     # prepare files
     prepare_all_rosters(sheets_service=sheets_service)
@@ -93,6 +93,7 @@ def print_debugging_tips() -> None:
         If the new IDs are already saved to the `data/new_semester` folder, then, in this script itself, you can comment out the commands already done and restart the script.
         
         Potential sources of failure (non-exhaustive):
+        - Prior copies of the participation forms exist in the current semester's folder, which will cause an ambiguous search. Delete any prior "Copy of X".
         - Column indexes were changed. Compare actual indexes with this script and `data/column_indexes`.
         - Tab names were changed. Compare to the formulas in `data/sheet_formulas`.
         - Occasionally Google's API server itself has failed, and the script simply needs to be run again.
@@ -531,12 +532,12 @@ def clear_no_show_data(*, sheets_service: discovery.Resource = None) -> None:
 
 
 @command_line.log(
-        start_message='Clearing required committees for rising sophomores and mission teams for rising seniors.',
-        end_message='Cleared required committees and mission teams.\n')
-def clear_required_committees_and_mt(*,
-                                     sophomore_cohort: int,
-                                     senior_cohort: int,
-                                     sheets_service: discovery.Resource = None) -> None:
+        start_message='Clearing outdated master info (current leadership, sophomores with committees, and seniors with mission teams).',
+        end_message='Cleared outdated master info.\n')
+def clear_outdated_master(*,
+                          sophomore_cohort: int,
+                          senior_cohort: int,
+                          sheets_service: discovery.Resource = None) -> None:
     """
     Remove committees for rising sophomores and mission teams for rising seniors.
     """
@@ -551,9 +552,13 @@ def clear_required_committees_and_mt(*,
                                              key_index=column_indexes.master['cohort'],
                                              key_values=[str(senior_cohort)],
                                              target_indexes=[column_indexes.master['mt']])
+    cleared_leadership = columns.clear(grid=cleared_mission_teams,
+                                       target_indexes=[column_indexes.master['leadership']])
+    cleared_status = columns.clear(grid=cleared_leadership,
+                                   target_indexes=[column_indexes.master['status']])
     sheet.update_values(spreadsheet_id=new_file_ids.master,
                         range_='A2:Z',
-                        grid=cleared_mission_teams,
+                        grid=cleared_status,
                         sheets_service=sheets_service)
 
 
