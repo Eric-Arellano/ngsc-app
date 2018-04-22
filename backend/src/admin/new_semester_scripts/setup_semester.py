@@ -55,17 +55,19 @@ def main() -> None:
     save_folder_ids(folder_id_map)
     save_file_ids(file_id_map)
     check_new_ids_different()
+    # steps before adding data
+    prompt_to_add_admin_email()
+    prompt_to_update_leave_of_absence()
+    # update ID lists
+    update_participation_id_list(sheets_service=sheets_service)
     # clear old data
     clear_engagement_data(sheets_service=sheets_service)
     clear_no_show_data(sheets_service=sheets_service)
-    clear_all_student_attendance_data(sheets_service=sheets_service)
     rising_cohorts = ask_rising_cohorts()
     clear_required_committees_and_mt(senior_cohort=rising_cohorts.sophomores,
                                      sophomore_cohort=rising_cohorts.seniors,
                                      sheets_service=sheets_service)
-    # steps before preparing rosters
-    prompt_to_add_admin_email()
-    prompt_to_update_leave_of_absence()
+    prompt_to_clear_remaining_old_data()
     # prepare files
     prepare_all_rosters(sheets_service=sheets_service)
     update_master_formulas(sheets_service=sheets_service)
@@ -75,7 +77,7 @@ def main() -> None:
 
 
 # ------------------------------------------------------------------
-# CLI
+# Start script
 # ------------------------------------------------------------------
 
 def print_debugging_tips() -> None:
@@ -116,82 +118,6 @@ def ask_semester_target() -> str:
                         What semester are you creating this for?
                         Enter in the format \'Spring 2018\', \'Fall 2023\'.'''),
             is_valid=is_valid_semester)
-
-
-class RisingCohorts(NamedTuple):
-    sophomores: int
-    seniors: int
-
-
-def ask_rising_cohorts() -> RisingCohorts:
-    """
-    Ask who are rising sophomores and seniors.
-    """
-
-    def is_valid_cohort(answer: str) -> bool:
-        return bool(re.match('^[1-9][0-9]?$', answer))
-
-    sophomore = command_line.ask_input(
-            prompt=textwrap.dedent('''\
-                        Which cohort are the rising sophomores?
-                        Enter as a whole number.'''),
-            is_valid=is_valid_cohort)
-    senior = command_line.ask_input(
-            prompt=textwrap.dedent('''\
-                        Which cohort are the rising seniors?
-                        Enter as a whole number.'''),
-            is_valid=is_valid_cohort)
-    return RisingCohorts(sophomores=int(sophomore),
-                         seniors=int(senior))
-
-
-def prompt_to_add_admin_email() -> None:
-    """
-    Make sure new admin chair added to leadership data file. Necessary for preparing rosters.
-    """
-    command_line.ask_confirmation(question=textwrap.dedent('''\
-            1. Open up the file `backend/src/data/new_semester/new_leadership.py`. 
-            2. Add the emails for the new Admin Chair, Chief of Staff, and staff.'''),
-                                  default_to_yes=True)
-
-
-def prompt_to_update_leave_of_absence() -> None:
-    """
-    Prompt to transfer students on leave of absence back into Master spreadsheet.
-    """
-    master_link = generate_link.gsheet(new_file_ids.master)
-    command_line.ask_confirmation(question=textwrap.dedent(f'''\
-            1. Open up the new master spreadsheet at {master_link}
-            2. Select the tab \'Leave of absence\'.
-            3. Transfer any students who will be back during the upcoming semester back to the \'Master\' tab.'''),
-                                  default_to_yes=True)
-
-
-def prompt_to_connect_master_links() -> None:
-    """
-    Prompt to connect Master to all the rosters and participation sheets.
-    """
-    master_link = generate_link.gsheet(new_file_ids.master)
-    command_line.ask_confirmation(question=textwrap.dedent(f'''\
-            1. Open up the new master spreadsheet at {master_link}
-            2. Scroll to the right to the participation section.
-            3. Highlight over cells with `#REF!` and press 'Allow access'.
-            4. Continue to add access until there are no more `#REF!`s.'''),
-                                  default_to_yes=True)
-
-
-def print_remaining_steps() -> None:
-    semester_link = generate_link.folder(new_folder_ids.semester_root)
-    print(textwrap.dedent(f'''\
-        The semester's drive is set up! Check {semester_link}
-        
-        Once you are ready to share with new leadership, run `./run.py share-drive`
-        If you need to rebuild the rosters, e.g. when freshmen join the program, run `./run.py rebuild-rosters`.
-        
-        Finally, you will need to copy all of the data under `backend/src/data/new_semester` 
-        Only do this once the current semester is completely done, because it will change the links used by the web app.
-        After you do this, run `./run.py student-info`, deploy, and make sure the web app still works.
-        '''))
 
 
 # ------------------------------------------------------------------
@@ -505,8 +431,81 @@ def _format_id_output(ids: IdMap) -> str:
 
 
 # ------------------------------------------------------------------
+# Steps before adding data
+# ------------------------------------------------------------------
+
+def prompt_to_add_admin_email() -> None:
+    """
+    Make sure new admin chair added to leadership data file. Necessary for preparing rosters.
+    """
+    command_line.ask_confirmation(question=textwrap.dedent('''\
+            1. Open up the file `backend/src/data/new_semester/new_leadership.py`. 
+            2. Add the emails for the new Admin Chair, Chief of Staff, and staff.'''),
+                                  default_to_yes=True)
+
+
+def prompt_to_update_leave_of_absence() -> None:
+    """
+    Prompt to transfer students on leave of absence back into Master spreadsheet.
+    """
+    master_link = generate_link.gsheet(new_file_ids.master)
+    command_line.ask_confirmation(question=textwrap.dedent(f'''\
+            1. Open up the new master spreadsheet at {master_link}
+            2. Select the tab \'Leave of absence\'.
+            3. Transfer any students who will be back during the upcoming semester back to the \'Master\' tab.'''),
+                                  default_to_yes=True)
+
+
+# ------------------------------------------------------------------
+# Update Participation ID lists
+# ------------------------------------------------------------------
+
+def update_participation_id_list(*, sheets_service: discovery.Resource = None) -> None:
+    """
+    Re-pull the list of student IDs for All Student Attendance, No Shows, and Engagement.
+    """
+    student_ids = sheet.get_values(spreadsheet_id=new_file_ids.master,
+                                   range_='Master!C2:C',
+                                   sheets_service=sheets_service)
+    update_student_id_list = functools.partial(sheet.update_values,
+                                               range_='Total!A2:A',
+                                               grid=student_ids,
+                                               sheets_service=sheets_service)
+    update_student_id_list(spreadsheet_id=new_file_ids.participation['engagement'])
+    update_student_id_list(spreadsheet_id=new_file_ids.participation['no_shows'])
+    update_student_id_list(spreadsheet_id=new_file_ids.participation['engagement'])
+
+
+# ------------------------------------------------------------------
 # Clear old data
 # ------------------------------------------------------------------
+
+class RisingCohorts(NamedTuple):
+    sophomores: int
+    seniors: int
+
+
+def ask_rising_cohorts() -> RisingCohorts:
+    """
+    Ask who are rising sophomores and seniors.
+    """
+
+    def is_valid_cohort(answer: str) -> bool:
+        return bool(re.match('^[1-9][0-9]?$', answer))
+
+    sophomore = command_line.ask_input(
+            prompt=textwrap.dedent('''\
+                        Which cohort are the rising sophomores?
+                        Enter as a whole number.'''),
+            is_valid=is_valid_cohort)
+    senior = command_line.ask_input(
+            prompt=textwrap.dedent('''\
+                        Which cohort are the rising seniors?
+                        Enter as a whole number.'''),
+            is_valid=is_valid_cohort)
+    return RisingCohorts(sophomores=int(sophomore),
+                         seniors=int(senior))
+
 
 @command_line.log(start_message='Clearing engagement data.',
                   end_message='Engagement data cleared.\n')
@@ -525,22 +524,21 @@ def clear_engagement_data(*, sheets_service: discovery.Resource = None) -> None:
                         sheets_service=sheets_service)
 
 
-@command_line.log(start_message='Clearing all-student attendance data.',
-                  end_message='All-student attendance data cleared.\n')
-def clear_all_student_attendance_data(*, sheets_service: discovery.Resource = None) -> None:
-    """
-    Remove last semester's submissions.
-    """
-    raise NotImplementedError  # TODO: implement
-
-
-@command_line.log(start_message='Clearing no-show data.',
-                  end_message='No-show data cleared.\n')
+@command_line.log(start_message='Clearing no-show form data.',
+                  end_message='No-show form data cleared.\n')
 def clear_no_show_data(*, sheets_service: discovery.Resource = None) -> None:
     """
     Remove last semester's submissions.
     """
-    raise NotImplementedError  # TODO: implement
+    original_grid = sheet.get_values(new_file_ids.participation['no_shows'],
+                                     range_="'Form events'!A2:BU",
+                                     sheets_service=sheets_service)
+    cleared_grid = columns.clear(grid=original_grid,
+                                 target_indexes=list(range(70)))
+    sheet.update_values(spreadsheet_id=new_file_ids.participation['no_shows'],
+                        range_="'Form events'!A2:BU",
+                        grid=cleared_grid,
+                        sheets_service=sheets_service)
 
 
 @command_line.log(
@@ -568,6 +566,26 @@ def clear_required_committees_and_mt(*,
                         range_='A2:Z',
                         grid=cleared_mission_teams,
                         sheets_service=sheets_service)
+
+
+def prompt_to_clear_remaining_old_data() -> None:
+    """
+    Prompt to clear data that cannot be safely deleted.
+    """
+    all_students_link = generate_link.gsheet(new_file_ids.participation['all_students'])
+    no_shows_link = generate_link.gsheet(new_file_ids.participation['no_shows'])
+    command_line.ask_confirmation(question=textwrap.dedent(f'''\
+                Some of the data cannot be safely deleted from the script, so you will have to do it.
+                1. Open up the new 'All student attendance' sheet at {all_students_link}
+                2. Erase the data on every tab except for 'Total attendance'. (Make sure the formulas are saved in the 'Formulas' tab.)
+                3. Rename the tabs to the relevant events, e.g. "OLS 1" and "Fall Retreat".
+                4. Go back to the tab 'All student attendance'. Confirm everyone has 0s.
+                5. We don't want everyone to actually have 0s, because we haven't had the events yet. So, erase the formula in column 'Total attendance %'. 
+                   After the event happens, go back and add the formula.
+                6. Go to the new 'No shows' sheet at {no_shows_link}
+                7. Erase the data under the tabs named after All-student Events, like 'OLS 3'. (Make sure the 'Formulas' tab.)
+                8. Every student should have 0 on the 'Total no-shows' tab.'''),
+                                  default_to_yes=True)
 
 
 # ------------------------------------------------------------------
@@ -752,6 +770,37 @@ def update_master_formulas(*, sheets_service: discovery.Resource = None) -> None
                         range_='A2:Z',
                         grid=result,
                         sheets_service=sheets_service)
+
+
+# -------------------------------------
+# Remaining steps
+# -------------------------------------
+
+def prompt_to_connect_master_links() -> None:
+    """
+    Prompt to connect Master to all the rosters and participation sheets.
+    """
+    master_link = generate_link.gsheet(new_file_ids.master)
+    command_line.ask_confirmation(question=textwrap.dedent(f'''\
+            1. Open up the new master spreadsheet at {master_link}
+            2. Scroll to the right to the participation section.
+            3. Highlight over cells with `#REF!` and press 'Allow access'.
+            4. Continue to add access until there are no more `#REF!`s.'''),
+                                  default_to_yes=True)
+
+
+def print_remaining_steps() -> None:
+    semester_link = generate_link.folder(new_folder_ids.semester_root)
+    print(textwrap.dedent(f'''\
+        The semester's drive is set up! Check {semester_link}
+
+        Once you are ready to share with new leadership, run `./run.py share-drive`
+        If you need to rebuild the rosters, e.g. when freshmen join the program, run `./run.py rebuild-rosters`.
+
+        Finally, you will need to copy all of the data under `backend/src/data/new_semester` 
+        Only do this once the current semester is completely done, because it will change the links used by the web app.
+        After you do this, run `./run.py student-info`, deploy, and make sure the web app still works.
+        '''))
 
 
 # -------------------------------------

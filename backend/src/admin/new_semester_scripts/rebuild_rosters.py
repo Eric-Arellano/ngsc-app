@@ -18,19 +18,26 @@ import textwrap
 from typing import NamedTuple
 
 from scripts.utils import command_line
+from backend.src.google_apis import sheets_api
 from backend.src.drive_commands import generate_link
 from backend.src.data.new_semester import new_file_ids
 from backend.src.admin.new_semester_scripts import setup_semester
 
 
 def main() -> None:
+    # check preconditions
     setup_semester.check_new_ids_different()
     confirm_rebuild()
     check_master_updated()
+    # choose target
     roster_targets = choose_rosters()
+    # execute
+    sheets_service = sheets_api.build_service()
     setup_semester.prepare_all_rosters(include_committees=roster_targets.committees,
                                        include_mission_teams=roster_targets.mission_teams,
-                                       add_colors=False)
+                                       add_colors=False,
+                                       sheets_service=sheets_service)
+    setup_semester.update_participation_id_list(sheets_service=sheets_service)
 
 
 def confirm_rebuild() -> None:
