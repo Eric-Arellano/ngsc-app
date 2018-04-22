@@ -44,12 +44,12 @@ def main() -> None:
     # create resources
     folder_id_map = create_empty_folders(semester=semester,
                                          drive_service=drive_service)
-    important_files = copy_important_files(folder_id_map=folder_id_map,
-                                           semester=semester,
-                                           drive_service=drive_service)
     roster_ids = create_empty_rosters(folder_id_map=folder_id_map,
                                       semester=semester,
                                       drive_service=drive_service)
+    important_files = copy_important_files(folder_id_map=folder_id_map,
+                                           semester=semester,
+                                           drive_service=drive_service)
     file_id_map = {**roster_ids, **important_files}
     # save to hardcoded files
     save_folder_ids(folder_id_map)
@@ -64,8 +64,8 @@ def main() -> None:
     clear_engagement_data(sheets_service=sheets_service)
     clear_no_show_data(sheets_service=sheets_service)
     rising_cohorts = ask_rising_cohorts()
-    clear_required_committees_and_mt(senior_cohort=rising_cohorts.sophomores,
-                                     sophomore_cohort=rising_cohorts.seniors,
+    clear_required_committees_and_mt(sophomore_cohort=rising_cohorts.sophomores,
+                                     senior_cohort=rising_cohorts.seniors,
                                      sheets_service=sheets_service)
     prompt_to_clear_remaining_old_data()
     # prepare files
@@ -136,133 +136,108 @@ def create_empty_folders(*,
     """
     Set up the folder structure and return their IDs.
     """
+    # setup drive service
     if drive_service is None:
         drive_service = drive_api.build_service()
-    # NGSC root level
+    create_folder = functools.partial(create.folder,
+                                      drive_service=drive_service)
+    batch_create_folder = functools.partial(create.batch_folder,
+                                            drive_service=drive_service)
+    # Root level
+    semester_root = create_folder(semester,
+                                  parent_folder_id=folder_ids.drive_playground)  # TODO change to NGSC root when ready
     id_map = {
         'ngsc_root': folder_ids.ngsc_root,
-        'drive_playground': folder_ids.drive_playground
+        'drive_playground': folder_ids.drive_playground,
+        'semester_root': semester_root
     }
-    # Semester root
-    root = create.folder(semester,
-                         parent_folder_id=folder_ids.drive_playground,
-                         drive_service=drive_service)  # TODO change to NGSC root when ready
-    id_map['semester_root'] = root
-    # Templates
-    templates = create.folder('Templates',
-                              parent_folder_id=root,
-                              drive_service=drive_service)
-    id_map['templates'] = templates
-    # All students
-    all_students = create.folder('All students',
-                                 parent_folder_id=root,
-                                 drive_service=drive_service)
-    id_map['all_students_root'] = all_students
-    on_leadership = create.folder('On Leadership',
-                                  parent_folder_id=all_students,
-                                  drive_service=drive_service)
-    summit = create.folder('Summit',
-                           parent_folder_id=all_students,
-                           drive_service=drive_service)
-    participation = create.folder('Participation',
-                                  parent_folder_id=all_students,
-                                  drive_service=drive_service)
+    # Root subfolders
+    root_subfolders = [
+        drive_api.NameAndParent('Templates', semester_root),
+        drive_api.NameAndParent('All students', semester_root),
+        drive_api.NameAndParent('Leadership', semester_root),
+        drive_api.NameAndParent('Sections', semester_root),
+        drive_api.NameAndParent('Committees', semester_root),
+    ]
+    root_subfolders_ids = batch_create_folder(targets=root_subfolders)
+    id_map.update({
+        'templates': root_subfolders_ids[0],
+        'all_students_root': root_subfolders_ids[1],
+        'leadership_root': root_subfolders_ids[2],
+        'sections_root': root_subfolders_ids[3],
+        'committees_root': root_subfolders_ids[4],
+    })
+    # All students subfolders
+    all_students_subfolders = [
+        drive_api.NameAndParent('On Leadership', id_map['all_students_root']),
+        drive_api.NameAndParent('Summit', id_map['all_students_root']),
+        drive_api.NameAndParent('Participation', id_map['all_students_root']),
+    ]
+    all_students_subfolders_ids = batch_create_folder(targets=all_students_subfolders)
     id_map['all_students'] = {
-        'on_leadership': on_leadership,
-        'summit': summit,
-        'participation': participation
+        'on_leadership': all_students_subfolders_ids[0],
+        'summit': all_students_subfolders_ids[1],
+        'participation': all_students_subfolders_ids[2]
     }
-    # Leadership
-    leadership = create.folder('Leadership',
-                               parent_folder_id=root,
-                               drive_service=drive_service)
-    id_map['leadership_root'] = leadership
-    briefings = create.folder('Staff Briefings',
-                              parent_folder_id=leadership,
-                              drive_service=drive_service)
+    # Leadership subfolders
+    briefings = create_folder('Staff Briefings',
+                              parent_folder_id=id_map['leadership_root'])
     id_map['leadership'] = {
         'staff_briefings': briefings
     }
-    # Sections & MTs
-    sections = create.folder('Sections',
-                             parent_folder_id=root,
-                             drive_service=drive_service)
-    id_map['sections_root'] = sections
-    id_map['sections'] = {}
-    id_map['mission_teams'] = {}
-    for section_index in range(1, 11):
-        section_folder_id = create.folder(f'Section {section_index}',
-                                          parent_folder_id=sections,
-                                          drive_service=drive_service)
-        id_map['sections'][section_index] = section_folder_id
-        for mt_index in range(1, 4):
-            mt_number = mt_index + (3 * (section_index - 1))
-            mt_folder_id = create.folder(f'Mission Team {mt_number}',
-                                         parent_folder_id=section_folder_id,
-                                         drive_service=drive_service)
-            id_map['mission_teams'][mt_number] = mt_folder_id
-    # Committees
-    committees = create.folder('Committees',
-                               parent_folder_id=root,
-                               drive_service=drive_service)
-    id_map['committees_root'] = committees
+    # Sections folders
+    section_folders = [drive_api.NameAndParent(f'Section {section_index}',
+                                               parent_folder_id=id_map['sections_root'])
+                       for section_index in range(1, 11)]
+    section_folders_ids = batch_create_folder(targets=section_folders)
+    id_map['sections'] = dict(zip(range(1, 11), section_folders_ids))
+    # Mission team folders
+    mission_team_folders_by_section = [[drive_api.NameAndParent(f'Mission team {mt_number}',
+                                                                id_map['sections'][section_index])
+                                        for mt_number in (mt_index + (3 * (section_index - 1))
+                                                          for mt_index in range(1, 4))]
+                                       for section_index in range(1, 11)]
+    mission_team_folders_flattened = [mt for section in mission_team_folders_by_section
+                                      for mt in section]
+    mission_team_folders_ids = batch_create_folder(targets=mission_team_folders_flattened)
+    id_map['mission_teams'] = dict(zip(range(1, 31), mission_team_folders_ids))
     # Committee Leads
-    engagement = create.folder('Engagement',
-                               parent_folder_id=committees,
-                               drive_service=drive_service)
-    education = create.folder('Education',
-                              parent_folder_id=committees,
-                              drive_service=drive_service)
-    culture = create.folder('Culture',
-                            parent_folder_id=committees,
-                            drive_service=drive_service)
+    committee_leads_folders = [
+        drive_api.NameAndParent('Engagement', id_map['committees_root']),
+        drive_api.NameAndParent('Education', id_map['committees_root']),
+        drive_api.NameAndParent('Culture', id_map['committees_root'])
+    ]
+    committee_leads_folders_ids = batch_create_folder(targets=committee_leads_folders)
     id_map['committee_leads'] = {
-        'engagement': engagement,
-        'education': education,
-        'culture': culture
+        'Engagement': committee_leads_folders_ids[0],
+        'Education': committee_leads_folders_ids[1],
+        'Culture': committee_leads_folders_ids[2]
     }
     # Committee Chairs
-    admin = create.folder('Admin',
-                          parent_folder_id=committees,
-                          drive_service=drive_service)
-    transfers = create.folder('Transfers',
-                              parent_folder_id=engagement,
-                              drive_service=drive_service)
-    civil_mil = create.folder('Civil-Mil',
-                              parent_folder_id=engagement,
-                              drive_service=drive_service)
-    service = create.folder('Service',
-                            parent_folder_id=engagement,
-                            drive_service=drive_service)
-    training = create.folder('Training',
-                             parent_folder_id=education,
-                             drive_service=drive_service)
-    mentorship = create.folder('Mentorship',
-                               parent_folder_id=education,
-                               drive_service=drive_service)
-    ambassadors = create.folder('Ambassadors',
-                                parent_folder_id=education,
-                                drive_service=drive_service)
-    communications = create.folder('Communications',
-                                   parent_folder_id=culture,
-                                   drive_service=drive_service)
-    events = create.folder('Events',
-                           parent_folder_id=culture,
-                           drive_service=drive_service)
-    social = create.folder('Social',
-                           parent_folder_id=culture,
-                           drive_service=drive_service)
+    committee_chairs_folders = [
+        drive_api.NameAndParent('Admin', id_map['committees_root']),
+        drive_api.NameAndParent('Transfers', id_map['committee_leads']['Engagement']),
+        drive_api.NameAndParent('Civil-Mil', id_map['committee_leads']['Engagement']),
+        drive_api.NameAndParent('Service', id_map['committee_leads']['Engagement']),
+        drive_api.NameAndParent('Training', id_map['committee_leads']['Education']),
+        drive_api.NameAndParent('Mentorship', id_map['committee_leads']['Education']),
+        drive_api.NameAndParent('Ambassadors', id_map['committee_leads']['Education']),
+        drive_api.NameAndParent('Communications', id_map['committee_leads']['Culture']),
+        drive_api.NameAndParent('Events', id_map['committee_leads']['Culture']),
+        drive_api.NameAndParent('Social', id_map['committee_leads']['Culture']),
+    ]
+    committee_chairs_folders_ids = batch_create_folder(targets=committee_chairs_folders)
     id_map['committees'] = {
-        'Admin': admin,
-        'Transfers': transfers,
-        'Civil-Mil': civil_mil,
-        'Service': service,
-        'Training': training,
-        'Mentorship': mentorship,
-        'Ambassadors': ambassadors,
-        'Communications': communications,
-        'Events': events,
-        'Social': social
+        'Admin': committee_chairs_folders_ids[0],
+        'Transfers': committee_chairs_folders_ids[1],
+        'Civil-Mil': committee_chairs_folders_ids[2],
+        'Service': committee_chairs_folders_ids[3],
+        'Training': committee_chairs_folders_ids[4],
+        'Mentorship': committee_chairs_folders_ids[5],
+        'Ambassadors': committee_chairs_folders_ids[6],
+        'Communications': committee_chairs_folders_ids[7],
+        'Events': committee_chairs_folders_ids[8],
+        'Social': committee_chairs_folders_ids[9]
     }
     return id_map
 
@@ -276,25 +251,29 @@ def create_empty_rosters(*,
     """
     Create the roster spreadsheets (not set up) and save their IDs.
     """
+    # setup drive service
     if drive_service is None:
         drive_service = drive_api.build_service()
-    id_map = {
-        'committee_attendance': {},
-        'mission_team_attendance': {}
-    }
-    # Committee rosters
-    for committee, committee_folder_id in folder_id_map['committees'].items():
-        committee_roster_id = create.gsheet(file_name=f'Attendance - {committee} - {semester}',
-                                            parent_folder_id=committee_folder_id,
+    batch_create_gsheet = functools.partial(create.batch_gsheet,
                                             drive_service=drive_service)
-        id_map['committee_attendance'][committee] = committee_roster_id
+    # Committee rosters
+    committee_rosters = [drive_api.NameAndParent(name=f'Attendance - {committee} - {semester}',
+                                                 parent_folder_id=folder_id)
+                         for committee, folder_id
+                         in folder_id_map['committees'].items()]
+    committee_roster_ids = batch_create_gsheet(targets=committee_rosters)
+    committee_file_dict = dict(zip(folder_id_map['committees'].keys(), committee_roster_ids))
     # Mission team rosters
-    for mt_number, mt_folder_id in folder_id_map['mission_teams'].items():
-        mt_roster_id = create.gsheet(file_name=f'Attendance - Mission Team {mt_number} - {semester}',
-                                     parent_folder_id=mt_folder_id,
-                                     drive_service=drive_service)
-        id_map['mission_team_attendance'][mt_number] = mt_roster_id
-    return id_map
+    mission_team_rosters = [drive_api.NameAndParent(name=f'Attendance - Mission Team {mt_number} - {semester}',
+                                                    parent_folder_id=folder_id)
+                            for mt_number, folder_id
+                            in folder_id_map['mission_teams'].items()]
+    mission_team_roster_ids = batch_create_gsheet(targets=mission_team_rosters)
+    mission_team_file_dict = dict(zip(folder_id_map['mission_teams'].keys(), mission_team_roster_ids))
+    return {
+        'committee_attendance': committee_file_dict,
+        'mission_team_attendance': mission_team_file_dict
+    }
 
 
 @command_line.log(start_message='Copying important files.',
@@ -468,6 +447,8 @@ def prompt_to_update_leave_of_absence() -> None:
 # Update Participation ID lists
 # ------------------------------------------------------------------
 
+@command_line.log(start_message='Updating ID lists for participation spreadsheets.',
+                  end_message='ID lists updated.')
 def update_participation_id_list(*, sheets_service: discovery.Resource = None) -> None:
     """
     Re-pull the list of student IDs for All Student Attendance, No Shows, and Engagement.
