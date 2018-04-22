@@ -1,63 +1,58 @@
-master = '1gtsVgj8NeSdOGKd8HHRSNHjOTRDXJVls-Xw-gvoRONI'
-master_prior_semester = '1H5leinJFGT1SDfb2hqbDpQgSC_2GYr1HFwKPpzFZ1Js'
+committee_attendance = {'Admin': '1dnPID4W8ttjF6O1HVAgg2RCb5vM9jGzCVgxFV5QUsoo',
+                        'Ambassadors': '1bMHOBftYI3jKVVxKLB_N1fCtptGfu5DjDnxotjTlvZ0',
+                        'Civil-Mil': '13YtfFtkBvoKv14NlGHMtDMBZbV_zrHSjfkjaJAuz8AY',
+                        'Communications': '1f5Dk-uLvvFNXvGHuEWoVeAbKqqt6GyTisRBEQ-oK8lE',
+                        'Events': '1HKh4zsFZDcIi6LY3QgwaU9c1PfozZKo0o5iF3WFLqIs',
+                        'Mentorship': '1ek5PDDEjzubSaOJbw45Uya3cEqgl5uEhkstz2oF9Dd8',
+                        'Service': '1FV18STcrXFGfdMRgygT2XFV7lqpoYsvK3bd7LEB6p68',
+                        'Social': '1RlNfjv_ivzeZglZiaYiUqt8GQ6BwTLRIYRAT989QwTQ',
+                        'Training': '1CFG_u0k0mz8R7k31luMRSfYCyVHksHBQAUz28PNK2T4',
+                        'Transfers': '17bB_8DWwZJxbuieNWIz2mGKRn8k_LBprROyvO_xZQpc'}
 
-schedule = '1fk23kv3YeJ2k6iwg55UuK_VARy-_rPoXOZ_RRQFb1Ec'
+mission_team_attendance = {1: '1V2CqQh04CVkj67hQmNsRo5bMP68OraVGi3NR2EXEPXI',
+                           2: '1bLAnu-7MS4bnW-pY-jQwbKkZR3oV61uZ3xKoGu7mVHk',
+                           3: '1kY5C_AG9zVhErpPKbD7YbAdmKRltjvAAZwjQj1rxEeY',
+                           4: '1rRcKYIbCMn44dvX3eVuiLOETdrcBirD1sdzByAX2gMQ',
+                           5: '1BCTq3yxBGRz4IFqaffaj4sKN-HfJ-Ug-eQxsdDtJaDU',
+                           6: '1Npg2hqPLMRUKhRrqB79yIgmaIOhhZgxxraPTsPHkOpo',
+                           7: '1837AdrNlz0OCAOrXBeh0kcGo_o2nyPwhL3AELIUyT0Y',
+                           8: '10YJ1KEChvBD0uLaH34zfvYjpy_Dmg7Tk0djGLTLYEZY',
+                           9: '1n2-vhE2UzF4lmw5WWJMWhevNKh7dlwttqGNi_pxPTc4',
+                           10: '19Cw2xWnBsLVgn9boRdH5s9jgmwO4Y_IqWogeWmdYkFA',
+                           11: '1PFYfQ0e4XXf_lUf5Q-BCf9646LXv9JywH-1RzKqp7tk',
+                           12: '1U33fjBASyuUR4_7rO-CG_KNm4lCOe1OWA34-LLaHRqU',
+                           13: '1HzMGlGA858JW0D1Xh5xjcTR853b-G5hlhDWn9LxutpQ',
+                           14: '1QsKw03Ojn9QN01FnoiBIlzwdOr5DhI0-ZRz_2V9Iinc',
+                           15: '1KjIcEl4h6AciTgaMTAniS_yfrEeQPTb5YaBHmzy4Rkk',
+                           16: '137yTBg99IDGasmuTNRLphtaZRofPaGnuuhwtpMsKl8M',
+                           17: '1R9LNc3clBoMCWhdEbzMkpWWW6bER_huD3xrNzgxUVV8',
+                           18: '15Ah3RGhMh-ElUfDHjLdfhhpzlKbFtYKB4aRD8kXceq0',
+                           19: '1aMkkCbNjO-wPzPKsg4akAt87c6h0fvfR_LIiIf_gncE',
+                           20: '1rvry2LR-GCktjk-auRTxqPbfmmbUunParIJQnpUBULI',
+                           21: '1um8RlYgjLDF9-lCli1eCcXh7wzjyqB2tNOAlcLfaE4Q',
+                           22: '1oFEwT4e-fkmz7OzGiF2c-rwZ_5Z5mi3snkv2giP5yDo',
+                           23: '1xeIOJVsCRMB9vIzt3VO75BiXA1SeLMcw_XMhtbVVl4g',
+                           24: '1f-OOC07csYaLNTbAy_GkuZQv8gHJDqga_A1kvpdcQuE',
+                           25: '1ZMqEGQo5XNi3gQ_Z-6oILIxvL-Sps9EwXgVVZoX2bJk',
+                           26: '16t59L-bupEN2L6D386Bk80PZY6m5HeLhNZL8EkyJ2_0',
+                           27: '1Od50QciGRyuiVUfFGcJ8NQ6V6TL9JELw56PkDvYyBJ0',
+                           28: '1H5zh-wNPcnivuluCDvRj7XvVvD9y-QZbbNftUwhZGEw',
+                           29: '1LUwkEUP_ABLiD7Zy-udAJ3kVqyiI2d7JiWgXmnmZvbg',
+                           30: '12DXc8D-ZcB1UaPtyJACDBW09M4bZGGleyhSTpkcbLw8'}
 
-templates = {
-    'rsvp': '1tV8zJuB11UWDUOXT5WY7bjY-N919QXrMqJ7PY4mFloo',
-    'initial_meeting': '1WVmRCObwuADDEx24qRN4lCWmdIy5IExVbIOG1TvBIoQ',
-    'event_proposal': '1H4u7GQiG4qTXSCgjxc8_F3HbjX1Oh5ucIlUFRTydU5M',
-    'ols_cancel_rsvp': '1LCuc2bgvIIvW5iv8424hXn-05gOnF1hMpUK3nYTaRLE'
-}
+master = '1-SMQy4GR15C6Z3pHJt9shDrxpmM8BcC2VOzya6R_Xjc'
 
-participation = {
-    'no_shows': '1qQucivtsqXo5yZqHfH0efMOue65rV_U54jWAnCqZerk',
-    'engagement': '1U_YR0McviIfa7wqu7_DBEPDUdWjcaJzkzjQlSqV9lqE',
-    'all_students': '1JvLFr_2_vxFHgtz7w9Jt3lpsUSsEKPYaLhbUfpHj6Uw'
-}
+master_prior_semester = '1gtsVgj8NeSdOGKd8HHRSNHjOTRDXJVls-Xw-gvoRONI'
 
-mission_team_attendance = {
-    "1": "1ewBlXaJRgdfXIetHk__2IvZ12Xz7Dp2LNPf6V-u5fEU",
-    "2": "1hyLzSIwBrA17WxawpFzFjQHzlHcTXvAjI-05gKZkYIE",
-    "3": "1C9P4TY_r7iLcQWhMWBJGLtA0CNZGCqu08ex4f_suJSg",
-    "4": "143sfABprh7WBiY2vgXm43md7YsKF0o2RTlcyaHmmtD8",
-    "5": "1ZmjeDlKjSnI2_tjrnLSolitNY0CBz1Hs84kzDbjXlz0",
-    "6": "1fwvhTi3fETGWMfBkqFa6o0tg5HteEafW4O9iJn7YbEQ",
-    "7": "1Y1zIz64PbBL7-O68iagE1h7LTGzkh1RvXtQ7UHYahgg",
-    "8": "17liVp0s12qgorazbxlRIIaBkODxvl58bqg6QxktJ2io",
-    "9": "1T_cLDT2ETOjI0t3bwe6XkA_T64smC1z4jr5LI0OWdYU",
-    "10": "1tVn-Q0z6Zg1Vqa5-Xoh8C6XrfPbWhiY-JEafNBKO0f4",
-    "11": "1FfkUb7-ogl2hUvsDSctP460Yy4Wu3DF_t0Cf51XrGwU",
-    "12": "1KM9OSiVYoB2t1U2_7UuBAkJ4haNMu6vGpEZOhanhA1o",
-    "13": "1JBSrlbY9yt3Ter7iQzXgR86E1PFHnp1jSFH7bfN9c-U",
-    "14": "1J6kgjl4u0BJ2-Bf7v597fF0dfNnFibVpSlipQgdrPec",
-    "15": "1iVxsPAhFgxeIOOqTVVEBtYNpB2J9aVF5wDLtPfyo7wo",
-    "16": "1ix7FI52a6hBY8sHOM9EflcgEl-F2xgAxC7q2roPaI4M",
-    "17": "1ayz8Tg7jhwJ5Y0d30jBbftj19Xgq2CuORc2TpFAcKVE",
-    "18": "1PLeqDwHKXxF3c-UBksiuY2hrs2_IY8OlyzuYBb3Jz-Y",
-    "19": "1liS6hkOcrhsZt8wDuiSC7o2xkPzXE4HXOCvaDcie6c0",
-    "20": "1oGrlzlnhXXz_M19EFUrPW36Hh6Bz5quBt5o3LZUtQxs",
-    "21": "1B6s5w_hMfVbAlckb5WB3hvJpTJzk2VzDvbfd2rc-F3c",
-    "22": "1rMHxpMo81LD1cq4JsyYOo6OTEL3lkvQpVKQQxc1Zya4",
-    "23": "1Hwfad2xeusraWKv0LubkWycKfhfp7jEL0SPs9QlqDFI",
-    "24": "13nEFZUtM3AZ9KPajzrRBDPR6UQFURXih7rWPcVeLXgQ",
-    "25": "1s_vUIgre6GjvwtqOe2wXPmksQqGOMjIuXu-I1DR7HzE",
-    "26": "1xbdChRKG378YVM0w7GiYgAFK-xm9loC9bnE0b5gaokQ",
-    "27": "1MELJ7Lh_-MJACBg1beYtOvQ_89RoSJ9DhcORIqjicAM",
-    "28": "1r-eJIsIbWez611mxHVmRjExv9Zva4YIq0fpMDjS9opw",
-    "29": "1_9ZTDhTJbBa7fA_YY9f1uASXvacYxWXYewAJL-RyVLk",
-    "30": "1rWDRqwgk1_WHIjqjyMmXJsnHqcFYxVF5ThdJ9lHjWsY"
-}
+schedule = '1zkadaGytz9f9WlQ0aCJLX5j8KAf-GVu_SA85KSLmN28'
 
-committee_attendance = {
-    "Admin": "1Z4SsAYLhnXcZ280uyW932oRrVHZxhx3aX3wbZ1Fjni4",
-    "Ambassadors": "1yPXYLua25wrpDIe4DJz8uecpUfjS2tTOjgVgUIrk5OI",
-    "Civil-Mil": "1CkX9WSPyKJr9hXIheTUf4YdqQxnyO7iq375DnZGrGpY",
-    "Communication": "1ZVwuq5unxsN10oZKbACLJPgJjzgpzmSpH84CGOeRREA",
-    "Leadership": "1qJU9j8IEjxM64IYh_g2vmNqsQHt6_Qrurp8SP-U1X4w",
-    "Mentoring": "1cr24zFV98KLHUb6_DdHzHFbUidttmTrvI4NW353ehLA",
-    "Service": "1M8XRneu7fdtKB0af6dUr3EZtACbDaByhwaEnkjWTKrA",
-    "Events": "1QvNIyrU44N9qLAZyOXJS9Tv_QPNrw-86PAta-H4A3YQ",
-    "Social": "1Xx1kY5xmSpVG_Pgs9XWkxsL5Js4RSLBZgrerp4nryzI",
-    "Training": "1Du5hb9ai_Gb6ImF0V-cKfYNN3VsRJu_smkYbAcshX8k"
-}
+participation = {'all_students': '1SJt3zLzfbYfFRz5tdLu44AmY4VnfzEG2TSeZrSCSYY8',
+                 'engagement': '1Z5sRDjNaaZfMBAocQz6tMdOfcuFUwE2eT7wS4lOys7I',
+                 'engagement_form': '1m6l4OcdAYNMM3_peWabPtzEHzKVbdPh7dzJ4oPcsXqM',
+                 'no_shows': '1NXM2WcUJRWgShKL5fROv82pthfjYTcraOaCEn6Zdim8',
+                 'no_shows_form': '1nsxMCWnrXy2iCIXZMqJ-Rs-uJ4XJ8S44GqJv5eneQFo'}
+
+templates = {'event_proposal': '1MT8E7BTY38xTpYr1tiPATwYm-MYkWf-un_5ZMe0Qjf8',
+             'initial_meeting': '1TacWvoAYOkJi9vvBAWqnfKfTD6HVCFfJDf3_DgLjF7M',
+             'ols_cancel_rsvp': '1xy0LGTKpZOWbJj7dx30Gy7rX_1Qrl2v7e1zAg46bSd8',
+             'rsvp': '1lN7LLhxelWbjiu563u5pvKn59h9no4suxa3rl6FMdiU'}
