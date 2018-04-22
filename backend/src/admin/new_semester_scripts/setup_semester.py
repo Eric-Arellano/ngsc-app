@@ -37,44 +37,48 @@ IdMap = Dict[Key, Union[ResourceID, Dict[Key, ResourceID]]]
 
 def main() -> None:
     print_debugging_tips()
-    semester = ask_semester_target()
+    script_section = ask_script_section()
     # create api services
     drive_service = drive_api.build_service()
     sheets_service = sheets_api.build_service()
-    # create resources
-    folder_id_map = create_empty_folders(semester=semester,
-                                         drive_service=drive_service)
-    roster_ids = create_empty_rosters(folder_id_map=folder_id_map,
-                                      semester=semester,
-                                      drive_service=drive_service)
-    important_files = copy_important_files(folder_id_map=folder_id_map,
-                                           semester=semester,
-                                           drive_service=drive_service)
-    file_id_map = {**roster_ids, **important_files}
-    # save to hardcoded files
-    save_folder_ids(folder_id_map)  # TODO: below commands using old hardcoded values!
-    save_file_ids(file_id_map)
-    check_new_ids_different()
-    # steps before adding data
-    prompt_to_add_admin_email()
-    prompt_to_update_leave_of_absence()
-    # update ID lists
-    update_participation_id_list(sheets_service=sheets_service)
-    # clear old data
-    clear_engagement_data(sheets_service=sheets_service)
-    clear_no_show_data(sheets_service=sheets_service)
-    rising_cohorts = ask_rising_cohorts()
-    clear_outdated_master(sophomore_cohort=rising_cohorts.sophomores,
-                          senior_cohort=rising_cohorts.seniors,
-                          sheets_service=sheets_service)
-    prompt_to_clear_remaining_old_data()
-    # prepare files
-    prepare_all_rosters(sheets_service=sheets_service)
-    update_master_formulas(sheets_service=sheets_service)
-    # remaining steps
-    prompt_to_connect_master_links()
-    prompt_to_add_leadership()  # TODO: dynamically generate leadership roster?
-    print_remaining_steps()
+    if script_section == 1:  # create & save resources
+        semester = ask_semester_target()
+        # create resources
+        folder_id_map = create_empty_folders(semester=semester,
+                                             drive_service=drive_service)
+        roster_ids = create_empty_rosters(folder_id_map=folder_id_map,
+                                          semester=semester,
+                                          drive_service=drive_service)
+        important_files = copy_important_files(folder_id_map=folder_id_map,
+                                               semester=semester,
+                                               drive_service=drive_service)
+        file_id_map = {**roster_ids, **important_files}
+        # save to hardcoded files
+        save_folder_ids(folder_id_map)
+        save_file_ids(file_id_map)
+        prompt_to_add_admin_email()
+        prompt_to_restart_script()
+    elif script_section == 2:  # prepare & modify resources
+        # steps before adding data
+        check_new_ids_different()
+        prompt_to_update_leave_of_absence()
+        # update ID lists
+        update_participation_id_list(sheets_service=sheets_service)
+        # clear old data
+        clear_engagement_data(sheets_service=sheets_service)
+        clear_no_show_data(sheets_service=sheets_service)
+        rising_cohorts = ask_rising_cohorts()
+        clear_outdated_master(sophomore_cohort=rising_cohorts.sophomores,
+                              senior_cohort=rising_cohorts.seniors,
+                              sheets_service=sheets_service)
+        prompt_to_clear_remaining_old_data()
+        # prepare files
+        prepare_all_rosters(sheets_service=sheets_service)
+        update_master_formulas(sheets_service=sheets_service)
+        # remaining steps
+        prompt_to_connect_master_links()
+        prompt_to_add_leadership()  # TODO: dynamically generate leadership roster?
+        print_remaining_steps()
 
 
 # ------------------------------------------------------------------
@@ -86,24 +90,40 @@ def print_debugging_tips() -> None:
     Give instructions for if the script fails.
     """
     print(textwrap.dedent('''\
-        -------
+        -------------------------------------
         Disclaimer: this is a very long script with multiple potential points of failure.
         
-        If the script fails prematurely, before the new IDs are saved to files, delete the Google Drive folder created and restart the script.
-        
-        If the new IDs are already saved to the `data/new_semester` folder, then, in this script itself, you can comment out the commands already done and restart the script.
+        It is divided up into two parts. 
+        - If Part 1 fails, delete the Google Drive folder and restart.
+        - If Part 2 fails, comment out the steps already completed in Part 2, and rerun the script with Part 2.
         
         Potential sources of failure (non-exhaustive):
+        - Frequently Google's API server itself fails. Try running the script again to see if the same error occurs at the same place.
         - Prior copies of the participation forms exist in the current semester's folder, which will cause an ambiguous search. Delete any prior "Copy of X".
         - Column indexes were changed. Compare actual indexes with this script and `data/column_indexes`.
         - Tab names were changed. Compare to the formulas in `data/sheet_formulas`.
-        - Occasionally Google's API server itself has failed, and the script simply needs to be run again.
         - `copy_important_files` fails because API is overloaded and does not create the accompanying forms quickly enough. Try changing the timeout.
+        - Roster already has alternated coloring. If this happens, comment out `prepare_all_rosters()` and rerun this script Part 2, along with `./run.py rebuild-rosters`.
         
         These should not be sources of error, but check just in case:
         - Changed file names. The scripts work by File IDs, instead of file names. 
-        -------\n
+        -------------------------------------\n\n
     '''))
+
+
+def ask_script_section() -> int:
+    """
+    Ask if part 1 or part 2 of script.
+    """
+    answer = command_line.ask_input(
+            prompt=textwrap.dedent('''\
+                        Which part of the script would you like to run?
+                        1) Create the empty folders and files. Run this first.
+                        2) Prepare & modify files. Requires part 1 to have been completed. 
+                        
+                        Enter 1 or 2.'''),
+            is_valid=lambda x: x in ['1', '2'])
+    return int(answer)
 
 
 def ask_semester_target() -> str:
@@ -314,7 +334,7 @@ def copy_important_files(*,
                            target_folder_id=folder_id_map['templates']),
         copy.BatchArgument(origin_resource_id=file_ids.participation['all_students'],
                            new_name=f'All student attendance - {semester}',
-                           target_folder_id=folder_ids.all_students['participation']),
+                           target_folder_id=folder_id_map['all_students']['participation']),
     ])
     id_map = {
         'master_prior_semester': file_ids.master,
@@ -376,6 +396,31 @@ def save_file_ids(ids: IdMap) -> None:
         file.writelines(output)
 
 
+def prompt_to_add_admin_email() -> None:
+    """
+    Make sure new admin chair added to leadership data file. Necessary for preparing rosters.
+    """
+    command_line.ask_confirmation(question=textwrap.dedent('''\
+            1. Open up the file `backend/src/data/new_semester/new_leadership.py`. 
+            2. Add the emails for the new Admin Chair, Chief of Staff, and staff.'''),
+                                  default_to_yes=True)
+
+
+def prompt_to_restart_script() -> None:
+    """
+    Instruct user to restart script to complete part 2 of the script.
+    """
+    print(textwrap.dedent('''\
+        Part 1 complete! All content has been created and saved (although everything is empty).
+        You must now restart the script with `./run.py setup-semester` and choose part 2.
+        This is because the saved file IDs must be reloaded.
+        Part 2 will update and prepare the resources.\n'''))
+
+
+# ------------------------------------------------------------------
+# Steps before adding data
+# ------------------------------------------------------------------
+
 @command_line.log(
         start_message='Checking new IDs are different than current IDs so that the script doesn\'t overwrite current data.',
         end_message='IDs are different. Safe to continue.\n')
@@ -391,15 +436,21 @@ def check_new_ids_different() -> None:
                       and (file_ids.templates != new_file_ids.templates) \
                       and (file_ids.schedule != new_file_ids.schedule)
     if not files_different:
-        raise SystemExit('At least one new file ID is the same as a current file ID. Aborting script.')
+        raise SystemExit(textwrap.dedent('''\
+            At least one new file ID is the same as a current file ID. 
+            Make sure you ran `./run.py setup-semester` Part 1.
+            Aborting script.'''))
     folders_different = (folder_ids.semester_root != new_folder_ids.semester_root) \
-                        and (folder_ids.all_students != folder_ids.all_students) \
-                        and (folder_ids.committee_chair_folders != folder_ids.committee_chair_folders) \
-                        and (folder_ids.committee_lead_folders != folder_ids.committee_lead_folders) \
-                        and (folder_ids.section_folders != folder_ids.section_folders) \
-                        and (folder_ids.mission_team_folders != folder_ids.mission_team_folders)
-    if not files_different:
-        raise SystemExit('At least one new folder ID is the same as the current file IDs. Aborting script.')
+                        and (folder_ids.all_students != new_folder_ids.all_students) \
+                        and (folder_ids.committees != new_folder_ids.committees) \
+                        and (folder_ids.committee_leads != new_folder_ids.committee_leads) \
+                        and (folder_ids.sections != new_folder_ids.sections) \
+                        and (folder_ids.mission_teams != new_folder_ids.mission_teams)
+    if not folders_different:
+        raise SystemExit(textwrap.dedent('''\
+            At least one new folder ID is the same as a current folder ID. 
+            Make sure you ran `./run.py setup-semester` Part 1.
+            Aborting script.'''))
 
 
 def _format_id_output(ids: IdMap) -> str:
@@ -410,20 +461,6 @@ def _format_id_output(ids: IdMap) -> str:
                        else f'{k} = {pprint.pformat(v)}'
                        for k, v in ids.items()]
     return '\n\n'.join(variable_syntax)
-
-
-# ------------------------------------------------------------------
-# Steps before adding data
-# ------------------------------------------------------------------
-
-def prompt_to_add_admin_email() -> None:
-    """
-    Make sure new admin chair added to leadership data file. Necessary for preparing rosters.
-    """
-    command_line.ask_confirmation(question=textwrap.dedent('''\
-            1. Open up the file `backend/src/data/new_semester/new_leadership.py`. 
-            2. Add the emails for the new Admin Chair, Chief of Staff, and staff.'''),
-                                  default_to_yes=True)
 
 
 def prompt_to_update_leave_of_absence() -> None:
@@ -763,13 +800,13 @@ def prompt_to_add_leadership() -> None:
 def print_remaining_steps() -> None:
     semester_link = generate_link.folder(new_folder_ids.semester_root)
     print(textwrap.dedent(f'''\
-        The semester's drive is set up! Check {semester_link}
+        The semester's drive is set up! Bookmark the semester's folder at {semester_link}
 
         Once you are ready to share with new leadership, run `./run.py share-drive`
         If you need to rebuild the rosters, e.g. when freshmen join the program, run `./run.py rebuild-rosters`.
 
-        Finally, you will need to copy all of the data under `backend/src/data/new_semester` 
-        Only do this once the current semester is completely done, because it will change the links used by the web app.
+        Finally, you will need to copy all of the data under `backend/src/data/new_semester` into the files in `backend/src/data`.
+        Only do this once the current semester is completely done, because it will change the data used by the web app.
         After you do this, run `./run.py student-info`, deploy, and make sure the web app still works.
         '''))
 

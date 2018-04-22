@@ -74,10 +74,6 @@ def choose_rosters() -> RosterTargets:
     """
     Ask if user wants to rebuild committees, mission teams, or both.
     """
-
-    def is_valid_option(answer: str) -> bool:
-        return answer in ['1', '2', '3']
-
     option = command_line.ask_input(
             prompt=textwrap.dedent('''\
                         Which rosters do you want to rebuild?
@@ -86,7 +82,7 @@ def choose_rosters() -> RosterTargets:
                         3. Mission teams only
                         
                         Enter as a whole number.'''),
-            is_valid=is_valid_option)
+            is_valid=lambda x: x in ['1', '2', '3'])
     if option == '1':
         return RosterTargets(committees=True, mission_teams=True)
     elif option == '2':
