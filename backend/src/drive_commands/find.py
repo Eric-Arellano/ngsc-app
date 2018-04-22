@@ -3,6 +3,8 @@ Locate and return a file or folder ID for the specified targets.
 """
 from typing import Optional
 
+from googleapiclient import discovery
+
 from backend.src.data import mime_types
 from backend.src.google_apis import drive_api
 
@@ -15,92 +17,106 @@ ResourceID = str
 
 def gdoc(file_name: str, *,
          parent_folder_id: ResourceID,
-         exact_match: bool = True) -> ResourceID:
+         exact_match: bool = True,
+         drive_service: discovery.Resource = None) -> ResourceID:
     """
     Find a Google Doc with given name and parent.
     """
-    return _resource(name=file_name,
+    return _resource(resource_name=file_name,
                      mime_type=mime_types.gdoc,
                      parent_folder_id=parent_folder_id,
-                     exact_match=exact_match)
+                     exact_match=exact_match,
+                     drive_service=drive_service)
 
 
 def gsheet(file_name: str, *,
            parent_folder_id: ResourceID,
-           exact_match: bool = True) -> ResourceID:
+           exact_match: bool = True,
+           drive_service: discovery.Resource = None) -> ResourceID:
     """
     Find a Google Sheet with given name and parent.
     """
-    return _resource(name=file_name,
+    return _resource(resource_name=file_name,
                      mime_type=mime_types.gsheets,
                      parent_folder_id=parent_folder_id,
-                     exact_match=exact_match)
+                     exact_match=exact_match,
+                     drive_service=drive_service)
 
 
 def gslides(file_name: str, *,
             parent_folder_id: ResourceID,
-            exact_match: bool = True) -> ResourceID:
+            exact_match: bool = True,
+            drive_service: discovery.Resource = None) -> ResourceID:
     """
     Find a Google Slides with given name and parent.
     """
-    return _resource(name=file_name,
+    return _resource(resource_name=file_name,
                      mime_type=mime_types.gslides,
                      parent_folder_id=parent_folder_id,
-                     exact_match=exact_match)
+                     exact_match=exact_match,
+                     drive_service=drive_service)
 
 
 def gform(file_name: str, *,
           parent_folder_id: ResourceID,
-          exact_match: bool = True) -> ResourceID:
+          exact_match: bool = True,
+          drive_service: discovery.Resource = None) -> ResourceID:
     """
     Find a Google Form with given name and parent.
     """
-    return _resource(name=file_name,
+    return _resource(resource_name=file_name,
                      mime_type=mime_types.gform,
                      parent_folder_id=parent_folder_id,
-                     exact_match=exact_match)
+                     exact_match=exact_match,
+                     drive_service=drive_service)
 
 
 def file(file_name: str, *,
          parent_folder_id: ResourceID,
          mime_type: str = None,
-         exact_match: bool = True) -> Optional[ResourceID]:
+         exact_match: bool = True,
+         drive_service: discovery.Resource = None) -> Optional[ResourceID]:
     """
     Find file.
     """
-    return _resource(name=file_name,
+    return _resource(resource_name=file_name,
                      parent_folder_id=parent_folder_id,
                      mime_type=mime_type,
-                     exact_match=exact_match)
+                     exact_match=exact_match,
+                     drive_service=drive_service)
 
 
 def folder(folder_name: str, *,
            parent_folder_id: ResourceID,
-           exact_match: bool = True) -> Optional[ResourceID]:
+           exact_match: bool = True,
+           drive_service: discovery.Resource = None) -> Optional[ResourceID]:
     """
     Find folder.
     """
-    return _resource(name=folder_name,
+    return _resource(resource_name=folder_name,
                      parent_folder_id=parent_folder_id,
                      mime_type=mime_types.folder,
-                     exact_match=exact_match)
+                     exact_match=exact_match,
+                     drive_service=drive_service)
 
 
-def _resource(name: str, *,
+def _resource(resource_name: str, *,
               parent_folder_id: ResourceID,
               mime_type: str = None,
-              exact_match: bool = True) -> Optional[ResourceID]:
+              exact_match: bool = True,
+              drive_service: discovery.Resource = None) -> Optional[ResourceID]:
     """
     Helper for finding files and folders
     """
+    if drive_service is None:
+        drive_service = drive_api.build_service()
     query = f"'{parent_folder_id}' in parents"
-    query += f" and name='{name}'" \
+    query += f" and name='{resource_name}'" \
         if exact_match \
-        else f" and name contains '{name}'"
+        else f" and name contains '{resource_name}'"
     if mime_type:
         query += f" and mimeType='application/vnd.google-apps.{mime_type}'"
-    service = drive_api.build_service()
-    results = service \
+    results = drive_service \
         .files() \
         .list(q=query,
               pageSize=10,
@@ -116,24 +132,28 @@ def _resource(name: str, *,
 # Find attributes
 # -----------------------------------------------------
 
-def parent_folder(resource_id: ResourceID) -> ResourceID:
+def parent_folder(resource_id: ResourceID, *,
+                  drive_service: discovery.Resource = None) -> ResourceID:
     """
     Find parent folder ID for resource.
     """
-    service = drive_api.build_service()
-    result = service \
+    if drive_service is None:
+        drive_service = drive_api.build_service()
+    result = drive_service \
         .files() \
         .get(fileId=resource_id, fields='parents') \
         .execute()
     return result['parents'][0]
 
 
-def name(resource_id: ResourceID) -> str:
+def name(resource_id: ResourceID, *,
+         drive_service: discovery.Resource = None) -> str:
     """
     Find the original name of the resource.
     """
-    service = drive_api.build_service()
-    result = service \
+    if drive_service is None:
+        drive_service = drive_api.build_service()
+    result = drive_service \
         .files() \
         .get(fileId=resource_id, fields='name') \
         .execute()

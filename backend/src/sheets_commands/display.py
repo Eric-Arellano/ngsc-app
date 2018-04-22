@@ -1,3 +1,5 @@
+from googleapiclient import discovery
+
 from backend.src.sheets_commands import range, sheet
 
 
@@ -9,36 +11,45 @@ def hide_columns(spreadsheet_id: sheet.ID, *,
                  hidden: bool = True,
                  start_column_index: int = None,
                  end_column_index: int = None,
-                 tab_id: int = 0) -> None:
+                 tab_id: int = 0,
+                 sheets_service: discovery.Resource = None) -> None:
     """
     Hide the columns for provided column range.
     """
     request = hide_columns_request(start_column_index=start_column_index, end_column_index=end_column_index,
                                    hidden=hidden, tab_id=tab_id)
-    sheet.batch_update(spreadsheet_id, [request])
+    sheet.batch_update(spreadsheet_id,
+                       requests=[request],
+                       sheets_service=sheets_service)
 
 
 def freeze(spreadsheet_id: sheet.ID, *,
            num_rows: int = 0,
            num_columns: int = 0,
-           tab_id: int = 0) -> None:
+           tab_id: int = 0,
+           sheets_service: discovery.Resource = None) -> None:
     """
     Freeze rows and column from the leftmost corner outwards.
     """
     request = freeze_request(num_rows=num_rows, num_columns=num_columns, tab_id=tab_id)
-    sheet.batch_update(spreadsheet_id, [request])
+    sheet.batch_update(spreadsheet_id,
+                       requests=[request],
+                       sheets_service=sheets_service)
 
 
 def auto_resize(spreadsheet_id: sheet.ID, *,
                 start_column_index: int = 0,
                 end_column_index: int = 20,
-                tab_id: int = 0) -> None:
+                tab_id: int = 0,
+                sheets_service: discovery.Resource = None) -> None:
     """
     Automatically resize columns to their largest value.
     """
     request = auto_resize_request(start_column_index=start_column_index, end_column_index=end_column_index,
                                   tab_id=tab_id)
-    sheet.batch_update(spreadsheet_id, [request])
+    sheet.batch_update(spreadsheet_id,
+                       requests=[request],
+                       sheets_service=sheets_service)
 
 
 def alternating_colors(spreadsheet_id: sheet.ID, *,
@@ -46,7 +57,8 @@ def alternating_colors(spreadsheet_id: sheet.ID, *,
                        row_end_index: int = None,
                        column_start_index: int = None,
                        column_end_index: int = None,
-                       tab_id: int = 0) -> None:
+                       tab_id: int = 0,
+                       sheets_service: discovery.Resource = None) -> None:
     """
     Add alternating colors, with special header coloring.
     """
@@ -55,7 +67,9 @@ def alternating_colors(spreadsheet_id: sheet.ID, *,
                                          column_start_index=column_start_index,
                                          column_end_index=column_end_index,
                                          tab_id=tab_id)
-    sheet.batch_update(spreadsheet_id, [request])
+    sheet.batch_update(spreadsheet_id,
+                       requests=[request],
+                       sheets_service=sheets_service)
 
 
 # ---------------------------------------------------------------------

@@ -30,7 +30,7 @@ def get_all() -> Dict:
     Get every student's demographic info as a dictionary indexed by student id.
     """
     results = sheet.get_values(file_ids.master,
-                               'Master!A2:O')
+                               range_='Master!A2:O')
     demographic = {}
     for row in results:
         student_id = int(row[column_indexes.master['id']])

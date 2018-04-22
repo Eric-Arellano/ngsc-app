@@ -1,5 +1,7 @@
 from typing import List
 
+from googleapiclient import discovery
+
 from backend.src.sheets_commands import range, sheet
 
 
@@ -14,7 +16,8 @@ def dropdown_options(*,
                      row_end_index: int = None,
                      column_start_index: int = None,
                      column_end_index: int = None,
-                     tab_id: int = 0) -> None:
+                     tab_id: int = 0,
+                     sheets_service: discovery.Resource = None) -> None:
     """
     Add dropdown data validation - must be a member of the list.
     """
@@ -24,7 +27,9 @@ def dropdown_options(*,
                                        column_start_index=column_start_index,
                                        column_end_index=column_end_index,
                                        tab_id=tab_id)
-    sheet.batch_update(spreadsheet_id, [request])
+    sheet.batch_update(spreadsheet_id,
+                       requests=[request],
+                       sheets_service=sheets_service)
 
 
 def protected_range(*,
@@ -36,7 +41,8 @@ def protected_range(*,
                     row_end_index: int = None,
                     column_start_index: int = None,
                     column_end_index: int = None,
-                    tab_id: int = 0) -> None:
+                    tab_id: int = 0,
+                    sheets_service: discovery.Resource = None) -> None:
     """
     Protect range so only provided users can edit.
     """
@@ -48,7 +54,9 @@ def protected_range(*,
                                       column_start_index=column_start_index,
                                       column_end_index=column_end_index,
                                       tab_id=tab_id)
-    sheet.batch_update(spreadsheet_id, [request])
+    sheet.batch_update(spreadsheet_id,
+                       requests=[request],
+                       sheets_service=sheets_service)
 
 
 # ---------------------------------------------------------------------

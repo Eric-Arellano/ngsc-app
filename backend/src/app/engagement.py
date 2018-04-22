@@ -26,7 +26,7 @@ def _get_logged_events(student_id: int) -> List:
     Get every event logged by student, including the event's status.
     """
     all_rows = sheet.get_values(file_ids.participation['engagement'],
-                                'Responses!A2:G')
+                                range_='Responses!A2:G')
     return [{'type': row[column_indexes.engagement_responses['type']],
              'status': row[column_indexes.engagement_responses['status']],
              'name': row[column_indexes.engagement_responses['name']],
@@ -53,7 +53,7 @@ def _get_accepted(student_id: int) -> Tuple[Optional[float], Optional[float]]:
     Get student's accepted service and civil mil.
     """
     all_rows = sheet.get_values(file_ids.participation['engagement'],
-                                'Requirements!A2:C')
+                                range_='Requirements!A2:C')
     row = next((row for row in all_rows
                 if int(row[column_indexes.engagement_accepted['id']]) == student_id),
                None)

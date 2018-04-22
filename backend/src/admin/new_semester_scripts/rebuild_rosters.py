@@ -90,9 +90,5 @@ def choose_rosters() -> RosterTargets:
         return RosterTargets(committees=False, mission_teams=False)
 
 
-# ------------------------------------------------------------------
-# Run script
-# ------------------------------------------------------------------
-
 if __name__ == '__main__':
     main()

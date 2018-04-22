@@ -18,9 +18,12 @@ import pprint
 import re
 import functools
 import textwrap
-from typing import Dict, Union, Tuple
+from typing import Dict, Union, NamedTuple
+
+from googleapiclient import discovery
 
 from scripts.utils import command_line
+from backend.src.google_apis import drive_api, sheets_api
 from backend.src.data import column_indexes, file_ids, folder_ids, sheet_formulas
 from backend.src.data.new_semester import new_leadership, new_file_ids, new_folder_ids
 from backend.src.drive_commands import copy, create, generate_link
@@ -35,28 +38,37 @@ IdMap = Dict[Key, Union[ResourceID, Dict[Key, ResourceID]]]
 def main() -> None:
     print_debugging_tips()
     semester = ask_semester_target()
+    # create api services
+    drive_service = drive_api.build_service()
+    sheets_service = sheets_api.build_service()
     # create resources
-    folder_id_map = create_empty_folders(semester)
-    roster_ids = create_empty_rosters(folder_id_map, semester)
-    important_files = copy_important_files(folder_id_map, semester)
+    folder_id_map = create_empty_folders(semester=semester,
+                                         drive_service=drive_service)
+    roster_ids = create_empty_rosters(folder_id_map=folder_id_map,
+                                      semester=semester,
+                                      drive_service=drive_service)
+    important_files = copy_important_files(folder_id_map=folder_id_map,
+                                           semester=semester,
+                                           drive_service=drive_service)
     file_id_map = {**roster_ids, **important_files}
     # save to hardcoded files
     save_folder_ids(folder_id_map)
     save_file_ids(file_id_map)
     check_new_ids_different()
     # clear old data
-    clear_engagement_data()
-    clear_no_show_data()
-    clear_all_student_attendance_data()
-    sophomore_cohort, senior_cohort = ask_rising_cohorts()
-    clear_required_committees_and_mt(senior_cohort=senior_cohort,
-                                     sophomore_cohort=sophomore_cohort)
+    clear_engagement_data(sheets_service=sheets_service)
+    clear_no_show_data(sheets_service=sheets_service)
+    clear_all_student_attendance_data(sheets_service=sheets_service)
+    rising_cohorts = ask_rising_cohorts()
+    clear_required_committees_and_mt(senior_cohort=rising_cohorts.sophomores,
+                                     sophomore_cohort=rising_cohorts.seniors,
+                                     sheets_service=sheets_service)
     # steps before preparing rosters
     prompt_to_add_admin_email()
     prompt_to_update_leave_of_absence()
     # prepare files
-    prepare_all_rosters()
-    update_master_formulas()
+    prepare_all_rosters(sheets_service=sheets_service)
+    update_master_formulas(sheets_service=sheets_service)
     # remaining steps
     prompt_to_connect_master_links()
     print_remaining_steps()
@@ -106,7 +118,12 @@ def ask_semester_target() -> str:
             is_valid=is_valid_semester)
 
 
-def ask_rising_cohorts() -> Tuple[int, int]:
+class RisingCohorts(NamedTuple):
+    sophomores: int
+    seniors: int
+
+
+def ask_rising_cohorts() -> RisingCohorts:
     """
     Ask who are rising sophomores and seniors.
     """
@@ -124,7 +141,8 @@ def ask_rising_cohorts() -> Tuple[int, int]:
                         Which cohort are the rising seniors?
                         Enter as a whole number.'''),
             is_valid=is_valid_cohort)
-    return int(sophomore), int(senior)
+    return RisingCohorts(sophomores=int(sophomore),
+                         seniors=int(senior))
 
 
 def prompt_to_add_admin_email() -> None:
@@ -182,74 +200,128 @@ def print_remaining_steps() -> None:
 
 @command_line.log(start_message='Creating empty folders.',
                   end_message='Empty folders created\n')
-def create_empty_folders(semester: Semester) -> IdMap:
+def create_empty_folders(*,
+                         semester: Semester,
+                         drive_service: discovery.Resource = None) -> IdMap:
     """
     Set up the folder structure and return their IDs.
     """
+    if drive_service is None:
+        drive_service = drive_api.build_service()
     # NGSC root level
     id_map = {
         'ngsc_root': folder_ids.ngsc_root,
         'drive_playground': folder_ids.drive_playground
     }
     # Semester root
-    root = create.folder(semester)
+    root = create.folder(semester,
+                         parent_folder_id=folder_ids.drive_playground,
+                         drive_service=drive_service)  # TODO change to NGSC root when ready
     id_map['semester_root'] = root
     # Templates
-    templates = create.folder('Templates', parent_folder_id=root)
+    templates = create.folder('Templates',
+                              parent_folder_id=root,
+                              drive_service=drive_service)
     id_map['templates'] = templates
     # All students
-    all_students = create.folder('All students', parent_folder_id=root)
+    all_students = create.folder('All students',
+                                 parent_folder_id=root,
+                                 drive_service=drive_service)
     id_map['all_students_root'] = all_students
-    on_leadership = create.folder('On Leadership', parent_folder_id=all_students)
-    summit = create.folder('Summit', parent_folder_id=all_students)
-    participation = create.folder('Participation', parent_folder_id=all_students)
+    on_leadership = create.folder('On Leadership',
+                                  parent_folder_id=all_students,
+                                  drive_service=drive_service)
+    summit = create.folder('Summit',
+                           parent_folder_id=all_students,
+                           drive_service=drive_service)
+    participation = create.folder('Participation',
+                                  parent_folder_id=all_students,
+                                  drive_service=drive_service)
     id_map['all_students'] = {
         'on_leadership': on_leadership,
         'summit': summit,
         'participation': participation
     }
     # Leadership
-    leadership = create.folder('Leadership', parent_folder_id=root)
+    leadership = create.folder('Leadership',
+                               parent_folder_id=root,
+                               drive_service=drive_service)
     id_map['leadership_root'] = leadership
-    briefings = create.folder('Staff Briefings', parent_folder_id=leadership)
+    briefings = create.folder('Staff Briefings',
+                              parent_folder_id=leadership,
+                              drive_service=drive_service)
     id_map['leadership'] = {
         'staff_briefings': briefings
     }
     # Sections & MTs
-    sections = create.folder('Sections', parent_folder_id=root)
+    sections = create.folder('Sections',
+                             parent_folder_id=root,
+                             drive_service=drive_service)
     id_map['sections_root'] = sections
     id_map['sections'] = {}
     id_map['mission_teams'] = {}
     for section_index in range(1, 11):
-        section_folder_id = create.folder(f'Section {section_index}', parent_folder_id=sections)
+        section_folder_id = create.folder(f'Section {section_index}',
+                                          parent_folder_id=sections,
+                                          drive_service=drive_service)
         id_map['sections'][section_index] = section_folder_id
         for mt_index in range(1, 4):
             mt_number = mt_index + (3 * (section_index - 1))
-            mt_folder_id = create.folder(f'Mission Team {mt_number}', parent_folder_id=section_folder_id)
+            mt_folder_id = create.folder(f'Mission Team {mt_number}',
+                                         parent_folder_id=section_folder_id,
+                                         drive_service=drive_service)
             id_map['mission_teams'][mt_number] = mt_folder_id
     # Committees
-    committees = create.folder('Committees', parent_folder_id=root)
+    committees = create.folder('Committees',
+                               parent_folder_id=root,
+                               drive_service=drive_service)
     id_map['committees_root'] = committees
     # Committee Leads
-    engagement = create.folder('Engagement', parent_folder_id=committees)
-    education = create.folder('Education', parent_folder_id=committees)
-    culture = create.folder('Culture', parent_folder_id=committees)
+    engagement = create.folder('Engagement',
+                               parent_folder_id=committees,
+                               drive_service=drive_service)
+    education = create.folder('Education',
+                              parent_folder_id=committees,
+                              drive_service=drive_service)
+    culture = create.folder('Culture',
+                            parent_folder_id=committees,
+                            drive_service=drive_service)
     id_map['committee_leads'] = {
         'engagement': engagement,
         'education': education,
         'culture': culture
     }
     # Committee Chairs
-    admin = create.folder('Admin', parent_folder_id=committees)
-    transfers = create.folder('Transfers', parent_folder_id=engagement)
-    civil_mil = create.folder('Civil-Mil', parent_folder_id=engagement)
-    service = create.folder('Service', parent_folder_id=engagement)
-    training = create.folder('Training', parent_folder_id=education)
-    mentorship = create.folder('Mentorship', parent_folder_id=education)
-    ambassadors = create.folder('Ambassadors', parent_folder_id=education)
-    communications = create.folder('Communications', parent_folder_id=culture)
-    events = create.folder('Events', parent_folder_id=culture)
-    social = create.folder('Social', parent_folder_id=culture)
+    admin = create.folder('Admin',
+                          parent_folder_id=committees,
+                          drive_service=drive_service)
+    transfers = create.folder('Transfers',
+                              parent_folder_id=engagement,
+                              drive_service=drive_service)
+    civil_mil = create.folder('Civil-Mil',
+                              parent_folder_id=engagement,
+                              drive_service=drive_service)
+    service = create.folder('Service',
+                            parent_folder_id=engagement,
+                            drive_service=drive_service)
+    training = create.folder('Training',
+                             parent_folder_id=education,
+                             drive_service=drive_service)
+    mentorship = create.folder('Mentorship',
+                               parent_folder_id=education,
+                               drive_service=drive_service)
+    ambassadors = create.folder('Ambassadors',
+                                parent_folder_id=education,
+                                drive_service=drive_service)
+    communications = create.folder('Communications',
+                                   parent_folder_id=culture,
+                                   drive_service=drive_service)
+    events = create.folder('Events',
+                           parent_folder_id=culture,
+                           drive_service=drive_service)
+    social = create.folder('Social',
+                           parent_folder_id=culture,
+                           drive_service=drive_service)
     id_map['committees'] = {
         'Admin': admin,
         'Transfers': transfers,
@@ -267,10 +339,15 @@ def create_empty_folders(semester: Semester) -> IdMap:
 
 @command_line.log(start_message='Creating empty rosters.',
                   end_message='Empty rosters created\n')
-def create_empty_rosters(folder_id_map: IdMap, semester: Semester) -> IdMap:
+def create_empty_rosters(*,
+                         folder_id_map: IdMap,
+                         semester: Semester,
+                         drive_service: discovery.Resource = None) -> IdMap:
     """
     Create the roster spreadsheets (not set up) and save their IDs.
     """
+    if drive_service is None:
+        drive_service = drive_api.build_service()
     id_map = {
         'committee_attendance': {},
         'mission_team_attendance': {}
@@ -278,50 +355,62 @@ def create_empty_rosters(folder_id_map: IdMap, semester: Semester) -> IdMap:
     # Committee rosters
     for committee, committee_folder_id in folder_id_map['committees'].items():
         committee_roster_id = create.gsheet(file_name=f'Attendance - {committee} - {semester}',
-                                            parent_folder_id=committee_folder_id)
+                                            parent_folder_id=committee_folder_id,
+                                            drive_service=drive_service)
         id_map['committee_attendance'][committee] = committee_roster_id
     # Mission team rosters
     for mt_number, mt_folder_id in folder_id_map['mission_teams'].items():
         mt_roster_id = create.gsheet(file_name=f'Attendance - Mission Team {mt_number} - {semester}',
-                                     parent_folder_id=mt_folder_id)
+                                     parent_folder_id=mt_folder_id,
+                                     drive_service=drive_service)
         id_map['mission_team_attendance'][mt_number] = mt_roster_id
     return id_map
 
 
 @command_line.log(start_message='Copying important files.',
                   end_message='Important files copied.\n')
-def copy_important_files(folder_id_map: IdMap, semester: Semester) -> IdMap:
+def copy_important_files(*,
+                         folder_id_map: IdMap,
+                         semester: Semester,
+                         drive_service: discovery.Resource = None) -> IdMap:
     """
     Copy the Master, schedule, all-student attendance, no shows, & templates.
     """
     id_map = {}
+    if drive_service is None:
+        drive_service = drive_api.build_service()
     # master
     master = copy.file(origin_file_id=file_ids.master,
                        target_parent_folder_id=folder_id_map['semester_root'],
-                       new_name=f'Master - {semester}')
+                       new_name=f'Master - {semester}',
+                       drive_service=drive_service)
     id_map['master'] = master
     id_map['master_prior_semester'] = file_ids.master
     # schedule
     schedule = copy.file(origin_file_id=file_ids.schedule,
                          target_parent_folder_id=folder_id_map['semester_root'],
-                         new_name=f'Schedule - {semester}')
+                         new_name=f'Schedule - {semester}',
+                         drive_service=drive_service)
     id_map['schedule'] = schedule
     # participation
     all_students = copy.file(origin_file_id=file_ids.participation['all_students'],
                              target_parent_folder_id=folder_id_map['all_students']['participation'],
-                             new_name=f'All student attendance - {semester}')
+                             new_name=f'All student attendance - {semester}',
+                             drive_service=drive_service)
     engagement = copy.linked_sheet_and_form(origin_sheet_id=file_ids.participation['engagement'],
                                             origin_form_id=file_ids.participation['engagement_form'],
                                             origin_parent_folder_id=folder_ids.all_students['participation'],
                                             new_sheet_name=f'Engagement - {semester}',
                                             new_form_name=f'Engagement - {semester}',
-                                            target_parent_folder_id=folder_id_map['all_students']['participation'])
+                                            target_parent_folder_id=folder_id_map['all_students']['participation'],
+                                            drive_service=drive_service)
     no_shows = copy.linked_sheet_and_form(origin_sheet_id=file_ids.participation['no_shows'],
                                           origin_form_id=file_ids.participation['no_shows_form'],
                                           origin_parent_folder_id=folder_ids.all_students['participation'],
                                           new_sheet_name=f'No shows - {semester}',
                                           new_form_name=f'No shows - {semester}',
-                                          target_parent_folder_id=folder_id_map['all_students']['participation'])
+                                          target_parent_folder_id=folder_id_map['all_students']['participation'],
+                                          drive_service=drive_service)
     id_map['participation'] = {
         'all_students': all_students,
         'engagement': engagement.sheet,
@@ -332,16 +421,20 @@ def copy_important_files(folder_id_map: IdMap, semester: Semester) -> IdMap:
     # templates
     rsvp = copy.file(origin_file_id=file_ids.templates['rsvp'],
                      target_parent_folder_id=folder_id_map['templates'],
-                     new_name='RSVP Template')
+                     new_name='RSVP Template',
+                     drive_service=drive_service)
     initial_meeting = copy.file(origin_file_id=file_ids.templates['initial_meeting'],
                                 target_parent_folder_id=folder_id_map['templates'],
-                                new_name='Initial meeting template')
+                                new_name='Initial meeting template',
+                                drive_service=drive_service)
     event_proposal = copy.file(origin_file_id=file_ids.templates['event_proposal'],
                                target_parent_folder_id=folder_id_map['templates'],
-                               new_name='Event proposal template')
+                               new_name='Event proposal template',
+                               drive_service=drive_service)
     ols_cancel_rsvp = copy.file(origin_file_id=file_ids.templates['ols_cancel_rsvp'],
                                 target_parent_folder_id=folder_id_map['templates'],
-                                new_name='OLS cancel RSVP template')
+                                new_name='OLS cancel RSVP template',
+                                drive_service=drive_service)
     id_map['templates'] = {
         'rsvp': rsvp,
         'initial_meeting': initial_meeting,
@@ -417,22 +510,24 @@ def _format_id_output(ids: IdMap) -> str:
 
 @command_line.log(start_message='Clearing engagement data.',
                   end_message='Engagement data cleared.\n')
-def clear_engagement_data() -> None:
+def clear_engagement_data(*, sheets_service: discovery.Resource = None) -> None:
     """
     Remove last semester's submissions.
     """
     original_grid = sheet.get_values(new_file_ids.participation['engagement'],
-                                     range_='Responses!A2:Z')
+                                     range_='Responses!A2:Z',
+                                     sheets_service=sheets_service)
     cleared_grid = columns.clear(grid=original_grid,
                                  target_indexes=list(range(30)))
     sheet.update_values(spreadsheet_id=new_file_ids.participation['engagement'],
                         range_='Responses!A2:Z',
-                        grid=cleared_grid)
+                        grid=cleared_grid,
+                        sheets_service=sheets_service)
 
 
 @command_line.log(start_message='Clearing all-student attendance data.',
                   end_message='All-student attendance data cleared.\n')
-def clear_all_student_attendance_data() -> None:
+def clear_all_student_attendance_data(*, sheets_service: discovery.Resource = None) -> None:
     """
     Remove last semester's submissions.
     """
@@ -441,7 +536,7 @@ def clear_all_student_attendance_data() -> None:
 
 @command_line.log(start_message='Clearing no-show data.',
                   end_message='No-show data cleared.\n')
-def clear_no_show_data() -> None:
+def clear_no_show_data(*, sheets_service: discovery.Resource = None) -> None:
     """
     Remove last semester's submissions.
     """
@@ -453,11 +548,14 @@ def clear_no_show_data() -> None:
         end_message='Cleared required committees and mission teams.\n')
 def clear_required_committees_and_mt(*,
                                      sophomore_cohort: int,
-                                     senior_cohort: int) -> None:
+                                     senior_cohort: int,
+                                     sheets_service: discovery.Resource = None) -> None:
     """
     Remove committees for rising sophomores and mission teams for rising seniors.
     """
-    original_grid = sheet.get_values(new_file_ids.master, range_='A2:Z')
+    original_grid = sheet.get_values(new_file_ids.master,
+                                     range_='A2:Z',
+                                     sheets_service=sheets_service)
     cleared_committees = columns.clear_if(grid=original_grid,
                                           key_index=column_indexes.master['cohort'],
                                           key_values=[str(sophomore_cohort)],
@@ -468,7 +566,8 @@ def clear_required_committees_and_mt(*,
                                              target_indexes=[column_indexes.master['mt']])
     sheet.update_values(spreadsheet_id=new_file_ids.master,
                         range_='A2:Z',
-                        grid=cleared_mission_teams)
+                        grid=cleared_mission_teams,
+                        sheets_service=sheets_service)
 
 
 # ------------------------------------------------------------------
@@ -480,32 +579,40 @@ def clear_required_committees_and_mt(*,
 def prepare_all_rosters(*,
                         include_committees: bool = True,
                         include_mission_teams: bool = True,
-                        add_colors: bool = True) -> None:
+                        add_colors: bool = True,
+                        sheets_service: discovery.Resource = None) -> None:
     """
     Setup every roster with data and formatting, pulling data from Master.
     """
-    master_grid = sheet.get_values(new_file_ids.master, 'Master!A2:Z')
+    if sheets_service is None:
+        sheets_service = sheets_api.build_service()
+    master_grid = sheet.get_values(new_file_ids.master,
+                                   range_='Master!A2:Z',
+                                   sheets_service=sheets_service)
     if include_mission_teams:
         for mt_number, mt_roster_id in new_file_ids.mission_team_attendance.items():
             prepare_roster(spreadsheet_id=mt_roster_id,
                            filter_column_index=column_indexes.master['mt'],
                            filter_value=str(mt_number),
                            master_grid=master_grid,
-                           add_colors=add_colors)
+                           add_colors=add_colors,
+                           sheets_service=sheets_service)
     if include_committees:
         for committee, committee_roster_id in new_file_ids.committee_attendance.items():
             prepare_roster(spreadsheet_id=committee_roster_id,
                            filter_column_index=column_indexes.master['committee'],
                            filter_value=committee,
                            master_grid=master_grid,
-                           add_colors=add_colors)
+                           add_colors=add_colors,
+                           sheets_service=sheets_service)
 
 
 def prepare_roster(spreadsheet_id: str, *,
                    filter_column_index: int,
                    filter_value: str,
                    master_grid: sheet.Grid,
-                   add_colors: bool = True) -> None:
+                   add_colors: bool = True,
+                   sheets_service: discovery.Resource = None) -> None:
     """
     Setup provided roster's data and formatting.
     """
@@ -560,10 +667,7 @@ def prepare_roster(spreadsheet_id: str, *,
     colors_request = display.alternating_colors_request()
     # rename tab
     rename_request = tab.rename_request(tab_name='Attendance')
-    # send API requests
-    sheet.update_values(spreadsheet_id,
-                        range_='A1:Z',
-                        grid=with_headers)
+    # collate requests
     requests = [dropdown_request,
                 protected_range_request,
                 hide_request,
@@ -572,7 +676,14 @@ def prepare_roster(spreadsheet_id: str, *,
                 rename_request]
     if add_colors:  # will crash app if colors already added
         requests.append(colors_request)
-    sheet.batch_update(spreadsheet_id, requests)
+    # send API requests
+    sheet.update_values(spreadsheet_id,
+                        range_='A1:Z',
+                        grid=with_headers,
+                        sheets_service=sheets_service)
+    sheet.batch_update(spreadsheet_id,
+                       requests=requests,
+                       sheets_service=sheets_service)
 
 
 # ------------------------------------------------------------------
@@ -581,11 +692,13 @@ def prepare_roster(spreadsheet_id: str, *,
 
 @command_line.log(start_message='Updating formulas in Master.',
                   end_message='Master formulas updated.\n')
-def update_master_formulas() -> None:
+def update_master_formulas(*, sheets_service: discovery.Resource = None) -> None:
     """
     Link master to all of the rosters and attendance sheets.
     """
-    master_values = sheet.get_values(new_file_ids.master, 'A2:Z')
+    master_values = sheet.get_values(new_file_ids.master,
+                                     range_='A2:Z',
+                                     sheets_service=sheets_service)
     # generate columns
     generate_master_formula = functools.partial(formulas.generate_adaptive_row_index,
                                                 num_rows=len(master_values))
@@ -635,7 +748,10 @@ def update_master_formulas() -> None:
     result = columns.replace(grid=result,
                              column=triggers_two_semesters_column,
                              target_index=column_indexes.master['triggers_two_semesters'])
-    sheet.update_values(new_file_ids.master, range_='A2:Z', grid=result)
+    sheet.update_values(new_file_ids.master,
+                        range_='A2:Z',
+                        grid=result,
+                        sheets_service=sheets_service)
 
 
 # -------------------------------------
