@@ -263,6 +263,85 @@ def test_replace_empty_grid():
 
 
 # --------------------------------------------------------------------
+# Batch replace column
+# --------------------------------------------------------------------
+
+def test_batch_replace():
+    original_grid = [
+        ['ecarell1', '', 'longer'],
+        ['ecka13', '', 'shorter'],
+        ['ecka13', '99', '']
+    ]
+    targets = {
+        0: ['eric', 'diana', 'raul'],
+        1: ['n1', 'n2', 'n3'],
+        2: ['taller', 'wider', 'bigger']
+    }
+    result = columns.batch_replace(grid=original_grid,
+                                   columns_with_index=targets)
+    assert result == [
+        ['eric', 'n1', 'taller'],
+        ['diana', 'n2', 'wider'],
+        ['raul', 'n3', 'bigger']
+    ]
+
+
+def test_batch_replace_longer_column():
+    original_grid = [
+        ['ecarell1', ''],
+        ['ecka13', ''],
+        ['ecka13', '99']
+    ]
+    targets = {
+        0: ['eric', 'diana', 'raul', 'nikki'],
+        1: ['n1', 'n2', 'n3', 'n4'],
+    }
+    result = columns.batch_replace(grid=original_grid,
+                                   columns_with_index=targets)
+    assert result == [
+        ['eric', 'n1'],
+        ['diana', 'n2'],
+        ['raul', 'n3']
+    ]
+
+
+def test_batch_replace_shorter_column():
+    original_grid = [
+        ['ecarell1', ''],
+        ['ecka13', ''],
+        ['ecka13', '99']
+    ]
+    targets = {
+        0: ['eric'],
+        1: ['n1', 'n2'],
+    }
+    result = columns.batch_replace(grid=original_grid,
+                                   columns_with_index=targets)
+    assert result == [
+        ['eric', 'n1'],
+        ['ecka13', 'n2'],
+        ['ecka13', '99']
+    ]
+
+
+def test_batch_replace_empty_grid():
+    original_grid = [
+        ['ecarell1', ''],
+        [],
+    ]
+    targets = {
+        0: ['eric', 'diana'],
+        1: ['n1', 'n2'],
+    }
+    result = columns.batch_replace(grid=original_grid,
+                                   columns_with_index=targets)
+    assert result == [
+        ['eric', 'n1'],
+        [],
+    ]
+
+
+# --------------------------------------------------------------------
 # Clear column
 # --------------------------------------------------------------------
 

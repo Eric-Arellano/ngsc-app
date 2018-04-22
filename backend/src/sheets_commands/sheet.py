@@ -4,6 +4,10 @@ from googleapiclient import discovery
 
 from backend.src.google_apis import sheets_api
 
+# --------------------------------------------------------
+# Data structures
+# --------------------------------------------------------
+
 ID = str
 Range = str
 
@@ -14,6 +18,10 @@ Row = List[Cell]
 Column = List[Cell]
 Grid = List[Column]  # nested list of rows, each made up of column cells
 
+
+# --------------------------------------------------------
+# Core functions
+# --------------------------------------------------------
 
 def batch_update(spreadsheet_id: ID, *,
                  requests: List[BatchRequest],
