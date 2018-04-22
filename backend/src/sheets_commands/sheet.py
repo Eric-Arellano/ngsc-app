@@ -1,6 +1,12 @@
 from typing import Any, Dict, List, Union
 
+from googleapiclient import discovery
+
 from backend.src.google_apis import sheets_api
+
+# --------------------------------------------------------
+# Data structures
+# --------------------------------------------------------
 
 ID = str
 Range = str
@@ -13,25 +19,37 @@ Column = List[Cell]
 Grid = List[Column]  # nested list of rows, each made up of column cells
 
 
-def batch_update(spreadsheet_id: ID, requests: List[BatchRequest]) -> None:
+# --------------------------------------------------------
+# Core functions
+# --------------------------------------------------------
+
+def batch_update(spreadsheet_id: ID, *,
+                 requests: List[BatchRequest],
+                 sheets_service: discovery.Resource = None) -> None:
     """
     Perform an operation on the spreadsheet.
     """
-    sheets_service = sheets_api.build_service()
+    if sheets_service is None:
+        sheets_service = sheets_api.build_service()
     body = {'requests': requests}
-    sheets_service.spreadsheets() \
+    sheets_service \
+        .spreadsheets() \
         .batchUpdate(
             spreadsheetId=spreadsheet_id,
             body=body) \
         .execute()
 
 
-def get_values(spreadsheet_id: ID, range_: Range) -> Grid:
+def get_values(spreadsheet_id: ID, *,
+               range_: Range,
+               sheets_service: discovery.Resource = None) -> Grid:
     """
     Query spreadsheet from provided range and return its values.
     """
-    sheets_service = sheets_api.build_service()
-    result = sheets_service.spreadsheets() \
+    if sheets_service is None:
+        sheets_service = sheets_api.build_service()
+    result = sheets_service \
+        .spreadsheets() \
         .values() \
         .get(
             spreadsheetId=spreadsheet_id,
@@ -43,14 +61,17 @@ def get_values(spreadsheet_id: ID, range_: Range) -> Grid:
 def update_values(spreadsheet_id: ID, *,
                   range_: Range,
                   grid: Grid,
-                  raw: bool = False) -> None:
+                  raw: bool = False,
+                  sheets_service: discovery.Resource = None) -> None:
     """
     Update range with given values.
     """
+    if sheets_service is None:
+        sheets_service = sheets_api.build_service()
     input_mode = 'RAW' if raw else 'USER_ENTERED'
-    sheets_service = sheets_api.build_service()
     body = {'values': grid}
-    sheets_service.spreadsheets() \
+    sheets_service \
+        .spreadsheets() \
         .values() \
         .update(
             spreadsheetId=spreadsheet_id,

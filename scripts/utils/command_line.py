@@ -3,7 +3,8 @@ Utilities to accept and parse command line arguments.
 """
 
 import argparse
-from typing import Callable, Dict, NewType
+import functools
+from typing import Any, Callable, Dict, NewType
 
 CommandMap = NewType('CommandMap', Dict[str, Callable[..., None]])
 
@@ -76,7 +77,7 @@ def ask_input(prompt: str, *, is_valid: Callable[[str], bool] = None) -> str:
     result = input()
     if is_valid is not None and not is_valid(result):
         print('Invalid input.\n')
-        ask_input(prompt, is_valid=is_valid)
+        return ask_input(prompt, is_valid=is_valid)
     return result
 
 
@@ -106,3 +107,33 @@ def ask_yes_no(question: str, *, default: str = 'yes') -> bool:
     else:
         print("Please respond with 'yes' or 'no' (or 'y' or 'n').\n")
         return ask_yes_no(question)
+
+
+def ask_confirmation(question: str, *, default_to_yes: bool = False) -> None:
+    """
+    Ask for simple "yes" confirmation.
+    """
+    prompt = '[Y]' if default_to_yes else '[y]'
+    options = ['yes', 'y', 'ye']
+    print(f'{question}\n\nPlease confirm you have completed the above. {prompt}')
+    # interpret result
+    choice = input().lower()
+    if choice not in options and not (default_to_yes and choice == ''):
+        print("Please respond with 'yes' (or 'y').\n")
+        return ask_confirmation(question)
+
+
+def log(*, start_message: str = None, end_message: str = None) -> Callable[[Any], Any]:
+    def decorate(func: Callable[[Any], Any]):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            if start_message is not None:
+                print(start_message)
+            result = func(*args, **kwargs)
+            if end_message is not None:
+                print(end_message)
+            return result
+
+        return wrapper
+
+    return decorate

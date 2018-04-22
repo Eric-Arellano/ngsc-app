@@ -1,31 +1,54 @@
 """
-Remove a file or folder for the specified targets.
+Remove a resource from Google Drive.
 """
+from typing import List
+
+from googleapiclient import discovery, http
+
 from backend.src.google_apis import drive_api
 
-ResourceID = str
+
+# ---------------------------------------------------------------------
+# Single resource (immediate execution)
+# ---------------------------------------------------------------------
+
+def resource(resource_id: drive_api.ResourceID, *,
+             drive_service: discovery.Resource = None) -> None:
+    """
+    Remove specific resource.
+    """
+    command = request(resource_id=resource_id,
+                      drive_service=drive_service)
+    command.execute()
 
 
-def file(file_id: ResourceID) -> None:
+# ---------------------------------------------------------------------
+# Batch (immediate execution)
+# ---------------------------------------------------------------------
+
+def batch(resource_ids: List[drive_api.ResourceID], *,
+          drive_service: discovery.Resource = None) -> None:
     """
-    Remove file.
+    Batch remove multiple resources.
     """
-    _delete_resource(file_id)
+    requests = [request(resource_id=resource_id,
+                        drive_service=drive_service)
+                for resource_id in resource_ids]
+    drive_api.batch_command(requests=requests,
+                            drive_service=drive_service)
 
 
-def folder(folder_id: ResourceID) -> None:
-    """
-    Recursively remove entire folder.
-    """
-    _delete_resource(folder_id)
+# ---------------------------------------------------------------------
+# Generate request (delayed execution)
+# ---------------------------------------------------------------------
 
-
-def _delete_resource(file_id: ResourceID) -> None:
+def request(resource_id: drive_api.ResourceID, *,
+            drive_service: discovery.Resource = None) -> http.HttpRequest:
     """
-    Helper for deleting files and folders
+    Generate request to remove specific resource.
     """
-    service = drive_api.build_service()
-    service \
+    if drive_service is not None:
+        drive_service = drive_api.build_service()
+    return drive_service \
         .files() \
-        .delete(fileId=file_id) \
-        .execute()
+        .delete(fileId=resource_id)

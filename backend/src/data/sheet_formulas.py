@@ -55,28 +55,28 @@ def roster_switch(*,
 
 def master_service(*, engagement_id: sheet.ID) -> Formula:
     return '=' + query_for_id(spreadsheet_id=engagement_id,
-                              tab_range='Requirements!A$2:C',
+                              tab_range='Total!A$2:C',
                               target_column=column_indexes.engagement_accepted['service'],
                               match_column=column_indexes.engagement_accepted['id'])
 
 
 def master_civil_mil(*, engagement_id: sheet.ID) -> Formula:
     return '=' + query_for_id(spreadsheet_id=engagement_id,
-                              tab_range='Requirements!A$2:C',
+                              tab_range='Total!A$2:C',
                               target_column=column_indexes.engagement_accepted['civil_mil'],
                               match_column=column_indexes.engagement_accepted['id'])
 
 
 def master_all_student(*, all_student_id: sheet.ID) -> Formula:
     return '=' + query_for_id(spreadsheet_id=all_student_id,
-                              tab_range='\'Total attendance\'!A$2:B',
+                              tab_range='Total!A$2:B',
                               target_column=column_indexes.all_students['total'],
                               match_column=column_indexes.all_students['id'])
 
 
 def master_no_shows(*, no_shows_id: sheet.ID) -> Formula:
     return '=' + query_for_id(spreadsheet_id=no_shows_id,
-                              tab_range='\'Total no-shows\'!A$2:B',
+                              tab_range='Total!A$2:B',
                               target_column=column_indexes.no_shows['total'],
                               match_column=column_indexes.no_shows['id'])
 

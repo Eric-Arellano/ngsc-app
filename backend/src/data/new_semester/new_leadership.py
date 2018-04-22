@@ -1,13 +1,11 @@
-ngsc_root = '0B4Ek7KKF4u8EMFJNN0duXzcxZXM'
-semester_root = ''
+chief_of_staff = 'Kara.Lehmann@asu.edu'
 
-drive_playground = '1QOsOQq3FMYfpXau6v3ubem5wrC97yWwo'
+staff = ['brett.hunt@asu.edu',
+         'laura.tan@asu.edu',
+         'veronica.gutierrez@asu.edu',
+         'jessica.eldridge@asu.edu']
 
-all_students = {
-    'participation': '1Aw01Ar17Dm4oWN6AL7dk24YFK3QUj27z'
-}
-
-sections = {
+section_leads = {
     '1': '',
     '2': '',
     '3': '',
@@ -20,7 +18,7 @@ sections = {
     '10': ''
 }
 
-mission_teams = {
+mission_team_leaders = {
     '1': '',
     '2': '',
     '3': '',
@@ -59,8 +57,8 @@ committee_leads = {
     'Engagement': '',
 }
 
-committees = {
-    'Admin': '',
+committee_chairs = {
+    'Admin': 'jseidne@asu.edu',
     'Ambassadors': '',
     'Civil-Mil': '',
     'Communication': '',
@@ -71,3 +69,9 @@ committees = {
     'Social': '',
     'Training': ''
 }
+
+drive_root_access = [chief_of_staff] \
+                    + staff \
+                    + [committee_chairs['Admin']] \
+                    + ['ecarell1@asu.edu'] \
+                    + ['dkchen1@asu.edu']

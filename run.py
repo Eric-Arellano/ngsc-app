@@ -267,6 +267,10 @@ def update_student_info(target: Target = 'all') -> None:
                                   all_action=update_demographics.main)
 
 
+# -------------------------------------
+# Setup new semester's Drive
+# -------------------------------------
+
 def setup_semester(target: Target = 'all') -> None:
     """
     Create the new Google Drive for upcoming semester, e.g. preparing rosters and copying files.
@@ -274,7 +278,32 @@ def setup_semester(target: Target = 'all') -> None:
     venv.activate()
     execute_on_target_environment(target,
                                   all_action=lambda: (
-                                      sys_calls.run_python(['./backend/src/admin/setup_semester_script.py'])
+                                      sys_calls.run_python(
+                                              ['./backend/src/admin/new_semester_scripts/setup_semester.py'])
+                                  ))
+
+
+def share_drive(target: Target = 'all') -> None:
+    """
+    Share the new Google Drive with incoming student leadership.
+    """
+    venv.activate()
+    execute_on_target_environment(target,
+                                  all_action=lambda: (
+                                      sys_calls.run_python(
+                                              ['./backend/src/admin/new_semester_scripts/share_drive.py'])
+                                  ))
+
+
+def rebuild_rosters(target: Target = 'all') -> None:
+    """
+    Rebuild the rosters with updated student info. Overwrites current data.
+    """
+    venv.activate()
+    execute_on_target_environment(target,
+                                  all_action=lambda: (
+                                      sys_calls.run_python(
+                                              ['./backend/src/admin/new_semester_scripts/rebuild_rosters.py'])
                                   ))
 
 
@@ -295,7 +324,9 @@ command_map = {'run': run,
                'remove': remove,
                'deploy': deploy_to_heroku,
                'student-info': update_student_info,
-               'setup-semester': setup_semester
+               'setup-semester': setup_semester,
+               'share-drive': share_drive,
+               'rebuild-rosters': rebuild_rosters
                }
 
 # -------------------------------------

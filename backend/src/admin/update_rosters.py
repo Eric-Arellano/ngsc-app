@@ -40,12 +40,12 @@ def update_roster_phone_numbers(spreadsheet_id: str, *,
     """
     Update roster's phone numbers if missing.
     """
-    phone_column_index = index.get_numeric(spreadsheet_id, 'phone')
-    phone_column_letter = index.get_letter(spreadsheet_id, 'phone')
+    phone_column_index = index.get_numeric(spreadsheet_id, column_name='phone')
+    phone_column_letter = index.get_letter(spreadsheet_id, column_name='phone')
     if phone_column_index is None:
         return
     range_ = f'A2:{phone_column_letter}'
-    grid = sheet.get_values(spreadsheet_id, range_)
+    grid = sheet.get_values(spreadsheet_id, range_=range_)
     updated_phones = columns.update(updated_values=asurite_to_phones,
                                     grid=grid,
                                     key_index=0,
@@ -77,7 +77,7 @@ def convert_roster_ids_to_asurite(spreadsheet_id: str, *,
     Converts IDs to ASUrite for given roster.
     """
     range_ = 'A2:A'
-    grid = sheet.get_values(spreadsheet_id, range_)
+    grid = sheet.get_values(spreadsheet_id, range_=range_)
     asurites = columns.update(updated_values=id_to_asurite,
                               grid=grid,
                               key_index=0,

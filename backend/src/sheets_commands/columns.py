@@ -94,6 +94,20 @@ def replace(*,
             for row_index, row in enumerate(grid)]
 
 
+def batch_replace(*,
+                  grid: sheet.Grid,
+                  columns_with_index: Dict[int, sheet.Column]) -> sheet.Grid:
+    """
+    Replace each provided index with its accompanying column.
+    """
+    return [[columns_with_index[col_index][row_index]
+             if col_index in columns_with_index.keys()
+                and row_index < len(columns_with_index[col_index])
+             else cell
+             for col_index, cell in enumerate(row)]
+            for row_index, row in enumerate(grid)]
+
+
 def clear(*,
           grid: sheet.Grid,
           target_indexes: List[int]) -> sheet.Grid:

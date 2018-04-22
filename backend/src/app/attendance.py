@@ -12,7 +12,8 @@ def get(student_id: int) -> Optional[Dict]:
     """
     Get student's mission team, committee, OLS, and no show attendance.
     """
-    all_rows = sheet.get_values(file_ids.master, 'Master!A2:Q')
+    all_rows = sheet.get_values(file_ids.master,
+                                range_='Master!A2:Q')
     row = next((row for row in all_rows if int(row[column_indexes.master['id']]) == student_id), None)
     if row is None:
         return None
