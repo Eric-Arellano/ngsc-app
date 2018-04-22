@@ -44,12 +44,12 @@ def main() -> None:
     # create resources
     folder_id_map = create_empty_folders(semester=semester,
                                          drive_service=drive_service)
-    roster_ids = create_empty_rosters(folder_id_map=folder_id_map,
-                                      semester=semester,
-                                      drive_service=drive_service)
     important_files = copy_important_files(folder_id_map=folder_id_map,
                                            semester=semester,
                                            drive_service=drive_service)
+    roster_ids = create_empty_rosters(folder_id_map=folder_id_map,
+                                      semester=semester,
+                                      drive_service=drive_service)
     file_id_map = {**roster_ids, **important_files}
     # save to hardcoded files
     save_folder_ids(folder_id_map)
@@ -96,6 +96,7 @@ def print_debugging_tips() -> None:
         - Column indexes were changed. Compare actual indexes with this script and `data/column_indexes`.
         - Tab names were changed. Compare to the formulas in `data/sheet_formulas`.
         - Occasionally Google's API server itself has failed, and the script simply needs to be run again.
+        - `copy_important_files` fails because API is overloaded and does not create the accompanying forms quickly enough. Try changing the timeout.
         
         These should not be sources of error, but check just in case:
         - Changed file names. The scripts work by File IDs, instead of file names. 
@@ -332,14 +333,18 @@ def copy_important_files(*,
                                             new_sheet_name=f'Engagement - {semester}',
                                             new_form_name=f'Engagement - {semester}',
                                             target_parent_folder_id=folder_id_map['all_students']['participation'],
-                                            drive_service=drive_service)
+                                            drive_service=drive_service,
+                                            initial_form_search_delay=20,
+                                            timeout=120)
     no_shows = copy.linked_sheet_and_form(origin_sheet_id=file_ids.participation['no_shows'],
                                           origin_form_id=file_ids.participation['no_shows_form'],
                                           origin_parent_folder_id=folder_ids.all_students['participation'],
                                           new_sheet_name=f'No shows - {semester}',
                                           new_form_name=f'No shows - {semester}',
                                           target_parent_folder_id=folder_id_map['all_students']['participation'],
-                                          drive_service=drive_service)
+                                          drive_service=drive_service,
+                                          initial_form_search_delay=20,
+                                          timeout=120)
     id_map['participation'] = {
         'all_students': all_students,
         'engagement': engagement.sheet,

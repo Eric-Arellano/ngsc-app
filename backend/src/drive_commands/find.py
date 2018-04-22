@@ -119,7 +119,7 @@ def _resource(resource_name: str, *,
     results = drive_service \
         .files() \
         .list(q=query,
-              pageSize=10,
+              pageSize=2,
               fields="nextPageToken, files(id)") \
         .execute()
     files = results.get('files', [])
