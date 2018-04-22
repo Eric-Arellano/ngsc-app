@@ -1,7 +1,7 @@
 """
 Create an empty file or folder into the specified targets.
 """
-from typing import List
+from typing import List, NamedTuple
 
 from googleapiclient import discovery, http
 
@@ -10,7 +10,7 @@ from backend.src.google_apis import drive_api
 
 
 # ---------------------------------------------------------------------
-# Single resource
+# Single resource (immediate execution)
 # ---------------------------------------------------------------------
 
 def gdoc(file_name: str, *,
@@ -19,10 +19,10 @@ def gdoc(file_name: str, *,
     """
     Create an empty Google Doc.
     """
-    return _resource(name=file_name,
-                     mime_type=mime_types.gdoc,
-                     parent_folder_id=parent_folder_id,
-                     drive_service=drive_service)
+    return resource(name=file_name,
+                    mime_type=mime_types.gdoc,
+                    parent_folder_id=parent_folder_id,
+                    drive_service=drive_service)
 
 
 def gsheet(file_name: str, *,
@@ -31,10 +31,10 @@ def gsheet(file_name: str, *,
     """
     Create an empty Google Sheet.
     """
-    return _resource(name=file_name,
-                     mime_type=mime_types.gsheets,
-                     parent_folder_id=parent_folder_id,
-                     drive_service=drive_service)
+    return resource(name=file_name,
+                    mime_type=mime_types.gsheets,
+                    parent_folder_id=parent_folder_id,
+                    drive_service=drive_service)
 
 
 def gslides(file_name: str, *,
@@ -43,10 +43,10 @@ def gslides(file_name: str, *,
     """
     Create an empty Google Slides presentation.
     """
-    return _resource(name=file_name,
-                     mime_type=mime_types.gslides,
-                     parent_folder_id=parent_folder_id,
-                     drive_service=drive_service)
+    return resource(name=file_name,
+                    mime_type=mime_types.gslides,
+                    parent_folder_id=parent_folder_id,
+                    drive_service=drive_service)
 
 
 def gform(file_name: str, *,
@@ -55,23 +55,10 @@ def gform(file_name: str, *,
     """
     Create an empty Google Form.
     """
-    return _resource(name=file_name,
-                     mime_type=mime_types.gform,
-                     parent_folder_id=parent_folder_id,
-                     drive_service=drive_service)
-
-
-def file(file_name: str, *,
-         mime_type: str,
-         parent_folder_id: drive_api.ResourceID,
-         drive_service: discovery.Resource = None) -> drive_api.ResourceID:
-    """
-    Create an empty file.
-    """
-    return _resource(name=file_name,
-                     mime_type=mime_type,
-                     parent_folder_id=parent_folder_id,
-                     drive_service=drive_service)
+    return resource(name=file_name,
+                    mime_type=mime_types.gform,
+                    parent_folder_id=parent_folder_id,
+                    drive_service=drive_service)
 
 
 def folder(folder_name: str, *,
@@ -80,119 +67,123 @@ def folder(folder_name: str, *,
     """
     Create an empty folder.
     """
-    return _resource(name=folder_name,
-                     mime_type=mime_types.folder,
-                     parent_folder_id=parent_folder_id,
-                     drive_service=drive_service)
+    return resource(name=folder_name,
+                    mime_type=mime_types.folder,
+                    parent_folder_id=parent_folder_id,
+                    drive_service=drive_service)
 
 
-def _resource(name: str, *,
-              mime_type: str,
-              parent_folder_id: drive_api.ResourceID,
-              drive_service: discovery.Resource = None) -> drive_api.ResourceID:
+def resource(name: str, *,
+             mime_type: str,
+             parent_folder_id: drive_api.ResourceID,
+             drive_service: discovery.Resource = None) -> drive_api.ResourceID:
     """
     Create Google Drive file with specific MIME type.
     """
-    request = _resource_request(name,
-                                mime_type=mime_type,
-                                parent_folder_id=parent_folder_id,
-                                drive_service=drive_service)
-    resource = request.execute()
-    return resource.get('id')
+    command = request(name,
+                      mime_type=mime_type,
+                      parent_folder_id=parent_folder_id,
+                      drive_service=drive_service)
+    result = command.execute()
+    return result.get('id')
 
 
 # ---------------------------------------------------------------------
-# Batch
+# Batch (immediate execution)
 # ---------------------------------------------------------------------
 
-def batch_gdoc(targets: List[drive_api.NameAndParent], *,
+class BatchArgument(NamedTuple):
+    name: str
+    parent_folder_id: drive_api.ResourceID
+    mime_type: str = None
+
+
+def batch_gdoc(arguments: List[BatchArgument], *,
                drive_service: discovery.Resource = None) -> List[drive_api.ResourceID]:
     """
     Batch create empty Google Docs.
     """
-    return _batch_resource(targets=targets,
-                           mime_type=mime_types.gdoc,
-                           drive_service=drive_service)
+    return batch(arguments=arguments,
+                 uniform_mime_type=mime_types.gdoc,
+                 drive_service=drive_service)
 
 
-def batch_gsheet(targets: List[drive_api.NameAndParent], *,
+def batch_gsheet(arguments: List[BatchArgument], *,
                  drive_service: discovery.Resource = None) -> List[drive_api.ResourceID]:
     """
     Batch create empty Google Sheets.
     """
-    return _batch_resource(targets=targets,
-                           mime_type=mime_types.gsheets,
-                           drive_service=drive_service)
+    return batch(arguments=arguments,
+                 uniform_mime_type=mime_types.gsheets,
+                 drive_service=drive_service)
 
 
-def batch_gslides(targets: List[drive_api.NameAndParent], *,
+def batch_gslides(arguments: List[BatchArgument], *,
                   drive_service: discovery.Resource = None) -> List[drive_api.ResourceID]:
     """
     Batch create empty Google Slides presentations.
     """
-    return _batch_resource(targets=targets,
-                           mime_type=mime_types.gslides,
-                           drive_service=drive_service)
+    return batch(arguments=arguments,
+                 uniform_mime_type=mime_types.gslides,
+                 drive_service=drive_service)
 
 
-def batch_gform(targets: List[drive_api.NameAndParent], *,
+def batch_gform(arguments: List[BatchArgument], *,
                 drive_service: discovery.Resource = None) -> List[drive_api.ResourceID]:
     """
     Batch create empty Google Forms.
     """
-    return _batch_resource(targets=targets,
-                           mime_type=mime_types.gform,
-                           drive_service=drive_service)
+    return batch(arguments=arguments,
+                 uniform_mime_type=mime_types.gform,
+                 drive_service=drive_service)
 
 
-def batch_file(targets: List[drive_api.NameAndParent], *,
-               mime_type: str,
-               drive_service: discovery.Resource = None) -> List[drive_api.ResourceID]:
-    """
-    Batch create empty files.
-    """
-    return _batch_resource(targets=targets,
-                           mime_type=mime_type,
-                           drive_service=drive_service)
-
-
-def batch_folder(targets: List[drive_api.NameAndParent], *,
+def batch_folder(arguments: List[BatchArgument], *,
                  drive_service: discovery.Resource = None) -> List[drive_api.ResourceID]:
     """
     Batch create empty folders.
     """
-    return _batch_resource(targets=targets,
-                           mime_type=mime_types.folder,
-                           drive_service=drive_service)
+    return batch(arguments=arguments,
+                 uniform_mime_type=mime_types.folder,
+                 drive_service=drive_service)
 
 
-def _batch_resource(targets: List[drive_api.NameAndParent], *,
-                    mime_type: str,
-                    drive_service: discovery.Resource = None) -> List[drive_api.ResourceID]:
+def batch(arguments: List[BatchArgument], *,
+          uniform_mime_type: str = None,
+          drive_service: discovery.Resource = None) -> List[drive_api.ResourceID]:
     """
     Batch create Google Drive file with specific MIME type.
 
     Returns list of IDs in order of passed names.
     """
+    # mime support
+    if uniform_mime_type is None and any(argument.mime_type is None for argument in arguments):
+        raise ValueError('Invalid batch arguments. Every file must have a mime type.')
+    else:
+        arguments = [BatchArgument(name=argument.name,
+                                   parent_folder_id=argument.parent_folder_id,
+                                   mime_type=uniform_mime_type)
+                     for argument in arguments]
+
     result = []  # callback will append resulting IDs in order
 
     def batch_response(request_id, response, exception) -> None:
         nonlocal result
         result.append(response.get('id'))
 
-    requests = [_resource_request(name=target.name,
-                                  mime_type=mime_type,
-                                  parent_folder_id=target.parent_folder_id,
-                                  drive_service=drive_service)
-                for target in targets]
-    drive_api.batch_command(callback=batch_response,
-                            requests=requests,
+    requests = [request(name=argument.name,
+                        mime_type=argument.mime_type,
+                        parent_folder_id=argument.parent_folder_id,
+                        drive_service=drive_service)
+                for argument in arguments]
+    drive_api.batch_command(requests=requests,
+                            callback=batch_response,
                             drive_service=drive_service)
     return result
 
 
 # ---------------------------------------------------------------------
-# Generate request (allows delayed execution)
+# Generate request (delayed execution)
 # ---------------------------------------------------------------------
 
 def gdoc_request(file_name: str, *,
@@ -201,10 +192,10 @@ def gdoc_request(file_name: str, *,
     """
     Generate request to create new Google doc.
     """
-    return _resource_request(name=file_name,
-                             mime_type=mime_types.gdoc,
-                             parent_folder_id=parent_folder_id,
-                             drive_service=drive_service)
+    return request(name=file_name,
+                   mime_type=mime_types.gdoc,
+                   parent_folder_id=parent_folder_id,
+                   drive_service=drive_service)
 
 
 def gsheet_request(file_name: str, *,
@@ -213,10 +204,10 @@ def gsheet_request(file_name: str, *,
     """
     Generate request to create new Google sheet.
     """
-    return _resource_request(name=file_name,
-                             mime_type=mime_types.gsheets,
-                             parent_folder_id=parent_folder_id,
-                             drive_service=drive_service)
+    return request(name=file_name,
+                   mime_type=mime_types.gsheets,
+                   parent_folder_id=parent_folder_id,
+                   drive_service=drive_service)
 
 
 def gslides_request(file_name: str, *,
@@ -225,10 +216,10 @@ def gslides_request(file_name: str, *,
     """
     Generate request to create new Google slides presentation.
     """
-    return _resource_request(name=file_name,
-                             mime_type=mime_types.gslides,
-                             parent_folder_id=parent_folder_id,
-                             drive_service=drive_service)
+    return request(name=file_name,
+                   mime_type=mime_types.gslides,
+                   parent_folder_id=parent_folder_id,
+                   drive_service=drive_service)
 
 
 def gform_request(file_name: str, *,
@@ -237,23 +228,10 @@ def gform_request(file_name: str, *,
     """
     Generate request to create new Google form.
     """
-    return _resource_request(name=file_name,
-                             mime_type=mime_types.gform,
-                             parent_folder_id=parent_folder_id,
-                             drive_service=drive_service)
-
-
-def file_request(file_name: str, *,
-                 mime_type: str,
-                 parent_folder_id: drive_api.ResourceID,
-                 drive_service: discovery.Resource = None) -> http.HttpRequest:
-    """
-    Generate request to create new file.
-    """
-    return _resource_request(name=file_name,
-                             mime_type=mime_type,
-                             parent_folder_id=parent_folder_id,
-                             drive_service=drive_service)
+    return request(name=file_name,
+                   mime_type=mime_types.gform,
+                   parent_folder_id=parent_folder_id,
+                   drive_service=drive_service)
 
 
 def folder_request(folder_name: str, *,
@@ -262,16 +240,16 @@ def folder_request(folder_name: str, *,
     """
     Generate request to create new folder.
     """
-    return _resource_request(name=folder_name,
-                             mime_type=mime_types.folder,
-                             parent_folder_id=parent_folder_id,
-                             drive_service=drive_service)
+    return request(name=folder_name,
+                   mime_type=mime_types.folder,
+                   parent_folder_id=parent_folder_id,
+                   drive_service=drive_service)
 
 
-def _resource_request(name: str, *,
-                      mime_type: str,
-                      parent_folder_id: drive_api.ResourceID,
-                      drive_service: discovery.Resource = None) -> http.HttpRequest:
+def request(name: str, *,
+            mime_type: str,
+            parent_folder_id: drive_api.ResourceID,
+            drive_service: discovery.Resource = None) -> http.HttpRequest:
     """
     Generate request to create new resource.
     """

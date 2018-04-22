@@ -52,7 +52,7 @@ def main() -> None:
                                            drive_service=drive_service)
     file_id_map = {**roster_ids, **important_files}
     # save to hardcoded files
-    save_folder_ids(folder_id_map)
+    save_folder_ids(folder_id_map)  # TODO: below commands using old hardcoded values!
     save_file_ids(file_id_map)
     check_new_ids_different()
     # steps before adding data
@@ -73,6 +73,7 @@ def main() -> None:
     update_master_formulas(sheets_service=sheets_service)
     # remaining steps
     prompt_to_connect_master_links()
+    prompt_to_add_leadership()  # TODO: dynamically generate leadership roster?
     print_remaining_steps()
 
 
@@ -153,14 +154,13 @@ def create_empty_folders(*,
         'semester_root': semester_root
     }
     # Root subfolders
-    root_subfolders = [
-        drive_api.NameAndParent('Templates', semester_root),
-        drive_api.NameAndParent('All students', semester_root),
-        drive_api.NameAndParent('Leadership', semester_root),
-        drive_api.NameAndParent('Sections', semester_root),
-        drive_api.NameAndParent('Committees', semester_root),
-    ]
-    root_subfolders_ids = batch_create_folder(targets=root_subfolders)
+    root_subfolders_ids = batch_create_folder([
+        create.BatchArgument('Templates', parent_folder_id=semester_root),
+        create.BatchArgument('All students', parent_folder_id=semester_root),
+        create.BatchArgument('Leadership', parent_folder_id=semester_root),
+        create.BatchArgument('Sections', parent_folder_id=semester_root),
+        create.BatchArgument('Committees', parent_folder_id=semester_root),
+    ])
     id_map.update({
         'templates': root_subfolders_ids[0],
         'all_students_root': root_subfolders_ids[1],
@@ -169,12 +169,11 @@ def create_empty_folders(*,
         'committees_root': root_subfolders_ids[4],
     })
     # All students subfolders
-    all_students_subfolders = [
-        drive_api.NameAndParent('On Leadership', id_map['all_students_root']),
-        drive_api.NameAndParent('Summit', id_map['all_students_root']),
-        drive_api.NameAndParent('Participation', id_map['all_students_root']),
-    ]
-    all_students_subfolders_ids = batch_create_folder(targets=all_students_subfolders)
+    all_students_subfolders_ids = batch_create_folder([
+        create.BatchArgument('On Leadership', parent_folder_id=id_map['all_students_root']),
+        create.BatchArgument('Summit', parent_folder_id=id_map['all_students_root']),
+        create.BatchArgument('Participation', parent_folder_id=id_map['all_students_root']),
+    ])
     id_map['all_students'] = {
         'on_leadership': all_students_subfolders_ids[0],
         'summit': all_students_subfolders_ids[1],
@@ -187,47 +186,45 @@ def create_empty_folders(*,
         'staff_briefings': briefings
     }
     # Sections folders
-    section_folders = [drive_api.NameAndParent(f'Section {section_index}',
-                                               parent_folder_id=id_map['sections_root'])
+    section_folders = [create.BatchArgument(f'Section {section_index}',
+                                            parent_folder_id=id_map['sections_root'])
                        for section_index in range(1, 11)]
-    section_folders_ids = batch_create_folder(targets=section_folders)
+    section_folders_ids = batch_create_folder(section_folders)
     id_map['sections'] = dict(zip(range(1, 11), section_folders_ids))
     # Mission team folders
-    mission_team_folders_by_section = [[drive_api.NameAndParent(f'Mission team {mt_number}',
-                                                                id_map['sections'][section_index])
+    mission_team_folders_by_section = [[create.BatchArgument(f'Mission team {mt_number}',
+                                                             parent_folder_id=id_map['sections'][section_index])
                                         for mt_number in (mt_index + (3 * (section_index - 1))
                                                           for mt_index in range(1, 4))]
                                        for section_index in range(1, 11)]
     mission_team_folders_flattened = [mt for section in mission_team_folders_by_section
                                       for mt in section]
-    mission_team_folders_ids = batch_create_folder(targets=mission_team_folders_flattened)
+    mission_team_folders_ids = batch_create_folder(mission_team_folders_flattened)
     id_map['mission_teams'] = dict(zip(range(1, 31), mission_team_folders_ids))
     # Committee Leads
-    committee_leads_folders = [
-        drive_api.NameAndParent('Engagement', id_map['committees_root']),
-        drive_api.NameAndParent('Education', id_map['committees_root']),
-        drive_api.NameAndParent('Culture', id_map['committees_root'])
-    ]
-    committee_leads_folders_ids = batch_create_folder(targets=committee_leads_folders)
+    committee_leads_folders_ids = batch_create_folder([
+        create.BatchArgument('Engagement', parent_folder_id=id_map['committees_root']),
+        create.BatchArgument('Education', parent_folder_id=id_map['committees_root']),
+        create.BatchArgument('Culture', parent_folder_id=id_map['committees_root'])
+    ])
     id_map['committee_leads'] = {
         'Engagement': committee_leads_folders_ids[0],
         'Education': committee_leads_folders_ids[1],
         'Culture': committee_leads_folders_ids[2]
     }
     # Committee Chairs
-    committee_chairs_folders = [
-        drive_api.NameAndParent('Admin', id_map['committees_root']),
-        drive_api.NameAndParent('Transfers', id_map['committee_leads']['Engagement']),
-        drive_api.NameAndParent('Civil-Mil', id_map['committee_leads']['Engagement']),
-        drive_api.NameAndParent('Service', id_map['committee_leads']['Engagement']),
-        drive_api.NameAndParent('Training', id_map['committee_leads']['Education']),
-        drive_api.NameAndParent('Mentorship', id_map['committee_leads']['Education']),
-        drive_api.NameAndParent('Ambassadors', id_map['committee_leads']['Education']),
-        drive_api.NameAndParent('Communications', id_map['committee_leads']['Culture']),
-        drive_api.NameAndParent('Events', id_map['committee_leads']['Culture']),
-        drive_api.NameAndParent('Social', id_map['committee_leads']['Culture']),
-    ]
-    committee_chairs_folders_ids = batch_create_folder(targets=committee_chairs_folders)
+    committee_chairs_folders_ids = batch_create_folder([
+        create.BatchArgument('Admin', parent_folder_id=id_map['committees_root']),
+        create.BatchArgument('Transfers', parent_folder_id=id_map['committee_leads']['Engagement']),
+        create.BatchArgument('Civil-Mil', parent_folder_id=id_map['committee_leads']['Engagement']),
+        create.BatchArgument('Service', parent_folder_id=id_map['committee_leads']['Engagement']),
+        create.BatchArgument('Training', parent_folder_id=id_map['committee_leads']['Education']),
+        create.BatchArgument('Mentorship', parent_folder_id=id_map['committee_leads']['Education']),
+        create.BatchArgument('Ambassadors', parent_folder_id=id_map['committee_leads']['Education']),
+        create.BatchArgument('Communications', parent_folder_id=id_map['committee_leads']['Culture']),
+        create.BatchArgument('Events', parent_folder_id=id_map['committee_leads']['Culture']),
+        create.BatchArgument('Social', parent_folder_id=id_map['committee_leads']['Culture']),
+    ])
     id_map['committees'] = {
         'Admin': committee_chairs_folders_ids[0],
         'Transfers': committee_chairs_folders_ids[1],
@@ -258,18 +255,18 @@ def create_empty_rosters(*,
     batch_create_gsheet = functools.partial(create.batch_gsheet,
                                             drive_service=drive_service)
     # Committee rosters
-    committee_rosters = [drive_api.NameAndParent(name=f'Attendance - {committee} - {semester}',
-                                                 parent_folder_id=folder_id)
+    committee_rosters = [create.BatchArgument(name=f'Attendance - {committee} - {semester}',
+                                              parent_folder_id=folder_id)
                          for committee, folder_id
                          in folder_id_map['committees'].items()]
-    committee_roster_ids = batch_create_gsheet(targets=committee_rosters)
+    committee_roster_ids = batch_create_gsheet(committee_rosters)
     committee_file_dict = dict(zip(folder_id_map['committees'].keys(), committee_roster_ids))
     # Mission team rosters
-    mission_team_rosters = [drive_api.NameAndParent(name=f'Attendance - Mission Team {mt_number} - {semester}',
-                                                    parent_folder_id=folder_id)
+    mission_team_rosters = [create.BatchArgument(name=f'Attendance - Mission Team {mt_number} - {semester}',
+                                                 parent_folder_id=folder_id)
                             for mt_number, folder_id
                             in folder_id_map['mission_teams'].items()]
-    mission_team_roster_ids = batch_create_gsheet(targets=mission_team_rosters)
+    mission_team_roster_ids = batch_create_gsheet(mission_team_rosters)
     mission_team_file_dict = dict(zip(folder_id_map['mission_teams'].keys(), mission_team_roster_ids))
     return {
         'committee_attendance': committee_file_dict,
@@ -289,72 +286,69 @@ def copy_important_files(*,
     id_map = {}
     if drive_service is None:
         drive_service = drive_api.build_service()
-    # master
-    master = copy.file(origin_file_id=file_ids.master,
-                       target_parent_folder_id=folder_id_map['semester_root'],
-                       new_name=f'Master - {semester}',
-                       drive_service=drive_service)
-    id_map['master'] = master
-    id_map['master_prior_semester'] = file_ids.master
-    # schedule
-    schedule = copy.file(origin_file_id=file_ids.schedule,
-                         target_parent_folder_id=folder_id_map['semester_root'],
-                         new_name=f'Schedule - {semester}',
-                         drive_service=drive_service)
-    id_map['schedule'] = schedule
-    # participation
-    all_students = copy.file(origin_file_id=file_ids.participation['all_students'],
-                             target_parent_folder_id=folder_id_map['all_students']['participation'],
-                             new_name=f'All student attendance - {semester}',
-                             drive_service=drive_service)
-    engagement = copy.linked_sheet_and_form(origin_sheet_id=file_ids.participation['engagement'],
+    batch_copy_file = functools.partial(copy.batch,
+                                        drive_service=drive_service)
+    copy_linked_sheet_and_form = functools.partial(copy.linked_sheet_and_form,
+                                                   drive_service=drive_service,
+                                                   initial_form_search_delay=20,
+                                                   timeout=120)
+    # normal files
+    copied_file_ids = batch_copy_file([
+        copy.BatchArgument(origin_resource_id=file_ids.master,
+                           new_name=f'Master - {semester}',
+                           target_folder_id=folder_id_map['semester_root']),
+        copy.BatchArgument(origin_resource_id=file_ids.schedule,
+                           new_name=f'Schedule - {semester}',
+                           target_folder_id=folder_id_map['semester_root']),
+        copy.BatchArgument(origin_resource_id=file_ids.templates['rsvp'],
+                           new_name='RSVP Template',
+                           target_folder_id=folder_id_map['templates']),
+        copy.BatchArgument(origin_resource_id=file_ids.templates['initial_meeting'],
+                           new_name='Initial meeting template',
+                           target_folder_id=folder_id_map['templates']),
+        copy.BatchArgument(origin_resource_id=file_ids.templates['event_proposal'],
+                           new_name='Event proposal template',
+                           target_folder_id=folder_id_map['templates']),
+        copy.BatchArgument(origin_resource_id=file_ids.templates['ols_cancel_rsvp'],
+                           new_name='OLS cancel RSVP template',
+                           target_folder_id=folder_id_map['templates']),
+        copy.BatchArgument(origin_resource_id=file_ids.participation['all_students'],
+                           new_name=f'All student attendance - {semester}',
+                           target_folder_id=folder_ids.all_students['participation']),
+    ])
+    id_map = {
+        'master_prior_semester': file_ids.master,
+        'master': copied_file_ids[0],
+        'schedule': copied_file_ids[1],
+        'templates': {
+            'rsvp': copied_file_ids[2],
+            'initial_meeting': copied_file_ids[3],
+            'event_proposal': copied_file_ids[4],
+            'ols_cancel_rsvp': copied_file_ids[5]
+        },
+        'participation': {
+            'all_students': copied_file_ids[6]
+        }
+    }
+    # linked spreadsheet and form
+    engagement = copy_linked_sheet_and_form(origin_sheet_id=file_ids.participation['engagement'],
                                             origin_form_id=file_ids.participation['engagement_form'],
                                             origin_parent_folder_id=folder_ids.all_students['participation'],
                                             new_sheet_name=f'Engagement - {semester}',
                                             new_form_name=f'Engagement - {semester}',
-                                            target_parent_folder_id=folder_id_map['all_students']['participation'],
-                                            drive_service=drive_service,
-                                            initial_form_search_delay=20,
-                                            timeout=120)
-    no_shows = copy.linked_sheet_and_form(origin_sheet_id=file_ids.participation['no_shows'],
+                                            target_parent_folder_id=folder_id_map['all_students']['participation'])
+    no_shows = copy_linked_sheet_and_form(origin_sheet_id=file_ids.participation['no_shows'],
                                           origin_form_id=file_ids.participation['no_shows_form'],
                                           origin_parent_folder_id=folder_ids.all_students['participation'],
                                           new_sheet_name=f'No shows - {semester}',
                                           new_form_name=f'No shows - {semester}',
-                                          target_parent_folder_id=folder_id_map['all_students']['participation'],
-                                          drive_service=drive_service,
-                                          initial_form_search_delay=20,
-                                          timeout=120)
-    id_map['participation'] = {
-        'all_students': all_students,
+                                          target_parent_folder_id=folder_id_map['all_students']['participation'])
+    id_map['participation'].update({
         'engagement': engagement.sheet,
         'engagement_form': engagement.form,
         'no_shows': no_shows.sheet,
         'no_shows_form': no_shows.form
-    }
-    # templates
-    rsvp = copy.file(origin_file_id=file_ids.templates['rsvp'],
-                     target_parent_folder_id=folder_id_map['templates'],
-                     new_name='RSVP Template',
-                     drive_service=drive_service)
-    initial_meeting = copy.file(origin_file_id=file_ids.templates['initial_meeting'],
-                                target_parent_folder_id=folder_id_map['templates'],
-                                new_name='Initial meeting template',
-                                drive_service=drive_service)
-    event_proposal = copy.file(origin_file_id=file_ids.templates['event_proposal'],
-                               target_parent_folder_id=folder_id_map['templates'],
-                               new_name='Event proposal template',
-                               drive_service=drive_service)
-    ols_cancel_rsvp = copy.file(origin_file_id=file_ids.templates['ols_cancel_rsvp'],
-                                target_parent_folder_id=folder_id_map['templates'],
-                                new_name='OLS cancel RSVP template',
-                                drive_service=drive_service)
-    id_map['templates'] = {
-        'rsvp': rsvp,
-        'initial_meeting': initial_meeting,
-        'event_proposal': event_proposal,
-        'ols_cancel_rsvp': ols_cancel_rsvp
-    }
+    })
     return id_map
 
 
@@ -384,7 +378,7 @@ def save_file_ids(ids: IdMap) -> None:
 
 @command_line.log(
         start_message='Checking new IDs are different than current IDs so that the script doesn\'t overwrite current data.',
-        end_message='IDs are different. Safe to continue.')
+        end_message='IDs are different. Safe to continue.\n')
 def check_new_ids_different() -> None:
     """
     Check new and old file & folder IDs are different.
@@ -449,7 +443,7 @@ def prompt_to_update_leave_of_absence() -> None:
 # ------------------------------------------------------------------
 
 @command_line.log(start_message='Updating ID lists for participation spreadsheets.',
-                  end_message='ID lists updated.')
+                  end_message='ID lists updated.\n')
 def update_participation_id_list(*, sheets_service: discovery.Resource = None) -> None:
     """
     Re-pull the list of student IDs for All Student Attendance, No Shows, and Engagement.
@@ -552,13 +546,12 @@ def clear_outdated_master(*,
                                              key_index=column_indexes.master['cohort'],
                                              key_values=[str(senior_cohort)],
                                              target_indexes=[column_indexes.master['mt']])
-    cleared_leadership = columns.clear(grid=cleared_mission_teams,
-                                       target_indexes=[column_indexes.master['leadership']])
-    cleared_status = columns.clear(grid=cleared_leadership,
-                                   target_indexes=[column_indexes.master['status']])
+    cleared_leadership_and_status = columns.clear(grid=cleared_mission_teams,
+                                                  target_indexes=[column_indexes.master['leadership'],
+                                                                  column_indexes.master['status']])
     sheet.update_values(spreadsheet_id=new_file_ids.master,
                         range_='A2:Z',
-                        grid=cleared_status,
+                        grid=cleared_leadership_and_status,
                         sheets_service=sheets_service)
 
 
@@ -569,7 +562,7 @@ def prompt_to_clear_remaining_old_data() -> None:
     all_students_link = generate_link.gsheet(new_file_ids.participation['all_students'])
     no_shows_link = generate_link.gsheet(new_file_ids.participation['no_shows'])
     command_line.ask_confirmation(question=textwrap.dedent(f'''\
-                Some of the data cannot be safely deleted from the script, so you will have to do it.
+                The script is not able to safely delete some data, so you will have to do it.
                 1. Open up the new 'All student attendance' sheet at {all_students_link}
                 2. Erase the data on every tab except for 'Total attendance'. (Make sure the formulas are saved in the 'Formulas' tab.)
                 3. Rename the tabs to the relevant events, e.g. "OLS 1" and "Fall Retreat".
@@ -596,27 +589,27 @@ def prepare_all_rosters(*,
     """
     Setup every roster with data and formatting, pulling data from Master.
     """
+    # setup sheets service
     if sheets_service is None:
         sheets_service = sheets_api.build_service()
+    # feed master values
     master_grid = sheet.get_values(new_file_ids.master,
                                    range_='Master!A2:Z',
                                    sheets_service=sheets_service)
+    prepare_new_roster = functools.partial(prepare_roster,
+                                           master_grid=master_grid,
+                                           add_colors=add_colors,
+                                           sheets_service=sheets_service)
     if include_mission_teams:
         for mt_number, mt_roster_id in new_file_ids.mission_team_attendance.items():
-            prepare_roster(spreadsheet_id=mt_roster_id,
-                           filter_column_index=column_indexes.master['mt'],
-                           filter_value=str(mt_number),
-                           master_grid=master_grid,
-                           add_colors=add_colors,
-                           sheets_service=sheets_service)
+            prepare_new_roster(spreadsheet_id=mt_roster_id,
+                               filter_column_index=column_indexes.master['mt'],
+                               filter_value=str(mt_number))
     if include_committees:
         for committee, committee_roster_id in new_file_ids.committee_attendance.items():
-            prepare_roster(spreadsheet_id=committee_roster_id,
-                           filter_column_index=column_indexes.master['committee'],
-                           filter_value=committee,
-                           master_grid=master_grid,
-                           add_colors=add_colors,
-                           sheets_service=sheets_service)
+            prepare_new_roster(spreadsheet_id=committee_roster_id,
+                               filter_column_index=column_indexes.master['committee'],
+                               filter_value=committee)
 
 
 def prepare_roster(spreadsheet_id: str, *,
@@ -628,7 +621,7 @@ def prepare_roster(spreadsheet_id: str, *,
     """
     Setup provided roster's data and formatting.
     """
-    # add data
+    # setup grid content
     filtered = rows.filter_by_cell(grid=master_grid,
                                    target_index=filter_column_index,
                                    target_value=filter_value)
@@ -645,11 +638,9 @@ def prepare_roster(spreadsheet_id: str, *,
     with_additional_rows = rows.append_blank(grid=without_status,
                                              num_rows=10,
                                              num_columns=8)
-    # add participation formula
     participation_column = formulas.generate_adaptive_row_index(formula=sheet_formulas.roster_participation(),
                                                                 num_rows=len(with_additional_rows))
     with_participation = columns.add(grid=with_additional_rows, column=participation_column, target_index=1)
-    # add header row
     headers = [['ASUrite',
                 'Participation Rate',
                 'First name',
@@ -660,34 +651,24 @@ def prepare_roster(spreadsheet_id: str, *,
                 'Cohort',
                 'Ex: 9/12']]
     with_headers = headers + with_participation
-    # add attendance dropdown
-    attendance_options = ['yes', 'no', 'remote', 'excused']
-    dropdown_request = validation.dropdown_options_request(options=attendance_options,
-                                                           row_start_index=1,
-                                                           row_end_index=len(with_participation),
-                                                           column_start_index=8,
-                                                           column_end_index=25)
-    # lock first 2 columns
-    protected_range_request = validation.protected_range_request(editor_emails=new_leadership.drive_root_access,
-                                                                 description='Participation formula',
-                                                                 column_start_index=0,
-                                                                 column_end_index=2)
-    # modify display
-    hide_request = display.hide_columns_request(start_column_index=0, end_column_index=1)
-    freeze_request = display.freeze_request(num_rows=1)
-    resize_request = display.auto_resize_request()
-    colors_request = display.alternating_colors_request()
-    # rename tab
-    rename_request = tab.rename_request(tab_name='Attendance')
-    # collate requests
-    requests = [dropdown_request,
-                protected_range_request,
-                hide_request,
-                freeze_request,
-                resize_request,
-                rename_request]
+    # batch requests
+    requests = [
+        validation.dropdown_options_request(options=['yes', 'no', 'remote', 'excused'],
+                                            row_start_index=1,
+                                            row_end_index=len(with_participation),
+                                            column_start_index=8,
+                                            column_end_index=25),
+        validation.protected_range_request(editor_emails=new_leadership.drive_root_access,
+                                           description='Participation formula',
+                                           column_start_index=0,
+                                           column_end_index=2),
+        display.hide_columns_request(start_column_index=0, end_column_index=1),
+        display.freeze_request(num_rows=1),
+        display.auto_resize_request(),
+        tab.rename_request(tab_name='Attendance')
+    ]
     if add_colors:  # will crash app if colors already added
-        requests.append(colors_request)
+        requests.append(display.alternating_colors_request())
     # send API requests
     sheet.update_values(spreadsheet_id,
                         range_='A1:Z',
@@ -733,33 +714,18 @@ def update_master_formulas(*, sheets_service: discovery.Resource = None) -> None
     triggers_two_semesters_column = generate_master_formula(
             formula=sheet_formulas.master_triggers_earlier_semester(old_master_id=file_ids.master_prior_semester))
     # update grid
-    result = columns.replace(grid=master_values,
-                             column=service_column,
-                             target_index=column_indexes.master['service'])
-    result = columns.replace(grid=result,
-                             column=civil_mil_column,
-                             target_index=column_indexes.master['civil-mil'])
-    result = columns.replace(grid=result,
-                             column=committee_attendance_column,
-                             target_index=column_indexes.master['committee_attendance'])
-    result = columns.replace(grid=result,
-                             column=mt_attendance_column,
-                             target_index=column_indexes.master['mt_attendance'])
-    result = columns.replace(grid=result,
-                             column=all_student_column,
-                             target_index=column_indexes.master['ols'])
-    result = columns.replace(grid=result,
-                             column=no_show_column,
-                             target_index=column_indexes.master['no_shows'])
-    result = columns.replace(grid=result,
-                             column=triggers_current_column,
-                             target_index=column_indexes.master['triggers_current'])
-    result = columns.replace(grid=result,
-                             column=triggers_last_column,
-                             target_index=column_indexes.master['triggers_last'])
-    result = columns.replace(grid=result,
-                             column=triggers_two_semesters_column,
-                             target_index=column_indexes.master['triggers_two_semesters'])
+    replace = {
+        column_indexes.master['service']: service_column,
+        column_indexes.master['civil-mil']: civil_mil_column,
+        column_indexes.master['committee_attendance']: committee_attendance_column,
+        column_indexes.master['mt_attendance']: mt_attendance_column,
+        column_indexes.master['ols']: all_student_column,
+        column_indexes.master['no_shows']: no_show_column,
+        column_indexes.master['triggers_current']: triggers_current_column,
+        column_indexes.master['triggers_last']: triggers_last_column,
+        column_indexes.master['triggers_two_semesters']: triggers_two_semesters_column,
+    }
+    result = columns.batch_replace(grid=master_values, columns_with_index=replace)
     sheet.update_values(new_file_ids.master,
                         range_='A2:Z',
                         grid=result,
@@ -780,6 +746,17 @@ def prompt_to_connect_master_links() -> None:
             2. Scroll to the right to the participation section.
             3. Highlight over cells with `#REF!` and press 'Allow access'.
             4. Continue to add access until there are no more `#REF!`s.'''),
+                                  default_to_yes=True)
+
+
+def prompt_to_add_leadership() -> None:
+    """
+    Prompt to add leadership info to Master.
+    """
+    master_link = generate_link.gsheet(new_file_ids.master)
+    command_line.ask_confirmation(question=textwrap.dedent(f'''\
+            1. Open up the new master spreadsheet at {master_link}
+            2. Add leadership roles to new leadership using the 'Leadership' column and its dropdown options.'''),
                                   default_to_yes=True)
 
 

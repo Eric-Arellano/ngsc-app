@@ -1,47 +1,66 @@
 """
-Rename a file or folder for the specified targets.
+Rename a resource within Google Drive.
 """
-from googleapiclient import discovery
+from typing import List, NamedTuple
+
+from googleapiclient import discovery, http
 
 from backend.src.google_apis import drive_api
 
-ResourceID = str
+
+# ---------------------------------------------------------------------
+# Single resource (immediate execution)
+# ---------------------------------------------------------------------
+
+def resource(resource_id: drive_api.ResourceID,
+             new_name: str, *,
+             drive_service: discovery.Resource = None) -> None:
+    """
+    Rename specific resource.
+    """
+    command = request(resource_id=resource_id,
+                      new_name=new_name,
+                      drive_service=drive_service)
+    command.execute()
 
 
-def file(file_id: ResourceID,
-         new_name: str, *,
-         drive_service: discovery.Resource = None) -> None:
-    """
-    Rename file.
-    """
-    _rename_resource(resource_id=file_id,
-                     new_name=new_name,
-                     drive_service=drive_service)
+# ---------------------------------------------------------------------
+# Batch (immediate execution)
+# ---------------------------------------------------------------------
+
+class BatchArgument(NamedTuple):
+    resource_id: drive_api.ResourceID
+    new_name: drive_api.ResourceID
 
 
-def folder(folder_id: ResourceID,
-           new_name: str, *,
-           drive_service: discovery.Resource = None) -> None:
+def batch(arguments: List[BatchArgument], *,
+          drive_service: discovery.Resource = None) -> None:
     """
-    Rename folder.
+    Batch rename multiple resources.
     """
-    _rename_resource(resource_id=folder_id,
-                     new_name=new_name,
-                     drive_service=drive_service)
+    requests = [request(resource_id=argument.resource_id,
+                        new_name=argument.new_name,
+                        drive_service=drive_service)
+                for argument in arguments]
+    drive_api.batch_command(requests=requests,
+                            drive_service=drive_service)
 
 
-def _rename_resource(resource_id: ResourceID,
-                     new_name: str, *,
-                     drive_service: discovery.Resource = None) -> None:
+# ---------------------------------------------------------------------
+# Generate request (delayed execution)
+# ---------------------------------------------------------------------
+
+def request(resource_id: drive_api.ResourceID,
+            new_name: str, *,
+            drive_service: discovery.Resource = None) -> http.HttpRequest:
     """
-    Rename resource helper.
+    Generate request to rename specific resource.
     """
-    if drive_service is None:
+    if drive_service is not None:
         drive_service = drive_api.build_service()
     file_metadata = {
         'name': new_name,
     }
-    drive_service \
+    return drive_service \
         .files() \
-        .update(fileId=resource_id, body=file_metadata) \
-        .execute()
+        .update(fileId=resource_id, body=file_metadata)

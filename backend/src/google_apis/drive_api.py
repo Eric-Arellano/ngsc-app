@@ -1,4 +1,4 @@
-from typing import Callable, Dict, List, NamedTuple
+from typing import Callable, Dict, List
 
 from googleapiclient import discovery, errors, http
 
@@ -9,12 +9,6 @@ from backend.src.google_apis import authentication
 # --------------------------------------------------------------
 
 ResourceID = str
-
-
-class NameAndParent(NamedTuple):
-    name: str
-    parent_folder_id: ResourceID
-
 
 BatchCallback = Callable[[str, Dict, errors.HttpError], None]
 

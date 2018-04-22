@@ -1,53 +1,71 @@
 """
 Move a file or folder from source into the specified targets.
 """
-from googleapiclient import discovery
+from typing import List, NamedTuple
+
+from googleapiclient import discovery, http
 
 from backend.src.drive_commands import find
 from backend.src.google_apis import drive_api
 
-ResourceID = str
 
+# ---------------------------------------------------------------------
+# Single resource (immediate execution)
+# ---------------------------------------------------------------------
 
-def file(*,
-         origin_file_id: ResourceID,
-         target_folder_id: ResourceID,
-         drive_service: discovery.Resource = None) -> None:
+def resource(*,
+             origin_resource_id: drive_api.ResourceID,
+             target_folder_id: drive_api.ResourceID,
+             drive_service: discovery.Resource = None) -> None:
     """
-    Move file.
+    Move specific resource to new parent.
     """
-    _move_resource(origin_resource_id=origin_file_id,
-                   target_folder_id=target_folder_id,
-                   drive_service=drive_service)
+    command = request(origin_resource_id=origin_resource_id,
+                      target_folder_id=target_folder_id,
+                      drive_service=drive_service)
+    command.execute()
 
 
-def folder(*,
-           origin_folder_id: ResourceID,
-           target_folder_id: ResourceID,
-           drive_service: discovery.Resource = None) -> None:
-    """
-    Move folder.
-    """
-    _move_resource(origin_resource_id=origin_folder_id,
-                   target_folder_id=target_folder_id,
-                   drive_service=drive_service)
+# ---------------------------------------------------------------------
+# Batch (immediate execution)
+# ---------------------------------------------------------------------
+
+class BatchArgument(NamedTuple):
+    origin_resource_id: drive_api.ResourceID
+    target_folder_id: drive_api.ResourceID
 
 
-def _move_resource(*,
-                   origin_resource_id: ResourceID,
-                   target_folder_id: ResourceID,
-                   drive_service: discovery.Resource = None) -> None:
+def batch(arguments: List[BatchArgument], *,
+          drive_service: discovery.Resource = None) -> None:
     """
-    Move resource helper.
+    Batch move multiple resources.
+    """
+    requests = [request(origin_resource_id=argument.origin_resource_id,
+                        target_folder_id=argument.target_folder_id,
+                        drive_service=drive_service)
+                for argument in arguments]
+    drive_api.batch_command(requests=requests,
+                            drive_service=drive_service)
+
+
+# ---------------------------------------------------------------------
+# Generate request (delayed execution)
+# ---------------------------------------------------------------------
+
+def request(*,
+            origin_resource_id: drive_api.ResourceID,
+            target_folder_id: drive_api.ResourceID,
+            drive_service: discovery.Resource = None) -> http.HttpRequest:
+    """
+    Generate request to move specific resource.
     """
     if drive_service is not None:
         drive_service = drive_api.build_service()
     previous_parents = find.parent_folder_list(resource_id=origin_resource_id)
     previous_parents_formatted = ', '.join(previous_parents)
-    drive_service \
+    return drive_service \
         .files() \
         .update(fileId=origin_resource_id,
                 addParents=target_folder_id,
                 removeParents=previous_parents_formatted,
-                fields='id, parents') \
-        .execute()
+                fields='id, parents')

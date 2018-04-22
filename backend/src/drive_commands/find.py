@@ -22,11 +22,11 @@ def gdoc(file_name: str, *,
     """
     Find a Google Doc with given name and parent.
     """
-    return _resource(resource_name=file_name,
-                     mime_type=mime_types.gdoc,
-                     parent_folder_id=parent_folder_id,
-                     exact_match=exact_match,
-                     drive_service=drive_service)
+    return resource(resource_name=file_name,
+                    mime_type=mime_types.gdoc,
+                    parent_folder_id=parent_folder_id,
+                    exact_match=exact_match,
+                    drive_service=drive_service)
 
 
 def gsheet(file_name: str, *,
@@ -36,11 +36,11 @@ def gsheet(file_name: str, *,
     """
     Find a Google Sheet with given name and parent.
     """
-    return _resource(resource_name=file_name,
-                     mime_type=mime_types.gsheets,
-                     parent_folder_id=parent_folder_id,
-                     exact_match=exact_match,
-                     drive_service=drive_service)
+    return resource(resource_name=file_name,
+                    mime_type=mime_types.gsheets,
+                    parent_folder_id=parent_folder_id,
+                    exact_match=exact_match,
+                    drive_service=drive_service)
 
 
 def gslides(file_name: str, *,
@@ -50,11 +50,11 @@ def gslides(file_name: str, *,
     """
     Find a Google Slides with given name and parent.
     """
-    return _resource(resource_name=file_name,
-                     mime_type=mime_types.gslides,
-                     parent_folder_id=parent_folder_id,
-                     exact_match=exact_match,
-                     drive_service=drive_service)
+    return resource(resource_name=file_name,
+                    mime_type=mime_types.gslides,
+                    parent_folder_id=parent_folder_id,
+                    exact_match=exact_match,
+                    drive_service=drive_service)
 
 
 def gform(file_name: str, *,
@@ -64,26 +64,11 @@ def gform(file_name: str, *,
     """
     Find a Google Form with given name and parent.
     """
-    return _resource(resource_name=file_name,
-                     mime_type=mime_types.gform,
-                     parent_folder_id=parent_folder_id,
-                     exact_match=exact_match,
-                     drive_service=drive_service)
-
-
-def file(file_name: str, *,
-         parent_folder_id: ResourceID,
-         mime_type: str = None,
-         exact_match: bool = True,
-         drive_service: discovery.Resource = None) -> Optional[ResourceID]:
-    """
-    Find file.
-    """
-    return _resource(resource_name=file_name,
-                     parent_folder_id=parent_folder_id,
-                     mime_type=mime_type,
-                     exact_match=exact_match,
-                     drive_service=drive_service)
+    return resource(resource_name=file_name,
+                    mime_type=mime_types.gform,
+                    parent_folder_id=parent_folder_id,
+                    exact_match=exact_match,
+                    drive_service=drive_service)
 
 
 def folder(folder_name: str, *,
@@ -93,18 +78,18 @@ def folder(folder_name: str, *,
     """
     Find folder.
     """
-    return _resource(resource_name=folder_name,
-                     parent_folder_id=parent_folder_id,
-                     mime_type=mime_types.folder,
-                     exact_match=exact_match,
-                     drive_service=drive_service)
+    return resource(resource_name=folder_name,
+                    parent_folder_id=parent_folder_id,
+                    mime_type=mime_types.folder,
+                    exact_match=exact_match,
+                    drive_service=drive_service)
 
 
-def _resource(resource_name: str, *,
-              parent_folder_id: ResourceID,
-              mime_type: str = None,
-              exact_match: bool = True,
-              drive_service: discovery.Resource = None) -> Optional[ResourceID]:
+def resource(resource_name: str, *,
+             parent_folder_id: ResourceID,
+             mime_type: str = None,
+             exact_match: bool = True,
+             drive_service: discovery.Resource = None) -> Optional[ResourceID]:
     """
     Helper for finding files and folders
     """
