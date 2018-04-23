@@ -33,8 +33,8 @@ class RadioGroup extends Component<Props, State> {
     const {currentSelection} = this.state
     const {options} = this.props
     return <ul>
-      {options.map((option: RadioOption) => (
-        <li>
+      {options.map((option: RadioOption, index: number) => (
+        <li key={index}>
           <Label>
             <input type='radio'
                    value={option.label}

@@ -29,8 +29,8 @@ class CheckboxGroup extends Component<Props, State> {
   render () {
     const {options} = this.props
     return <ul>
-      {options.map((option: CheckboxOption) => (
-        <li>
+      {options.map((option: CheckboxOption, index: number) => (
+        <li key={index}>
           <Label>
             <input type='checkbox'
                    value={option.label}
