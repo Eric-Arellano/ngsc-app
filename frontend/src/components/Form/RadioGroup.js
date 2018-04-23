@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react'
+import * as React from 'react'
 import { Label } from 'components'
 import type { RadioOption } from 'types'
 import s from './RadioGroup.module.css'
@@ -7,14 +7,15 @@ import s from './RadioGroup.module.css'
 type Props = {
   options: Array<RadioOption>,
   default: ?RadioOption,
+  label: ?string,
   updateCurrentSelection: (RadioOption) => void,
 }
 
 type State = {
-  currentSelection: RadioOption,
+  currentSelection: ?RadioOption,
 }
 
-class RadioGroup extends Component<Props, State> {
+class RadioGroup extends React.Component<Props, State> {
 
   state = {
     currentSelection: this.props.default
@@ -31,22 +32,27 @@ class RadioGroup extends Component<Props, State> {
 
   render () {
     const {currentSelection} = this.state
-    const {options} = this.props
-    return <ul>
-      {options.map((option: RadioOption, index: number) => (
-        <li key={index}>
-          <Label>
-            <input type='radio'
-                   value={option.label}
-                   checked={currentSelection === option}
-                   onChange={this.handleSelection}
-                   className={s.radio} />
-            {option.label}
-          </Label>
-        </li>
-      ))
-      }
-    </ul>
+    const {options, label} = this.props
+    return (
+      <div className={s.container}>
+        {label && <p className={s.label}>{label}</p>}
+        <ul>
+          {options.map((option: RadioOption, index: number) => (
+            <li key={index}>
+              <Label>
+                <input type='radio'
+                       value={option.label}
+                       checked={currentSelection === option}
+                       onChange={this.handleSelection}
+                       className={s.radio} />
+                {option.label}
+              </Label>
+            </li>
+          ))
+          }
+        </ul>
+      </div>
+    )
   }
 }
 

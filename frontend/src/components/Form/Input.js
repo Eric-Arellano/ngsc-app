@@ -1,12 +1,14 @@
 // @flow
-import React, { Component } from 'react'
+import * as React from 'react'
 import type { ValidationState } from 'types'
+import { Label } from 'components'
 import s from './Input.module.css'
 
 type Props = {
   validationState: ValidationState,
   inputType: ?string,
   placeholder: ?string,
+  label: ?string,
   updateCurrentValue: (string) => void,
   handleEnterKey: ?(SyntheticInputEvent<HTMLInputElement> => void),
 }
@@ -15,7 +17,7 @@ type State = {
   currentValue: string,
 }
 
-class Input extends Component<Props, State> {
+class Input extends React.Component<Props, State> {
 
   static defaultProps = {
     validationState: 'neutral',
@@ -36,10 +38,18 @@ class Input extends Component<Props, State> {
   }
 
   render () {
-    const {validationState, placeholder, handleEnterKey, inputType} = this.props
+    const {validationState, label, placeholder, handleEnterKey, inputType} = this.props
     const {currentValue} = this.state
-    return <input type={inputType} value={currentValue} placeholder={placeholder} onKeyDown={handleEnterKey}
-                  onChange={this.handleKeyInput} className={s[validationState]} />
+    return (
+      <div className={s.container}>
+        {label && <Label>{label}</Label>}
+        <input type={inputType}
+               value={currentValue}
+               placeholder={placeholder}
+               onKeyDown={handleEnterKey}
+               onChange={this.handleKeyInput}
+               className={s[validationState]} />
+      </div>)
   }
 }
 

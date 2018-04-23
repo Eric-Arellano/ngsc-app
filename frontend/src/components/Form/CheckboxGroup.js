@@ -6,6 +6,7 @@ import s from './CheckboxGroup.module.css'
 
 type Props = {
   options: Array<CheckboxOption>,
+  label: ?string,
   updateCurrentChecked: (Array<CheckboxOption>) => void,
 }
 
@@ -27,23 +28,25 @@ class CheckboxGroup extends Component<Props, State> {
   }
 
   render () {
-    const {options} = this.props
-    return <ul>
-      {options.map((option: CheckboxOption, index: number) => (
-        <li key={index}>
-          <Label>
-            <input type='checkbox'
-                   value={option.label}
-                   checked={option.checked}
-                   onChange={this.handleToggle}
-                   className={s.checkbox}
-            />
-            {option.label}
-          </Label>
-        </li>
-      ))
-      }
-    </ul>
+    const {options, label} = this.props
+    return (
+      <div className={s.container}>
+        {label && <p className={s.label}>{label}</p>}
+        <ul>
+          {options.map((option: CheckboxOption, index: number) => (
+            <li key={index}>
+              <Label>
+                <input type='checkbox'
+                       value={option.label}
+                       checked={option.checked}
+                       onChange={this.handleToggle}
+                       className={s.checkbox}
+                />
+                {option.label}
+              </Label>
+            </li>))}
+        </ul>
+      </div>)
   }
 }
 

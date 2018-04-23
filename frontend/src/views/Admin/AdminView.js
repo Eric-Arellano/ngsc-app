@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import { Button, CheckboxGroup, Input, Label, RadioGroup } from 'components'
+import { Button, CheckboxGroup, Input, InputGroup, RadioGroup } from 'components'
 import type { Action, FolderTarget, MimeType, SemesterTarget } from './options'
 import { actionOptions, mimeTypeOptions, semesterTargetOptions } from './options'
 
@@ -12,7 +12,8 @@ type Props = {
   updateAction: Action => void,
   updateFolderTargets: Array<FolderTarget> => void,
   updateMimeType: MimeType => void,
-  submit: () => void
+  updateSourcePath: string => void,
+  submit: () => void,
 }
 
 const fileOrFolder = (action: Action): string => (
@@ -20,47 +21,63 @@ const fileOrFolder = (action: Action): string => (
 )
 
 const sourcePlaceholder = (action: Action): string => (
-  action.isFile ? 'Leadership/Example.gslides' : 'Leadership/Retreat 1'
+  action.isFile ? 'Templates/RSVP Template' : 'Leadership/Retreat 1'
 )
 
 const targetPlaceholder = (action: Action): string => (
-  action.isFile ? 'Example.gslides' : 'Retreat 1'
+  action.isFile ? 'RSVP Template' : 'Training'
 )
 
-const AdminView = ({targetFolders, action, defaultSemesterTarget, updateSemesterTarget, updateAction, updateFolderTargets, updateMimeType, submit}: Props) => (
+const AdminView = ({
+                     targetFolders,
+                     action,
+                     defaultSemesterTarget,
+                     updateSemesterTarget,
+                     updateAction,
+                     updateFolderTargets,
+                     updateMimeType,
+                     submit,
+                     updateSourcePath,
+                   }: Props) => (
   <React.Fragment>
-    <div>
-      <p>Choose which semester you want to modify:</p>
-      <RadioGroup options={semesterTargetOptions}
-                  default={defaultSemesterTarget}
-                  updateCurrentSelection={updateSemesterTarget} />
-    </div>
-    <div>
-      <p>Choose which action you'd like to take:</p>
-      <RadioGroup options={actionOptions}
-                  updateCurrentSelection={updateAction} />
-    </div>
-    <div>
-      <p>Choose which groups you would like to apply the action to:</p>
-      <CheckboxGroup options={targetFolders}
-                     updateCurrentChecked={updateFolderTargets} />
-    </div>
-    {action && action.needsSource && <div>
-      <Label>Source {fileOrFolder(action)} name:</Label>
-      <Input placeholder={sourcePlaceholder(action)} />
-    </div>}
-    {action && action.needsTargets && <div>
-      <Label>Target {fileOrFolder(action)} name:</Label>
-      <Input placeholder={targetPlaceholder(action)} />
-    </div>}
-    {action && action.isFile && <div>
-      <p>Choose which file type this is:</p>
-      <RadioGroup options={mimeTypeOptions}
-                  updateCurrentSelection={updateMimeType} />
-    </div>}
-    <div>
-      <Button handleClick={submit}>Submit</Button>
-    </div>
+    <RadioGroup options={semesterTargetOptions}
+                default={defaultSemesterTarget}
+                label='Choose which semester you want to modify:'
+                updateCurrentSelection={updateSemesterTarget} />
+    <RadioGroup options={actionOptions}
+                label={'Choose which action you\'d like to take:'}
+                updateCurrentSelection={updateAction} />
+    <CheckboxGroup options={targetFolders}
+                   label='Choose which groups you would like to apply the action to:'
+                   updateCurrentChecked={updateFolderTargets} />
+    {action && action.needsGlobalSource && <InputGroup label={'Paths begin from the semesters\'s root folder.'}>
+      <Input placeholder={sourcePlaceholder(action)}
+             label={`Source ${fileOrFolder(action)} name:`}
+             updateCurrentValue={updateSourcePath} />
+    </InputGroup>
+    }
+    {action && action.needsFolderSource && <InputGroup label={'Paths begin from the group\'s own folder.'}>
+      {targetFolders
+        .filter((targetFolder: FolderTarget) => targetFolder.checked)
+        .map((targetFolder: FolderTarget, index: number) => (
+          <Input key={index}
+                 placeholder={targetPlaceholder(action)}
+                 label={`Source ${fileOrFolder(action)} name - ${targetFolder.label}: `} />
+        ))}
+    </InputGroup>}
+    {action && <InputGroup label={'Paths begin from the group\'s own folder.'}>
+      {targetFolders
+        .filter((targetFolder: FolderTarget) => targetFolder.checked)
+        .map((targetFolder: FolderTarget, index: number) => (
+          <Input key={index}
+                 placeholder={targetPlaceholder(action)}
+                 label={`Target ${fileOrFolder(action)} name - ${targetFolder.label}:`} />
+        ))}
+    </InputGroup>}
+    {action && action.isFile && <RadioGroup options={mimeTypeOptions}
+                                            label='Choose which file type this is:'
+                                            updateCurrentSelection={updateMimeType} />}
+    <Button handleClick={submit}>Submit</Button>
   </React.Fragment>
 )
 

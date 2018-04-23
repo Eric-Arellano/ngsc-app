@@ -11,7 +11,7 @@ type State = {
   targetFolders: Array<FolderTarget>,
   action: ?Action,
   sourcePath: ?string,
-  targetPaths: ?Array<string>,
+  targetPaths: ?Array<string>,  // TODO: remove? should this be stored within targetFolders?
   mimeType: ?MimeType,
 }
 
@@ -56,7 +56,7 @@ class AdminViewContainer extends React.Component<Props, State> {
 
   render () {
     const {action, targetFolders, semesterTarget} = this.state
-    const {updateSemesterTarget, updateAction, updateFolderTargets, updateMimeType, submit} = this
+    const {updateSemesterTarget, updateAction, updateFolderTargets, updateMimeType, updateSourcePath, submit} = this
     return <AdminView action={action}
                       targetFolders={targetFolders}
                       defaultSemesterTarget={semesterTarget}
@@ -64,6 +64,7 @@ class AdminViewContainer extends React.Component<Props, State> {
                       updateAction={updateAction}
                       updateFolderTargets={updateFolderTargets}
                       updateMimeType={updateMimeType}
+                      updateSourcePath={updateSourcePath}
                       submit={submit}
     />
   }

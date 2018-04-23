@@ -20,24 +20,35 @@ export const semesterTargetOptions: Array<SemesterTarget> = [
 // Folder Target
 // -------------------------------------------
 
-export type FolderTarget = CheckboxOption
+export type FolderTarget = CheckboxOption & {
+  sourceValue: ?string,
+  targetValue: ?string,
+}
 
 export const folderTargetOptions: Array<FolderTarget> = [
   {
     label: 'Committee chair folders',
-    checked: true
+    checked: true,
+    sourceValue: null,
+    targetValue: null,
   },
   {
     label: 'Committee lead folders',
-    checked: true
+    checked: true,
+    sourceValue: null,
+    targetValue: null,
   },
   {
     label: 'Mission team folders',
-    checked: true
+    checked: true,
+    sourceValue: null,
+    targetValue: null,
   },
   {
     label: 'Section lead folders',
-    checked: true
+    checked: true,
+    sourceValue: null,
+    targetValue: null,
   },
 ]
 
@@ -78,8 +89,8 @@ export const mimeTypeOptions: Array<MimeType> = [
 
 export type Action = RadioOption & {
   isFile: boolean,
-  needsSource: boolean,
-  needsTargets: boolean,
+  needsGlobalSource: boolean,  // i.e. source can come from anywhere
+  needsFolderSource: boolean,  // i.e. source comes from within FolderTarget
   api: string,
 }
 
@@ -87,64 +98,64 @@ export const actionOptions: Array<Action> = [
   {
     label: 'Create empty file',
     isFile: true,
-    needsSource: false,
-    needsTargets: true,
+    needsGlobalSource: false,
+    needsFolderSource: false,
     api: '/create/file',
   },
   {
     label: 'Create empty folder',
     isFile: false,
-    needsSource: false,
-    needsTargets: true,
+    needsGlobalSource: false,
+    needsFolderSource: false,
     api: '/create/folder',
   },
   {
     label: 'Copy file',
     isFile: true,
-    needsSource: true,
-    needsTargets: true,
+    needsGlobalSource: true,
+    needsFolderSource: false,
     api: '/copy/file',
   },
   {
     label: 'Move file',
     isFile: true,
-    needsSource: true,
-    needsTargets: true,
+    needsGlobalSource: false,
+    needsFolderSource: true,
     api: '/move/file',
   },
   {
     label: 'Move folder',
     isFile: false,
-    needsSource: true,
-    needsTargets: true,
+    needsGlobalSource: false,
+    needsFolderSource: true,
     api: '/move/folder',
   },
   {
     label: 'Remove file',
     isFile: true,
-    needsSource: false,
-    needsTargets: true,
+    needsGlobalSource: false,
+    needsFolderSource: false,
     api: '/remove/file',
   },
   {
     label: 'Remove folder',
     isFile: false,
-    needsSource: false,
-    needsTargets: true,
+    needsGlobalSource: false,
+    needsFolderSource: false,
     api: '/remove/folder',
   },
   {
     label: 'Rename file',
     isFile: true,
-    needsSource: false,
-    needsTargets: true,
+    needsGlobalSource: false,
+    needsFolderSource: true,
     api: '/rename/file',
   },
   {
     label: 'Rename folder',
     isFile: false,
-    needsSource: false,
-    needsTargets: true,
+    needsGlobalSource: false,
+    needsFolderSource: true,
     api: '/rename/folder',
   },
 ]
