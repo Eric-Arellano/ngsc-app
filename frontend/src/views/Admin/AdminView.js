@@ -1,40 +1,40 @@
 // @flow
 import * as React from 'react'
 import { Button, CheckboxGroup, Input, Label, RadioGroup } from 'components'
-import { actionList, folderTargets, mimeType, semesterTarget } from './options.js'
-import type { CheckboxOption, RadioOption } from 'types'
+import type { Action, FolderTarget, MimeType, SemesterTarget } from './options'
+import { actionOptions, folderTargetOptions, mimeTypeOptions, semesterTargetOptions } from './options'
 
 type Props = {}
 
 type State = {
-  semesterTarget: RadioOption,
-  targetFolders: Array<CheckboxOption>,
-  action: ?RadioOption,
+  semesterTarget: SemesterTarget,
+  targetFolders: Array<FolderTarget>,
+  action: ?Action,
   sourcePath: ?string,
   targetPaths: ?Array<string>,
-  mimeType: ?RadioOption,
+  mimeType: ?MimeType,
 }
 
 class AdminView extends React.Component<Props, State> {
 
   state = {
-    semesterTarget: null,
-    targetFolders: folderTargets,
+    semesterTarget: semesterTargetOptions[0],
+    targetFolders: folderTargetOptions,
     action: null,
     sourcePath: null,
     targetPaths: null,
     mimeType: null,
   }
 
-  updateSemesterTarget = (semesterTarget: RadioOption): void => {
+  updateSemesterTarget = (semesterTarget: SemesterTarget): void => {
     this.setState({semesterTarget})
   }
 
-  updateAction = (action: RadioOption): void => {
+  updateAction = (action: Action): void => {
     this.setState({action})
   }
 
-  updateFolderTargets = (targetFolders: Array<CheckboxOption>): void => {
+  updateFolderTargets = (targetFolders: Array<FolderTarget>): void => {
     this.setState({targetFolders})
   }
 
@@ -46,7 +46,7 @@ class AdminView extends React.Component<Props, State> {
     this.setState({targetPaths})
   }
 
-  updateMimeType = (mimeType: RadioOption): void => {
+  updateMimeType = (mimeType: MimeType): void => {
     this.setState({mimeType})
   }
 
@@ -54,32 +54,32 @@ class AdminView extends React.Component<Props, State> {
 
   }
 
-  fileOrFolder = (action: RadioOption): string => (
+  fileOrFolder = (action: Action): string => (
     action.isFile ? 'file' : 'folder'
   )
 
-  sourcePlaceholder = (action: RadioOption): string => (
+  sourcePlaceholder = (action: Action): string => (
     action.isFile ? 'Leadership/Example.gslides' : 'Leadership/Retreat 1'
   )
 
-  targetPlaceholder = (action: RadioOption): string => (
+  targetPlaceholder = (action: Action): string => (
     action.isFile ? 'Example.gslides' : 'Retreat 1'
   )
 
   render () {
-    const {action, targetFolders} = this.state
+    const {action, targetFolders, semesterTarget} = this.state
     return (
       <React.Fragment>
         <section>
           <p>Choose which semester you want to modify:</p>
-          <RadioGroup options={semesterTarget}
-                      default={semesterTarget[0]}
+          <RadioGroup options={semesterTargetOptions}
+                      default={semesterTarget}
                       updateCurrentSelection={this.updateSemesterTarget} />
         </section>
         <br />
         <section>
           <p>Choose which action you'd like to take:</p>
-          <RadioGroup options={actionList}
+          <RadioGroup options={actionOptions}
                       updateCurrentSelection={this.updateAction} />
         </section>
         <br />
@@ -100,7 +100,7 @@ class AdminView extends React.Component<Props, State> {
         <br />
         {action && action.isFile && <section>
           <p>Choose which file type this is:</p>
-          <RadioGroup options={mimeType}
+          <RadioGroup options={mimeTypeOptions}
                       updateCurrentSelection={this.updateMimeType} />
         </section>}
         <section>

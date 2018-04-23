@@ -1,7 +1,13 @@
 // @flow
 import type { CheckboxOption, RadioOption } from 'types'
 
-export const semesterTarget: Array<RadioOption> = [
+// -------------------------------------------
+// Semester Target
+// -------------------------------------------
+
+export type SemesterTarget = RadioOption
+
+export const semesterTargetOptions: Array<SemesterTarget> = [
   {
     label: 'Current semester',
   },
@@ -10,7 +16,13 @@ export const semesterTarget: Array<RadioOption> = [
   }
 ]
 
-export const folderTargets: Array<CheckboxOption> = [
+// -------------------------------------------
+// Folder Target
+// -------------------------------------------
+
+export type FolderTarget = CheckboxOption
+
+export const folderTargetOptions: Array<FolderTarget> = [
   {
     label: 'Committee chair folders',
     checked: true
@@ -29,7 +41,15 @@ export const folderTargets: Array<CheckboxOption> = [
   },
 ]
 
-export const mimeType: Array<RadioOption> = [
+// -------------------------------------------
+// Semester Target
+// -------------------------------------------
+
+export type MimeType = RadioOption & {
+  needsExtension: boolean,
+}
+
+export const mimeTypeOptions: Array<MimeType> = [
   {
     label: 'Google Doc',
     needsExtension: false,
@@ -51,7 +71,19 @@ export const mimeType: Array<RadioOption> = [
     needsExtension: true,
   }
 ]
-export const actionList: Array<RadioOption> = [
+
+// -------------------------------------------
+// Action
+// -------------------------------------------
+
+export type Action = RadioOption & {
+  isFile: boolean,
+  needsSource: boolean,
+  needsTargets: boolean,
+  api: string,
+}
+
+export const actionOptions: Array<Action> = [
   {
     label: 'Create empty file',
     isFile: true,
