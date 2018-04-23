@@ -5,9 +5,10 @@ import s from './Input.module.css'
 
 type Props = {
   validationState: ValidationState,
+  inputType: ?string,
   placeholder: ?string,
   updateCurrentValue: (string) => void,
-  handleEnterKey: ?(SyntheticInputEvent<HTMLInputElement> => void)
+  handleEnterKey: ?(SyntheticInputEvent<HTMLInputElement> => void),
 }
 
 type State = {
@@ -17,7 +18,8 @@ type State = {
 class Input extends Component<Props, State> {
 
   static defaultProps = {
-    validationState: 'neutral'
+    validationState: 'neutral',
+    inputType: 'text',
   }
 
   state = {
@@ -34,9 +36,9 @@ class Input extends Component<Props, State> {
   }
 
   render () {
-    const {validationState, placeholder, handleEnterKey} = this.props
+    const {validationState, placeholder, handleEnterKey, inputType} = this.props
     const {currentValue} = this.state
-    return <input type={'number'} value={currentValue} placeholder={placeholder} onKeyDown={handleEnterKey}
+    return <input type={inputType} value={currentValue} placeholder={placeholder} onKeyDown={handleEnterKey}
                   onChange={this.handleKeyInput} className={s[validationState]} />
   }
 }
