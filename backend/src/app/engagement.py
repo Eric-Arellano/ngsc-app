@@ -53,7 +53,7 @@ def _get_accepted(student_id: int) -> Tuple[Optional[float], Optional[float]]:
     Get student's accepted service and civil mil.
     """
     all_rows = sheet.get_values(file_ids.participation['engagement'],
-                                range_='Requirements!A2:C')
+                                range_='Total!A2:C')
     row = next((row for row in all_rows
                 if int(row[column_indexes.engagement_accepted['id']]) == student_id),
                None)
