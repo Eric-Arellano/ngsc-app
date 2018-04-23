@@ -2,113 +2,66 @@
 import * as React from 'react'
 import { Button, CheckboxGroup, Input, Label, RadioGroup } from 'components'
 import type { Action, FolderTarget, MimeType, SemesterTarget } from './options'
-import { actionOptions, folderTargetOptions, mimeTypeOptions, semesterTargetOptions } from './options'
+import { actionOptions, mimeTypeOptions, semesterTargetOptions } from './options'
 
-type Props = {}
-
-type State = {
-  semesterTarget: SemesterTarget,
+type Props = {
   targetFolders: Array<FolderTarget>,
   action: ?Action,
-  sourcePath: ?string,
-  targetPaths: ?Array<string>,
-  mimeType: ?MimeType,
+  defaultSemesterTarget: SemesterTarget,
+  updateSemesterTarget: SemesterTarget => void,
+  updateAction: Action => void,
+  updateFolderTargets: Array<FolderTarget> => void,
+  updateMimeType: MimeType => void,
+  submit: () => void
 }
 
-class AdminView extends React.Component<Props, State> {
+const fileOrFolder = (action: Action): string => (
+  action.isFile ? 'file' : 'folder'
+)
 
-  state = {
-    semesterTarget: semesterTargetOptions[0],
-    targetFolders: folderTargetOptions,
-    action: null,
-    sourcePath: null,
-    targetPaths: null,
-    mimeType: null,
-  }
+const sourcePlaceholder = (action: Action): string => (
+  action.isFile ? 'Leadership/Example.gslides' : 'Leadership/Retreat 1'
+)
 
-  updateSemesterTarget = (semesterTarget: SemesterTarget): void => {
-    this.setState({semesterTarget})
-  }
+const targetPlaceholder = (action: Action): string => (
+  action.isFile ? 'Example.gslides' : 'Retreat 1'
+)
 
-  updateAction = (action: Action): void => {
-    this.setState({action})
-  }
-
-  updateFolderTargets = (targetFolders: Array<FolderTarget>): void => {
-    this.setState({targetFolders})
-  }
-
-  updateSourcePath = (sourcePath: string): void => {
-    this.setState({sourcePath})
-  }
-
-  updateTargetPaths = (targetPaths: Array<string>): void => {
-    this.setState({targetPaths})
-  }
-
-  updateMimeType = (mimeType: MimeType): void => {
-    this.setState({mimeType})
-  }
-
-  submit = () => {
-
-  }
-
-  fileOrFolder = (action: Action): string => (
-    action.isFile ? 'file' : 'folder'
-  )
-
-  sourcePlaceholder = (action: Action): string => (
-    action.isFile ? 'Leadership/Example.gslides' : 'Leadership/Retreat 1'
-  )
-
-  targetPlaceholder = (action: Action): string => (
-    action.isFile ? 'Example.gslides' : 'Retreat 1'
-  )
-
-  render () {
-    const {action, targetFolders, semesterTarget} = this.state
-    return (
-      <React.Fragment>
-        <section>
-          <p>Choose which semester you want to modify:</p>
-          <RadioGroup options={semesterTargetOptions}
-                      default={semesterTarget}
-                      updateCurrentSelection={this.updateSemesterTarget} />
-        </section>
-        <br />
-        <section>
-          <p>Choose which action you'd like to take:</p>
-          <RadioGroup options={actionOptions}
-                      updateCurrentSelection={this.updateAction} />
-        </section>
-        <br />
-        <section>
-          <p>Choose which groups you would like to apply the action to:</p>
-          <CheckboxGroup options={targetFolders}
-                         updateCurrentChecked={this.updateFolderTargets} />
-        </section>
-        <br />
-        {action && action.needsSource && <section>
-          <Label>Source {this.fileOrFolder(action)} name:</Label>
-          <Input placeholder={this.sourcePlaceholder(action)} />
-        </section>}
-        {action && action.needsTargets && <section>
-          <Label>Target {this.fileOrFolder(action)} name:</Label>
-          <Input placeholder={this.targetPlaceholder(action)} />
-        </section>}
-        <br />
-        {action && action.isFile && <section>
-          <p>Choose which file type this is:</p>
-          <RadioGroup options={mimeTypeOptions}
-                      updateCurrentSelection={this.updateMimeType} />
-        </section>}
-        <section>
-          <Button handleClick={this.submit}>Submit</Button>
-        </section>
-      </React.Fragment>
-    )
-  }
-}
+const AdminView = ({targetFolders, action, defaultSemesterTarget, updateSemesterTarget, updateAction, updateFolderTargets, updateMimeType, submit}: Props) => (
+  <React.Fragment>
+    <div>
+      <p>Choose which semester you want to modify:</p>
+      <RadioGroup options={semesterTargetOptions}
+                  default={defaultSemesterTarget}
+                  updateCurrentSelection={updateSemesterTarget} />
+    </div>
+    <div>
+      <p>Choose which action you'd like to take:</p>
+      <RadioGroup options={actionOptions}
+                  updateCurrentSelection={updateAction} />
+    </div>
+    <div>
+      <p>Choose which groups you would like to apply the action to:</p>
+      <CheckboxGroup options={targetFolders}
+                     updateCurrentChecked={updateFolderTargets} />
+    </div>
+    {action && action.needsSource && <div>
+      <Label>Source {fileOrFolder(action)} name:</Label>
+      <Input placeholder={sourcePlaceholder(action)} />
+    </div>}
+    {action && action.needsTargets && <div>
+      <Label>Target {fileOrFolder(action)} name:</Label>
+      <Input placeholder={targetPlaceholder(action)} />
+    </div>}
+    {action && action.isFile && <div>
+      <p>Choose which file type this is:</p>
+      <RadioGroup options={mimeTypeOptions}
+                  updateCurrentSelection={updateMimeType} />
+    </div>}
+    <div>
+      <Button handleClick={submit}>Submit</Button>
+    </div>
+  </React.Fragment>
+)
 
 export default AdminView
