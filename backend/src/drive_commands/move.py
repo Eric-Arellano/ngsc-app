@@ -59,7 +59,7 @@ def request(*,
     """
     Generate request to move specific resource.
     """
-    if drive_service is not None:
+    if drive_service is None:
         drive_service = drive_api.build_service()
     previous_parents = find.parent_folder_list(resource_id=origin_resource_id)
     previous_parents_formatted = ', '.join(previous_parents)

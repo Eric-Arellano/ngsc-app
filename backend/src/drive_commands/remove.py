@@ -47,7 +47,7 @@ def request(resource_id: drive_api.ResourceID, *,
     """
     Generate request to remove specific resource.
     """
-    if drive_service is not None:
+    if drive_service is None:
         drive_service = drive_api.build_service()
     return drive_service \
         .files() \

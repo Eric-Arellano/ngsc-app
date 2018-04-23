@@ -217,8 +217,7 @@ def create_empty_folders(*,
                                         for mt_number in (mt_index + (3 * (section_index - 1))
                                                           for mt_index in range(1, 4))]
                                        for section_index in range(1, 11)]
-    mission_team_folders_flattened = [mt for section in mission_team_folders_by_section
-                                      for mt in section]
+    mission_team_folders_flattened = [x for y in mission_team_folders_by_section for x in y]
     mission_team_folders_ids = batch_create_folder(mission_team_folders_flattened)
     id_map['mission_teams'] = dict(zip(range(1, 31), mission_team_folders_ids))
     # Committee Leads

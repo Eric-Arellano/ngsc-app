@@ -56,7 +56,7 @@ def request(resource_id: drive_api.ResourceID,
     """
     Generate request to rename specific resource.
     """
-    if drive_service is not None:
+    if drive_service is None:
         drive_service = drive_api.build_service()
     file_metadata = {
         'name': new_name,
