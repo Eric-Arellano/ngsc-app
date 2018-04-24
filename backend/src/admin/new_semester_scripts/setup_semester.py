@@ -167,7 +167,7 @@ def create_empty_folders(*,
                                             drive_service=drive_service)
     # Root level
     semester_root = create_folder(semester,
-                                  parent_folder_id=folder_ids.drive_playground)  # TODO change to NGSC root when ready
+                                  parent_folder_id=folder_ids.ngsc_root)
     id_map = {
         'ngsc_root': folder_ids.ngsc_root,
         'drive_playground': folder_ids.drive_playground,
