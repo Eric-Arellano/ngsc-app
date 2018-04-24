@@ -3,6 +3,7 @@ import * as React from 'react'
 import { Button, CheckboxGroup, Input, InputGroup, RadioGroup } from 'components'
 import type { Action, FolderTarget, MimeType, SemesterTarget } from './options'
 import { actionOptions, mimeTypeOptions, semesterTargetOptions } from './options'
+import type { ValidationState } from 'types'
 import s from './AdminView.module.css'
 
 type Props = {
@@ -17,6 +18,7 @@ type Props = {
   updateFolderSourcePath: (FolderTarget, string) => void,
   updateFolderTargetPath: (FolderTarget, string) => void,
   submit: () => void,
+  validationState: ValidationState,
 }
 
 // ----------------------------------------------------------------------------
@@ -99,13 +101,13 @@ const folderSourceQuestion = (action, targetFolders, updateFolderSourcePath) => 
   <React.Fragment>
     {action && action.needsFolderSource && <InputGroup label={'Paths begin from the group\'s own folder.'}>
       {targetFolders
-        .filter((targetFolder: FolderTarget) => targetFolder.checked)
-        .map((targetFolder: FolderTarget, index: number) => {
-            const updateFolderPath = (path: string) => updateFolderSourcePath(targetFolder, path)
-            return <Input key={index}
-                          placeholder={targetPlaceholder(action)}
-                          label={`Source ${fileOrFolder(action)} name - ${targetFolder.label}: `}
-                          updateCurrentValue={updateFolderPath} />
+        .filter((folder: FolderTarget) => folder.checked)
+        .map((folder: FolderTarget) => {
+          const updateFolderPath = (path: string) => updateFolderSourcePath(folder, path)
+          return <Input key={targetFolders.indexOf(folder)}
+                        placeholder={targetPlaceholder(action)}
+                        label={`Source ${fileOrFolder(action)} name - ${folder.label}: `}
+                        updateCurrentValue={updateFolderPath} />
           }
         )}
     </InputGroup>}
@@ -116,13 +118,13 @@ const folderTargetQuestion = (action, targetFolders, updateFolderTargetPath) => 
   <React.Fragment>
     {action && <InputGroup label={'Paths begin from the group\'s own folder.'}>
       {targetFolders
-        .filter((targetFolder: FolderTarget) => targetFolder.checked)
-        .map((targetFolder: FolderTarget, index: number) => {
-            const updateFolderPath = (path: string) => updateFolderTargetPath(targetFolder, path)
-            return <Input key={index}
-                          placeholder={targetPlaceholder(action)}
-                          label={`Target ${fileOrFolder(action)} name - ${targetFolder.label}:`}
-                          updateCurrentValue={updateFolderPath} />
+        .filter((folder: FolderTarget) => folder.checked)
+        .map((folder: FolderTarget) => {
+          const updateFolderPath = (path: string) => updateFolderTargetPath(folder, path)
+          return <Input key={targetFolders.indexOf(folder)}
+                        placeholder={targetPlaceholder(action)}
+                        label={`Target ${fileOrFolder(action)} name - ${folder.label}:`}
+                        updateCurrentValue={updateFolderPath} />
           }
         )}
     </InputGroup>}
@@ -137,9 +139,14 @@ const mimeTypeQuestion = (action, updateMimeType) => (
   </React.Fragment>
 )
 
-const submitButton = (submit) => (
-  <Button handleClick={submit}>Submit</Button>
-)
+const submitButton = (submit, validationState) => {
+  const isSubmitDisabled = validationState !== 'valid'
+  return (
+    <Button disabled={isSubmitDisabled} handleClick={submit}>
+      {'Submit'}
+    </Button>
+  )
+}
 
 // ----------------------------------------------------------------------------
 // Form
@@ -157,6 +164,7 @@ const AdminView = ({
                      updateGlobalSourcePath,
                      updateFolderSourcePath,
                      updateFolderTargetPath,
+                     validationState,
                    }: Props) => (
   <React.Fragment>
     <h2>Admin Google Drive tool</h2>
@@ -168,7 +176,7 @@ const AdminView = ({
     {folderSourceQuestion(action, targetFolders, updateFolderSourcePath)}
     {folderTargetQuestion(action, targetFolders, updateFolderTargetPath)}
     {mimeTypeQuestion(action, updateMimeType)}
-    {submitButton(submit)}
+    {submitButton(submit, validationState)}
   </React.Fragment>
 )
 
