@@ -3,6 +3,7 @@ import * as React from 'react'
 import { Button, CheckboxGroup, Input, InputGroup, RadioGroup } from 'components'
 import type { Action, FolderTarget, MimeType, SemesterTarget } from './options'
 import { actionOptions, mimeTypeOptions, semesterTargetOptions } from './options'
+import s from './AdminView.module.css'
 
 type Props = {
   targetFolders: Array<FolderTarget>,
@@ -10,11 +11,17 @@ type Props = {
   defaultSemesterTarget: SemesterTarget,
   updateSemesterTarget: SemesterTarget => void,
   updateAction: Action => void,
-  updateFolderTargets: Array<FolderTarget> => void,
+  updateCheckedFolderTargets: Array<FolderTarget> => void,
   updateMimeType: MimeType => void,
-  updateSourcePath: string => void,
+  updateGlobalSourcePath: string => void,
+  updateFolderSourcePath: (FolderTarget, string) => void,
+  updateFolderTargetPath: (FolderTarget, string) => void,
   submit: () => void,
 }
+
+// ----------------------------------------------------------------------------
+// Utils
+// ----------------------------------------------------------------------------
 
 const fileOrFolder = (action: Action): string => (
   action.isFile ? 'file' : 'folder'
@@ -28,56 +35,140 @@ const targetPlaceholder = (action: Action): string => (
   action.isFile ? 'RSVP Template' : 'Training'
 )
 
+// ----------------------------------------------------------------------------
+// Form components
+// ----------------------------------------------------------------------------
+
+const instructions = () => (
+  <div className={s.instructions}>
+    <p>This tool allows you to perform bulk operations on the Google Drive, e.g. copying a file into every mission team
+      leader's folder.</p>
+    <p>Follow the below prompts. After you select an option, the form will update to ask you the questions it needs to
+      know to work.</p>
+    <p>When inputting the name of a file or folder, input the name exactly as it appears in Google Drive, and do not
+      include the file extension.
+      For example, the Google Form "RSVP Template" should be entered as "RSVP Template".</p>
+    <p>Every file and folder has a <em>parent folder</em>.
+      You can only input files and folders that belong to that parent. For example, you cannot reference a file that
+      does not exist in the NGSC folder, because the tool won't be able
+      to find that file.</p>
+    <p>The parent folder depends on which command you choose.
+      If the prompt says "the semester root", this means the parent is that semester's folder, e.g. 'Fall 2019',
+      and you can access anything within that semester's folder.
+      Otherwise, the parent will be the folder for the group you are targeting. For example, if you performing an action
+      on Mission Team Folders, then the parent folder will be each individual mission team's folder, e.g. "Mission Team
+      1" and "Mission Team 28".</p>
+    <p>If you want to specify a file or folder that is nested within the parent, specify the file path by using a '/'
+      to indicate folders. For example, if you want to copy the presentation 'Attendance Training' saved in the
+      semester's Leadership folder, input 'Leadership/Attendance Training'.</p>
+  </div>
+)
+
+const semesterTargetQuestion = (updateSemesterTarget: (SemesterTarget => void),
+                                defaultSemesterTarget: SemesterTarget) => (
+  <RadioGroup options={semesterTargetOptions}
+              default={defaultSemesterTarget}
+              label='Choose which semester you want to modify:'
+              updateCurrentSelection={updateSemesterTarget} />
+)
+
+const actionQuestion = (updateAction) => (
+  <RadioGroup options={actionOptions}
+              label={'Choose which action you\'d like to take:'}
+              updateCurrentSelection={updateAction} />
+)
+
+const targetFoldersQuestion = (targetFolders, updateCheckedFolderTargets) => (
+  <CheckboxGroup options={targetFolders}
+                 label='Choose which groups you would like to apply the action to:'
+                 updateCurrentChecked={updateCheckedFolderTargets} />
+)
+
+const globalSourceQuestion = (action, updateGlobalSourcePath) => (
+  <React.Fragment>
+    {action && action.needsGlobalSource && <InputGroup label={'Paths begin from the semesters\'s root folder.'}>
+      <Input placeholder={sourcePlaceholder(action)}
+             label={`Source ${fileOrFolder(action)} name:`}
+             updateCurrentValue={updateGlobalSourcePath} />
+    </InputGroup>
+    }
+  </React.Fragment>
+)
+
+const folderSourceQuestion = (action, targetFolders, updateFolderSourcePath) => (
+  <React.Fragment>
+    {action && action.needsFolderSource && <InputGroup label={'Paths begin from the group\'s own folder.'}>
+      {targetFolders
+        .filter((targetFolder: FolderTarget) => targetFolder.checked)
+        .map((targetFolder: FolderTarget, index: number) => {
+            const updateFolderPath = (path: string) => updateFolderSourcePath(targetFolder, path)
+            return <Input key={index}
+                          placeholder={targetPlaceholder(action)}
+                          label={`Source ${fileOrFolder(action)} name - ${targetFolder.label}: `}
+                          updateCurrentValue={updateFolderPath} />
+          }
+        )}
+    </InputGroup>}
+  </React.Fragment>
+)
+
+const folderTargetQuestion = (action, targetFolders, updateFolderTargetPath) => (
+  <React.Fragment>
+    {action && <InputGroup label={'Paths begin from the group\'s own folder.'}>
+      {targetFolders
+        .filter((targetFolder: FolderTarget) => targetFolder.checked)
+        .map((targetFolder: FolderTarget, index: number) => {
+            const updateFolderPath = (path: string) => updateFolderTargetPath(targetFolder, path)
+            return <Input key={index}
+                          placeholder={targetPlaceholder(action)}
+                          label={`Target ${fileOrFolder(action)} name - ${targetFolder.label}:`}
+                          updateCurrentValue={updateFolderPath} />
+          }
+        )}
+    </InputGroup>}
+  </React.Fragment>
+)
+
+const mimeTypeQuestion = (action, updateMimeType) => (
+  <React.Fragment>
+    {action && action.isFile && <RadioGroup options={mimeTypeOptions}
+                                            label='Choose which file type this is:'
+                                            updateCurrentSelection={updateMimeType} />}
+  </React.Fragment>
+)
+
+const submitButton = (submit) => (
+  <Button handleClick={submit}>Submit</Button>
+)
+
+// ----------------------------------------------------------------------------
+// Form
+// ----------------------------------------------------------------------------
+
 const AdminView = ({
                      targetFolders,
                      action,
                      defaultSemesterTarget,
                      updateSemesterTarget,
                      updateAction,
-                     updateFolderTargets,
+                     updateCheckedFolderTargets,
                      updateMimeType,
                      submit,
-                     updateSourcePath,
+                     updateGlobalSourcePath,
+                     updateFolderSourcePath,
+                     updateFolderTargetPath,
                    }: Props) => (
   <React.Fragment>
-    <RadioGroup options={semesterTargetOptions}
-                default={defaultSemesterTarget}
-                label='Choose which semester you want to modify:'
-                updateCurrentSelection={updateSemesterTarget} />
-    <RadioGroup options={actionOptions}
-                label={'Choose which action you\'d like to take:'}
-                updateCurrentSelection={updateAction} />
-    <CheckboxGroup options={targetFolders}
-                   label='Choose which groups you would like to apply the action to:'
-                   updateCurrentChecked={updateFolderTargets} />
-    {action && action.needsGlobalSource && <InputGroup label={'Paths begin from the semesters\'s root folder.'}>
-      <Input placeholder={sourcePlaceholder(action)}
-             label={`Source ${fileOrFolder(action)} name:`}
-             updateCurrentValue={updateSourcePath} />
-    </InputGroup>
-    }
-    {action && action.needsFolderSource && <InputGroup label={'Paths begin from the group\'s own folder.'}>
-      {targetFolders
-        .filter((targetFolder: FolderTarget) => targetFolder.checked)
-        .map((targetFolder: FolderTarget, index: number) => (
-          <Input key={index}
-                 placeholder={targetPlaceholder(action)}
-                 label={`Source ${fileOrFolder(action)} name - ${targetFolder.label}: `} />
-        ))}
-    </InputGroup>}
-    {action && <InputGroup label={'Paths begin from the group\'s own folder.'}>
-      {targetFolders
-        .filter((targetFolder: FolderTarget) => targetFolder.checked)
-        .map((targetFolder: FolderTarget, index: number) => (
-          <Input key={index}
-                 placeholder={targetPlaceholder(action)}
-                 label={`Target ${fileOrFolder(action)} name - ${targetFolder.label}:`} />
-        ))}
-    </InputGroup>}
-    {action && action.isFile && <RadioGroup options={mimeTypeOptions}
-                                            label='Choose which file type this is:'
-                                            updateCurrentSelection={updateMimeType} />}
-    <Button handleClick={submit}>Submit</Button>
+    <h2>Admin Google Drive tool</h2>
+    {instructions()}
+    {semesterTargetQuestion(updateSemesterTarget, defaultSemesterTarget)}
+    {actionQuestion(updateAction)}
+    {targetFoldersQuestion(targetFolders, updateCheckedFolderTargets)}
+    {globalSourceQuestion(action, updateGlobalSourcePath)}
+    {folderSourceQuestion(action, targetFolders, updateFolderSourcePath)}
+    {folderTargetQuestion(action, targetFolders, updateFolderTargetPath)}
+    {mimeTypeQuestion(action, updateMimeType)}
+    {submitButton(submit)}
   </React.Fragment>
 )
 

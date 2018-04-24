@@ -21,34 +21,34 @@ export const semesterTargetOptions: Array<SemesterTarget> = [
 // -------------------------------------------
 
 export type FolderTarget = CheckboxOption & {
-  sourceValue: ?string,
-  targetValue: ?string,
+  sourcePath: ?string,
+  targetPath: ?string,
 }
 
 export const folderTargetOptions: Array<FolderTarget> = [
   {
     label: 'Committee chair folders',
     checked: true,
-    sourceValue: null,
-    targetValue: null,
+    sourcePath: null,
+    targetPath: null,
   },
   {
     label: 'Committee lead folders',
     checked: true,
-    sourceValue: null,
-    targetValue: null,
+    sourcePath: null,
+    targetPath: null,
   },
   {
     label: 'Mission team folders',
     checked: true,
-    sourceValue: null,
-    targetValue: null,
+    sourcePath: null,
+    targetPath: null,
   },
   {
     label: 'Section lead folders',
     checked: true,
-    sourceValue: null,
-    targetValue: null,
+    sourcePath: null,
+    targetPath: null,
   },
 ]
 

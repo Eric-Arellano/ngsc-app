@@ -10,8 +10,7 @@ type State = {
   semesterTarget: SemesterTarget,
   targetFolders: Array<FolderTarget>,
   action: ?Action,
-  sourcePath: ?string,
-  targetPaths: ?Array<string>,  // TODO: remove? should this be stored within targetFolders?
+  globalSourcePath: ?string,
   mimeType: ?MimeType,
 }
 
@@ -21,8 +20,7 @@ class AdminViewContainer extends React.Component<Props, State> {
     semesterTarget: semesterTargetOptions[0],
     targetFolders: folderTargetOptions,
     action: null,
-    sourcePath: null,
-    targetPaths: null,
+    globalSourcePath: null,
     mimeType: null,
   }
 
@@ -38,12 +36,26 @@ class AdminViewContainer extends React.Component<Props, State> {
     this.setState({targetFolders})
   }
 
-  updateSourcePath = (sourcePath: string): void => {
-    this.setState({sourcePath})
+  updateGlobalSourcePath = (globalSourcePath: string): void => {
+    this.setState({globalSourcePath})
   }
 
-  updateTargetPaths = (targetPaths: Array<string>): void => {
-    this.setState({targetPaths})
+  updateFolderSourcePath = (targetFolder: FolderTarget, path: string): void => {
+    const {targetFolders} = this.state
+    const index = targetFolders.indexOf(targetFolder)
+    const updatedTarget = {...targetFolder, targetPath: path}
+    const updatedTargetFolders = [...targetFolders]
+    updatedTargetFolders[index] = updatedTarget
+    this.setState({targetFolders: updatedTargetFolders})
+  }
+
+  updateFolderTargetPath = (targetFolder: FolderTarget, path: string): void => {
+    const {targetFolders} = this.state
+    const index = targetFolders.indexOf(targetFolder)
+    const updatedTarget = {...targetFolder, targetPath: path}
+    const updatedTargetFolders = [...targetFolders]
+    updatedTargetFolders[index] = updatedTarget
+    this.setState({targetFolders: updatedTargetFolders})
   }
 
   updateMimeType = (mimeType: MimeType): void => {
@@ -56,16 +68,17 @@ class AdminViewContainer extends React.Component<Props, State> {
 
   render () {
     const {action, targetFolders, semesterTarget} = this.state
-    const {updateSemesterTarget, updateAction, updateFolderTargets, updateMimeType, updateSourcePath, submit} = this
     return <AdminView action={action}
                       targetFolders={targetFolders}
                       defaultSemesterTarget={semesterTarget}
-                      updateSemesterTarget={updateSemesterTarget}
-                      updateAction={updateAction}
-                      updateFolderTargets={updateFolderTargets}
-                      updateMimeType={updateMimeType}
-                      updateSourcePath={updateSourcePath}
-                      submit={submit}
+                      updateSemesterTarget={this.updateSemesterTarget}
+                      updateAction={this.updateAction}
+                      updateCheckedFolderTargets={this.updateFolderTargets}
+                      updateMimeType={this.updateMimeType}
+                      updateGlobalSourcePath={this.updateGlobalSourcePath}
+                      updateFolderSourcePath={this.updateFolderSourcePath}
+                      updateFolderTargetPath={this.updateFolderTargetPath}
+                      submit={this.submit}
     />
   }
 }
