@@ -7,6 +7,7 @@ import Entry from './Panel/Entry'
 import Error from './Error/Error'
 import Header from './Header/Header'
 import Input from './Form/Input'
+import InputGroup from './Form/InputGroup'
 import Label from './Form/Label'
 import Loading from './Loading/Loading'
 import Nav from './Header/Nav'
@@ -25,6 +26,7 @@ export {
   Error,
   Header,
   Input,
+  InputGroup,
   Label,
   Loading,
   Nav,
