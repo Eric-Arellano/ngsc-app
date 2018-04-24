@@ -5,13 +5,17 @@ import type { CheckboxOption, RadioOption } from 'types'
 // Semester Target
 // -------------------------------------------
 
-export type SemesterTarget = RadioOption
+export type SemesterTarget = RadioOption & {
+  apiId: string,
+}
 
 export const semesterTargetOptions: Array<SemesterTarget> = [
   {
+    apiId: 'current',
     label: 'Current semester',
   },
   {
+    apiId: 'next',
     label: 'Next semester'
   }
 ]
@@ -21,30 +25,35 @@ export const semesterTargetOptions: Array<SemesterTarget> = [
 // -------------------------------------------
 
 export type FolderTarget = CheckboxOption & {
+  apiId: string,
   sourcePath: ?string,
   targetPath: ?string,
 }
 
 export const folderTargetOptions: Array<FolderTarget> = [
   {
+    apiId: 'committeeChairs',
     label: 'Committee chair folders',
     checked: true,
     sourcePath: null,
     targetPath: null,
   },
   {
+    apiId: 'committeeLeads',
     label: 'Committee lead folders',
     checked: true,
     sourcePath: null,
     targetPath: null,
   },
   {
+    apiId: 'missionTeams',
     label: 'Mission team folders',
     checked: true,
     sourcePath: null,
     targetPath: null,
   },
   {
+    apiId: 'sectionLeads',
     label: 'Section lead folders',
     checked: true,
     sourcePath: null,
@@ -57,27 +66,33 @@ export const folderTargetOptions: Array<FolderTarget> = [
 // -------------------------------------------
 
 export type MimeType = RadioOption & {
+  apiId: string,
   needsExtension: boolean,
 }
 
 export const mimeTypeOptions: Array<MimeType> = [
   {
+    apiId: 'gdoc',
     label: 'Google Doc',
     needsExtension: false,
   },
   {
+    apiId: 'gsheet',
     label: 'Google Sheet',
     needsExtension: false,
   },
   {
+    apiId: 'gslide',
     label: 'Google Slides',
     needsExtension: false,
   },
   {
+    apiId: 'gform',
     label: 'Google Form',
     needsExtension: false,
   },
   {
+    apiId: 'file',
     label: 'Other',
     needsExtension: true,
   }

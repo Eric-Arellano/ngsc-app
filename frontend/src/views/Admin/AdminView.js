@@ -51,9 +51,8 @@ const instructions = () => (
       include the file extension.
       For example, the Google Form "RSVP Template" should be entered as "RSVP Template".</p>
     <p>Every file and folder has a <em>parent folder</em>.
-      You can only input files and folders that belong to that parent. For example, you cannot reference a file that
-      does not exist in the NGSC folder, because the tool won't be able
-      to find that file.</p>
+      You can only input files and folders that belong to that parent. For example, you cannot reference a file from
+      last semester, because the tool won't be able to find that file.</p>
     <p>The parent folder depends on which command you choose.
       If the prompt says "the semester root", this means the parent is that semester's folder, e.g. 'Fall 2019',
       and you can access anything within that semester's folder.
@@ -61,8 +60,8 @@ const instructions = () => (
       on Mission Team Folders, then the parent folder will be each individual mission team's folder, e.g. "Mission Team
       1" and "Mission Team 28".</p>
     <p>If you want to specify a file or folder that is nested within the parent, specify the file path by using a '/'
-      to indicate folders. For example, if you want to copy the presentation 'Attendance Training' saved in the
-      semester's Leadership folder, input 'Leadership/Attendance Training'.</p>
+      to indicate folders. For example, if you want to specify the presentation 'Attendance Training' saved in the
+      'Leadership' folder, input 'Leadership/Attendance Training'.</p>
   </div>
 )
 
