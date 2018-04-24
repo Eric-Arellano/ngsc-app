@@ -21,9 +21,3 @@ export const getRequest = (api: string): Promise<any> => {
     .then(info => info.data)
     .catch(error => error.status)
 }
-
-export const postRequest = (api: string, payload: {}): Promise<any> => {
-  return axios.post(api, payload)
-    .then(result => result.data)
-    .catch(error => error.status)
-}

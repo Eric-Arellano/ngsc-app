@@ -1,10 +1,11 @@
 // @flow
 import React from 'react'
+import axios from 'axios'
 import AdminView from './AdminView'
 import type { Action, FolderTarget, MimeType, SemesterTarget } from './options'
 import { folderTargetOptions, semesterTargetOptions } from './options'
 import type { ValidationState } from 'types'
-import { postRequest } from 'api'
+import { withLoadingAndError } from 'decorators'
 
 type Props = {}
 
@@ -15,6 +16,8 @@ type State = {
   globalSourcePath: ?string,
   mimeType: ?MimeType,
   validationState: ValidationState,
+  isLoading: boolean,
+  isError: boolean,
 }
 
 class AdminViewContainer extends React.Component<Props, State> {
@@ -26,6 +29,8 @@ class AdminViewContainer extends React.Component<Props, State> {
     globalSourcePath: null,
     mimeType: null,
     validationState: 'neutral',
+    isLoading: false,
+    isError: false,
   }
 
   updateValidationState = () => {
@@ -93,11 +98,30 @@ class AdminViewContainer extends React.Component<Props, State> {
     this.setState({mimeType}, () => this.updateValidationState())
   }
 
+  resetState = () => {
+    this.setState({
+      isLoading: false,
+      isError: false,
+    })
+  }
+
   submit = () => {
     const {validationState, semesterTarget, targetFolders, action, globalSourcePath, mimeType} = this.state
     if (validationState === 'valid' && action != null) {
+      this.setState({isLoading: true})
       const payload = this.generatePayload(semesterTarget, targetFolders, action, globalSourcePath, mimeType)
-      postRequest(action.api, payload)
+      axios.post(`api/admin${action.api}`, payload)
+        .then(data => {
+          this.setState({
+            isLoading: false,
+          })
+        })
+        .catch(err => {
+          this.setState({
+            isLoading: false,
+            isError: true,
+          })
+        })
     }
   }
 
@@ -122,6 +146,7 @@ class AdminViewContainer extends React.Component<Props, State> {
       ...(action.isFile && mimeType && {mimeType: mimeType.apiId})
     })
 
+  @withLoadingAndError('The request failed. Make sure you typed the file names exactly.')
   render () {
     return <AdminView {...this.state}
                       defaultSemesterTarget={this.state.semesterTarget}

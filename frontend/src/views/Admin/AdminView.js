@@ -19,6 +19,8 @@ type Props = {
   updateFolderTargetPath: (FolderTarget, string) => void,
   submit: () => void,
   validationState: ValidationState,
+  isLoading: boolean,
+  isError: boolean
 }
 
 // ----------------------------------------------------------------------------
