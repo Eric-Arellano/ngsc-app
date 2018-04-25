@@ -5,10 +5,10 @@ import textwrap
 import time
 from typing import List, NamedTuple
 
-from googleapiclient import discovery, http
-
+from backend.src.data import mime_types
 from backend.src.drive_commands import find, move, rename
 from backend.src.google_apis import drive_api
+from googleapiclient import discovery, http
 
 
 # ---------------------------------------------------------------------
@@ -131,9 +131,10 @@ def linked_sheet_and_form(*,
 
     def find_copied_form(time_delay: int, total_time_elapsed: int = 0) -> drive_api.ResourceID:
         time.sleep(time_delay)
-        copy_id = find.gform(file_name=f'Copy of {original_form_name}',
-                             parent_folder_id=origin_parent_folder_id,
-                             drive_service=drive_service)
+        copy_id = find.resource(resource_name=f'Copy of {original_form_name}',
+                                parent_folder_id=origin_parent_folder_id,
+                                mime_type=mime_types.gform,
+                                drive_service=drive_service)
         updated_time_elapsed = total_time_elapsed + time_delay
         time_remaining = timeout - updated_time_elapsed
         if copy_id is None and time_remaining <= timeout:
@@ -153,5 +154,5 @@ def linked_sheet_and_form(*,
                      target_folder_id=target_parent_folder_id,
                      drive_service=drive_service),
     ],
-            drive_service=drive_service)
+        drive_service=drive_service)
     return SheetAndForm(sheet=copied_sheet_id, form=copied_form_id)

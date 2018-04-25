@@ -3,10 +3,8 @@ Locate and return a file or folder ID for the specified targets.
 """
 from typing import List, Optional
 
-from googleapiclient import discovery
-
-from backend.src.data import mime_types
 from backend.src.google_apis import drive_api
+from googleapiclient import discovery
 
 ResourceID = str
 
@@ -14,76 +12,6 @@ ResourceID = str
 # -----------------------------------------------------
 # Find ID
 # -----------------------------------------------------
-
-def gdoc(file_name: str, *,
-         parent_folder_id: ResourceID,
-         exact_match: bool = True,
-         drive_service: discovery.Resource = None) -> ResourceID:
-    """
-    Find a Google Doc with given name and parent.
-    """
-    return resource(resource_name=file_name,
-                    mime_type=mime_types.gdoc,
-                    parent_folder_id=parent_folder_id,
-                    exact_match=exact_match,
-                    drive_service=drive_service)
-
-
-def gsheet(file_name: str, *,
-           parent_folder_id: ResourceID,
-           exact_match: bool = True,
-           drive_service: discovery.Resource = None) -> ResourceID:
-    """
-    Find a Google Sheet with given name and parent.
-    """
-    return resource(resource_name=file_name,
-                    mime_type=mime_types.gsheets,
-                    parent_folder_id=parent_folder_id,
-                    exact_match=exact_match,
-                    drive_service=drive_service)
-
-
-def gslides(file_name: str, *,
-            parent_folder_id: ResourceID,
-            exact_match: bool = True,
-            drive_service: discovery.Resource = None) -> ResourceID:
-    """
-    Find a Google Slides with given name and parent.
-    """
-    return resource(resource_name=file_name,
-                    mime_type=mime_types.gslides,
-                    parent_folder_id=parent_folder_id,
-                    exact_match=exact_match,
-                    drive_service=drive_service)
-
-
-def gform(file_name: str, *,
-          parent_folder_id: ResourceID,
-          exact_match: bool = True,
-          drive_service: discovery.Resource = None) -> ResourceID:
-    """
-    Find a Google Form with given name and parent.
-    """
-    return resource(resource_name=file_name,
-                    mime_type=mime_types.gform,
-                    parent_folder_id=parent_folder_id,
-                    exact_match=exact_match,
-                    drive_service=drive_service)
-
-
-def folder(folder_name: str, *,
-           parent_folder_id: ResourceID,
-           exact_match: bool = True,
-           drive_service: discovery.Resource = None) -> Optional[ResourceID]:
-    """
-    Find folder.
-    """
-    return resource(resource_name=folder_name,
-                    parent_folder_id=parent_folder_id,
-                    mime_type=mime_types.folder,
-                    exact_match=exact_match,
-                    drive_service=drive_service)
-
 
 def resource(resource_name: str, *,
              parent_folder_id: ResourceID,
@@ -114,8 +42,37 @@ def resource(resource_name: str, *,
 
 
 # -----------------------------------------------------
-# Find attributes
+# Find ID (Recursive)
 # -----------------------------------------------------
+
+def recursive_resource(*, path: List[str],
+                       parent_folder_id: ResourceID,
+                       mime_type: str = None,
+                       exact_match: bool = True,
+                       drive_service: discovery.Resource = None) -> Optional[ResourceID]:
+    if len(path) == 1:
+        return resource(resource_name=path[0],
+                        parent_folder_id=parent_folder_id,
+                        mime_type=mime_type,
+                        exact_match=exact_match,
+                        drive_service=drive_service)
+    else:
+        new_path = path[1:]
+        new_parent_id = resource(resource_name=path[0],
+                                 parent_folder_id=parent_folder_id,
+                                 mime_type=mime_type,
+                                 exact_match=exact_match,
+                                 drive_service=drive_service)
+        return recursive_resource(path=new_path,
+                                  parent_folder_id=new_parent_id,
+                                  mime_type=mime_type,
+                                  exact_match=exact_match,
+                                  drive_service=drive_service)
+
+
+# -----------------------------------------------------
+# Find attributes
+# -----------------------------------------------------\
 
 def parent_folder(resource_id: ResourceID, *,
                   drive_service: discovery.Resource = None) -> ResourceID:

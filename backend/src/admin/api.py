@@ -1,6 +1,5 @@
 import flask
 
-from backend.src.data import mime_types
 from backend.src.drive_commands import find
 
 admin_api = flask.Blueprint('admin_api', __name__)
@@ -11,9 +10,8 @@ def api_test():
     """
     Throw away text connecting google drive api
     """
-    return find.resource(file_name='Same same but different',
-                         parent_folder_id='1QOsOQq3FMYfpXau6v3ubem5wrC97yWwo',
-                         mime_type=mime_types.gdoc)
+    return find.recursive_resource(path=['Part 2', 'Part 3', 'You found me!'],
+                                   parent_folder_id='1aTdoV66x4yXSpOK3wsAH4i2uGmrJCG4P')
 
 
 @admin_api.route('/copy/file', methods=['POST'])
