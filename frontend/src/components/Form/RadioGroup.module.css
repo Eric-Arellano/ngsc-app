@@ -1,5 +1,13 @@
 /* RadioGroup */
 
+.container {
+  margin-bottom: 1em;
+}
+
+.label {
+  margin-bottom: 0.3em;
+}
+
 .radio {
-    margin-right: 0.8em;
+  margin-right: 0.8em;
 }

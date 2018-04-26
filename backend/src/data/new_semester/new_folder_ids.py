@@ -2,77 +2,77 @@ ngsc_root = '0B4Ek7KKF4u8EMFJNN0duXzcxZXM'
 
 drive_playground = '1QOsOQq3FMYfpXau6v3ubem5wrC97yWwo'
 
-semester_root = '1RlFALTajDOUGiG9G50gbFdWqyontk844'
+semester_root = '1DOJN8d4qNoFPWbtzr-dOU7LTCRZ8Gxm6'
 
-templates = '1cUZJ8MzxdQGAoT-Ljn8Z0WRWBsxwWG43'
+templates = '1pObGNLpXUOavlDQzEAdUpzscOsFq98GN'
 
-all_students_root = '1g-gYyCuAiwCZLoKGKOaoQk_l5fECyl7N'
+all_students_root = '1rLfK6SyONin3Dky1frmtWOVXCrRihP7_'
 
-leadership_root = '1DCbc-hKxQo9Ft6qgn2fhUHkOfA8NJ_3x'
+leadership_root = '1AdREYGxsRduoBC2XGI8u-yUqol-ppKdu'
 
-sections_root = '1QtXVhE5ZzFnJsYsTXscwgAexxoNJP_IK'
+sections_root = '15VCyriI4Qo5aS3ZlyYC4TXTQBupF2Rc6'
 
-committees_root = '1XfpYko1gmNOQN45R1kx28-sd0eawVKyC'
+committees_root = '1KIy1iRYSS6egaipMgHChuq6a3HUP8a5_'
 
-all_students = {'on_leadership': '1oAO3UtgCO1tyuMR96o-MRoW1okBMuiJG',
-                'participation': '1JkjKet_BvsgLaqPYFdZdJgQGGgZ4gPNY',
-                'summit': '1IkcHdb3KwD5X6Xs3aEYR0kmgd4LbIbyq'}
+all_students = {'on_leadership': '1URw4uglT1R0sgd4DYJV1gQbn1kmc-U8I',
+                'participation': '1ov3olp7k-OAYomrkgjkqVex6SgK5jhO_',
+                'summit': '1SNQ_sw_SXytGI-0zrE1ktW6HukgpIaIu'}
 
-leadership = {'staff_briefings': '1U4ANFxwEGc_hGnUy7rtYIFjg3-NapOPD'}
+leadership = {'staff_briefings': '1ap8j2Txi4x5OSMk3WYivSkdiOOgrr22y'}
 
-sections = {1: '1Tuf2dSTCHmufR10QYCiuK0MDQTL54YSl',
-            2: '1xxS1ygD7nsy1e467mffE5vOENFpcl3q3',
-            3: '1vs0cA5GPvpPceoTm54icC9RKXSpxUULs',
-            4: '1lgRBpx0cskFFLMsf9CFKSrPjPikE6NqJ',
-            5: '13LoxaOnVDqYXEHBoN4Yapvd4qrRLeH8n',
-            6: '196NkBwxc6EwfsMwrgNk7hmMdEfpa4E4x',
-            7: '17oElUZF2wT56U7WYswOiF0BFoxoQlwmU',
-            8: '1MtYEg3VbBTJ6tTwXWOjlVYIfND9OZR8I',
-            9: '1rFqw4Plfi2rjeMVzwwSDYCDJCwBQ0Su_',
-            10: '1aRFZ7A_aB3Nmyv6ILGHEYkA35G8IL_OE'}
+sections = {1: '1MS47DwIuDbuVP53LgzawoSoB4IICkCll',
+            2: '1gvVwSGqhQzoPBNLPyO0dEmHeS-N0cxt5',
+            3: '1Mu3xQC2PMWxL7l2SYv4vb7avvlxewX3a',
+            4: '173ks6nI1Nm6drQcpE-PW4MHyJhzglIYK',
+            5: '1bhgwGGtfEIpZyRVWFCGWFfWWIXKd0P0k',
+            6: '1-5zKwwlZgi76rvTJycIsdREngx8Okg6K',
+            7: '146FlWjYOSvvwroipVtJ3R1VjjqIBpPVE',
+            8: '148pHaZXr6-GryL_Qd9lbM1Tnl28RS_w7',
+            9: '1IdHcwftGVCMRdxKp-w1HXr0rQM7CACYt',
+            10: '14dWhXROaeavFYXN27lbKDnb_tP8Ah5HX'}
 
-mission_teams = {1: '15c3QNFHGxbhCu9331XDcKEA_3SxhSobA',
-                 2: '1GI4WgxYEJMS7sxxR83vZvibfHpqo6lYf',
-                 3: '1X8WcHg93rb7Wk74YHEOzDt-Q1mGC0Tce',
-                 4: '1nM53rsIuDngcXs2u8AUgB2Nnw4s-jOaX',
-                 5: '1PF_Ck3PqFpqQTlexww1gbTbUU4URGFEL',
-                 6: '13ZXfnRYhprfgcwcDOpuHmLDUaIvYLet0',
-                 7: '1WEqn4AjoDec2Tg8gkdwjMZkH-_6W2vT8',
-                 8: '1f6WZLo7Qi2I3Tynp76cscSSlUpNX2bt_',
-                 9: '1cx_UgaSCUPshls33jJKCb624X-KS2E0z',
-                 10: '1qgt08ohjnlvrQtFgFTMXHjRihzHDCm70',
-                 11: '1_FUyXzlabFOeJzUMT-En4kgy7ap-d-jv',
-                 12: '1H0EPPPP0cV1Y06KrbLdrmoldXrm0-Iz3',
-                 13: '1s4TAyUXMFh88Z2TYqcsopdv0pXgEzLKo',
-                 14: '1ifSeNb3KDebwq3_HAFrCk64aCPsDDjMF',
-                 15: '1QqHGlTTAeuhcP7m_Brnk55BKCkhs0vP0',
-                 16: '1N_omajR_4IuHRW7Tt8_1FbNvLLZNkxYZ',
-                 17: '1EKLG6I44N3sr2s2nvBo6vpC6cH0II9hW',
-                 18: '1aYyOXQ4rMcrzSkEh4O3VclYVBkB-9Qdx',
-                 19: '1LJxy1DluMFAid_rYVQUCJTAqOkH1PbI7',
-                 20: '1qWxwGwbza1f6PDnAkUysbG1F9cOqmCcz',
-                 21: '1TrozxpFGRJ6IWu50F36x40GcNFdMUc79',
-                 22: '1rHk9yrtuaOKeHY1HMQM10gUFyYaR7-nQ',
-                 23: '1Co333T-_VpS_b4N0iX0vucU6YABe2i9Y',
-                 24: '1bOXrPuVvBaMU6xodmdrIVHalXJSAiLv7',
-                 25: '17FMw0MvotogrpbCauTOILZvbyjcOFTQG',
-                 26: '1PNt5onaP_MJ23LDDFAWlfAGsrpSpuahM',
-                 27: '1Js8kcy7uuGNbFcKYWlrEFBexdG5oX0Mw',
-                 28: '1svUNauPjJG_iKviBwVdPnNXME4iDDNEx',
-                 29: '10mag5NYfh0d6zKdPEUDYFBfjOd3pO1y5',
-                 30: '18i8DprmtvJzWtqrQolIiJvaNBPtW254F'}
+mission_teams = {1: '1GIoM-fBdsZ8pt4P5-TGO46v6icQjZtXj',
+                 2: '1ZaDasn7cm-UL7X_lmixqlD67KWoUvKyb',
+                 3: '1n2l6tRZNrsoiSHcBpAzeM3K2uyP7hiGx',
+                 4: '1vt7MCXKap4p8oCQpnb2T13HFlI4zNFEy',
+                 5: '15bXVU-ZFMOUCeHzII4gny-p_o_mdwBf7',
+                 6: '117TKsPit730Mn6d7OMVWnzhBfuA5ICQ4',
+                 7: '1TzirxkF-jMcGW_GyRX6HC7k6Ceddqrzc',
+                 8: '1PD3TAXrMu-1X-nlqFPuCcNHw37ca4HCR',
+                 9: '10L7jwVmCPuG2tm31uQKHw4L6_jwRkDsy',
+                 10: '1KWa4ojZGXUG7PoEMsjzhg67PMAUemlTe',
+                 11: '1cSIONyspfD508uqrAdNMuoMmNh5P_Ve6',
+                 12: '1LngDMdnVuHGIftfknsxaIs1spD6AtKp2',
+                 13: '1IHWh3HB32-1KRaiMELaVMzLhLiUZPOWU',
+                 14: '1lisyBHptaGI6jz6MrBK2jow9JhlUwzsd',
+                 15: '13wpMbhgvKVmlUikgkMJZQIEQJUEbM3u1',
+                 16: '1wXmYc1TMaT1PlK0irTN3FwIxKtjX3Fh3',
+                 17: '1RzigMBequndF9VkVs91pvq1O6Jnbo9oZ',
+                 18: '1n1ohlRk1gx79t6k6BNRemaXaqtJlt4d8',
+                 19: '1ALP5ufEJEwvUCyrK9H45EA1tsbKXs1mU',
+                 20: '1QnxL_g9eoiX6-J_7mZr4lk8D-rQ3rKtn',
+                 21: '1hp2X8aZFUSE0fUneJfVGUS7vP9rrNXoh',
+                 22: '1yftsqZYLOevWF0na8iVuCP4gvZUL2iM-',
+                 23: '1slLaPCmLpfYoYR_hJSiPx09ynkLx_-nO',
+                 24: '1pDuMdxyguFBOvmZ-Hj-44jhwTfrw_Lpy',
+                 25: '13ThCkQxF1BRdgp3R2G_xahNF5CaTj207',
+                 26: '1wyVphdArFSr1guOqC3K6z-e90PH9TlL8',
+                 27: '1RnmGJJMJex1QlHKkSlETYw9a2lF_rBe6',
+                 28: '1w9JOQfqmJdtIL9O4IyTriRQdgbxI-tsX',
+                 29: '11QDKz35FLFnBR6O8PfYhU8CkfM3_3m3D',
+                 30: '1k_RURr4IBTSincVaPm7wbDrchMelE4Km'}
 
-committee_leads = {'Culture': '1tkAqQxVHFhfrkwjjzmS6T8ERkefE2QaQ',
-                   'Education': '1DT9u_m1MIUqdcaOK6Ze9zriZVg9B3L3H',
-                   'Engagement': '1KyniIeSpI5YGeuyqdRF7Yw3S2rSVYE_X'}
+committee_leads = {'Culture': '1rMCdj0a-lWNO6G9RGj-OgJ1fIPr48EQd',
+                   'Education': '1VYJ1NSdZM4HJynICgk2jZy6UMI7gjixU',
+                   'Engagement': '1qYp_WgFxliHTBD0dHTFlHGtQV6Su7lEZ'}
 
-committees = {'Admin': '1aJHJ8ekafrp0wDMIm6HDSita0N7_t4rl',
-              'Ambassadors': '1YgGeL_kf1VE4ZhHfjzb7jUKvqq1n4PWX',
-              'Civil-Mil': '1zAV_iVJtJt6vm4JcEdk-22dVlAOcWHkL',
-              'Communications': '1HXxFjCsDMWjE_4dXP7BA3ewSNy2Jgc3o',
-              'Events': '1hGAWdxd1U0XcmG8Viu1ZrEr4UGtwpoyc',
-              'Mentorship': '1Xi0378ymR7DUcjQCuqYfX0Acx5A1C_x7',
-              'Service': '12lIgE6ZrEdMhzbDb7YQi-b_WkP-d1bdr',
-              'Social': '1NfDig6_i3q3RVYxIgPhPTpFL6LTBwimc',
-              'Training': '1X0qz2ZibLMbWJcgRJNG2htfBHwkZoyuK',
-              'Transfers': '1YzVQAbIb364zDQ__pQV4zSlqnyfSOqR8'}
+committees = {'Admin': '1HwO4MLsVjOAfzoS385qj7dyCMTnkMEEu',
+              'Ambassadors': '1DRUL2aU7Vyw09bpqoJh9oN8CUU14Jq-y',
+              'Civil-Mil': '1Cv99beeggrSbINJqpo6p1fDUlfZromvJ',
+              'Communications': '1KcJaTcRP6azXgUqvcbab13pg410xN1YA',
+              'Events': '16O9du-gxetahmrIS7_SQL4jBBlcEfpUJ',
+              'Mentorship': '1jPS8vsjAumtXkzV9WVrdcppCORU8h3Yz',
+              'Service': '133pwlV5MinU1SwEb4r2JUc8okymB6FqC',
+              'Social': '1FSue2fg9-OWTaZ7MjbvZLT2g6Y_UuzXZ',
+              'Training': '1n6WinwgEDz124Ua0tQCLMkpZTepFhAPg',
+              'Transfers': '1e-fKK8hi5_Gkzl4LxMjB5IIpFnKA2HgM'}
