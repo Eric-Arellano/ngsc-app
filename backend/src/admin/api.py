@@ -6,7 +6,7 @@ from googleapiclient import discovery
 from backend.src.data import folder_ids, mime_types
 from backend.src.data.drive_playground import playground_folder_ids
 from backend.src.data.new_semester import new_folder_ids
-from backend.src.drive_commands import copy, create, find, remove
+from backend.src.drive_commands import copy, create, find, move, remove, rename
 from backend.src.google_apis import drive_api
 
 # TODO: clean up this file :O
@@ -59,25 +59,49 @@ def api_copy_file():
 @admin_api.route('/move/file', methods=['POST'])
 def api_move_file():
     payload = flask.request.get_json()
-    raise NotImplementedError
+    drive_service = drive_api.build_service()
+    arguments = generate_batch_arguments(payload=payload,
+                                         parse_func=parse_move,
+                                         drive_service=drive_service)
+    move.batch(arguments=arguments,
+               drive_service=drive_service)
+    return 'Move file worked!'
 
 
 @admin_api.route('/move/folder', methods=['POST'])
 def api_move_folder():
     payload = flask.request.get_json()
-    raise NotImplementedError
+    drive_service = drive_api.build_service()
+    arguments = generate_batch_arguments(payload=payload,
+                                         parse_func=parse_move,
+                                         drive_service=drive_service)
+    move.batch(arguments=arguments,
+               drive_service=drive_service)
+    return 'Move folder worked!'
 
 
 @admin_api.route('/rename/file', methods=['POST'])
 def api_rename_file():
     payload = flask.request.get_json()
-    raise NotImplementedError
+    drive_service = drive_api.build_service()
+    arguments = generate_batch_arguments(payload=payload,
+                                         parse_func=parse_rename,
+                                         drive_service=drive_service)
+    rename.batch(arguments=arguments,
+                 drive_service=drive_service)
+    return 'Rename file worked!'
 
 
 @admin_api.route('/rename/folder', methods=['POST'])
 def api_rename_folder():
     payload = flask.request.get_json()
-    raise NotImplementedError
+    drive_service = drive_api.build_service()
+    arguments = generate_batch_arguments(payload=payload,
+                                         parse_func=parse_rename,
+                                         drive_service=drive_service)
+    rename.batch(arguments=arguments,
+                 drive_service=drive_service)
+    return 'Rename folder worked!'
 
 
 @admin_api.route('/remove/file', methods=['POST'])
@@ -221,4 +245,28 @@ def parse_remove(*,
     return [remove.BatchArgument(resource_id=find.recursive_resource(path=target['targetPath'].split('/'),
                                                                      parent_folder_id=folder_id,
                                                                      drive_service=drive_service))
+            for folder_id in parent_folder_ids]
+
+
+def parse_rename(*,
+                 target: Dict,
+                 parent_folder_ids: List[drive_api.ResourceID],
+                 drive_service: discovery.Resource = None) -> List[copy.BatchArgument]:  # TODO: add Mime type
+    return [rename.BatchArgument(resource_id=find.recursive_resource(path=target['sourcePath'].split('/'),
+                                                                     parent_folder_id=folder_id,
+                                                                     drive_service=drive_service),
+                                 new_name=target['targetPath'].split('/')[-1])
+            for folder_id in parent_folder_ids]
+
+
+def parse_move(*,
+               target: Dict,
+               parent_folder_ids: List[drive_api.ResourceID],
+               drive_service: discovery.Resource = None) -> List[copy.BatchArgument]:  # TODO: add Mime type
+    return [move.BatchArgument(origin_resource_id=find.recursive_resource(path=target['sourcePath'].split('/'),
+                                                                          parent_folder_id=folder_id,
+                                                                          drive_service=drive_service),
+                               target_folder_id=find.parent_folder_for_path(path=target['targetPath'],
+                                                                            root_folder_id=folder_id,
+                                                                            drive_service=drive_service))
             for folder_id in parent_folder_ids]
