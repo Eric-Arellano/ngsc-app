@@ -5,10 +5,11 @@ import textwrap
 import time
 from typing import List, NamedTuple
 
+from googleapiclient import discovery, http
+
 from backend.src.data import mime_types
 from backend.src.drive_commands import find, move, rename
 from backend.src.google_apis import drive_api
-from googleapiclient import discovery, http
 
 
 # ---------------------------------------------------------------------
@@ -44,6 +45,7 @@ class BatchArgument(NamedTuple):
 
 
 def batch(arguments: List[BatchArgument], *,
+          include_output: bool = True,
           drive_service: discovery.Resource = None) -> List[drive_api.ResourceID]:
     """
     Batch copy Google Drive files.
@@ -61,9 +63,13 @@ def batch(arguments: List[BatchArgument], *,
                         target_parent_folder_id=argument.target_folder_id,
                         drive_service=drive_service)
                 for argument in arguments]
-    drive_api.batch_command(requests=requests,
-                            callback=batch_response,
-                            drive_service=drive_service)
+    kwargs = {
+        'requests': requests,
+        'drive_service': drive_service
+    }
+    if include_output:
+        kwargs['callback'] = batch_response
+    drive_api.batch_command(**kwargs)
     return result
 
 
@@ -154,5 +160,5 @@ def linked_sheet_and_form(*,
                      target_folder_id=target_parent_folder_id,
                      drive_service=drive_service),
     ],
-        drive_service=drive_service)
+            drive_service=drive_service)
     return SheetAndForm(sheet=copied_sheet_id, form=copied_form_id)

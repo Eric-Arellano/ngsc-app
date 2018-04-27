@@ -99,57 +99,68 @@ class BatchArgument(NamedTuple):
 
 
 def batch_gdoc(arguments: List[BatchArgument], *,
+               include_output: bool = True,
                drive_service: discovery.Resource = None) -> List[drive_api.ResourceID]:
     """
     Batch create empty Google Docs.
     """
     return batch(arguments=arguments,
                  uniform_mime_type=mime_types.gdoc,
+                 include_output=include_output,
                  drive_service=drive_service)
 
 
 def batch_gsheet(arguments: List[BatchArgument], *,
+                 include_output: bool = True,
                  drive_service: discovery.Resource = None) -> List[drive_api.ResourceID]:
     """
     Batch create empty Google Sheets.
     """
     return batch(arguments=arguments,
                  uniform_mime_type=mime_types.gsheets,
+                 include_output=include_output,
                  drive_service=drive_service)
 
 
 def batch_gslides(arguments: List[BatchArgument], *,
+                  include_output: bool = True,
                   drive_service: discovery.Resource = None) -> List[drive_api.ResourceID]:
     """
     Batch create empty Google Slides presentations.
     """
     return batch(arguments=arguments,
                  uniform_mime_type=mime_types.gslides,
+                 include_output=include_output,
                  drive_service=drive_service)
 
 
 def batch_gform(arguments: List[BatchArgument], *,
+                include_output: bool = True,
                 drive_service: discovery.Resource = None) -> List[drive_api.ResourceID]:
     """
     Batch create empty Google Forms.
     """
     return batch(arguments=arguments,
                  uniform_mime_type=mime_types.gform,
+                 include_output=include_output,
                  drive_service=drive_service)
 
 
 def batch_folder(arguments: List[BatchArgument], *,
+                 include_output: bool = True,
                  drive_service: discovery.Resource = None) -> List[drive_api.ResourceID]:
     """
     Batch create empty folders.
     """
     return batch(arguments=arguments,
                  uniform_mime_type=mime_types.folder,
+                 include_output=include_output,
                  drive_service=drive_service)
 
 
 def batch(arguments: List[BatchArgument], *,
           uniform_mime_type: str = None,
+          include_output: bool = True,
           drive_service: discovery.Resource = None) -> List[drive_api.ResourceID]:
     """
     Batch create Google Drive file with specific MIME type.
@@ -176,9 +187,13 @@ def batch(arguments: List[BatchArgument], *,
                         parent_folder_id=argument.parent_folder_id,
                         drive_service=drive_service)
                 for argument in arguments]
-    drive_api.batch_command(requests=requests,
-                            callback=batch_response,
-                            drive_service=drive_service)
+    kwargs = {
+        'requests': requests,
+        'drive_service': drive_service
+    }
+    if include_output:
+        kwargs['callback'] = batch_response
+    drive_api.batch_command(**kwargs)
     return result
 
 

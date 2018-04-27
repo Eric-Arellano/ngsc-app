@@ -1,5 +1,5 @@
 // @flow
-import type { CheckboxOption, RadioOption } from 'types'
+import type {CheckboxOption, RadioOption} from 'types'
 
 // -------------------------------------------
 // Semester Target
@@ -16,9 +16,13 @@ export const semesterTargetOptions: Array<SemesterTarget> = [
   },
   {
     apiId: 'next',
-    label: 'Next semester'
-  }
-]
+      label: 'Next semester',
+  },
+    {
+        apiId: 'playground',
+        label: 'Playground (https://tinyurl.com/yabv58ek)'
+    },
+];
 
 // -------------------------------------------
 // Folder Target
@@ -59,7 +63,7 @@ export const folderTargetOptions: Array<FolderTarget> = [
     sourcePath: null,
     targetPath: null,
   },
-]
+];
 
 // -------------------------------------------
 // Semester Target
@@ -96,7 +100,7 @@ export const mimeTypeOptions: Array<MimeType> = [
     label: 'Other',
     needsExtension: true,
   }
-]
+];
 
 // -------------------------------------------
 // Action
@@ -173,4 +177,4 @@ export const actionOptions: Array<Action> = [
     needsFolderSource: true,
     api: '/rename/folder',
   },
-]
+];

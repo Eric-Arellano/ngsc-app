@@ -1,7 +1,7 @@
 """
 Remove a resource from Google Drive.
 """
-from typing import List
+from typing import List, NamedTuple
 
 from googleapiclient import discovery, http
 
@@ -26,14 +26,18 @@ def resource(resource_id: drive_api.ResourceID, *,
 # Batch (immediate execution)
 # ---------------------------------------------------------------------
 
-def batch(resource_ids: List[drive_api.ResourceID], *,
+class BatchArgument(NamedTuple):
+    resource_id: drive_api.ResourceID
+
+
+def batch(arguments: List[BatchArgument], *,
           drive_service: discovery.Resource = None) -> None:
     """
     Batch remove multiple resources.
     """
-    requests = [request(resource_id=resource_id,
+    requests = [request(resource_id=argument.resource_id,
                         drive_service=drive_service)
-                for resource_id in resource_ids]
+                for argument in arguments]
     drive_api.batch_command(requests=requests,
                             drive_service=drive_service)
 

@@ -3,8 +3,10 @@ Locate and return a file or folder ID for the specified targets.
 """
 from typing import List, Optional
 
-from backend.src.google_apis import drive_api
 from googleapiclient import discovery
+
+from backend.src.data import mime_types
+from backend.src.google_apis import drive_api
 
 ResourceID = str
 
@@ -45,7 +47,25 @@ def resource(resource_name: str, *,
 # Find ID (Recursive)
 # -----------------------------------------------------
 
-def recursive_resource(*, path: List[str],
+def parent_folder_for_path(path: str, *,
+                           root_folder_id: ResourceID,
+                           drive_service: discovery.Resource) -> Optional[ResourceID]:
+    """
+    If path is nested, find actual parent; else return original parent.
+    """
+    path_list = path.split('/')
+    if len(path_list) == 1:
+        return root_folder_id
+    else:
+        path_without_child = path_list[:-1]
+        return recursive_resource(path=path_without_child,
+                                  parent_folder_id=root_folder_id,
+                                  mime_type=mime_types.folder,
+                                  drive_service=drive_service)
+
+
+def recursive_resource(*,
+                       path: List[str],
                        parent_folder_id: ResourceID,
                        mime_type: str = None,
                        exact_match: bool = True,
@@ -60,7 +80,6 @@ def recursive_resource(*, path: List[str],
         new_path = path[1:]
         new_parent_id = resource(resource_name=path[0],
                                  parent_folder_id=parent_folder_id,
-                                 mime_type=mime_type,
                                  exact_match=exact_match,
                                  drive_service=drive_service)
         return recursive_resource(path=new_path,
