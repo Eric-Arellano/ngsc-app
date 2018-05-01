@@ -22,7 +22,11 @@ def get(student_id: int) -> Optional[Dict]:
             'cohort': int(result['cohort']),
             'missionTeam': int(result['missionTeam']),
             'committee': result['committee'],
-            'leadership': result['leadership']}
+            'leadership': result['leadership'],
+            'email': result['email'],
+            'phone': result['phone'],
+            'campus': result['campus'],
+            }
 
 
 def get_all() -> Dict:
@@ -41,5 +45,9 @@ def get_all() -> Dict:
             'cohort': row[column_indexes.master['cohort']],
             'missionTeam': row[column_indexes.master['mt']],
             'committee': row[column_indexes.master['committee']],
-            'leadership': row[column_indexes.master['leadership']]}
+            'leadership': row[column_indexes.master['leadership']],
+            'email': row[column_indexes.master['email']],
+            'phone': row[column_indexes.master['phone']],
+            'campus': row[column_indexes.master['campus']],
+        }
     return demographic
