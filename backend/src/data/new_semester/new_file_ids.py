@@ -40,6 +40,8 @@ mission_team_attendance = {1: '1bYXFuvPz2e82PUUUfyA7VH7X1kkZBpak9rafgi_gBeg',
                            29: '1_gQhe6UB7_7yefN2lI5FPUXk_vzSeBs8W59Ks-AhrQw',
                            30: '1vEMXMH1hpzJcQaa53xjB3EWXalm0la7MaSh7R6ip-xs'}
 
+leadership_roster = '1FZq0BLVoqG-qrL7DB3-7JbABYKWc7RAHV6ZSR4sye70'
+
 master_prior_semester = '1gtsVgj8NeSdOGKd8HHRSNHjOTRDXJVls-Xw-gvoRONI'
 
 master = '1WoJ7ujtYi8mb2JtMCiovJeq7aJDxUtwBFzZlpMuYbow'

@@ -72,7 +72,6 @@ def test_add_blank_to_empty():
 # Filter
 # --------------------------------------------------------------------
 
-
 def test_filter():
     original_grid = [
         ['Eric', '1'],
@@ -82,7 +81,7 @@ def test_filter():
     ]
     result = rows.filter_by_cell(grid=original_grid,
                                  target_index=1,
-                                 target_value='2')
+                                 target_values=['2'])
     assert result == [
         ['Sami', '2'],
         ['Diana', '2'],
@@ -97,7 +96,24 @@ def test_filter_with_missing_cells():
     ]
     result = rows.filter_by_cell(grid=original_grid,
                                  target_index=1,
-                                 target_value='2')
+                                 target_values=['2'])
     assert result == [
         ['Diana', '2'],
+    ]
+
+
+# --------------------------------------------------------------------
+# Filter blank rows
+# --------------------------------------------------------------------
+
+def test_filter_out_blank_rows():
+    original_grid = [
+        ['Eric', '1'],
+        ['Sami', ''],
+        ['Diana', ''],
+    ]
+    result = rows.filter_out_blank(grid=original_grid,
+                                   target_index=1)
+    assert result == [
+        ['Eric', '1'],
     ]

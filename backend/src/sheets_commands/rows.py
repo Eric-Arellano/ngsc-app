@@ -34,12 +34,22 @@ def append_blank(*,
     return grid + new_rows
 
 
+def filter_out_blank(*,
+                     grid: sheet.Grid,
+                     target_index: int) -> sheet.Grid:
+    """
+    Filter out rows with empty values for target indexes.
+    """
+    return [row for row in grid
+            if len(row) > target_index and row[target_index] != '']
+
+
 def filter_by_cell(*,
                    grid: sheet.Grid,
                    target_index: int,
-                   target_value: sheet.Cell) -> sheet.Grid:
+                   target_values: List[sheet.Cell]) -> sheet.Grid:
     """
-    Filter out rows without the target value for specified column. Does not modify rows.
+    Filter out rows without any of the target value for specified column. Does not modify rows.
     """
     return [row for row in grid
-            if len(row) > target_index and row[target_index] == target_value]
+            if len(row) > target_index and row[target_index] in target_values]

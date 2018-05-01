@@ -109,18 +109,18 @@ def ask_yes_no(question: str, *, default: str = 'yes') -> bool:
         return ask_yes_no(question)
 
 
-def ask_confirmation(question: str, *, default_to_yes: bool = False) -> None:
+def ask_confirmation(instructions: str, *, default_to_yes: bool = False) -> None:
     """
     Ask for simple "yes" confirmation.
     """
     prompt = '[Y]' if default_to_yes else '[y]'
     options = ['yes', 'y', 'ye']
-    print(f'{question}\n\nPlease confirm you have completed the above. {prompt}')
+    print(f'{instructions}\n\nPlease confirm you have completed the above. {prompt}')
     # interpret result
     choice = input().lower()
     if choice not in options and not (default_to_yes and choice == ''):
         print("Please respond with 'yes' (or 'y').\n")
-        return ask_confirmation(question)
+        return ask_confirmation(instructions)
 
 
 def log(*, start_message: str = None, end_message: str = None) -> Callable[[Any], Any]:

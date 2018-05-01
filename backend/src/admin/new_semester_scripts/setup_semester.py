@@ -72,12 +72,16 @@ def main() -> None:
                               senior_cohort=rising_cohorts.seniors,
                               sheets_service=sheets_service)
         prompt_to_clear_remaining_old_data()
+        # mission team reshuffle
+        reshuffle_mission_teams(sheets_service=sheets_service)
+        # prepare leadership
+        prompt_to_add_leadership()
+        prepare_leadership_roster(sheets_service=sheets_service)
         # prepare files
         prepare_all_rosters(sheets_service=sheets_service)
         update_master_formulas(sheets_service=sheets_service)
         # remaining steps
         prompt_to_connect_master_links()
-        prompt_to_add_leadership()  # TODO: dynamically generate leadership roster?
         print_remaining_steps()
 
 
@@ -273,6 +277,10 @@ def create_empty_rosters(*,
         drive_service = drive_api.build_service()
     batch_create_gsheet = functools.partial(create.batch_gsheet,
                                             drive_service=drive_service)
+    # Leadership
+    leadership_roster_id = create.gsheet(file_name=f'Leadership - {semester}',
+                                         parent_folder_id=folder_id_map['leadership'],
+                                         drive_service=drive_service)
     # Committee rosters
     committee_rosters = [create.BatchArgument(name=f'Attendance - {committee} - {semester}',
                                               parent_folder_id=folder_id)
@@ -288,6 +296,7 @@ def create_empty_rosters(*,
     mission_team_roster_ids = batch_create_gsheet(mission_team_rosters)
     mission_team_file_dict = dict(zip(folder_id_map['mission_teams'].keys(), mission_team_roster_ids))
     return {
+        'leadership_roster': leadership_roster_id,
         'committee_attendance': committee_file_dict,
         'mission_team_attendance': mission_team_file_dict
     }
@@ -399,7 +408,7 @@ def prompt_to_add_admin_email() -> None:
     """
     Make sure new admin chair added to leadership data file. Necessary for preparing rosters.
     """
-    command_line.ask_confirmation(question=textwrap.dedent('''\
+    command_line.ask_confirmation(instructions=textwrap.dedent('''\
             1. Open up the file `backend/src/data/new_semester/new_leadership.py`. 
             2. Add the emails for the new Admin Chair, Chief of Staff, and staff.'''),
                                   default_to_yes=True)
@@ -467,7 +476,7 @@ def prompt_to_update_leave_of_absence() -> None:
     Prompt to transfer students on leave of absence back into Master spreadsheet.
     """
     master_link = generate_link.gsheet(new_file_ids.master)
-    command_line.ask_confirmation(question=textwrap.dedent(f'''\
+    command_line.ask_confirmation(instructions=textwrap.dedent(f'''\
             1. Open up the new master spreadsheet at {master_link}
             2. Select the tab \'Leave of absence\'.
             3. Transfer any students who will be back during the upcoming semester back to the \'Master\' tab.'''),
@@ -576,7 +585,9 @@ def clear_outdated_master(*,
                                      sheets_service=sheets_service)
     cleared_committees = columns.clear_if(grid=original_grid,
                                           key_index=column_indexes.master['cohort'],
-                                          key_values=[str(sophomore_cohort)],
+                                          key_values=[str(sophomore_cohort),
+                                                      str(sophomore_cohort - 1),
+                                                      str(senior_cohort)],
                                           target_indexes=[column_indexes.master['committee']])
     cleared_mission_teams = columns.clear_if(grid=cleared_committees,
                                              key_index=column_indexes.master['cohort'],
@@ -597,7 +608,7 @@ def prompt_to_clear_remaining_old_data() -> None:
     """
     all_students_link = generate_link.gsheet(new_file_ids.participation['all_students'])
     no_shows_link = generate_link.gsheet(new_file_ids.participation['no_shows'])
-    command_line.ask_confirmation(question=textwrap.dedent(f'''\
+    command_line.ask_confirmation(instructions=textwrap.dedent(f'''\
                 The script is not able to safely delete some data, so you will have to do it.
                 1. Open up the new 'All student attendance' sheet at {all_students_link}
                 2. Erase the data on every tab except for 'Total attendance'. (Make sure the formulas are saved in the 'Formulas' tab.)
@@ -609,6 +620,120 @@ def prompt_to_clear_remaining_old_data() -> None:
                 7. Erase the data under the tabs named after All-student Events, like 'OLS 3'. (Make sure the 'Formulas' tab.)
                 8. Every student should have 0 on the 'Total no-shows' tab.'''),
                                   default_to_yes=True)
+
+
+# ------------------------------------------------------------------
+# Mission team reshuffle
+# ------------------------------------------------------------------
+
+def reshuffle_mission_teams(sheets_service: discovery.Resource = None) -> None:
+    """
+    Ask if mission teams changed, then ask for new mappings and update master.
+    """
+    # check if reshuffled
+    changed = command_line.ask_yes_no(question='Were mission teams reshuffled this semester?', default='no')
+    if not changed:
+        return
+
+    # get input
+    def valid_mapping_input(answer: str) -> bool:
+        valid_mt_number = r'(?:[1-9]|[1-2][0-9]|30)'
+        valid_mapping = f'\\b{valid_mt_number}:{valid_mt_number}\\b\\s?'
+        valid_input = f'^({valid_mapping})+$'
+        return bool(re.match(valid_input, answer))
+
+    new_mapping_input = command_line.ask_input(prompt=textwrap.dedent('''\
+                            For every mission team that has changed, which team should people now be changed to?
+                            
+                            Enter in the format of old_mt_number:new_mt_number, as a list with spaces between entries.
+                            For example, the input `1:4 8:5` means people originally on team 1 should now be team 4, and originally on team 8 should now be team 5.
+                            '''),
+                                               is_valid=valid_mapping_input)
+    new_mapping_list = [mapping.split(':')
+                        for mapping in new_mapping_input.split()]
+    new_mappings = {mapping[0]: mapping[1] for mapping in new_mapping_list}  # original mt -> new mt
+    # update values
+    master_grid = sheet.get_values(new_file_ids.master,
+                                   range_='Master!A2:Z',
+                                   sheets_service=sheets_service)
+    updated_grid = columns.update(grid=master_grid,
+                                  key_index=column_indexes.master['mt'],
+                                  target_index=column_indexes.master['mt'],
+                                  overwrite=True,
+                                  updated_values=new_mappings)
+    sheet.update_values(new_file_ids.master,
+                        range_='Master!A2:Z',
+                        grid=updated_grid,
+                        sheets_service=sheets_service)
+
+
+# ------------------------------------------------------------------
+# Prepare leadership
+# ------------------------------------------------------------------
+
+def prompt_to_add_leadership() -> None:
+    """
+    Prompt to add leadership info to Master.
+    """
+    master_link = generate_link.gsheet(new_file_ids.master)
+    command_line.ask_confirmation(instructions=textwrap.dedent(f'''\
+            1. Open up the new master spreadsheet at {master_link}
+            2. Add leadership roles to new leadership using the 'Leadership' column and its dropdown options.
+            3. For mission team leaders, make sure their MT number reflects what they are leading. 
+            4. For committee chairs, add their committee under the Committee column.'''),
+                                  default_to_yes=True)
+
+
+@command_line.log(start_message='Setting up leadership roster.',
+                  end_message='Leadership roster set up.\n')
+def prepare_leadership_roster(sheets_service: discovery.Resource) -> None:
+    """
+    Setup leadership roster with contact info.
+    """
+    master_grid = sheet.get_values(new_file_ids.master,
+                                   range_='Master!A2:Z',
+                                   sheets_service=sheets_service)
+    filtered = rows.filter_out_blank(grid=master_grid,
+                                     target_index=column_indexes.master['leadership'])
+    reordered = columns.reorder(grid=filtered,
+                                new_order=[column_indexes.master['id'],
+                                           column_indexes.master['first'],
+                                           column_indexes.master['last'],
+                                           column_indexes.master['status'],
+                                           column_indexes.master['email'],
+                                           column_indexes.master['phone'],
+                                           column_indexes.master['campus'],
+                                           column_indexes.master['cohort'],
+                                           column_indexes.master['leadership'],
+                                           column_indexes.master['committee'],
+                                           column_indexes.master['mt']])
+    without_status = columns.remove(grid=reordered, target_indexes=[3])
+    # TODO: finish
+    headers = [['ASUrite',
+                'First name',
+                'Last name',
+                'Email',
+                'Cell',
+                'Campus',
+                'Cohort',
+                'Position',
+                'Group',
+                'Sister Group']]
+    with_headers = headers + without_status
+    # batch requests
+    requests = [
+        display.freeze_request(num_rows=1),
+        display.auto_resize_request(),
+        display.alternating_colors_request()
+    ]
+    # send API requests
+    sheet.update_values(new_file_ids.leadership_roster,
+                        range_='A1:Z',
+                        grid=with_headers,
+                        sheets_service=sheets_service)
+    sheet.batch_update(new_file_ids.leadership_roster,
+                       requests=requests,
+                       sheets_service=sheets_service)
 
 
 # ------------------------------------------------------------------
@@ -660,7 +785,7 @@ def prepare_roster(spreadsheet_id: str, *,
     # setup grid content
     filtered = rows.filter_by_cell(grid=master_grid,
                                    target_index=filter_column_index,
-                                   target_value=filter_value)
+                                   target_values=[filter_value])
     reordered = columns.reorder(grid=filtered,
                                 new_order=[column_indexes.master['id'],
                                            column_indexes.master['first'],
@@ -777,22 +902,11 @@ def prompt_to_connect_master_links() -> None:
     Prompt to connect Master to all the rosters and participation sheets.
     """
     master_link = generate_link.gsheet(new_file_ids.master)
-    command_line.ask_confirmation(question=textwrap.dedent(f'''\
+    command_line.ask_confirmation(instructions=textwrap.dedent(f'''\
             1. Open up the new master spreadsheet at {master_link}
             2. Scroll to the right to the participation section.
             3. Highlight over cells with `#REF!` and press 'Allow access'.
             4. Continue to add access until there are no more `#REF!`s.'''),
-                                  default_to_yes=True)
-
-
-def prompt_to_add_leadership() -> None:
-    """
-    Prompt to add leadership info to Master.
-    """
-    master_link = generate_link.gsheet(new_file_ids.master)
-    command_line.ask_confirmation(question=textwrap.dedent(f'''\
-            1. Open up the new master spreadsheet at {master_link}
-            2. Add leadership roles to new leadership using the 'Leadership' column and its dropdown options.'''),
                                   default_to_yes=True)
 
 

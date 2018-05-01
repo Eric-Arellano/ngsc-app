@@ -58,7 +58,7 @@ def check_master_updated() -> None:
     Make sure information is ready to be copied.
     """
     master_link = generate_link.gsheet(new_file_ids.master)
-    command_line.ask_confirmation(question=textwrap.dedent(f'''\
+    command_line.ask_confirmation(instructions=textwrap.dedent(f'''\
                     1. Open up the new semester's master spreadsheet at {master_link}
                     2. Make sure all the information is up-to-date, e.g. the \'Leave of Absence\' tab is up-to-date.
                     (Reminder: this script will pull Master for the updated roster info.)'''),
