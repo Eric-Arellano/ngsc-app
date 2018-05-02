@@ -1,9 +1,9 @@
 // @flow
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import LoginView from './LoginView'
-import { withLoadingAndError } from 'decorators'
-import { getDemographics } from 'api'
-import type { Student } from 'types'
+import {withLoadingAndError} from 'decorators'
+import {getDemographics} from 'api'
+import type {Student} from 'types'
 
 type Props = {
   login: (Student) => void
@@ -46,6 +46,9 @@ class LoginViewContainer extends Component<Props, State> {
             committee: data.committee,
             cohort: data.cohort,
             leadership: data.leadership,
+            email: data.email,
+            phone: data.phone,
+            campus: data.campus,
           }
         })
       })

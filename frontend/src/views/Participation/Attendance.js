@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { Entry, PanelWithLoading } from 'components'
+import {Entry, PanelWithLoading} from 'components'
 
 type Props = {
   noShows: number,
@@ -26,8 +26,8 @@ const Attendance = ({noShows, missionTeamAttendance, committeeAttendance, olsAtt
     <br />
     <p><em>
       * No-shows indicates the number of times that you RSVPed for an event but did not show up without telling the
-      event organizer in advance. If you need to dispute this number, please e-mail the Admin chair Diana at
-      dkchen@asu.edu.
+      event organizer in advance. If you need to dispute this number, please e-mail the Admin chair Jeremy at
+      jseidne@asu.edu.
     </em></p>
   </PanelWithLoading>
 )

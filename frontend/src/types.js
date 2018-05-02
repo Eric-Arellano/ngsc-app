@@ -25,7 +25,10 @@ export type Student = {
   cohort: number,
   missionTeam: number,
   committee: ?string,
-  leadership: ?string
+  leadership: ?string,
+  email: string,
+  phone: string,
+  campus: string
 }
 
 export type Name = {
