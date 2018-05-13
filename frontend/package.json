@@ -19,11 +19,14 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "flow": "flow"
   },
   "devDependencies": {
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "react-test-renderer": "^16.3.2",
     "standard": "^11.0.1"
   },
   "proxy": "http://localhost:5000/",

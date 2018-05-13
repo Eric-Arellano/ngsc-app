@@ -133,6 +133,13 @@ def catchup() -> None:
 # Test commands
 # -------------------------------------
 
+def test() -> None:
+    """
+    Run unit tests.
+    """
+    sys_calls.run(["yarn", "test"], cwd='frontend/')
+
+
 def check_types() -> None:
     """
     Calls Flow to check for type errors.
@@ -187,6 +194,7 @@ command_map = command_line.CommandMap({'run': run,
                                        'reinstall': reinstall,
                                        'catchup': catchup,
                                        'build': build,
+                                       'test': test,
                                        'types': check_types,
                                        'outdated': list_outdated,
                                        'add': add,

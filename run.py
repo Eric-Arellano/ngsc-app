@@ -166,8 +166,10 @@ def test(*, target: Target = 'all') -> None:
     execute_on_target_environment(target,
                                   all_action=lambda: (
                                       backend.test(),
+                                      frontend.test(),
                                       scripts_test_runner.test()),
                                   backend_action=backend.test,
+                                  frontend_action=frontend.test,
                                   script_action=scripts_test_runner.test)
 
 
@@ -310,24 +312,24 @@ def rebuild_rosters(target: Target = 'all') -> None:
 # -------------------------------------
 # Command line options
 # -------------------------------------
-command_map = {'run': run,
-               'stop': stop,
-               'install': install,
-               'reinstall': reinstall,
-               'catchup': catchup,
-               'test': test,
-               'types': check_types,
-               'outdated': list_outdated,
-               'deptree': dependency_tree,
-               'add': add,
-               'upgrade': upgrade,
-               'remove': remove,
-               'deploy': deploy_to_heroku,
-               'student-info': update_student_info,
-               'setup-semester': setup_semester,
-               'share-drive': share_drive,
-               'rebuild-rosters': rebuild_rosters
-               }
+command_map = command_line.CommandMap({'run': run,
+                                       'stop': stop,
+                                       'install': install,
+                                       'reinstall': reinstall,
+                                       'catchup': catchup,
+                                       'test': test,
+                                       'types': check_types,
+                                       'outdated': list_outdated,
+                                       'deptree': dependency_tree,
+                                       'add': add,
+                                       'upgrade': upgrade,
+                                       'remove': remove,
+                                       'deploy': deploy_to_heroku,
+                                       'student-info': update_student_info,
+                                       'setup-semester': setup_semester,
+                                       'share-drive': share_drive,
+                                       'rebuild-rosters': rebuild_rosters
+                                       })
 
 # -------------------------------------
 # Run script

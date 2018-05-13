@@ -5,7 +5,7 @@ import type { ValidationState } from 'types'
 
 type Props = {
   children: React.Element<string>,
-  handleClick: () => mixed,
+  handleClick: () => void,
   validationState?: ValidationState,
   disabled?: boolean
 }

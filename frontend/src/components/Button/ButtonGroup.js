@@ -1,9 +1,10 @@
 // @flow
 import * as React from 'react'
+import Button from './Button'
 import s from './Button.module.css'
 
 type Props = {
-  children: React.Node,
+  children: React.ChildrenArray<React.Element<typeof Button>>,
 }
 
 const ButtonGroup = ({children}: Props) => (
