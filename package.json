@@ -1,21 +1,17 @@
 {
   "name": "ngsc-app",
-  "version": "0.4.0",
+  "version": "1.0.0",
   "engines": {
-    "node": "^9.3.x",
-    "yarn": "^1.5.1"
+    "node": "^10.1.x",
+    "yarn": "^1.6.0"
   },
   "cacheDirectories": [
     "node_modules",
     "frontend/node_modules"
   ],
   "scripts": {
-    "heroku-postbuild": "cd frontend/ && yarn install && yarn build",
-    "build": "cd frontend/ && yarn build"
+    "build": "cd frontend/ && yarn install && yarn build"
   },
   "dependencies": {},
-  "devDependencies": {
-    "react-scripts": "^1.1.4"
-  },
   "license": "MIT"
 }

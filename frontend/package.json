@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "version": "0.4.0",
+  "version": "1.0.0",
   "homepage": "http://ngsc-app.org/",
   "private": true,
   "dependencies": {
@@ -21,7 +21,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "server": "python ../backend/app.py",
     "flow": "flow"
   },
   "devDependencies": {
