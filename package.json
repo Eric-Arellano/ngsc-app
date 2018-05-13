@@ -10,7 +10,8 @@
     "frontend/node_modules"
   ],
   "scripts": {
-    "postinstall": "cd frontend/ && yarn install && yarn build"
+    "heroku-postbuild": "cd frontend/ && yarn install",
+    "build": "cd frontent && yarn build"
   },
   "dependencies": {},
   "license": "MIT"
