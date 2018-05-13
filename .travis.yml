@@ -7,7 +7,7 @@ matrix:
         - pip install -r requirements.txt
       script:
         - cd backend/src && pytest -q
-        - cd ../../scripts && python -m unittest discover tests
+        - cd ../../ && python -m unittest discover scripts/tests
 
     - language: node_js
       node_js:

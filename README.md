@@ -13,8 +13,6 @@ Uses React for frontend, Python 3 and Flask for backend server, and Google Docs 
 1. Yarn package manager: `brew install yarn`
 1. Heroku: `brew install heroku`
 
-TESTING
-
 ### Install software on PC
 See [this PowerPoint](https://docs.google.com/presentation/d/1pAoLLMqqH6JGG9ILwlhKMwVzUVzux9bFmZINPJWeW9Q/edit?usp=sharing) 
 for further context on how to get this project working effectively on a PC.
