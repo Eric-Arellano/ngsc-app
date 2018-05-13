@@ -2,7 +2,7 @@
   "name": "ngsc-app",
   "version": "1.0.0",
   "engines": {
-    "node": "^10.1.x",
+    "node": "^8.11.1",
     "yarn": "^1.6.0"
   },
   "cacheDirectories": [
