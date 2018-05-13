@@ -10,7 +10,7 @@
     "frontend/node_modules"
   ],
   "scripts": {
-    "build": "cd frontend/ && yarn install && yarn build"
+    "postinstall": "cd frontend/ && yarn install && yarn build"
   },
   "dependencies": {},
   "license": "MIT"
