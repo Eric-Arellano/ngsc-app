@@ -49,9 +49,9 @@ def source(*, file: File, path: str) -> None:
     See https://stackoverflow.com/questions/3503719/emulating-bash-source-in-python
     """
     if sys_calls.is_windows_environment():
-        command = ['cmd', '/C', f'{file} && set']
+        command = ['cmd', '/C', f'./{file} && set']
     else:
-        command = ['bash', '-c', f'source {file} && env']
+        command = ['bash', '-c', f'source ./{file} && env']
     process = subprocess.Popen(command,
                                stdout=subprocess.PIPE,
                                cwd=path)
