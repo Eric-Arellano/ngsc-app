@@ -7,7 +7,7 @@ matrix:
         - pip install -r requirements.txt
       script:
         - cd backend/src && pytest -q
-        - python -m unittest discover scripts/tests
+        - cd ../../scripts && python -m unittest discover tests
 
     - language: node_js
       node_js:
@@ -15,4 +15,4 @@ matrix:
       install:
         - cd frontend && yarn install
       script:
-        - cd frontend && yarn test
+        - yarn test
