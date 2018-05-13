@@ -10,7 +10,7 @@ type Props = {
   isLoading: boolean
 }
 
-const translateMeetingAttendance = (value: string) => {
+const translateMeetingAttendance = (value: string): string => {
   if (value === '') {
     return 'no meetings yet'
   }
@@ -25,9 +25,8 @@ const Attendance = ({noShows, missionTeamAttendance, committeeAttendance, olsAtt
     <Entry>No-shows: {noShows}</Entry>
     <br />
     <p><em>
-      * No-shows indicates the number of times that you RSVPed for an event but did not show up without telling the
-      event organizer in advance. If you need to dispute this number, please e-mail the Admin chair Jeremy at
-      jseidne@asu.edu.
+      * No-shows indicates the number of times that you RSVP'd for an event but did not show up without telling the
+      event organizer in advance.
     </em></p>
   </PanelWithLoading>
 )

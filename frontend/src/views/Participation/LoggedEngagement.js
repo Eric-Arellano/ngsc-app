@@ -10,14 +10,14 @@ type Props = {
   isLoading: boolean
 }
 
-const translateHours = (reqType: string, hours: number) => {
+const translateHours = (reqType: string, hours: number): string => {
   if (reqType === 'Service') return `${hours} hour${hours > 1 ? 's' : ''}`
   else if (reqType === 'Civil-Mil OR Service') return `${hours} hour${hours > 1 ? 's' : ''} or 1 civil-mil event`
   else if (reqType === 'Civil-Mil') return `1 civil-mil event`
   return ''
 }
 
-const translateStatus = (status: string) => {
+const translateStatus = (status: string): string => {
   if (status === '') return 'Not yet evaluated'
   if (status === 'Late') return 'Late (accepted)'
   return status

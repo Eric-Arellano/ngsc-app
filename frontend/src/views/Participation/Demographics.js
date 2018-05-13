@@ -11,7 +11,7 @@ const Demographics = ({student: {name, missionTeam, committee, cohort, leadershi
   <Panel header='Student info'>
     <Entry>Name: {name.first} {name.last}</Entry>
     <Entry>Cohort: {cohort}</Entry>
-    <Entry>Mission team: {missionTeam}</Entry>
+    {missionTeam && <Entry>Mission team: {missionTeam}</Entry>}
     {committee && <Entry>Committee: {committee}</Entry>}
     {leadership && <Entry>Leadership: {leadership}</Entry>}
     <Entry>Email: {email}</Entry>
@@ -19,7 +19,7 @@ const Demographics = ({student: {name, missionTeam, committee, cohort, leadershi
     <Entry>Campus: {campus}</Entry>
     <br/>
     <p><em>
-      * If any of this information is incorrect, please e-mail the Admin chair Jeremy at
+      * If any of this information is incorrect, please email the Admin chair Jeremy at
       jseidne@asu.edu.
     </em></p>
   </Panel>

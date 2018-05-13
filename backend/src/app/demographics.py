@@ -4,7 +4,7 @@ Queries for student's static demographic info.
 
 from typing import Dict, Optional
 
-from backend.src.data import column_indexes, file_ids
+from backend.src.data import column_indexes, file_ids, mission_teams
 from backend.src.data.demographics import demographics_data
 from backend.src.sheets_commands import sheet
 
@@ -16,11 +16,12 @@ def get(student_id: int) -> Optional[Dict]:
     result = demographics_data.get(str(student_id), None)
     if result is None:
         return None
+    mission_team_number = int(result['missionTeam'])
     return {'name':
                 {'first': result['name']['first'],
                  'last': result['name']['last']},
             'cohort': int(result['cohort']),
-            'missionTeam': int(result['missionTeam']),
+            'missionTeam': f'{mission_team_number} - {mission_teams.missions[mission_team_number]}',
             'committee': result['committee'],
             'leadership': result['leadership'],
             'email': result['email'],

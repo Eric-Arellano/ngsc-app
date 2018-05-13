@@ -1,13 +1,5 @@
 // @flow
 
-export type CalendarEvent = {
-  title: string,
-  start: Date,
-  end: Date,
-  description: ?string,
-  location: ?string,
-}
-
 // -------------------------------------------------------
 // Data models
 // -------------------------------------------------------
@@ -23,9 +15,9 @@ export type Student = {
   id: number,
   name: Name,
   cohort: number,
-  missionTeam: number,
-  committee: ?string,
-  leadership: ?string,
+  missionTeam?: string,
+  committee?: string,
+  leadership?: string,
   email: string,
   phone: string,
   campus: string
@@ -34,6 +26,14 @@ export type Student = {
 export type Name = {
   first: string,
   last: string
+}
+
+export type CalendarEvent = {
+  title: string,
+  start: Date,
+  end: Date,
+  description?: string,
+  location?: string,
 }
 
 // -------------------------------------------------------
