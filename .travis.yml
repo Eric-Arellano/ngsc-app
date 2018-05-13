@@ -1,0 +1,18 @@
+matrix:
+  include:
+    - language: python
+      python:
+        "3.6"
+      install:
+        - pip install -r requirements.txt
+      script:
+        - cd backend/src && pytest -q
+        - python -m unittest discover scripts/tests
+
+    - language: node_js
+      node_js:
+        "8.11.1"
+      install:
+        - cd frontend && yarn install
+      script:
+        - cd frontend && yarn test
