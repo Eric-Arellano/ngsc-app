@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "heroku-postbuild": "cd frontend/ && yarn install",
-    "build": "cd frontent && yarn build"
+    "build": "cd frontend && yarn build"
   },
   "dependencies": {},
   "license": "MIT"
