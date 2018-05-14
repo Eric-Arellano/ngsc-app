@@ -4,20 +4,19 @@ Queries for student's static demographic info.
 
 from typing import Dict, Optional
 
+from backend.src.app import encryptor
 from backend.src.data import column_indexes, file_ids, mission_teams
 from backend.src.data.demographics import demographics_data
 from backend.src.sheets_commands import sheet
-from backend.src.app import encryptor
 
 
 def get(student_id: int) -> Optional[Dict]:
     """
     Get student's name, cohort, mission team, committee, and leadership position.
     """
-    # encrypted_id = encryptor.decrypt(str(student_id))
-    # result = demographics_data.get(encrypted_id, None)
-    result = demographics_data.get(str(student_id), None)
-    # result = encryptor.decrypt_dict_values(result)
+    encrypted_id = encryptor.encrypt(str(student_id))
+    result = demographics_data.get(encrypted_id, None)
+    result = encryptor.decrypt_dict_values(result)
     if result is None:
         return None
     mission_team_number = int(result['missionTeam'])

@@ -3,7 +3,9 @@
 """
 Utility to update hardcoded file of student information.
 """
+import json
 import os
+import pprint
 import sys
 from pathlib import Path
 
@@ -17,10 +19,10 @@ from scripts.utils import git, sys_calls, prereq_checker
 
 def main() -> None:
     check_prereqs_installed()
-    resolve_git_issues()
+    # resolve_git_issues()
     update_student_ids_file()
     check_valid_update()
-    commit_changes()
+    # commit_changes()
 
 
 def check_prereqs_installed() -> None:
@@ -46,11 +48,13 @@ def update_student_ids_file() -> None:
     """
     Get JSON from API and write it to hardcoded file.
     """
-    json = sys_calls.get_stdout(['curl',
-                                 'https://ngsc-app.org/api/app/demographics/all_students_encrypted',
-                                 '--silent'])
+    raw_json = sys_calls.get_stdout(['curl',
+                                     'https://ngsc-app.org/api/app/demographics/all_students_encrypted',
+                                     '--silent'])
+    parsed_json = json.loads(raw_json)
+    formatted_json = pprint.pformat(parsed_json, width=1)
     with open('backend/src/data/demographics.py', 'w') as file:
-        file.write(f'demographics_data = {json}')
+        file.write(f'demographics_data = {formatted_json}')
 
 
 def check_valid_update() -> None:
@@ -59,8 +63,8 @@ def check_valid_update() -> None:
     """
     num_lines = sum(1 for line in open('backend/src/data/demographics.py'))
     if num_lines < 3_000:
-        raise SystemExit(dedent(
-                '''It appears there was an issue with writing to demographics.py. 
+        raise SystemExit(dedent('''\
+                It appears there was an issue with writing to demographics.py. 
                 Check and consider reverting any changes.
                 '''))
 
