@@ -19,10 +19,10 @@ from scripts.utils import git, sys_calls, prereq_checker
 
 def main() -> None:
     check_prereqs_installed()
-    # resolve_git_issues()
+    resolve_git_issues()
     update_student_ids_file()
     check_valid_update()
-    # commit_changes()
+    commit_changes()
 
 
 def check_prereqs_installed() -> None:
