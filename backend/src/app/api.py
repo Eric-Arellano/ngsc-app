@@ -13,6 +13,12 @@ def api_get_all_demographics():
     return flask.jsonify(result)
 
 
+@app_api.route('/demographics/all_students_encrypted')
+def api_get_all_demographics_encrypted():
+    result = demographics.get_all_encrypted()
+    return flask.jsonify(result)
+
+
 @app_api.route('/demographics/<int:student_id>')
 def api_get_name(student_id: int):
     result = demographics.get(student_id)
