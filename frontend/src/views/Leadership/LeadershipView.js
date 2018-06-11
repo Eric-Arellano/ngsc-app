@@ -5,7 +5,7 @@ import BioGroup from './BioGroup'
 import type { BioGroupType, BioType } from './data'
 import { bioGroupsData } from './data'
 
-const ContactUsView = () => (
+const LeadershipView = () => (
   <React.Fragment>
     {bioGroupsData.map((bioGroup: BioGroupType, index: number) => (
       <BioGroup header={bioGroup.group} key={index}>
@@ -22,4 +22,4 @@ const ContactUsView = () => (
   </React.Fragment>
 )
 
-export default ContactUsView
+export default LeadershipView

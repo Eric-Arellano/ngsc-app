@@ -26,16 +26,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Executive Director',
         email: 'brett.hunt@asu.edu',
-        pictureURL: 'https://media.licdn.com/dms/image/C4E03AQEZhdBD_g71lw/profile-displayphoto-shrink_800_800/0?e=1527994800&v=alpha&t=PtxvyFt752cYRK8T5-_UBt0Zm0OmAwwuIqTmRszARpw'
-      },
-      {
-        name: {
-          first: 'Jessica',
-          last: 'Eldridge'
-        },
-        position: 'Assistant Director',
-        email: 'jessica.eldridge@asu.edu',
-        pictureURL: 'https://media.licdn.com/dms/image/C5603AQFZodEmhbZklg/profile-displayphoto-shrink_800_800/0?e=1527994800&v=alpha&t=2RTWz6XPLTfkwe8JJboA8QhJkWUKZaAGzLXqgjfpqDY'
+        pictureURL: 'http://mtaguild.org/wp-content/uploads/2017/03/Hunt.jpg'
       },
       {
         name: {
@@ -53,8 +44,26 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Curriculum and Course Manager',
         email: 'veronica.gutierrez@asu.edu',
-        pictureURL: 'https://scontent.fphx1-1.fna.fbcdn.net/v/t31.0-8/26678217_10109089048805231_1239174116842371196_o.jpg?oh=d353c7b96da89b13b54e5cf4791f8bc0&oe=5B09F765'
-      }
+        pictureURL: 'https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/21317428_10108551603559811_9009363285694615844_n.jpg?_nc_cat=0&oh=ae410cdf8368c002d01cecdaa26f6e67&oe=5B7F1F96'
+      },
+      {
+        name: {
+          first: 'Kim',
+          last: 'Baldwin'
+        },
+        position: 'Program Coordinator',
+        email: 'Kim.Baldwin@asu.edu',
+        pictureURL: ''
+      },
+      {
+        name: {
+          first: 'Martin',
+          last: 'Cordova-Paredes'
+        },
+        position: 'Curriculum and Course Manager',
+        email: 'Martin.Cordovaparedes@asu.edu',
+        pictureURL: 'https://webapp4.asu.edu/photo-ws/directory_photo/1823164?size=large'
+      },
     ]
   },
   {
@@ -67,7 +76,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Chief of Staff',
         email: 'Kara.Lehmann@asu.edu',
-        pictureURL: 'https://media.licdn.com/dms/image/C5103AQEg_3HmNMpWaQ/profile-displayphoto-shrink_800_800/0?e=1527994800&v=alpha&t=N8xvwwupgSVbciIHWMoS_lpSeHaWmpNuU1kLnTycdO4'
+        pictureURL: 'https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/13557754_1253580817993340_2671922234869659939_n.jpg?_nc_cat=0&oh=ab880b5a8cbee364b564f5e659892790&oe=5B7D869C'
       },
       {
         name: {
@@ -76,7 +85,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Culture Lead',
         email: 'David.R.Huff@asu.edu',
-        pictureURL: 'https://scontent.fphx1-1.fna.fbcdn.net/v/t1.0-9/24993450_1202445663222249_5173404211670915679_n.jpg?oh=c93352a8342a2ab947679bd03a6eb5b4&oe=5B16F9B5'
+        pictureURL: 'https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/22195236_1162818370518312_3344660222053090920_n.jpg?_nc_cat=0&oh=b0235348cf800d850989eb7fdb06a239&oe=5B7AE58B'
       },
       {
         name: {
@@ -94,7 +103,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Engagement Lead',
         email: 'Matthew.Moy@asu.edu',
-        pictureURL: 'https://media.licdn.com/dms/image/C5603AQG9-vhumjBmdw/profile-displayphoto-shrink_800_800/0?e=1527994800&v=alpha&t=6pvItHDToctRCuVc5BTvfiUBQRCXrEZiAXAlv8ePk7Q'
+        pictureURL: 'https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/24993082_1764020203631317_6194640412842625669_n.jpg?_nc_cat=0&oh=077f1cc1296a2376ade268b207b13c72&oe=5BB697ED'
       },
     ]
   },
@@ -126,7 +135,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Section 3',
         email: 'jtpaul1@asu.edu',
-        pictureURL: 'https://scontent.fphx1-1.fna.fbcdn.net/v/t1.0-9/19657283_1413556345397037_2967285048553981257_n.jpg?oh=160501d7b1e20531f6f73f5b59ba5b66&oe=5B08FDD0'
+        pictureURL: 'https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/22195716_1493895250696479_2047428731479798870_n.jpg?_nc_cat=0&oh=acb79bb00ed64ea125d7a2d970760020&oe=5BAD9905'
       },
       {
         name: {
@@ -135,7 +144,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Section 4',
         email: 'Emma.Sounart@asu.edu',
-        pictureURL: 'https://media.licdn.com/dms/image/C5603AQHdyVxgfrh7UA/profile-displayphoto-shrink_800_800/0?e=1527994800&v=alpha&t=EPwks-Vy0I2gKo5Oj7prZVA8hK-aTkU0tiB8zhpsm-k'
+        pictureURL: 'https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/26219987_1526631300719791_1189265926850430625_n.jpg?_nc_cat=0&oh=17a6da1faf7a6fb3a9b0767773d8c4b3&oe=5BA73517'
       },
       {
         name: {
@@ -148,12 +157,12 @@ export const bioGroupsData: Array<BioGroupType> = [
       },
       {
         name: {
-          first: 'Marianna',
+          first: 'Mariana',
           last: 'Peña'
         },
         position: 'Section 6',
         email: 'Mariana.Pena@asu.edu',
-        pictureURL: 'https://media.licdn.com/dms/image/C4D03AQEgu8rLnSkEQg/profile-displayphoto-shrink_800_800/0?e=1527994800&v=alpha&t=LzzqiO7P_L30ZaCSzrUlWmetay7BaEN_cDmG6DXKGGk'
+        pictureURL: 'https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/34637653_1697301163698693_6096909821330587648_n.jpg?_nc_cat=0&oh=9ff06f6d53b90ca05939ee0dfe6b7aea&oe=5BB2412B'
       },
       {
         name: {
@@ -203,7 +212,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Admin Chair',
         email: 'jseidne@asu.edu',
-        pictureURL: 'https://media.licdn.com/dms/image/C5603AQGledn5coGyVw/profile-displayphoto-shrink_800_800/0?e=1527994800&v=alpha&t=xVjDZW-qa651bieLyMI5R5NYJWuJjlgExQA_yKcTSJQ'
+        pictureURL: 'https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/254879_10150280194330365_4620718_n.jpg?_nc_cat=0&oh=ebcd40169f79415a73154345899eb8b2&oe=5BC0CF11'
       },
       {
         name: {
@@ -284,7 +293,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Transfer Chair',
         email: 'Kyla.Christenson@asu.edu',
-        pictureURL: 'https://media.licdn.com/dms/image/C4D03AQGJivSPiznj2w/profile-displayphoto-shrink_800_800/0?e=1527994800&v=alpha&t=H_Ab3BCNHtLUsKyuWSboth4wlwK6P4wlWsCsDe01hMs'
+        pictureURL: 'https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/18402659_1341385529289667_1629002562867505154_n.jpg?_nc_cat=0&oh=0586dec7bf4461990356f00d6f805fae&oe=5BC18D94'
       },
     ]
   },
@@ -320,12 +329,12 @@ export const bioGroupsData: Array<BioGroupType> = [
       },
       {
         name: {
-          first: 'Marisa',
-          last: 'Eldridge',
+          first: 'Tori',
+          last: 'Van de Kop',
         },
         position: 'MT 4 - Racial & LGBTQ Equality',
-        email: 'mneldrid@asu.edu',
-        pictureURL: 'https://media.licdn.com/dms/image/C4D03AQFLs6i-c753eQ/profile-displayphoto-shrink_800_800/0?e=1527994800&v=alpha&t=UZqjxvDyip0CaiUWEftClJ3teE7AfRaZxJK3IwiwDow',
+        email: 'tvandekop@asu.edu',
+        pictureURL: 'https://scontent-lga3-1.xx.fbcdn.net/v/t31.0-8/23456468_1900048363357339_4165210517901401751_o.jpg?_nc_cat=0&oh=450e1de71d4429af94b5bf5c0e89c1e2&oe=5B7E4FDC',
       },
       {
         name: {
@@ -433,7 +442,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 16 - Public Health',
         email: 'Joshua.M.Kumar@asu.edu',
-        pictureURL: 'https://media.licdn.com/dms/image/C4E03AQH6BUlTIi7AAA/profile-displayphoto-shrink_800_800/0?e=1527994800&v=alpha&t=RLTPsCTHHbeSTMmdccNJTscpV3IizNKLaCpnBnY-COU',
+        pictureURL: 'https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/14088485_1761138214161768_2077414996755250311_n.jpg?_nc_cat=0&oh=2bd7fb82052294c9c9d6adaba774abdf&oe=5B786098',
       },
       {
         name: {

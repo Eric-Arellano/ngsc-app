@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import type {Name} from 'types'
+import type { Name } from 'types'
 import s from './Bio.module.css'
 
 type Props = {

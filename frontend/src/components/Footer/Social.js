@@ -14,7 +14,7 @@ const Social = () => (
       <span className={s.iconFull}><TwitterFull size={40} /></span>
       <span className={s.iconOutline}><TwitterOutline size={40} /></span>
     </a>
-    <a className={s.link} href='https://www.instagram.com/ngscsocial/' title='@ngscsocial | Instagram'>
+    <a className={s.link} href='https://www.instagram.com/ngscasu/' title='@ngscasu | Instagram'>
       <span className={s.iconFull}><InstagramFull size={40} /></span>
       <span className={s.iconOutline}><InstagramOutline size={40} /></span>
     </a>
