@@ -6,8 +6,9 @@ import s from './Nav.module.css'
 const Nav = () => (
   <nav>
     <ul className={s.container}>
-      <NavButton link='./' label='Home'/>
+      <NavButton link='./' label='Participation'/>
       <NavButton link='./events' label='Events'/>
+      {/*<NavButton link='./expectations' label='Expectations' />*/}
       <NavButton link='./internships' label='Internships'/>
       <NavButton link='./leadership' label='Leadership'/>
     </ul>

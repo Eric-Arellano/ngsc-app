@@ -53,7 +53,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Program Coordinator',
         email: 'Kim.Baldwin@asu.edu',
-        pictureURL: ''
+        pictureURL: 'https://scontent-lax3-2.xx.fbcdn.net/v/t1.0-9/29683676_10155792499042599_30777052938256661_n.jpg?_nc_cat=0&oh=f5aa35d2b7fb1fb6a023d90c486ee72c&oe=5BB44D14'
       },
       {
         name: {
