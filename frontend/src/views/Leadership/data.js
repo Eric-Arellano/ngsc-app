@@ -60,7 +60,7 @@ export const bioGroupsData: Array<BioGroupType> = [
           first: 'Martin',
           last: 'Cordova-Paredes'
         },
-        position: 'Curriculum and Course Manager',
+        position: 'Project Coordinator',
         email: 'Martin.Cordovaparedes@asu.edu',
         pictureURL: 'https://webapp4.asu.edu/photo-ws/directory_photo/1823164?size=large'
       },
