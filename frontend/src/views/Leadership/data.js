@@ -2,6 +2,7 @@
 
 import type { Name } from 'types'
 import jacobRagsdale from './photos/jacob-ragsdale.jpg'
+import lauraTan from './photos/laura-tan.jpg'
 
 export type BioType = {
   name: Name,
@@ -33,9 +34,9 @@ export const bioGroupsData: Array<BioGroupType> = [
           first: 'Laura',
           last: 'Tan'
         },
-        position: 'Community Engagement Coordinator',
+        position: 'Community Engagement Manager',
         email: 'laura.tan@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/295423_262292843879255_1708700154_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeFW7Njp6Oo410Y3OccOqDLNPjTK6XWuxt0xsVggoxoC1jEtRoEe8uHFowAMrhYlIRXuGFg14lu8gsjd094xw5hoATCtVvoJvgIbh6VprVr53g&oh=ecb8929f3e4202b2ad8dbef7017cb21b&oe=5B344FA3'
+        pictureURL: lauraTan
       },
       {
         name: {
