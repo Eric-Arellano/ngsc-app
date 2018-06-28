@@ -31,7 +31,7 @@ def decrypt_dict_values(x: NestedDict) -> NestedDict:
             in x.items()}
 
 
-Demographics = Dict[str, Dict[str, Union[str, Dict[str, str]]]]
+Demographics = Dict[str, NestedDict]
 
 
 def encrypt_demographics(x: Demographics) -> Demographics:
