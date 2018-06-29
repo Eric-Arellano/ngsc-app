@@ -41,7 +41,7 @@ sys.path.append(str(current_file_path.parents[1]))
 from typing import Callable, List
 
 from scripts import backend, deploy, frontend, scripts_test_runner, update_demographics
-from scripts.utils import command_line, sys_calls, venv
+from scripts.utils import command_line, pipenv
 
 
 def main() -> None:
@@ -285,11 +285,12 @@ def setup_semester(target: Target = 'all') -> None:
     """
     Create the new Google Drive for upcoming semester, e.g. preparing rosters and copying files.
     """
-    venv.activate()
     execute_on_target_environment(target,
                                   all_action=lambda: (
-                                      sys_calls.run_python(
-                                              ['./backend/src/admin/new_semester_scripts/setup_semester.py'])
+                                      pipenv.run([
+                                          'python',
+                                          './backend/src/admin/new_semester_scripts/setup_semester.py'
+                                      ])
                                   ))
 
 
@@ -297,11 +298,12 @@ def share_drive(target: Target = 'all') -> None:
     """
     Share the new Google Drive with incoming student leadership.
     """
-    venv.activate()
     execute_on_target_environment(target,
                                   all_action=lambda: (
-                                      sys_calls.run_python(
-                                              ['./backend/src/admin/new_semester_scripts/share_drive.py'])
+                                      pipenv.run([
+                                          'python',
+                                          './backend/src/admin/new_semester_scripts/share_drive.py'
+                                      ])
                                   ))
 
 
@@ -309,11 +311,12 @@ def rebuild_rosters(target: Target = 'all') -> None:
     """
     Rebuild the rosters with updated student info. Overwrites current data.
     """
-    venv.activate()
     execute_on_target_environment(target,
                                   all_action=lambda: (
-                                      sys_calls.run_python(
-                                              ['./backend/src/admin/new_semester_scripts/rebuild_rosters.py'])
+                                      pipenv.run([
+                                          'python',
+                                          './backend/src/admin/new_semester_scripts/rebuild_rosters.py'
+                                      ])
                                   ))
 
 

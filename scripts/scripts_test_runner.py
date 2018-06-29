@@ -17,7 +17,7 @@ from pathlib import Path
 current_file_path = Path(os.path.realpath(__file__))
 sys.path.append(str(current_file_path.parents[1]))
 
-from scripts.utils import venv, sys_calls, command_line
+from scripts.utils import pipenv, sys_calls, command_line
 
 
 def main() -> None:
@@ -37,7 +37,7 @@ def check_prereqs_installed() -> None:
     """
     command_line.check_prereqs_installed()
     sys_calls.check_prereqs_installed()
-    venv.check_prereqs_installed()
+    pipenv.check_prereqs_installed()
 
 
 # -------------------------------------
@@ -48,8 +48,7 @@ def check_types() -> None:
     """
     Calls MyPy to check for type errors.
     """
-    venv.activate()
-    sys_calls.run(["mypy", "--strict-optional", "--ignore-missing-imports",
+    pipenv.run(["mypy", "--strict-optional", "--ignore-missing-imports",
                    "--package", "scripts"])
 
 

@@ -1,0 +1,18 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+Flask = '*'
+Flask-SSLify = '*'
+google-api-python-client = '*'
+gunicorn = '*'
+oauth2client = '*'
+
+[dev-packages]
+mypy = '*'
+pytest = '*'
+
+[requires]
+python_version = "3.6"

@@ -32,7 +32,7 @@ current_file_path = Path(os.path.realpath(__file__))
 sys.path.append(str(current_file_path.parents[1]))
 
 from typing import List
-from scripts.utils import prereq_checker, process_management, git, sys_calls, venv, command_line
+from scripts.utils import prereq_checker, process_management, git, sys_calls, pipenv, command_line
 
 
 def main() -> None:
@@ -56,7 +56,7 @@ def check_prereqs() -> None:
     process_management.check_prereqs_installed()
     git.check_prereqs_installed()
     sys_calls.check_prereqs_installed()
-    venv.check_prereqs_installed()
+    pipenv.check_prereqs_installed()
 
 
 # -------------------------------------
@@ -67,10 +67,9 @@ def run() -> None:
     """
     Start backend server normally.
     """
-    venv.activate()
-    os.environ['FLASK_APP'] = 'backend/src/server.py'
+    sys_calls.export('FLASK_APP', 'backend/src/server.py')
     try:
-        sys_calls.run(["flask", "run"])
+        pipenv.run(['flask', 'run'])
     except KeyboardInterrupt:
         pass
 
@@ -81,10 +80,9 @@ def run_detached() -> None:
 
     Must later kill process.
     """
-    venv.activate()
-    os.environ['FLASK_APP'] = 'backend/src/server.py'
-    sys_calls.run_detached(["flask", "run"])
-    print("Backend server started at localhost:5000. Remember to stop it after.")
+    sys_calls.export('FLASK_APP', 'backend/src/server.py')
+    pipenv.run_detached(['flask', 'run'])
+    print('Backend server started at localhost:5000. Remember to stop it after.')
 
 
 def stop() -> None:
@@ -93,7 +91,7 @@ def stop() -> None:
     """
     pid = process_management.find_pid_on_port('5000')
     process_management.kill_process(pid)
-    print("Backend server stopped at localhost:5000.")
+    print('Backend server stopped at localhost:5000.')
 
 
 # -------------------------------------
@@ -104,17 +102,15 @@ def install() -> None:
     """
     Downloads & installs all dependencies for the backend.
     """
-    venv.create()
-    venv.activate()
-    sys_calls.run(["pip", "install", "--upgrade", 'pip', 'setuptools'])
-    sys_calls.run(["pip", "install", "-r", "requirements.txt"])
+    pipenv.create()
+    sys_calls.run(['pipenv', 'install'])
 
 
 def reinstall() -> None:
     """
     Deletes original virtual environment and re-installs everything.
     """
-    venv.remove()
+    pipenv.remove()
     install()
 
 
@@ -129,8 +125,7 @@ def catchup() -> None:
     files_changed = git.fast_forward_and_diff('origin', git.get_current_branch(),
                                               ['requirements.txt'])
     if files_changed:
-        venv.activate()
-        sys_calls.run(["pip", "install", "-r", "requirements.txt"])
+        sys_calls.run(['pipenv', 'sync'])
 
 
 # -------------------------------------
@@ -141,17 +136,15 @@ def test() -> None:
     """
     Run unit tests.
     """
-    venv.activate()
-    sys_calls.run(['pytest', '-q'], cwd='backend/src')
+    pipenv.run(['pytest', '-q'], cwd='backend/src')
 
 
 def check_types() -> None:
     """
     Calls MyPy to check for type errors.
     """
-    venv.activate()
-    sys_calls.run(["mypy", "--strict-optional", "--ignore-missing-imports",
-                   "--package", "src"], cwd='backend/')
+    pipenv.run(["mypy", "--strict-optional", "--ignore-missing-imports",
+                "--package", "src"], cwd='backend/')
 
 
 # -------------------------------------
@@ -160,56 +153,39 @@ def check_types() -> None:
 Dependency = str  # type alias
 
 
-def _freeze_requirements() -> None:
-    """
-    Updates the requirements.txt file with new dependencies.
-    """
-    with open('requirements.txt', 'w') as requirements:
-        sys_calls.run(['pip', 'freeze'], stdout=requirements)
-    git.remind_to_commit("requirements.txt")
-
-
 def list_outdated() -> None:
     """
     List pip packages that should be updated.
     """
-    venv.activate()
-    sys_calls.run(["pip", "list", "--outdated", "--format=columns"])
+    sys_calls.run(["pipenv", "update", "--outdated"])
 
 
 def dependency_tree() -> None:
     """
     Visualize which dependencies depend upon which.
     """
-    venv.activate()
-    sys_calls.run(["pipdeptree"])
+    sys_calls.run(['pipenv', 'graph'])
 
 
 def add(dependencies: List[Dependency]) -> None:
     """
     Add one or more pip packages.
     """
-    venv.activate()
-    sys_calls.run(["pip", "install"] + dependencies)
-    _freeze_requirements()
+    sys_calls.run(['pipenv', 'install'] + dependencies)
 
 
 def upgrade(dependencies: List[Dependency]) -> None:
     """
     Upgrade one or more out-of-date pip packages.
     """
-    venv.activate()
-    sys_calls.run(["pip", "install", "--upgrade"] + dependencies)
-    _freeze_requirements()
+    sys_calls.run(['pipenv', 'update'] + dependencies)
 
 
 def remove(dependencies: List[Dependency]) -> None:
     """
     Remove one or more pip packages.
     """
-    venv.activate()
-    sys_calls.run(["pip-autoremove"] + dependencies + ['-y'])
-    _freeze_requirements()
+    sys_calls.run(['pipenv', 'uninstall'] + dependencies)
 
 
 # -------------------------------------

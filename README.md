@@ -9,6 +9,7 @@ Uses React for frontend, Python 3 and Flask for backend server, and Google Docs 
 1. HomeBrew package manager: `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
 1. Git: `brew install git`
 1. Python 3.6: `brew install python3`
+1. Pipenv: `pip3 install pipenv`
 1. Node.js & NPM: `brew install node`
 1. Yarn package manager: `brew install yarn`
 1. Heroku: `brew install heroku`
@@ -23,6 +24,7 @@ for further context on how to get this project working effectively on a PC.
         1. Recommended to download the app Visual Studio Code and then choose that as your option.
 1. Python 3.6, https://www.python.org/downloads/ 
     1. Check on the option to add python.exe to your PATH variable.
+1. Pipenv: `pip install pipenv`
 1. Node.js & NPM, https://nodejs.org/en/ 
     1. Choose the most current version
     1. Accept default settings
