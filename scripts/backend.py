@@ -39,6 +39,7 @@ def main() -> None:
     parser = command_line.create_parser(command_map)
     args = parser.parse_args()
     check_prereqs()
+    pipenv.remove_old_venv()
     command_line.execute_command(args, command_map)
 
 

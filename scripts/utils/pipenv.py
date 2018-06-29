@@ -43,6 +43,18 @@ def remove() -> None:
     sys_calls.run(['pipenv', '--rm'])
 
 
+def remove_old_venv() -> None:
+    """
+    Remove old venv in favor of Pipenv.
+    """
+    paths = ['pyvenv.cfg', 'pip-selfcheck.json']
+    paths += ['Scripts', 'Include', 'Lib', 'lib64'] \
+        if sys_calls.is_windows_environment() \
+        else ['bin/', 'include/', 'lib/']
+    paths = [f'backend/{path}' for path in paths]
+    files.remove(paths)
+
+
 # -----------------------------------------------------------------
 # Run Python Commands within virtual environment
 # -----------------------------------------------------------------
