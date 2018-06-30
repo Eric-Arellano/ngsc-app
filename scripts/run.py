@@ -30,16 +30,25 @@ Usage:
     update student info...
             update: `./run.py student-info`
 """
+import os
+import sys
+from pathlib import Path
+
+# path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
+current_file_path = Path(os.path.realpath(__file__))
+sys.path.append(str(current_file_path.parents[1]))
+
 from typing import Callable, List
 
 from scripts import backend, deploy, frontend, scripts_test_runner, update_demographics
-from scripts.utils import command_line, sys_calls, venv
+from scripts.utils import command_line, pipenv
 
 
 def main() -> None:
     parser = command_line.create_parser(command_map, accept_target_environment=True)
     args = parser.parse_args()
     check_prereqs()
+    pipenv.remove_old_venv()
     command_line.execute_command(args, command_map)
 
 
@@ -277,11 +286,12 @@ def setup_semester(target: Target = 'all') -> None:
     """
     Create the new Google Drive for upcoming semester, e.g. preparing rosters and copying files.
     """
-    venv.activate()
     execute_on_target_environment(target,
                                   all_action=lambda: (
-                                      sys_calls.run_python(
-                                              ['./backend/src/admin/new_semester_scripts/setup_semester.py'])
+                                      pipenv.run([
+                                          'python',
+                                          './backend/src/admin/new_semester_scripts/setup_semester.py'
+                                      ])
                                   ))
 
 
@@ -289,11 +299,12 @@ def share_drive(target: Target = 'all') -> None:
     """
     Share the new Google Drive with incoming student leadership.
     """
-    venv.activate()
     execute_on_target_environment(target,
                                   all_action=lambda: (
-                                      sys_calls.run_python(
-                                              ['./backend/src/admin/new_semester_scripts/share_drive.py'])
+                                      pipenv.run([
+                                          'python',
+                                          './backend/src/admin/new_semester_scripts/share_drive.py'
+                                      ])
                                   ))
 
 
@@ -301,11 +312,12 @@ def rebuild_rosters(target: Target = 'all') -> None:
     """
     Rebuild the rosters with updated student info. Overwrites current data.
     """
-    venv.activate()
     execute_on_target_environment(target,
                                   all_action=lambda: (
-                                      sys_calls.run_python(
-                                              ['./backend/src/admin/new_semester_scripts/rebuild_rosters.py'])
+                                      pipenv.run([
+                                          'python',
+                                          './backend/src/admin/new_semester_scripts/rebuild_rosters.py'
+                                      ])
                                   ))
 
 

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# determine if Windows
+[[ $(uname -s) == MINGW64_NT* ]] && WINDOWS=true || WINDOWS=false
+
+# determine Python3 path
+[[ ${WINDOWS} = true ]] && PYTHON=python || PYTHON=python3
+
+${PYTHON} scripts/run.py $@
+

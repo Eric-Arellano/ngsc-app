@@ -54,6 +54,17 @@ def _modify_for_windows(command: List[str], kwargs: Dict) -> Tuple[Command, Dict
 
 
 # -----------------------------------------------------------------
+# Modify environment
+# -----------------------------------------------------------------
+
+def export(key: str, value: str) -> None:
+    """
+    Add value to environment.
+    """
+    os.environ[key] = value
+
+
+# -----------------------------------------------------------------
 # Run commands
 # -----------------------------------------------------------------
 

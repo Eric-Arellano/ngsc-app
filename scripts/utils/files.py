@@ -2,7 +2,6 @@
 Utilities to interface with the outside world.
 """
 
-import os
 import subprocess
 from pathlib import Path
 from typing import List
@@ -57,5 +56,5 @@ def source(*, file: File, path: str) -> None:
                                cwd=path)
     for line in process.stdout:
         (key, _, value) = line.decode("utf-8").strip().partition("=")
-        os.environ[key] = value
+        sys_calls.export(key, value)
     process.communicate()

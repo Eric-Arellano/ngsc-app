@@ -4,7 +4,8 @@ matrix:
       python:
         "3.6"
       install:
-        - pip install -r requirements.txt
+        - pip install pipenv
+        - pipenv install
       script:
         - cd backend/src && pytest -q
         - cd ../../ && python -m unittest discover scripts/tests

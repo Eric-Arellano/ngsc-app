@@ -9,6 +9,7 @@ Uses React for frontend, Python 3 and Flask for backend server, and Google Docs 
 1. HomeBrew package manager: `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
 1. Git: `brew install git`
 1. Python 3.6: `brew install python3`
+1. Pipenv: `pip3 install pipenv`
 1. Node.js & NPM: `brew install node`
 1. Yarn package manager: `brew install yarn`
 1. Heroku: `brew install heroku`
@@ -23,6 +24,7 @@ for further context on how to get this project working effectively on a PC.
         1. Recommended to download the app Visual Studio Code and then choose that as your option.
 1. Python 3.6, https://www.python.org/downloads/ 
     1. Check on the option to add python.exe to your PATH variable.
+1. Pipenv: `pip install pipenv`
 1. Node.js & NPM, https://nodejs.org/en/ 
     1. Choose the most current version
     1. Accept default settings
@@ -33,18 +35,15 @@ for further context on how to get this project working effectively on a PC.
 ### Running commands on PC
 Use Git Bash instead of Command Prompt, because Git Bash offers Unix-style tools.
 
-Due to issues with the way Python is installed on PCs, the normal command method of `./run.py` won't work. Instead,
-*every time you see `./run.py`, replace it with`py run.py`*.
-
 ## Basic Usage
 
 #### First time setup
-`./run.py install`
+`./ngsc install`
 
 #### Run app
-1. `./run.py catchup`, checks for changes from the server
-1. `./run.py`, starts the app at `localhost:3000` (go to this in your browser)
-1. `./run.py stop`, stops the app
+1. `./ngsc catchup`, checks for changes from the server
+1. `./ngsc`, starts the app at `localhost:3000` (go to this in your browser)
+1. `./ngsc stop`, stops the app
 
 ## Advanced Usage
 There are many different ways to run this application, such as only starting the backend server or only starting the frontend server.
@@ -59,44 +58,44 @@ Most of these commands default to running on every possible environment (scripts
 You can often specify a specific target with `--target [env]`, or the abbreviation `-t [env]`.
 
 ### Install
-* first-time setup: `./run.py install [--target backend|frontend]`
-* reinstall: `./run.py reinstall [--target backend|frontend]`
-* catchup from server changes: `./run.py catchup [--target backend|frontend]`
+* first-time setup: `./ngsc install [--target backend|frontend]`
+* reinstall: `./ngsc reinstall [--target backend|frontend]`
+* catchup from server changes: `./ngsc catchup [--target backend|frontend]`
 
 ### Run
-* Start app: `./run.py [--target backend|frontend]`
+* Start app: `./ngsc [--target backend|frontend]`
     * Targeting the `backend` or `frontend` will output the status of the server to the console, unlike how we normally 
-    hide it with `./run.py`. This is really useful for debugging!
-* Stop app: `./run.py stop [--target backend|frontend]`
+    hide it with `./ngsc`. This is really useful for debugging!
+* Stop app: `./ngsc stop [--target backend|frontend]`
 
 ### Test
-* Run unit tests: `./run.py test [--target backend|fronted|script]`
-* Check types: `./run.py types [--target backend|frontend|script]`
+* Run unit tests: `./ngsc test [--target backend|fronted|script]`
+* Check types: `./ngsc types [--target backend|frontend|script]`
 
 
 ### Deploy
-`./run.py deploy`
+`./ngsc deploy`
 
 ### Update static student info
 Whenever a change happens to the Master spreadsheet, this script needs to be called.
 
-1. `./run.py student-info`
-1. `./run.py deploy`
+1. `./ngsc student-info`
+1. `./ngsc deploy`
 
 ### Setup new semester
 Run these scripts to setup the new semester's Google Drive system.
 
-1. `./run.py setup-semester`
-1. `./run.py share-drive`
+1. `./ngsc setup-semester`
+1. `./ngsc share-drive`
 
 If you need to rebuild the rosters, e.g. after freshmen are assigned to their committees:
 
-`./run.py rebuild-rosters`
+`./ngsc rebuild-rosters`
 
 ### Dependency management
-* Catchup from changes made by others: `./run.py catchup [--target backend|frontend]`
-* View outdated dependencies: `./run.py outdated [--target backend|frontend]`
-* View dependency tree: `./run.py deptree [--target backend]` (not supported on frontend)
-* Add package(s): `./run.py add package1 [package2...] --target backend|frontend`
-* Upgrade package(s): `./run.py upgrade package1 [package2...] --target backend|frontend`
-* Remove package(s): `./run.py remove package1 [package2...] --target backend|frontend`
+* Catchup from changes made by others: `./ngsc catchup [--target backend|frontend]`
+* View outdated dependencies: `./ngsc outdated [--target backend|frontend]`
+* View dependency tree: `./ngsc deptree [--target backend]` (not supported on frontend)
+* Add package(s): `./ngsc add package1 [package2...] --target backend|frontend`
+* Upgrade package(s): `./ngsc upgrade package1 [package2...] --target backend|frontend`
+* Remove package(s): `./ngsc remove package1 [package2...] --target backend|frontend`
