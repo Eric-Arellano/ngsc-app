@@ -13,6 +13,7 @@ oauth2client = '*'
 [dev-packages]
 mypy = '*'
 pytest = '*'
+ipdb = "*"
 
 [requires]
 python_version = "3.6"

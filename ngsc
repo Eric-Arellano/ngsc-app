@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 
-# determine if Windows
+# determine Python path
 [[ $(uname -s) == MINGW64_NT* ]] && WINDOWS=true || WINDOWS=false
-
-# determine Python3 path
 [[ ${WINDOWS} = true ]] && PYTHON=python || PYTHON=python3
 
+# TODO: set PYTHONBREAKPOINT=ipdb.set_trace once upgrade to Python3.7. Only set if not already set
+
+# Pass all params to run.py
 ${PYTHON} scripts/run.py $@
 
