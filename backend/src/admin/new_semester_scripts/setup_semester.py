@@ -856,10 +856,14 @@ def update_master_formulas(*, sheets_service: discovery.Resource = None) -> None
     # generate columns
     generate_master_formula = functools.partial(formulas.generate_adaptive_row_index,
                                                 num_rows=len(master_values))
-    service_column = generate_master_formula(
-            formula=sheet_formulas.master_service(engagement_id=new_file_ids.participation['engagement']))
     civil_mil_column = generate_master_formula(
             formula=sheet_formulas.master_civil_mil(engagement_id=new_file_ids.participation['engagement']))
+    hours_total_column = generate_master_formula(
+            formula=sheet_formulas.master_hours_total(engagement_id=new_file_ids.participation['engagement']))
+    service_column = generate_master_formula(
+            formula=sheet_formulas.master_service(engagement_id=new_file_ids.participation['engagement']))
+    ngsc_column = generate_master_formula(
+            formula=sheet_formulas.master_ngsc(engagement_id=new_file_ids.participation['engagement']))
     committee_attendance_column = generate_master_formula(
             formula=sheet_formulas.master_committee_attendance(committee_id_map=new_file_ids.committee_attendance))
     mt_attendance_column = generate_master_formula(
@@ -876,8 +880,10 @@ def update_master_formulas(*, sheets_service: discovery.Resource = None) -> None
             formula=sheet_formulas.master_triggers_earlier_semester(old_master_id=file_ids.master_prior_semester))
     # update grid
     replace = {
+        column_indexes.master['civil_mil']: civil_mil_column,
+        column_indexes.master['hours_total']: hours_total_column,
         column_indexes.master['service']: service_column,
-        column_indexes.master['civil-mil']: civil_mil_column,
+        column_indexes.master['ngsc']: ngsc_column,
         column_indexes.master['committee_attendance']: committee_attendance_column,
         column_indexes.master['mt_attendance']: mt_attendance_column,
         column_indexes.master['ols']: all_student_column,

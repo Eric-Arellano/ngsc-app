@@ -14,7 +14,7 @@ type Props = {
 type State = {
   isLoading: boolean,
   isError: boolean,
-  service: number,
+  totalHours: number,
   civilMil: number,
   engagementEvents: Array<EngagementEvent>,
 }
@@ -24,7 +24,7 @@ class EngagementContainer extends React.Component<Props, State> {
   state = {
     isLoading: true,
     isError: false,
-    service: 0,
+    totalHours: 0,
     civilMil: 0,
     engagementEvents: []
   }
@@ -33,7 +33,7 @@ class EngagementContainer extends React.Component<Props, State> {
     getEngagement(this.props.student.id)
       .then((data) => {
         this.setState({
-          service: data.acceptedService,
+          totalHours: data.acceptedTotal,
           civilMil: data.acceptedCivilMil,
           engagementEvents: data.loggedEvents,
           isLoading: false,
@@ -41,7 +41,7 @@ class EngagementContainer extends React.Component<Props, State> {
       })
       .catch((error) => {
         this.setState({
-          service: 0,
+          totalHours: 0,
           civilMil: 0,
           engagementEvents: [],
           isLoading: false,

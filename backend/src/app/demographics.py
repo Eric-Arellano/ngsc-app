@@ -19,12 +19,13 @@ def get(student_id: int) -> Optional[Dict]:
     result = encryptor.decrypt_dict_values(result)
     if result is None:
         return None
-    mission_team_number = int(result['missionTeam'])
+    mission_team_number = int(result['missionTeam']) if result['missionTeam'] else None
     return {'name':
                 {'first': result['name']['first'],
                  'last': result['name']['last']},
             'cohort': int(result['cohort']),
-            'missionTeam': f'{mission_team_number} - {mission_teams.missions[mission_team_number]}',
+            'missionTeam': (f'{mission_team_number} - {mission_teams.missions[mission_team_number]}'
+                            if mission_team_number else ''),
             'committee': result['committee'],
             'leadership': result['leadership'],
             'email': result['email'],

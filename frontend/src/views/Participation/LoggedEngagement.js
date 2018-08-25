@@ -11,7 +11,7 @@ type Props = {
 }
 
 const translateHours = (reqType: string, hours: number): string => {
-  if (reqType === 'Service') return `${hours} hour${hours > 1 ? 's' : ''}`
+  if (reqType === 'Service' || reqType === 'NGSC Activity') return `${hours} hour${hours > 1 ? 's' : ''}`
   else if (reqType === 'Civil-Mil OR Service') return `${hours} hour${hours > 1 ? 's' : ''} or 1 civil-mil event`
   else if (reqType === 'Civil-Mil') return `1 civil-mil event`
   return ''
@@ -45,8 +45,8 @@ const LoggedEngagement = ({engagementEvents, isLoading}: Props) => {
 
   return (
     <PanelWithLoading header={'Logged engagement'} isLoading={isLoading}>
-      <Entry>Log your service and civil mil at{' '}
-        <a href="https://goo.gl/forms/ZutKmX68IelLjSKD2">https://goo.gl/forms/ZutKmX68IelLjSKD2</a>.</Entry>
+      <Entry>Log your engagement at{' '}
+        <a href="https://goo.gl/forms/fEiCuxSW0p8djyJD2">https://goo.gl/forms/fEiCuxSW0p8djyJD2</a>.</Entry>
       <br />
       <ReactTable data={engagementEvents}
                   columns={columns}

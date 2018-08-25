@@ -3,15 +3,15 @@ import React from 'react'
 import { Entry, PanelWithLoading } from 'components'
 
 type Props = {
-  service: number,
+  totalHours: number,
   civilMil: number,
   isLoading: boolean
 }
 
-const AcceptedEngagement = ({service, civilMil, isLoading}: Props) => (
+const AcceptedEngagement = ({totalHours, civilMil, isLoading}: Props) => (
   <PanelWithLoading header='Accepted Engagement' isLoading={isLoading}>
-    <Entry>Accepted # of service hours: {service}</Entry>
-    <Entry>Accepted # of Civil Mil: {civilMil}</Entry>
+    <Entry>Accepted # of hours: {totalHours}</Entry>
+    <Entry>Accepted # of civil mil: {civilMil}</Entry>
   </PanelWithLoading>
 )
 

@@ -1,24 +1,27 @@
 master = {
     'first': 1,
     'last': 0,
-    'id': 2,
-    'status': 3,
-    'email': 4,
-    'phone': 5,
-    'campus': 6,
-    'cohort': 7,
-    'mt': 8,
-    'committee': 9,
-    'leadership': 10,
-    'service': 11,
-    'civil-mil': 12,
-    'ols': 13,
-    'mt_attendance': 14,
-    'committee_attendance': 15,
-    'no_shows': 16,
-    'triggers_current': 17,
-    'triggers_last': 18,
-    'triggers_two_semesters': 19
+    'asurite': 2,
+    'id': 3,
+    'status': 4,
+    'email': 5,
+    'phone': 6,
+    'campus': 7,
+    'cohort': 8,
+    'mt': 9,
+    'committee': 10,
+    'leadership': 11,
+    'civil_mil': 12,
+    'hours_total': 13,
+    'service': 14,
+    'ngsc': 15,
+    'ols': 16,
+    'mt_attendance': 17,
+    'committee_attendance': 18,
+    'no_shows': 19,
+    'triggers_current': 20,
+    'triggers_last': 21,
+    'triggers_two_semesters': 22
 }
 
 engagement_responses = {
@@ -26,14 +29,15 @@ engagement_responses = {
     'type': 2,
     'status': 1,
     'name': 3,
-    'service_hours': 5,
-    'civil_mil_hours': 6
+    'hours': 6
 }
 
 engagement_accepted = {
     'id': 0,
-    'service': 1,
-    'civil_mil': 2
+    'civil_mil': 1,
+    'hours_total': 2,
+    'service': 3,
+    'ngsc': 4
 }
 
 roster = {
