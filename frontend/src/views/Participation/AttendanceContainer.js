@@ -14,7 +14,6 @@ type State = {
   isLoading: boolean,
   isError: boolean,
   noShows: number,
-  missionTeamAttendance: string,
   committeeAttendance: string,
   olsAttendance: string
 }
@@ -25,7 +24,6 @@ class AttendanceContainer extends Component<Props, State> {
     isLoading: true,
     isError: false,
     noShows: 0,
-    missionTeamAttendance: '',
     committeeAttendance: '',
     olsAttendance: ''
   }
@@ -35,7 +33,6 @@ class AttendanceContainer extends Component<Props, State> {
       .then((data) => {
         this.setState({
           noShows: data.noShows,
-          missionTeamAttendance: data.missionTeamAttendance,
           committeeAttendance: data.committeeAttendance,
           olsAttendance: data.olsAttendance,
           isLoading: false,
@@ -44,7 +41,6 @@ class AttendanceContainer extends Component<Props, State> {
       .catch((error) => {
         this.setState({
           noShows: 0,
-          missionTeamAttendance: '',
           committeeAttendance: '',
           olsAttendance: '',
           isLoading: false,

@@ -8,8 +8,6 @@ const Nav = () => (
     <ul className={s.container}>
       <NavButton link='./' label='Participation'/>
       <NavButton link='./events' label='Events'/>
-      {/*<NavButton link='./expectations' label='Expectations' />*/}
-      <NavButton link='./internships' label='Internships'/>
       <NavButton link='./leadership' label='Leadership'/>
     </ul>
   </nav>

@@ -4,7 +4,6 @@ import {Entry, PanelWithLoading} from 'components'
 
 type Props = {
   noShows: number,
-  missionTeamAttendance: string,
   committeeAttendance: string,
   olsAttendance: string,
   isLoading: boolean
@@ -20,7 +19,6 @@ const translateMeetingAttendance = (value: string): string => {
 const Attendance = ({noShows, missionTeamAttendance, committeeAttendance, olsAttendance, isLoading}: Props) => (
   <PanelWithLoading header='Attendance' isLoading={isLoading}>
     <Entry>On Leadership Seminars: {olsAttendance}</Entry>
-    <Entry>Mission Team: {translateMeetingAttendance(missionTeamAttendance)}</Entry>
     {committeeAttendance && <Entry>Committee: {translateMeetingAttendance(committeeAttendance)}</Entry>}
     <Entry>No-shows: {noShows}</Entry>
     <br />

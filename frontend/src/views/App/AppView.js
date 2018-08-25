@@ -5,8 +5,6 @@ import { Footer, Header, PrivateRoute } from 'components'
 import {
   AdminViewContainer,
   EventsViewContainer,
-  ExpectationsView,
-  InternshipView,
   LeadershipView,
   ParticipationView
 } from 'views'
@@ -29,8 +27,6 @@ const AppView = ({isLoggedIn, student, login, resetState}: Props) => (
                       resetState={resetState} login={login} />
         <Route exact path='/admin' component={AdminViewContainer} />
         <Route exact path='/events' component={EventsViewContainer} />
-        <Route exact path='/expectations' component={ExpectationsView} />
-        <Route exact path='/internships' component={InternshipView} />
         <Route exact path='/leadership' component={LeadershipView} />
       </Switch>
     </div>
