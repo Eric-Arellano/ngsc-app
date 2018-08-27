@@ -1,6 +1,7 @@
 from typing import Dict
 
 from backend.src.admin import _environment_chooser
+from backend.src.data import column_indexes, file_ids
 from backend.src.sheets_commands import columns, display, index, sheet
 
 
@@ -64,8 +65,10 @@ def convert_all_ids_to_asurite() -> None:
     """
     Goes through every roster and updates each ID cell with accompanying ASUrite.
     """
-    spreadsheet = '1omms6ldwSZWgDXRf2HYDtGoCwzekfuSt7OAA8yVyRwY'
-    id_to_asurite = {'1208487250': 'ecarell1', '1210': 'ecka13'}
+    spreadsheet = '1omms6ldwSZWgDXRf2HYDtGoCwzekfuSt7OAA8yVyRwY'  # TODO(asurite): remove and use operate_on_all()
+    values = sheet.get_values(file_ids.master, range_='Master!A2:D')
+    id_to_asurite = {v[column_indexes.master['id']]: v[column_indexes.master['asurite']]
+                     for v in values}
     convert_roster_ids_to_asurite(spreadsheet, id_to_asurite=id_to_asurite)
     # _environment_chooser.operate_on_all_attendance(convert_roster_ids_to_asurite,
     #                                                id_to_asurite=id_to_asurite)

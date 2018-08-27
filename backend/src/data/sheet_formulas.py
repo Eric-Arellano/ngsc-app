@@ -34,8 +34,7 @@ def query_for_id(*,
     """
     formula = textwrap.dedent(
             f'''QUERY(IMPORTRANGE("https://docs.google.com/spreadsheets/d/{spreadsheet_id}", "{tab_range}"),
-            "select Col{target_column + 1} where Col{match_column + 1}=" &D@& "limit 1", -1)'''
-            # TODO(asurite): change to C
+            "select Col{target_column + 1} where Col{match_column + 1}='" &C@& "' limit 1", -1)'''
     )
     return f'={formula}' if equal_signs_prefix else formula
 
@@ -48,7 +47,7 @@ def roster_switch(*,
         query = query_for_id(spreadsheet_id=roster_file_id,
                              tab_range='Attendance!A$2:B',
                              target_column=column_indexes.roster['participation'],
-                             match_column=column_indexes.roster['id'],
+                             match_column=column_indexes.roster['asurite'],
                              equal_signs_prefix=False)
         formatted_key = f'"{key}"' if isinstance(key, str) else key
         return f'{formatted_key}, {query},\n'
@@ -73,28 +72,28 @@ def master_civil_mil(*, engagement_id: sheet.ID) -> Formula:
     return query_for_id(spreadsheet_id=engagement_id,
                         tab_range=engagement_tab_range,
                         target_column=column_indexes.engagement_accepted['civil_mil'],
-                        match_column=column_indexes.engagement_accepted['id'])
+                        match_column=column_indexes.engagement_accepted['asurite'])
 
 
 def master_hours_total(*, engagement_id: sheet.ID) -> Formula:
     return query_for_id(spreadsheet_id=engagement_id,
                         tab_range=engagement_tab_range,
                         target_column=column_indexes.engagement_accepted['hours_total'],
-                        match_column=column_indexes.engagement_accepted['id'])
+                        match_column=column_indexes.engagement_accepted['asurite'])
 
 
 def master_service(*, engagement_id: sheet.ID) -> Formula:
     return query_for_id(spreadsheet_id=engagement_id,
                         tab_range=engagement_tab_range,
                         target_column=column_indexes.engagement_accepted['service'],
-                        match_column=column_indexes.engagement_accepted['id'])
+                        match_column=column_indexes.engagement_accepted['asurite'])
 
 
 def master_ngsc(*, engagement_id: sheet.ID) -> Formula:
     return query_for_id(spreadsheet_id=engagement_id,
                         tab_range=engagement_tab_range,
                         target_column=column_indexes.engagement_accepted['ngsc'],
-                        match_column=column_indexes.engagement_accepted['id'])
+                        match_column=column_indexes.engagement_accepted['asurite'])
 
 
 # ---------------------------------------------------------------------
@@ -105,14 +104,14 @@ def master_all_student(*, all_student_id: sheet.ID) -> Formula:
     return query_for_id(spreadsheet_id=all_student_id,
                         tab_range='Total!A$2:B',
                         target_column=column_indexes.all_students['total'],
-                        match_column=column_indexes.all_students['id'])
+                        match_column=column_indexes.all_students['asurite'])
 
 
 def master_no_shows(*, no_shows_id: sheet.ID) -> Formula:
     return query_for_id(spreadsheet_id=no_shows_id,
                         tab_range='Total!A$2:B',
                         target_column=column_indexes.no_shows['total'],
-                        match_column=column_indexes.no_shows['id'])
+                        match_column=column_indexes.no_shows['asurite'])
 
 
 def master_committee_attendance(*, committee_id_map: Dict[str, sheet.ID]) -> Formula:
@@ -148,4 +147,4 @@ def master_triggers_earlier_semester(*, old_master_id: sheet.ID) -> Formula:
     return query_for_id(spreadsheet_id=old_master_id,
                         tab_range='Master!A$2:Z',
                         target_column=column_indexes.master['triggers_current'],
-                        match_column=column_indexes.master['id'])
+                        match_column=column_indexes.master['asurite'])

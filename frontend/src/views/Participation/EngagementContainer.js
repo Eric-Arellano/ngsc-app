@@ -2,9 +2,9 @@
 import * as React from 'react'
 import AcceptedEngagement from './AcceptedEngagement'
 import LoggedEngagement from './LoggedEngagement'
-import { withError } from 'decorators'
-import { getEngagement } from 'api'
-import type { EngagementEvent, Student } from 'types'
+import {withError} from 'decorators'
+import {getEngagement} from 'api'
+import type {EngagementEvent, Student} from 'types'
 
 type Props = {
   student: Student,
@@ -30,7 +30,7 @@ class EngagementContainer extends React.Component<Props, State> {
   }
 
   componentDidMount () {
-    getEngagement(this.props.student.id)
+    getEngagement(this.props.student.asurite)
       .then((data) => {
         this.setState({
           totalHours: data.acceptedTotal,

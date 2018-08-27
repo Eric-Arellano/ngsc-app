@@ -1,18 +1,18 @@
 // @flow
 import axios from 'axios'
 
-export const getDemographics = (id: number): Promise<any> => {
-  const api = `/api/app/demographics/${id}`
+export const getDemographics = (asurite: string): Promise<any> => {
+  const api = `/api/app/demographics/${asurite}`
   return getRequest(api)
 }
 
-export const getEngagement = (id: number): Promise<any> => {
-  const api = `/api/app/engagement/${id}`
+export const getEngagement = (asurite: string): Promise<any> => {
+  const api = `/api/app/engagement/${asurite}`
   return getRequest(api)
 }
 
-export const getAttendance = (id: number): Promise<any> => {
-  const api = `/api/app/attendance/${id}`
+export const getAttendance = (asurite: string): Promise<any> => {
+  const api = `/api/app/attendance/${asurite}`
   return getRequest(api)
 }
 

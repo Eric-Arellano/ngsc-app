@@ -1,10 +1,10 @@
 // @flow
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import Credentials from './Credentials'
-import type { ValidationState } from 'types'
+import type {ValidationState} from 'types'
 
 type Props = {
-  onSubmit: (number) => void
+  onSubmit: (string) => void
 }
 
 type State = {
@@ -28,15 +28,13 @@ class CredentialsContainer extends Component<Props, State> {
     if (!input) {
       return 'neutral'
     } else {
-      return this.checkIsValidId(input) ? 'valid' : 'invalid'
+      return this.checkIsValidAsurite(input) ? 'valid' : 'invalid'
     }
   }
 
-  checkIsValidId = (input: string) => {
-    const num = Number(input)  // parse to number non-numeric answers will parse to NaN
-    const isNumber = !isNaN(num)
-    const length = num.toString().length
-    return isNumber && length === 10
+  checkIsValidAsurite = (input: string): boolean => {
+    const regex = /^[a-z][a-z0-9]*/
+    return regex.test(input)
   }
 
   updateCurrentValue = (currentValue: string) => {
@@ -57,7 +55,7 @@ class CredentialsContainer extends Component<Props, State> {
     const {onSubmit} = this.props
     const {currentValue, validationState} = this.state
     if (validationState === 'valid') {
-      onSubmit(Number(currentValue))
+      onSubmit(currentValue)
     }
   }
 

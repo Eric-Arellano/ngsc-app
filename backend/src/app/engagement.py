@@ -8,19 +8,19 @@ from backend.src.data import column_indexes, file_ids
 from backend.src.sheets_commands import sheet
 
 
-def get(student_id: int) -> Optional[Dict]:
+def get(asurite: str) -> Optional[Dict]:
     """
     Get student's accepted civil mil and service, and a list of logged events.
     """
-    accepted = _get_accepted(student_id)
+    accepted = _get_accepted(asurite)
     if accepted is None:
         return None
-    logged_events = {'loggedEvents': _get_logged_events(student_id)}
+    logged_events = {'loggedEvents': _get_logged_events(asurite)}
     # Merge dictionaries
     return {**accepted, **logged_events}
 
 
-def _get_logged_events(student_id: int) -> List[Dict[str, Union[str, float]]]:
+def _get_logged_events(asurite: str) -> List[Dict[str, Union[str, float]]]:
     """
     Get every event logged by student, including the event's status.
     """
@@ -32,17 +32,17 @@ def _get_logged_events(student_id: int) -> List[Dict[str, Union[str, float]]]:
              'hours': float(row[column_indexes.engagement_responses['hours']])
              }
             for row in all_rows
-            if int(row[column_indexes.engagement_responses['id']]) == student_id]
+            if row[column_indexes.engagement_responses['asurite']] == asurite]
 
 
-def _get_accepted(student_id: int) -> Optional[Dict[str, float]]:
+def _get_accepted(asurite: str) -> Optional[Dict[str, float]]:
     """
     Get student's accepted service and civil mil.
     """
     all_rows = sheet.get_values(file_ids.participation['engagement'],
                                 range_='Total!A2:E')
     row = next((row for row in all_rows
-                if int(row[column_indexes.engagement_accepted['id']]) == student_id),
+                if row[column_indexes.engagement_accepted['asurite']] == asurite),
                None)
     if row is None:
         return None

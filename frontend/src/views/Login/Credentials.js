@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
-import { Button, Input } from 'components'
-import type { ValidationState } from 'types'
+import {Button, Input} from 'components'
+import type {ValidationState} from 'types'
 
 type Props = {
   validationState: ValidationState,
@@ -20,12 +20,12 @@ const Credentials = ({
   return (
     <form>
       <Input
-        label='Student ID:'
-        placeholder='Enter student ID'
+        label='ASUrite:'
+        placeholder='Enter ASUrite'
         validationState={validationState}
         handleEnterKey={handleEnterKey}
         updateCurrentValue={updateCurrentValue}
-        inputType='number'
+        inputType='text'
       />
       <Button disabled={isSubmitDisabled} handleClick={handleSubmit}>
         {'Submit'}

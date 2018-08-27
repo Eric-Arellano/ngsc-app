@@ -1,8 +1,8 @@
 // @flow
-import React, { Component } from 'react'
-import { withError } from 'decorators'
-import { getAttendance } from 'api'
-import type { Student } from 'types'
+import React, {Component} from 'react'
+import {withError} from 'decorators'
+import {getAttendance} from 'api'
+import type {Student} from 'types'
 import Attendance from './Attendance'
 
 type Props = {
@@ -29,7 +29,7 @@ class AttendanceContainer extends Component<Props, State> {
   }
 
   componentDidMount () {
-    getAttendance(this.props.student.id)
+    getAttendance(this.props.student.asurite)
       .then((data) => {
         this.setState({
           noShows: data.noShows,

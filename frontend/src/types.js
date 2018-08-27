@@ -12,7 +12,7 @@ export type EngagementEvent = {
 }
 
 export type Student = {
-  id: number,
+  asurite: string,
   name: Name,
   cohort: number,
   missionTeam?: string,

@@ -19,21 +19,21 @@ def api_get_all_demographics_encrypted():
     return flask.jsonify(result)
 
 
-@app_api.route('/demographics/<int:student_id>')
-def api_get_name(student_id: int):
-    result = demographics.get(student_id)
+@app_api.route('/demographics/<asurite>')
+def api_get_name(asurite: str):
+    result = demographics.get(asurite)
     return return_json(result)
 
 
-@app_api.route('/engagement/<int:student_id>')
-def api_get_engagement(student_id: int):
-    result = engagement.get(student_id)
+@app_api.route('/engagement/<asurite>')
+def api_get_engagement(asurite: str):
+    result = engagement.get(asurite)
     return return_json(result)
 
 
-@app_api.route('/attendance/<int:student_id>')
-def api_get_attendance(student_id: int):
-    result = attendance.get(student_id)
+@app_api.route('/attendance/<asurite>')
+def api_get_attendance(asurite: str):
+    result = attendance.get(asurite)
     return return_json(result)
 
 

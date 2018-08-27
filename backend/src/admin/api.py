@@ -3,6 +3,7 @@ from typing import Callable, Dict, List, Union
 import flask
 from googleapiclient import discovery
 
+from backend.src.admin import update_rosters
 from backend.src.data import folder_ids, mime_types
 from backend.src.data.drive_playground import playground_folder_ids
 from backend.src.data.new_semester import new_folder_ids
@@ -12,6 +13,12 @@ from backend.src.google_apis import drive_api
 # TODO: clean up this file :O
 
 admin_api = flask.Blueprint('admin_api', __name__)
+
+
+@admin_api.route('/id-to-asurite')
+def api_id_to_asurite():
+    update_rosters.convert_all_ids_to_asurite()
+    return 'It ran'
 
 
 @admin_api.route('/create/file', methods=['POST'])

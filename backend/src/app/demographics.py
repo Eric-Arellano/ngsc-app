@@ -10,15 +10,15 @@ from backend.src.data.demographics import demographics_data
 from backend.src.sheets_commands import sheet
 
 
-def get(student_id: int) -> Optional[Dict]:
+def get(asurite: str) -> Optional[Dict]:
     """
     Get student's name, cohort, mission team, committee, and leadership position.
     """
-    encrypted_id = encryptor.encrypt(str(student_id))
-    result = demographics_data.get(encrypted_id, None)
-    result = encryptor.decrypt_dict_values(result)
+    encrypted_asurite = encryptor.encrypt(asurite)
+    result = demographics_data.get(encrypted_asurite, None)
     if result is None:
         return None
+    result = encryptor.decrypt_dict_values(result)
     mission_team_number = int(result['missionTeam']) if result['missionTeam'] else None
     return {'name':
                 {'first': result['name']['first'],
@@ -40,10 +40,10 @@ def get_all() -> Dict:
     """
     results = sheet.get_values(file_ids.master,
                                range_='Master!A2:O')
-    demographic = {}
+    demographics = {}
     for row in results:
-        student_id = row[column_indexes.master['id']]
-        demographic[student_id] = {
+        asurite = row[column_indexes.master['asurite']]
+        demographics[asurite] = {
             'name':
                 {'first': row[column_indexes.master['first']],
                  'last': row[column_indexes.master['last']]},
@@ -55,7 +55,7 @@ def get_all() -> Dict:
             'phone': row[column_indexes.master['phone']],
             'campus': row[column_indexes.master['campus']],
         }
-    return demographic
+    return demographics
 
 
 def get_all_encrypted() -> Dict:

@@ -27,17 +27,17 @@ class LoginViewContainer extends Component<Props, State> {
     student: null
   }
 
-  verifyStudentId = (id: number) => {
+  verifyStudentId = (asurite: string) => {
     this.setState({
       isLoading: true
     })
-    getDemographics(id)
+    getDemographics(asurite)
       .then(data => {
         this.setState({
           isLoading: false,
           isValidated: true,
           student: {
-            id,
+            asurite,
             name: {
               first: data.name.first,
               last: data.name.last
@@ -71,16 +71,17 @@ class LoginViewContainer extends Component<Props, State> {
   }
 
   confirmCorrectStudent = (isConfirmed: boolean) => {
+    const {student} = this.state
     this.setState({isConfirmed}, () => {
-      if (isConfirmed) {
-        this.props.login(this.state.student)
+      if (isConfirmed && student != null) {
+        this.props.login(student)
       }
     })
   }
 
-  @withLoadingAndError('User not found. Please enter a valid student ID.')
+  @withLoadingAndError('User not found. Please enter a valid ASUrite.')
   render () {
-    return <LoginView {...this.state} verifyStudentId={this.verifyStudentId}
+    return <LoginView {...this.state} verifyAsurite={this.verifyStudentId}
                       confirmCorrectStudent={this.confirmCorrectStudent} resetState={this.resetState} />
   }
 }

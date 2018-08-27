@@ -1,3 +1,7 @@
+# TODO(asurite): add logic to convert number to column name, or other way around.
+# There are references to letters everywhere, which isn't good.
+# Maybe have this sheet be letters, because it corresponds better to reality?
+
 master = {
     'first': 1,
     'last': 0,
@@ -25,7 +29,7 @@ master = {
 }
 
 engagement_responses = {
-    'id': 0,
+    'asurite': 0,
     'type': 2,
     'status': 1,
     'name': 3,
@@ -33,7 +37,7 @@ engagement_responses = {
 }
 
 engagement_accepted = {
-    'id': 0,
+    'asurite': 0,
     'civil_mil': 1,
     'hours_total': 2,
     'service': 3,
@@ -41,16 +45,16 @@ engagement_accepted = {
 }
 
 roster = {
-    'id': 0,
+    'asurite': 0,
     'participation': 1
 }
 
 no_shows = {
-    'id': 0,
+    'asurite': 0,
     'total': 1
 }
 
 all_students = {
-    'id': 0,
+    'asurite': 0,
     'total': 1
 }
