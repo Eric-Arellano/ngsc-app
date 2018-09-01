@@ -3,6 +3,8 @@
 import type { Name } from 'types'
 import jacobRagsdale from './photos/jacob-ragsdale.jpg'
 import lauraTan from './photos/laura-tan.jpg'
+import alanaRamirez from './photos/alana-ramirez.jpg'
+import elizabethPino from './photos/elizabeth-pino.jpg'
 
 export type BioType = {
   name: Name,
@@ -45,7 +47,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Curriculum and Course Manager',
         email: 'veronica.gutierrez@asu.edu',
-        pictureURL: 'https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/21317428_10108551603559811_9009363285694615844_n.jpg?_nc_cat=0&oh=ae410cdf8368c002d01cecdaa26f6e67&oe=5B7F1F96'
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/31172232_10109489507961871_8004704684709249024_n.jpg?_nc_cat=0&oh=3ae84ab9f331bffdfeab4201fcf3cbd4&oe=5C377024'
       },
       {
         name: {
@@ -77,16 +79,16 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Chief of Staff',
         email: 'Kara.Lehmann@asu.edu',
-        pictureURL: 'https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/13557754_1253580817993340_2671922234869659939_n.jpg?_nc_cat=0&oh=ab880b5a8cbee364b564f5e659892790&oe=5B7D869C'
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/15170783_1415096675175086_4730606509373821185_n.jpg?_nc_cat=0&oh=37729f08712fb330b19078d9e5097818&oe=5C3925AB'
       },
       {
         name: {
-          first: 'David',
-          last: 'Huff'
+          first: 'Amanda',
+          last: 'Ariola'
         },
         position: 'Culture Lead',
-        email: 'David.R.Huff@asu.edu',
-        pictureURL: 'https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/22195236_1162818370518312_3344660222053090920_n.jpg?_nc_cat=0&oh=b0235348cf800d850989eb7fdb06a239&oe=5B7AE58B'
+        email: 'aariola@asu.edu',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/37167539_1875629789149953_3743582452556234752_n.jpg?_nc_cat=0&oh=14a835492703b37c7c6b75c2f7ba5343&oe=5C2D9363'
       },
       {
         name: {
@@ -95,7 +97,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Education Lead',
         email: 'Adam.Richard.Thompson@asu.edu',
-        pictureURL: 'https://scontent.fphx1-1.fna.fbcdn.net/v/t1.0-9/27750841_1452239774905278_109012201486380910_n.jpg?oh=3d4239d32c9776c1627cb9a634b996de&oe=5B2637CD'
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/27750841_1452239774905278_109012201486380910_n.jpg?_nc_cat=0&oh=35cedddce4390416e878fd73b3a85bed&oe=5C3B12CD'
       },
       {
         name: {
@@ -118,7 +120,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Section 1',
         email: 'ssoldeve@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/28795721_1675923255835460_7141392406632362971_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeEpjJ1OfO0bPf1i8mPyTzO0zrGLksLYVwrdmGfdfyt1XGUVmEULbXYNme-_m5hxwqfikPDV80s93qexPWBugBkYbAvT2LBKge6KzuwC3v6J-A&oh=aa50a19681781a152842821af20f0d37&oe=5B65CE2B'
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/23472009_1553280834766370_4027093737127153953_n.jpg?_nc_cat=0&oh=013e8bd306bc369fa058f9fc214ea827&oe=5C000642'
       },
       {
         name: {
@@ -127,7 +129,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Section 2',
         email: 'tldoan@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t31.0-8/25073085_10208142107589059_8061053466842241584_o.jpg?_nc_cat=0&_nc_eui2=v1%3AAeGbOe7zKtxBjpoocbyfKhSTZwOuzBcp0ptHVEeHm5_tLBCdwlaT3rAgFTIkFXPr27cnYGHzmL--VNrop-Z1qge3HWP3TAkCfbkOFXi5wheAGg&oh=15edd1bdc7cd4cf3d659526f1826e5d7&oe=5B6C30A2'
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/13511033_1021060077979649_7660483409982057566_n.jpg?_nc_cat=0&oh=fa9ade505da150a2471d0cbd08fcb0b1&oe=5BF4E023'
       },
       {
         name: {
@@ -154,7 +156,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Section 5',
         email: 'Katja.Klosterman@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t31.0-8/21640745_276439699512702_8691988110552036578_o.jpg?_nc_cat=0&_nc_eui2=v1%3AAeG2u-3dt7A_az0O4gzTci7_nv6XF4HLhKybkgSzNDStx_-ARdDo4zZ-0_AYukrfv63q-iED0htUUQ2wc-FoooBiIOfUN04EntwLXmvymJpe7A&oh=cab16e617938a50dc1d82bc7faf8376b&oe=5B304F30'
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/18619950_1370913986331545_8340777562974812591_n.jpg?_nc_cat=0&oh=0496085cd1f7a23ca92e4440cc8a1e5a&oe=5BEEE143'
       },
       {
         name: {
@@ -172,7 +174,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Section 7',
         email: 'Andrea.Arellano.1@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/29792700_1086979038111957_2769352569781246734_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeHbCd1O3Zbon-S0SR5_k7ORTR8W38MMXhIPFhxqrYQgDFSZNP52sfLYBQizNW04w5EZuWpaaNbutGv1nZr51hCxoEO-1uRYbxQlZK61mDkQjA&oh=0c3b699e4e1a4955e7b1851d0544dd07&oe=5B664505'
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/29792700_1086979038111957_2769352569781246734_n.jpg?_nc_cat=0&oh=b177829b6ec203871db0b02aa7d44cf6&oe=5C2C0605'
       },
       {
         name: {
@@ -190,7 +192,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Section 9',
         email: 'Samantha.F.Stone@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/15747557_1292463974147727_4193737941078067186_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeHuFCpm6PPhiFIHVACNZQOnskr0AqDu4aGdwZSgE-Gp9g8QGQYy87axZB9qRQiSgcBj53edQQDetGFYZsx8-Ov7xdKgo24Cx1vacnrYLZ7eYA&oh=96578ee475e8cce4f8053e6f2444cdc8&oe=5B35DDC2'
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/34187377_1857410494319736_737955783240581120_n.jpg?_nc_cat=0&oh=d0846d0914d0fe91c3459eb9d28ce839&oe=5BF693F1'
       },
       {
         name: {
@@ -199,7 +201,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Section 10',
         email: 'madison.arnold.1@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/15107444_1612269835454493_2333612002911913476_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeGKfLEXIMpd0Bbu0C41rdDBCy4yp3SXdMX5cdwl5podXBNCXlm6F2rA1fpvaefiQm22R7CLJsFBBhal1WBbS8WSACWRtiXYjFNrppfxX9Mgiw&oh=25ee0fe9fc8d8d1a80cb573f962a5f86&oe=5B680FB9'
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/15107444_1612269835454493_2333612002911913476_n.jpg?_nc_cat=0&oh=5ff5fa210cd264d5dbb96881310f694a&oe=5C2DD0B9'
       },
     ]
   },
@@ -222,25 +224,25 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Ambassadors Chair',
         email: 'ehackma1@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/16831977_1867537380189704_7874044308575759814_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeH3NySFx2GnOeXTEmZHlTe9QWa7mgPvvKm_yTFH7A33rpuTIpOaADc5YeeTVzzjv009bQa6TCTWOB3LQVy-i90DhekS-OWBpOpjsh-Z40dCyQ&oh=d2d33a9df39049d2a545e5785a568149&oe=5B2A395A'
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/16831977_1867537380189704_7874044308575759814_n.jpg?_nc_cat=0&oh=643c1b36173bee5fd2059dab6ec7d293&oe=5BEFFA5A'
       },
       {
         name: {
-          first: 'Breanna',
-          last: 'Wright'
+          first: 'Kelsey',
+          last: 'Atcheson'
         },
         position: 'Civil-Mil Chair',
-        email: 'brwrigh1@asu.edu',
-        pictureURL: 'https://media.licdn.com/dms/image/C5603AQG1Q0pMozaYcg/profile-displayphoto-shrink_800_800/0?e=1527994800&v=alpha&t=ntZBsTmCahfu_khTskVx_3AtXvgkmca_JpUj64z1lhE'
+        email: 'katcheso@asu.edu',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/21462564_301146440360641_4862088140188246245_n.jpg?_nc_cat=0&oh=c2d55e218b171433a9ef632b12b3f165&oe=5C35E65D'
       },
       {
         name: {
-          first: 'Sara',
-          last: 'Neves Perez'
+          first: 'Taylor',
+          last: 'O\'Connor'
         },
         position: 'Communications Chair',
-        email: 'Sara.Nevespereira@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/19060026_10212235284504635_4234299516823943275_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeFZV6sCWBusApiI7pYoAyILFL9YB-k4lrnaaLjiBw4YaJ1twcrQI1_VgOaM3Jnnz780BFGnn30F3uFHQVjZ1aM48Z3UB-ST9raAWhDcEPEwcA&oh=aa57ec0ef4a06373ea8686aed3bcdfc1&oe=5B362EC1'
+        email: 'toconno6@asu.edu',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/31786615_168979560482465_7499142452209516544_n.jpg?_nc_cat=0&oh=4c8c86a6ec74e5627ae098a3d98cec21&oe=5BFEE10E'
       },
       {
         name: {
@@ -249,16 +251,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Events Chair',
         email: 'jrainge@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t31.0-8/21768940_1929571243934485_8974410512505753576_o.jpg?_nc_cat=0&_nc_eui2=v1%3AAeGWc0OZESLyWlxwbSesk9kVFomqzfekfHxKpFOJkuvH0N9sI6uXaApNyLesXH4TEVhwrC_eGg77HTQvZ2g33OAEPoYU3BJN-qoHjPo21HGnZg&oh=dadc032135d729fd1475b04326a55af1&oe=5B299651'
-      },
-      {
-        name: {
-          first: 'Caroline',
-          last: 'Livingston'
-        },
-        position: 'Mentorship Chair',
-        email: 'cslivin1@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t31.0-8/17880148_780493898782379_5991580927269278218_o.jpg?_nc_cat=0&_nc_eui2=v1%3AAeGSx3jRrLqDOdtDw4vyyMxn_uadYF74I-iKRetqs2M-OYkod8Tv-eGPr2GGsMfZYNihqtbIEcmoEQkVLUaxaMJswAAcTWeskB-SsZMcK2cPqA&oh=a2cda67d900b5dab071ee1fddb4a2d22&oe=5B73DCB9'
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/22046561_1930997817125161_3871870109917472046_n.jpg?_nc_cat=0&oh=7d8b58eb0bb73a2286b01f4c4370de5e&oe=5BEE6612'
       },
       {
         name: {
@@ -267,7 +260,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Service Chair',
         email: 'kniche@asu.edu',
-        pictureURL: 'https://scontent.fsnc1-1.fna.fbcdn.net/v/t1.0-9/18198194_1302564229857843_8425745054606263217_n.jpg?_nc_cat=0&oh=ae7b7e30f133a2a4827a188a0cfd3635&oe=5B981E05'
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/38955253_1790756744371920_7598688850554126336_n.jpg?_nc_cat=0&oh=f452f75e9aef6db5d7183ec96d0c6115&oe=5C2BFA33'
       },
       {
         name: {
@@ -276,7 +269,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Social Chair',
         email: 'tholtrop@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/23473282_153980968547040_560708824949638159_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeG3aCa3v_11Gemuk9Gy3MA7qQiJAZaXVsasP2fupR2wfvLv_RPKEiU-4yUVJJS8EkL29z3lW7bItTIz5ByORld-vDpfFDxEclQ_IJ3l1yo1jQ&oh=edbe3bfa83c1893c9b821c61f5604581&oe=5B75F4AB'
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/19030752_102530727025398_8345014726097888301_n.jpg?_nc_cat=0&oh=7f4139c1513eaaeca336fbdf9642906b&oe=5C2AA1C6'
       },
       {
         name: {
@@ -285,7 +278,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'Training Chair',
         email: 'jmgrah10@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/10624643_732878030092678_8120086573989626366_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeGZr19m9hvv4TcXNg7R0WArFEthIKHfFwUqP9EFzle4trqvskGvrGn9JJKR5YJEP67zNu4W9eJZXzOXEaR9MMJKj1D7lpWW5XFCwmmFkJNo8A&oh=356b2aa4a51c06208dd3f38d5fd69f1f&oe=5B358479'
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/29062573_1905544639457943_6826062399083118592_n.jpg?_nc_cat=0&oh=ac8e7354935ec19faafc29c855ab5f0a&oe=5BFFB405'
       },
       {
         name: {
@@ -308,7 +301,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 1 - Sexual & Domestic Violence',
         email: 'sbrutine@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/21369197_1478258892266196_4499690090165972590_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeE_cp8rkiJah868dw8phg6UfruLfaTVZx2XoihNJMjuOSE8iB--9EzsmkaBCxlQGyEwqDB8HEhrUznZB44he0SnK6MleqDxtLBhSMOalAy7Xw&oh=5563ba32f39d42c99e8b7a634ed247a0&oe=5B711F22',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/21369197_1478258892266196_4499690090165972590_n.jpg?_nc_cat=0&oh=85502db579b4f3bc662ba355225c137b&oe=5C36E022',
       },
       {
         name: {
@@ -317,7 +310,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 2 - Human Trafficking',
         email: 'jfranc24@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/27336700_1498191083612983_1956229876721712277_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeHN3AatMKFgVaNyU6Qxht045HhpSFPL7rusbEblpIsor9OBQCeI47MKBjOzFhnwr2c6O4mvvFx0VT0hQlTcrUIu9GwBRzWV7Jd7HdhwuEcrCQ&oh=b10cb80ca77b9e0988e72fd49e13e260&oe=5B27CE51',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/40019453_1747639248668164_4942647045681840128_n.jpg?_nc_cat=0&oh=ca703f94b38fbba711f614f34c5a2e80&oe=5BF4EE48',
       },
       {
         name: {
@@ -326,7 +319,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 3 - Gender Equality',
         email: 'jlhalfhi@asu.edu',
-        pictureURL: 'https://scontent-lax3-2.xx.fbcdn.net/v/t1.0-9/19884255_1044670422334359_202157560100418868_n.jpg?_nc_cat=0&oh=92da284b4539591a02097cc79cfa084d&oe=5B588428',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/19884255_1044670422334359_202157560100418868_n.jpg?_nc_cat=0&oh=a6bdc5fb607c193f831a114478796e24&oe=5BF6B828',
       },
       {
         name: {
@@ -335,7 +328,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 4 - Racial & LGBTQ Equality',
         email: 'tvandekop@asu.edu',
-        pictureURL: 'https://scontent-lga3-1.xx.fbcdn.net/v/t31.0-8/23456468_1900048363357339_4165210517901401751_o.jpg?_nc_cat=0&oh=450e1de71d4429af94b5bf5c0e89c1e2&oe=5B7E4FDC',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/23472385_1900048363357339_4165210517901401751_n.jpg?_nc_cat=0&oh=93deb1fc3ca6033bcaf1b322142aafce&oe=5BFBDE7A',
       },
       {
         name: {
@@ -344,7 +337,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 5 - Immigration',
         email: 'Jesus.R.Tapia@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/12650904_978792422191821_3387201371454587093_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeEjQltFrkRbsru5369T_YpJlPo779oxbIpXNpiTPgW7jmGLJBdOKf9tmIv0CxvolENr2n2d91r2GgCeub1IKowH_yb_JQuFnfoIAG_HiavHeQ&oh=b6fb8ca7fd5103e2f780146bfc4d8b1c&oe=5B6E5A3C',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/38768550_2085378871533165_1677213071577186304_n.jpg?_nc_cat=0&oh=ce5b23da3e57468f9d8f80657c2d9cd6&oe=5BEE4B7B',
       },
       {
         name: {
@@ -353,7 +346,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 6 - Cultural & Global Equality',
         email: 'jjose5@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/18622283_1206623986113209_3109728238922392843_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeHca2LRUFKUkW7ELBPO0yweExu0oR4o7lFX-G4MnDg_V9nzbhYvGYJyLhh39iysX8uQJXFK71Tas9TIzBTsIK6vFfuavjIk228e9517JTDoTw&oh=1dfc84e75be1d5794aac6410ce8d914f&oe=5B3998F0',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/39558135_1701169099992026_5043057849144442880_n.jpg?_nc_cat=0&oh=739c781239f3aad3c1b31e812047338d&oe=5BFD12E7',
       },
       {
         name: {
@@ -362,7 +355,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 7 - Criminal Justice',
         email: 'dscovil@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/18739921_2303263503231678_6076459444731137223_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeGJJ0a58bzI75Bt5u0DboOONTo0GBshNier6p6lswEHAaPlhOkZr9CG5xtOTLKvnP728mAgCGar9kmisVbRoV1GWihk2SM8d7wsAm8zF8OwjA&oh=41773537911b932c12d866f7b37d84d8&oe=5B32217B',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/39700622_2651306628427362_5712333544794095616_n.jpg?_nc_cat=0&oh=9eb0bfa584c2833c2fbff592150f7690&oe=5BEF3DD8',
       },
       {
         name: {
@@ -371,7 +364,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 8 - Security',
         email: 'mvvidal@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/29177118_1081769055309666_1460970650916544069_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeGagTIBgs6EDNcZxOLUgBVnQ23DLE81zg6ULvXUHvnTItZVG6ohpg9VSoBj6niYEHMO70b1Mi60aehF5FCrNs0MySIA5eWZMoY6SqodFqLslg&oh=f122d8cd065e9f910ff52f8b1ed49798&oe=5B6D75F2',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/35549810_1137738043046100_5235361771417501696_n.jpg?_nc_cat=0&oh=690c21004a1bdaa20811eabc773328a0&oe=5BF8BA5E',
       },
       {
         name: {
@@ -380,7 +373,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 9 - Community Development',
         email: 'mpsablan@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/26993980_105084330306328_5112471371682069571_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeH9hdMOX7uPq57SObK24NWeH0HY5rdjzk4sKGixl9iyJVT74kB-pGHdLUBZ0R5XGpYGLQr_E04Ss47_YJMyVitRTVOaHGQ6w4GesQvrw382Lg&oh=2ac030f79d2f12dee46b9ee185caca22&oe=5B6D5603',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/26993980_105084330306328_5112471371682069571_n.jpg?_nc_cat=0&oh=cbc5c54d63bd28ef626e6e79bf150324&oe=5C331703',
       },
       {
         name: {
@@ -389,7 +382,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 10 - Youth Development',
         email: 'tlcarste@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/29244277_1476497145811026_2708219644564471808_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeEjCNvSOuKlglG9gZi2e_IP-Gilc6jAGrTCiBITR1J0IEeScGHQXiYygs37UQt2xldTgAMxSlvxHeqUFql5Li30drq47F_wIat5oX4YE0jc5Q&oh=669a39ed91c2fcc8283023489d0411f4&oe=5B270017',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/40368406_1698372793623459_7556777687801397248_n.jpg?_nc_cat=0&oh=23a7ebe8f7fa22bd6df0d962b53b01e1&oe=5C36F9C1',
       },
       {
         name: {
@@ -398,7 +391,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 11 - Civic Engagement',
         email: 'aramir96@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/29136354_2070045446339712_9050133057796833280_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeFalOcaJOTIbIANNWtv_259OgIKZwrx8fjqLRCPk1HIq0EjI5E9eJTjOWHPc5w6l-zsB58pczaGJvOqNeTa0x3r9Cqwhdwp9HzNnNqZY8VSaA&oh=8fe9ba9beb8c8292b945f214eb02ea98&oe=5B684620',
+        pictureURL: alanaRamirez,
       },
       {
         name: {
@@ -407,7 +400,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 12 - Disabilities & Empowerment',
         email: 'haallen2@asu.edu',
-        pictureURL: 'https://scontent-lax3-2.xx.fbcdn.net/v/t1.0-9/27867825_1731411606905427_298820547642512337_n.jpg?_nc_cat=0&oh=8c2d69e1c91e48e11d0e9d7620e75163&oe=5B5D7255',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/18033524_10211096040868804_2345689750472465049_n.jpg?_nc_cat=0&oh=991984a59dd1407de65c04393a3ae67e&oe=5C2947F7',
       },
       {
         name: {
@@ -416,7 +409,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 13 - Access to Healthcare',
         email: 'rlregorg@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/23172399_1977253352492841_5094224241819580112_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeF3iGdroTuP4pmQ0awMr20JDCdcnT_roSMTkL5kARJwiZlUUwOXnah3cVleMRe8NTO15VPn5jjpYiRPqKlVkySMYHQ2m7kvQ6QWrEQ1N52PWA&oh=bdd4249d84234d42415a7d0b9ce21663&oe=5B68ECF0',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-1/30729622_2056131081271734_4322232596675422246_n.jpg?_nc_cat=0&oh=41b8a8cfd43ea231d71d84fd84be3891&oe=5BFA6B70',
       },
       {
         name: {
@@ -425,7 +418,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 14 - Access to Healthcare',
         email: 'rmotoole@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/20429924_1591841024173232_8054839933463628297_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeHSFpT11qEJ1QLZizrEPbuVB7mQ2_WSDnEUPZ63kSm4ofSIVAcXsmyd5FNAqyhBLV2tAMWFCaSOw5KOjT8giif5awIyhruwkXOLEghvTzIchw&oh=d3c0a4922e7e85be7a82a3bcb44d4b53&oe=5B68A1AC',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/37783624_1975301839160480_5314424577374289920_n.jpg?_nc_cat=0&oh=4e25803bf2e6c48a7178466b240b0ad6&oe=5BF1FFB8',
       },
       {
         name: {
@@ -434,7 +427,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 15 - Veterans Healthcare & Services',
         email: 'Chance.Jones@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-1/29571370_903225509802817_525459460618179537_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeECIESnps-DBaQmR2rZ6_BHlr2ANltMwGj7xb6E27rdZZceBcrK89qTtXHIssZs3cKZEIhjKhEgA2h6efnuxj43mIU9RM96E50-ql5lf9J9dg&oh=34aa8812197c71e21997db0808c1b244&oe=5B338B9B',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-1/29571370_903225509802817_525459460618179537_n.jpg?_nc_cat=0&oh=6ed7613f43ba2f6ab5dc30c7a0917c28&oe=5BF94C9B',
       },
       {
         name: {
@@ -443,7 +436,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 16 - Public Health',
         email: 'Joshua.M.Kumar@asu.edu',
-        pictureURL: 'https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/14088485_1761138214161768_2077414996755250311_n.jpg?_nc_cat=0&oh=2bd7fb82052294c9c9d6adaba774abdf&oe=5B786098',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/13335627_1340976549252415_4315750358883292771_n.jpg?_nc_cat=0&oh=cd3422fd0f168070e1b991cc74457322&oe=5C39C284',
       },
       {
         name: {
@@ -452,7 +445,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 17 - Mental Health',
         email: 'mprivats@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/27972737_1035662576574609_8412136046921582079_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeFrUDIZge7lYDKP4TA3ITuZH1vhxEiI1kk4Grs-kyRF4smR9Kcwx5Wegh0gV88RS2K_qdvSbjuEyMTz-ZkIFDVtwmU3ZgP7Ckoc3NvMZGfetA&oh=26ec4be8944e4eb16ab3aabe7eae725b&oe=5B68A6BF',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/31072879_1074790502661816_7087952239024668672_n.jpg?_nc_cat=0&oh=9c891db5b2c8bf6343b5d6bacacfb7cd&oe=5C38FB47',
       },
       {
         name: {
@@ -461,16 +454,16 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 18 - Mental Health',
         email: 'epino1@asu.edu',
-        pictureURL: 'https://media.licdn.com/dms/image/C5603AQGV1YBTN86mNg/profile-displayphoto-shrink_800_800/0?e=1527994800&v=alpha&t=BmD-5RiDrAPYy8vM2by9YhffSzTy7eNCD9EXVMWEuo4',
+        pictureURL: elizabethPino,
       },
       {
         name: {
-          first: 'Kelsey',
-          last: 'Atcheson',
+          first: 'Elon',
+          last: 'Graves',
         },
         position: 'MT 19 - Homelessness',
-        email: 'katcheso@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/21462564_301146440360641_4862088140188246245_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeF_OKaUMUF3qiKZiaXGtMuLR7Z9SVB6S_hWdCheTCQyjRgvNMN46lLSa_55i8-G-dc5pXPp632NDVUTzX1uNUnluOVPj3FMIgALeuvZFM7I1A&oh=4d91eed5e8043d9f47e39e7e4f4f1c2c&oe=5B70255D',
+        email: 'egraves5@asu.edu',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/22780508_1974628222818152_8888576254291131175_n.jpg?_nc_cat=0&oh=6516d03fc670e416cbb4797cb61b683a&oe=5BF49FF4',
       },
       {
         name: {
@@ -479,7 +472,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 20 - Science, Technology, & Innovation',
         email: 'mrbeatt1@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/27331673_161792431130658_6742593474795921291_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeGZ-GfcxhSre5miERdEYmQaExE-NazHioJ4ROaBjjvQjNS88QNXjZUtCr2voc4O1OrzXxeDKzq1FcSRkkCzlfTRZ6hVPGVEPSjms8onMhoMFA&oh=f784aeb58e0f0c696bb4be333509d37a&oe=5B37FA9A',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/19665313_107955343181034_5386135989760486921_n.jpg?_nc_cat=0&oh=4d2c615eda0701b57e56cba2c3620cc5&oe=5BF7BC8A',
       },
       {
         name: {
@@ -488,7 +481,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 21 - Hunger & Nutrition',
         email: 'marias10@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-1/27867824_1580981285272848_3534441539306129269_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeFwWxG56zKBXPxltS8XjPuTNrdnm0eq6d7UXjbkGwq3yn1lTxbTtnfe9iNdTYxtCH168Lb0wsH22jsGXuDV9048Al3otqC1dXgYNQPLp02DSw&oh=dc494bca40ecf8fdf2a8cc17d6ddaa90&oe=5B731C24',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-1/34718408_1697881580249484_2214188578915745792_n.jpg?_nc_cat=0&oh=5bf883d01ddf0975935a8aff2ce798dd&oe=5BF09F43',
       },
       {
         name: {
@@ -497,7 +490,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 22 - Environmental Sustainability',
         email: 'carroyo3@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/15284077_1877061835858101_4177114520453946885_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeGbi2iTTAa_pH1y8NEiPNKDZ7SKIEhde8YO4pH2w6TRrf4UG8mZ3K537VZfkzWU_QQ_DjACMMYD8ZYDINU7ApCrbvx0KRsDVil1W65xr0dn2w&oh=8d914bb5c70d87003f3c4cda413bd56c&oe=5B6AA593',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/15284077_1877061835858101_4177114520453946885_n.jpg?_nc_cat=0&oh=bec923eee606a4faea32c58948c16317&oe=5C306693',
       },
       {
         name: {
@@ -506,7 +499,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 23 - Sustainability',
         email: 'jrfulle6@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/13516411_122854414809833_2024540420430407184_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeH45TIm5XIH2j5PHnT7OAOWGJCkdMsBH6mmkLp4OQP-g_z0prPNvFDYMomytU_1jAyi0Paf49Bbo3Sa2E6j3_xCSbEafp5LTxn-rhDHrhgh_A&oh=52acfb842f85ce8f142294f547258cb9&oe=5B2FF6CA',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/28276935_431220437306561_8525081606098469287_n.jpg?_nc_cat=0&oh=2e4b6d6c9aac568f815becb5d073872a&oe=5BEF7786',
       },
       {
         name: {
@@ -515,7 +508,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 24 - Animal Rights',
         email: 'rmspenc2@asu.edu',
-        pictureURL: 'https://scontent.fsnc1-1.fna.fbcdn.net/v/t1.0-9/25353841_1748903012072508_3414789447634174856_n.jpg?_nc_cat=0&oh=fdd7ccc25181f54523ea040eb88357b2&oe=5B98786D',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/25353841_1748903012072508_3414789447634174856_n.jpg?_nc_cat=0&oh=5eed28ff25b01c2e5d0561f84fb17e2d&oe=5C36AC6D',
       },
       {
         name: {
@@ -524,7 +517,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 25 - Sustainability',
         email: 'cblock3@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/14713526_649232478577895_2036347344205480931_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeFRLYaKiT26mcC1WrEIRlqnJ9UtRwdXzdtfa5YV1A-2anFFCDlqhJlHS940tj450Ttz9G-B_zYIXqr2AyaUja8nJ3_xgwE5jMdHYHzAFnV0wQ&oh=af2ca484829ad618d914ca93ec20d0a8&oe=5B6D7E0D',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/14713526_649232478577895_2036347344205480931_n.jpg?_nc_cat=0&oh=c2f37ed853a86d74944c2c60394e5787&oe=5C333F0D',
       },
       {
         name: {
@@ -533,7 +526,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 26 - Water Access & Sustainability',
         email: 'sbkottap@asu.edu',
-        pictureURL: 'https://scontent-lax3-2.xx.fbcdn.net/v/t1.0-9/28870687_1971882069506554_3813903811737922659_n.jpg?_nc_cat=0&oh=1ed24ca71cceac237776523bcb2ba911&oe=5B689707',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/38600670_2166166236744802_7759042081615511552_n.jpg?_nc_cat=0&oh=744545f938740bdec7c1818d6d6655f9&oe=5C3AB2CE',
       },
       {
         name: {
@@ -542,7 +535,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 27 - Energy & Climate Sustainability',
         email: 'cazamor1@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/21105546_115892235807478_6757796221769618757_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeHzgpViGUSKMO_A4JM6AqXZWVP923F7TP2-O3oORIIM08u8tpD0umY6d7UdmPwrzSLrD6HV6lYNQ1n9HTkL-jC425AFFZevRSccIb55d2wezw&oh=58bb6a8393cdee2f86c7e4d80f21aee4&oe=5B70A23C',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/21105546_115892235807478_6757796221769618757_n.jpg?_nc_cat=0&oh=ddc5fa42787b521aa46f29af9689f548&oe=5C36633C',
       },
       {
         name: {
@@ -551,7 +544,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 28 - Education & Policy',
         email: 'bcdelato@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/16142381_10208135948612657_5443882619920928199_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeED_-uvC684mTpA1I9RgqqqHb9vCdk2uw9YAZj7NBYIzS5uXuxC5H7RyxU5Q7kaCY-uPpIE2QU3sO5nbqGQLtBlijllzQ7eKe4UkkgXBIqb_Q&oh=1b90575997ce1916e2aaf13a2c6307be&oe=5B270E2E',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/19149335_10209277231744022_2732832586483628163_n.jpg?_nc_cat=0&oh=8b38faac903f20f9698c241af7753db9&oe=5C3490E6',
       },
       {
         name: {
@@ -560,7 +553,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 29 - Education',
         email: 'acmoral4@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/22195784_497240107298788_2100061400948613900_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeFAfF8m7dK6kNihnrbNgwWjMJGh2i20mRdw3v-WEKyX9y_TJqq8tfX3FZ8R86R3sSwNLXzR-BzNVj8BQG_-zZclNHgmBI215RKpDS12-ROAxw&oh=faf6376d0a61b3604cc76ac2d7a9c1ca&oe=5B342D11',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/14448886_314710882218379_6673250203524460841_n.jpg?_nc_cat=0&oh=6108154d5007417d5f7be4a0569ecc6f&oe=5C29AFE6',
       },
       {
         name: {
@@ -569,7 +562,7 @@ export const bioGroupsData: Array<BioGroupType> = [
         },
         position: 'MT 30 - Education',
         email: 'ccommiss@asu.edu',
-        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/29542846_349286485565852_6542615990104512195_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeHjF5-yWyPO_siEFInE9vREKeXgM_vwZ7qlVc2RTXCfG0V0b5H-6_c3MpkMS5Szu66N4OBTwkymyEK9n2lYfJC0nFLOHFs4zV7GVsge7_vPow&oh=acd1f48e46cf6bf897d339498ca64e7f&oe=5B656D66',
+        pictureURL: 'https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/29542808_349286608899173_2887651586091430364_n.jpg?_nc_cat=0&oh=88c4815afa9b9d75bb43bd7a0cb9477e&oe=5BEE0737',
       },
     ]
   },
