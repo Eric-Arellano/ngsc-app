@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.6
+#!/usr/bin/env python3.7
 
 """
 Utility to run, install, test, and manage dependencies for the Flask backend.
@@ -104,7 +104,7 @@ def install() -> None:
     Downloads & installs all dependencies for the backend.
     """
     pipenv.create()
-    sys_calls.run(['pipenv', 'install'])
+    sys_calls.run(['pipenv', 'install', '--ignore-pipfile'])
 
 
 def reinstall() -> None:

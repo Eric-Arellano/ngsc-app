@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.6
+#!/usr/bin/env python3.7
 
 """
 CLI script to setup the Google Drive for a new semester.

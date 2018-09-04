@@ -33,7 +33,7 @@ def create() -> None:
         print('Pipenv already created.')
         return
     sys_calls.export('PIPENV_VENV_IN_PROJECT', 'true')
-    sys_calls.run(['pipenv', '--python', '3.6'])
+    sys_calls.run(['pipenv', '--python', '3.7'])
 
 
 def remove() -> None:
