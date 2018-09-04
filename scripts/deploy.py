@@ -37,7 +37,7 @@ def check_remote_added() -> None:
     Add Heroku remote if not already exists.
     """
     if not git.is_remote_added('heroku'):
-        git.add_remote('heroku', 'https://git.heroku.com/ngsc-service-hours.git')
+        git.add_remote('heroku', 'https://git.heroku.com/ngsc-app.git')
 
 
 def check_logged_in() -> None:
