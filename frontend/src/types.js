@@ -14,7 +14,7 @@ export type EngagementEvent = {
 export type Student = {
   asurite: string,
   name: Name,
-  cohort: number,
+  cohort: string,
   missionTeam?: string,
   committee?: string,
   leadership?: string,

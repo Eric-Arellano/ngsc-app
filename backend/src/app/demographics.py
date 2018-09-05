@@ -23,7 +23,7 @@ def get(asurite: str) -> Optional[Dict]:
     return {'name':
                 {'first': result['name']['first'],
                  'last': result['name']['last']},
-            'cohort': int(result['cohort']),
+            'cohort': result['cohort'],
             'missionTeam': (f'{mission_team_number} - {mission_teams.missions[mission_team_number]}'
                             if mission_team_number else ''),
             'committee': result['committee'],
