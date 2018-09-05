@@ -19,8 +19,7 @@ const Demographics = ({student: {name, missionTeam, committee, cohort, leadershi
     <Entry>Campus: {campus}</Entry>
     <br/>
     <p><em>
-      * If any of this information is incorrect, please email the Admin chair Jeremy at
-      jseidne@asu.edu.
+      * If any of this information is incorrect, please email Laura at laura.tan@asu.edu.
     </em></p>
   </Panel>
 )
