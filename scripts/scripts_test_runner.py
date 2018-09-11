@@ -56,7 +56,7 @@ def test() -> None:
     """
     Run unit tests.
     """
-    sys_calls.run_python(['-m', 'unittest', 'discover', 'scripts/tests'])
+    pipenv.run(['pytest', '-q'], cwd='scripts')
 
 
 # -------------------------------------

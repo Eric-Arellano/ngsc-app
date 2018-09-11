@@ -15,9 +15,3 @@ pip-selfcheck.json
 # Flask stuff:
 instance/
 .webassets-cache
-
-# MyPy
-.mypy_cache/
-
-# PyTest
-.pytest_cache/

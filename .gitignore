@@ -8,3 +8,4 @@
 **/*.pyc
 .mypy_cache
 .venv
+.pytest_cache/
