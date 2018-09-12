@@ -11,7 +11,6 @@ Usage:
     install...
             install: `./frontend.py install`
             build: `./frontend.py build`
-            catchup: `./frontend.py catchup`
     test...
             check types: `./frontend.py types`
     dependency management...
@@ -115,20 +114,6 @@ def build() -> None:
     sys_calls.run(["yarn", "build"], cwd='frontend/')
 
 
-def catchup() -> None:
-    """
-    Check server for changes, and install new dependencies if necessary.
-    """
-    git.assert_clean_local()
-    git.assert_remote_branch_exists('origin', git.get_current_branch(),
-                                    error_message='The current branch has not been added to GitHub, '
-                                                  'so there is nothing to catchup.')
-    files_changed = git.fast_forward_and_diff('origin', git.get_current_branch(),
-                                              ['frontend/package.json', 'frontend/yarn.lock'])
-    if files_changed:
-        sys_calls.run(["yarn", "install"])
-
-
 # -------------------------------------
 # Test commands
 # -------------------------------------
@@ -200,7 +185,6 @@ command_map = command_line.CommandMap({'run': run,
                                        'stop': stop,
                                        'install': install,
                                        'reinstall': reinstall,
-                                       'catchup': catchup,
                                        'build': build,
                                        'green': green,
                                        'test': test,

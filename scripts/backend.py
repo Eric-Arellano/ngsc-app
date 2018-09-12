@@ -11,7 +11,6 @@ Usage:
     install...
             install: `./backend.py install`
             reinstall: `./backend.py reinstall`
-            catchup: `./backend.py catchup`
     test...
             run unit tests: `./backend.py test`
             check types: `./backend.py types`
@@ -115,20 +114,6 @@ def reinstall() -> None:
     install()
 
 
-def catchup() -> None:
-    """
-    Check server for changes, and install new dependencies if necessary.
-    """
-    git.assert_clean_local()
-    git.assert_remote_branch_exists('origin', git.get_current_branch(),
-                                    error_message='The current branch has not been added to GitHub, '
-                                                  'so there is nothing to catchup.')
-    files_changed = git.fast_forward_and_diff('origin', git.get_current_branch(),
-                                              ['requirements.txt'])
-    if files_changed:
-        sys_calls.run(['pipenv', 'sync'])
-
-
 # -------------------------------------
 # Test commands
 # -------------------------------------
@@ -205,7 +190,6 @@ command_map = command_line.CommandMap({'run': run,
                                        'stop': stop,
                                        'install': install,
                                        'reinstall': reinstall,
-                                       'catchup': catchup,
                                        'green': green,
                                        'test': test,
                                        'types': check_types,

@@ -41,9 +41,11 @@ Use Git Bash instead of Command Prompt, because Git Bash offers Unix-style tools
 `./ngsc install`
 
 #### Run app
-1. `./ngsc catchup`, checks for changes from the server
 1. `./ngsc`, starts the app at `localhost:3000` (go to this in your browser)
 1. `./ngsc stop`, stops the app
+
+#### Making changes
+1. `./ngsc green`, make sure your changes pass tests and linters
 
 ## Advanced Usage
 There are many different ways to run this application, such as only starting the backend server or only starting the frontend server.
@@ -60,7 +62,6 @@ You can often specify a specific target with `--target [env]`, or the abbreviati
 ### Install
 * first-time setup: `./ngsc install [--target backend|frontend]`
 * reinstall: `./ngsc reinstall [--target backend|frontend]`
-* catchup from server changes: `./ngsc catchup [--target backend|frontend]`
 
 ### Run
 * Start app: `./ngsc [--target backend|frontend]`
@@ -69,6 +70,7 @@ You can often specify a specific target with `--target [env]`, or the abbreviati
 * Stop app: `./ngsc stop [--target backend|frontend]`
 
 ### Test
+* Run all tests & linters `./ngsc green [--target backend|frontend|script]`
 * Run unit tests: `./ngsc test [--target backend|fronted|script]`
 * Check types: `./ngsc types [--target backend|frontend|script]`
 
@@ -93,7 +95,6 @@ If you need to rebuild the rosters, e.g. after freshmen are assigned to their co
 `./ngsc rebuild-rosters`
 
 ### Dependency management
-* Catchup from changes made by others: `./ngsc catchup [--target backend|frontend]`
 * View outdated dependencies: `./ngsc outdated [--target backend|frontend]`
 * View dependency tree: `./ngsc deptree [--target backend]` (not supported on frontend)
 * Add package(s): `./ngsc add package1 [package2...] --target backend|frontend`

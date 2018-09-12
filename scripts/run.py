@@ -16,7 +16,6 @@ Usage:
     install...
             install: `./run.py install [--target backend|frontend]`
             reinstall: ./run.py reinstall [--target backend|frontend]`
-            catchup: `./run.py catchup [--target backend|frontend]`
     test...
             run tests: `./run.py test [--target backend|script]`
             check types: `./run.py types [--target backend|frontend]`
@@ -149,18 +148,6 @@ def reinstall(*, target: Target = 'all') -> None:
                                       frontend.reinstall()),
                                   backend_action=backend.reinstall,
                                   frontend_action=frontend.reinstall)
-
-
-def catchup(*, target: Target = 'all') -> None:
-    """
-    Check server for changes, and install new dependencies if necessary.
-    """
-    execute_on_target_environment(target,
-                                  all_action=lambda: (
-                                      backend.catchup(),
-                                      frontend.catchup()),
-                                  backend_action=backend.catchup,
-                                  frontend_action=frontend.catchup)
 
 
 # -------------------------------------
@@ -341,7 +328,6 @@ command_map = command_line.CommandMap({'run': run,
                                        'stop': stop,
                                        'install': install,
                                        'reinstall': reinstall,
-                                       'catchup': catchup,
                                        'green': green,
                                        'test': test,
                                        'types': check_types,
