@@ -19,7 +19,8 @@ const Demographics = ({student: {name, missionTeam, committee, cohort, leadershi
     <Entry>Campus: {campus}</Entry>
     <br/>
     <p><em>
-      * If any of this information is incorrect, please email Laura at laura.tan@asu.edu.
+      Use this form to submit changes to your contact info:
+        <a href="https://tinyurl.com/yc48bo3d">https://tinyurl.com/yc48bo3d</a>
     </em></p>
   </Panel>
 )
