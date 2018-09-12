@@ -1,19 +1,14 @@
 matrix:
   include:
     - language: python
-      python:
-        "3.6"
+      node_js: "8.11.1"
+      python: "3.7"
+      dist: xenial  # Temporary hack to get 3.7 installed. https://github.com/travis-ci/travis-ci/issues/9815
+      sudo: true
       install:
         - pip install pipenv
-        - pipenv install
+        - ./ngsc install
       script:
-        - cd backend/src && pytest -q
-        - cd ../../ && python -m unittest discover scripts/tests
-
-    - language: node_js
-      node_js:
-        "8.11.1"
-      install:
-        - cd frontend && yarn install
-      script:
-        - yarn test
+        - ./ngsc test --target script
+        - ./ngsc test --target backend
+        - ./ngsc test --target frontend
