@@ -103,7 +103,7 @@ def install() -> None:
     Downloads & installs all dependencies for the backend.
     """
     pipenv.create()
-    sys_calls.run(['pipenv', 'install', '--ignore-pipfile'])
+    sys_calls.run(['pipenv', 'install', '--ignore-pipfile', '--dev'])
 
 
 def reinstall() -> None:
