@@ -16,7 +16,7 @@ class ParserTester(TestCase):
     def assert_raises_parser_error(self,
                                    command_map: CommandMap,
                                    args: List[str]):
-        parser = command_line.create_parser(backend.command_map)
+        parser = command_line.create_parser(backend.command_map, description='')
         parsed_args = parser.parse_args(args)
         with self.assertRaises(TypeError):
             command_line.execute_command(parsed_args, command_map)

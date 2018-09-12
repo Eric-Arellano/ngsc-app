@@ -57,22 +57,22 @@ You will encounter these symbols:
 
 #### Targeting environment
 Most of these commands default to running on every possible environment (scripts, backend, and frontend). 
-You can often specify a specific target with `--target [env]`, or the abbreviation `-t [env]`.
+You can often specify a specific target with `--backend` (`-b`), `--frontend` (`-f`), or `--scripts` (`-s`).
 
 ### Install
-* first-time setup: `./ngsc install [--target backend|frontend]`
-* reinstall: `./ngsc reinstall [--target backend|frontend]`
+* first-time setup: `./ngsc install [--backend|frontend]`
+* reinstall: `./ngsc reinstall [--backend|frontend]`
 
 ### Run
-* Start app: `./ngsc [--target backend|frontend]`
+* Start app: `./ngsc [--backend|frontend]`
     * Targeting the `backend` or `frontend` will output the status of the server to the console, unlike how we normally 
     hide it with `./ngsc`. This is really useful for debugging!
-* Stop app: `./ngsc stop [--target backend|frontend]`
+* Stop app: `./ngsc stop [--backend|frontend]`
 
 ### Test
-* Run all tests & linters `./ngsc green [--target backend|frontend|script]`
-* Run unit tests: `./ngsc test [--target backend|fronted|script]`
-* Check types: `./ngsc types [--target backend|frontend|script]`
+* Run all tests & linters `./ngsc green [--backend|frontend|scripts]`
+* Run unit tests: `./ngsc test [--backend|fronted|scripts]`
+* Check types: `./ngsc types [--backend|frontend|scripts]`
 
 
 ### Deploy
@@ -95,8 +95,8 @@ If you need to rebuild the rosters, e.g. after freshmen are assigned to their co
 `./ngsc rebuild-rosters`
 
 ### Dependency management
-* View outdated dependencies: `./ngsc outdated [--target backend|frontend]`
-* View dependency tree: `./ngsc deptree [--target backend]` (not supported on frontend)
-* Add package(s): `./ngsc add package1 [package2...] --target backend|frontend`
-* Upgrade package(s): `./ngsc upgrade package1 [package2...] --target backend|frontend`
-* Remove package(s): `./ngsc remove package1 [package2...] --target backend|frontend`
+* View outdated dependencies: `./ngsc outdated [--backend|frontend]`
+* View dependency tree: `./ngsc deptree [--backend]` (not supported on frontend)
+* Add package(s): `./ngsc add package1 [package2...] --backend|frontend`
+* Upgrade package(s): `./ngsc upgrade package1 [package2...] --backend|frontend`
+* Remove package(s): `./ngsc remove package1 [package2...] --backend|frontend`

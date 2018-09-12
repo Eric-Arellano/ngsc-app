@@ -11,19 +11,19 @@ Commands follow the syntax:
 
 Usage:
     run...
-            run (detached): `./run.py [--target backend|frontend]`
-            stop: `./run.py stop [--target backend|frontend]`
+            run (detached): `./run.py [--backend|frontend]`
+            stop: `./run.py stop [--backend|frontend]`
     install...
-            install: `./run.py install [--target backend|frontend]`
-            reinstall: ./run.py reinstall [--target backend|frontend]`
+            install: `./run.py install [--backend|frontend]`
+            reinstall: ./run.py reinstall [--backend|frontend]`
     test...
-            run tests: `./run.py test [--target backend|script]`
-            check types: `./run.py types [--target backend|frontend]`
+            run tests: `./run.py test [--backend|scripts]`
+            check types: `./run.py types [--backend|frontend]`
     dependency management...
-            view outdated: `./run.py outdated [--target backend|frontend]`
-            add: `./run.py add package1 [package2..] --target backend|frontend`
-            upgrade: `./run.py upgrade package1 [package2..] --target backend|frontend`
-            remove: `./run.py remove package1 [package2..] --target backend|frontend`
+            view outdated: `./run.py outdated [--backend|frontend]`
+            add: `./run.py add package1 [package2..] --backend|frontend`
+            upgrade: `./run.py upgrade package1 [package2..] --backend|frontend`
+            remove: `./run.py remove package1 [package2..] --backend|frontend`
     deploy...
             deploy: `./run.py deploy`
     update student info...
@@ -37,14 +37,21 @@ from pathlib import Path
 current_file_path = Path(os.path.realpath(__file__))
 sys.path.append(str(current_file_path.parents[1]))
 
-from typing import Callable, List
+import argparse
+from functools import partial
+from typing import List, NamedTuple, Iterator, Optional
 
 from scripts import backend, deploy, frontend, scripts_test_runner, update_demographics
 from scripts.utils import command_line, pipenv
 
 
 def main() -> None:
-    parser = command_line.create_parser(command_map, accept_target_environment=True)
+    parser = command_line.create_parser(
+            command_map,
+            description='Top level script to install, run, test, deploy, update, and manage dependencies '
+                        'for the whole app and its backend and frontend.'
+    )
+    add_targets_to_parser(parser)
     args = parser.parse_args()
     check_prereqs()
     pipenv.remove_old_venv()
@@ -71,277 +78,363 @@ def check_prereqs() -> None:
 # Determine target environment
 # -------------------------------------
 
-Target = str
+class TargetCommandMap(NamedTuple):
+    all_action: Optional[command_line.Command] = None
+    backend_action: Optional[command_line.Command] = None
+    frontend_action: Optional[command_line.Command] = None
+    scripts_action: Optional[command_line.Command] = None
+    has_dependencies: bool = False
 
 
-def execute_on_target_environment(target: Target = 'all', *,
-                                  all_action: Callable = None,
-                                  backend_action: Callable = None,
-                                  frontend_action: Callable = None,
-                                  script_action: Callable = None,
+def add_targets_to_parser(parser: argparse.ArgumentParser) -> None:
+    def add_arg(abbreviation: str, full_name: str):
+        parser.add_argument(abbreviation, full_name, action='store_true',
+                            help=f"Operate on {full_name.replace('--', '')} specifically.")
+
+    add_arg('-b', '--backend')
+    add_arg('-f', '--frontend')
+    add_arg('-s', '--scripts')
+
+
+def raise_invalid_target(target_command_map: TargetCommandMap) -> None:
+    target_names = {
+        '--all (default)': target_command_map.all_action,
+        '--backend': target_command_map.backend_action,
+        '--frontend': target_command_map.frontend_action,
+        '--scripts': target_command_map.scripts_action
+    }
+    supported_targets = '\n'.join(
+            [target_name for target_name, action in target_names.items() if action is not None]
+    )
+    raise SystemExit(f'Invalid target. This command supports the following targets:\n{supported_targets}')
+
+
+def execute_on_target_environment(target_command_map: TargetCommandMap, *,
+                                  backend: bool = False,
+                                  frontend: bool = False,
+                                  scripts: bool = False,
                                   dependencies: List[str] = None) -> None:
-    action = {
-        'all': all_action,
-        'backend': backend_action,
-        'frontend': frontend_action,
-        'script': script_action
-    }[target]
-    if action is None:
-        raise TypeError(f'{target} target not supported with this command.')
-    if not dependencies:
-        action()
-    else:
-        action(dependencies=dependencies)
+    # check valid targets
+    target_specified = backend or frontend or scripts
+    invalid_all = not target_specified and target_command_map.all_action is None
+    invalid_backend = backend and target_command_map.backend_action is None
+    invalid_frontend = frontend and target_command_map.frontend_action is None
+    invalid_scripts = scripts and target_command_map.scripts_action is None
+    if any((invalid_all, invalid_backend, invalid_frontend, invalid_scripts)):
+        raise_invalid_target(target_command_map)
+
+    # default to all
+    if not target_specified:
+        target_command_map.all_action()  # type: ignore
+        return
+
+    # find every target specified
+    commands = [
+        target_command_map.backend_action if backend else None,
+        target_command_map.frontend_action if frontend else None,
+        target_command_map.scripts_action if scripts else None
+    ]
+    filtered_commands: Iterator[command_line.Command] = filter(None, commands)
+
+    # check if dependencies
+    kwargs = {}
+    if target_command_map.has_dependencies:
+        kwargs['dependencies'] = dependencies
+
+    # execute
+    for command in filtered_commands:
+        command(**kwargs)  # type: ignore
 
 
 # -------------------------------------
 # Run commands
 # -------------------------------------
 
-def run(*, target: Target = 'all') -> None:
+def run() -> TargetCommandMap:
     """
     Runs app in detached mode.
     """
-    execute_on_target_environment(target,
-                                  all_action=lambda: (
-                                      backend.run_detached(),
-                                      frontend.run_detached()),
-                                  backend_action=backend.run,
-                                  frontend_action=frontend.run)
+
+    def all_action() -> None:
+        backend.run_detached()
+        frontend.run_detached()
+
+    return TargetCommandMap(
+            all_action=all_action,
+            backend_action=backend.run,
+            frontend_action=frontend.run
+    )
 
 
-def stop(*, target: Target = 'all') -> None:
+def stop() -> TargetCommandMap:
     """
     Stops detached servers on specified target environment.
     """
-    execute_on_target_environment(target,
-                                  all_action=lambda: (
-                                      backend.stop(),
-                                      frontend.stop()),
-                                  backend_action=backend.stop,
-                                  frontend_action=frontend.stop)
+
+    def all_action() -> None:
+        backend.stop()
+        frontend.stop()
+
+    return TargetCommandMap(
+            all_action=all_action,
+            backend_action=backend.stop,
+            frontend_action=frontend.stop
+    )
 
 
 # -------------------------------------
 # Install commands
 # -------------------------------------
 
-def install(*, target: Target = 'all') -> None:
+def install() -> TargetCommandMap:
     """
     Install everything needed for the app to function.
     """
-    execute_on_target_environment(target,
-                                  all_action=lambda: (
-                                      backend.install(),
-                                      frontend.install()),
-                                  backend_action=backend.install,
-                                  frontend_action=frontend.install)
+
+    def all_action() -> None:
+        backend.install()
+        frontend.install()
+
+    return TargetCommandMap(
+            all_action=all_action,
+            backend_action=backend.install,
+            frontend_action=frontend.install
+    )
 
 
-def reinstall(*, target: Target = 'all') -> None:
+def reinstall() -> TargetCommandMap:
     """
     Deletes original packages and re-installs everything.
     """
-    execute_on_target_environment(target,
-                                  all_action=lambda: (
-                                      backend.reinstall(),
-                                      frontend.reinstall()),
-                                  backend_action=backend.reinstall,
-                                  frontend_action=frontend.reinstall)
+
+    def all_action() -> None:
+        backend.reinstall()
+        frontend.reinstall()
+
+    return TargetCommandMap(
+            all_action=all_action,
+            backend_action=backend.reinstall,
+            frontend_action=frontend.reinstall
+    )
 
 
 # -------------------------------------
 # Test commands
 # -------------------------------------
 
-def green(*, target: Target = 'all') -> None:
+def green() -> TargetCommandMap:
     """
     Call all tests and linters.
     """
-    execute_on_target_environment(target,
-                                  all_action=lambda: (
-                                      backend.green(),
-                                      frontend.green(),
-                                      scripts_test_runner.green()),
-                                  backend_action=backend.green,
-                                  frontend_action=frontend.green,
-                                  script_action=scripts_test_runner.green)
+
+    def all_action() -> None:
+        backend.green()
+        frontend.green()
+        scripts_test_runner.green()
+
+    return TargetCommandMap(
+            all_action=all_action,
+            backend_action=backend.green,
+            frontend_action=frontend.green,
+            scripts_action=scripts_test_runner.green
+    )
 
 
-def test(*, target: Target = 'all') -> None:
+def test() -> TargetCommandMap:
     """
     Run unit tests for specified environment.
     """
-    execute_on_target_environment(target,
-                                  all_action=lambda: (
-                                      backend.test(),
-                                      frontend.test(),
-                                      scripts_test_runner.test()),
-                                  backend_action=backend.test,
-                                  frontend_action=frontend.test,
-                                  script_action=scripts_test_runner.test)
+
+    def all_action() -> None:
+        backend.test()
+        frontend.test()
+        scripts_test_runner.test()
+
+    return TargetCommandMap(
+            all_action=all_action,
+            backend_action=backend.test,
+            frontend_action=frontend.test,
+            scripts_action=scripts_test_runner.test
+    )
 
 
-def check_types(*, target: Target = 'all') -> None:
+def check_types() -> TargetCommandMap:
     """
     Call Flow and MyPy to check type safety of app.
     """
-    execute_on_target_environment(target,
-                                  all_action=lambda: (
-                                      backend.check_types(),
-                                      frontend.check_types(),
-                                      scripts_test_runner.check_types()),
-                                  backend_action=backend.check_types,
-                                  frontend_action=frontend.check_types,
-                                  script_action=scripts_test_runner.check_types)
+
+    def all_action() -> None:
+        backend.check_types()
+        frontend.check_types()
+        scripts_test_runner.check_types()
+
+    return TargetCommandMap(
+            all_action=all_action,
+            backend_action=backend.check_types,
+            frontend_action=frontend.check_types,
+            scripts_action=scripts_test_runner.check_types
+    )
 
 
 # -------------------------------------
 # Dependency management commands
 # -------------------------------------
-Dependency = str  # type alias
 
 
-def list_outdated(*, target: Target = 'all') -> None:
+def list_outdated() -> TargetCommandMap:
     """
     List packages that should be updated.
     """
-    execute_on_target_environment(target,
-                                  all_action=lambda: (
-                                      backend.list_outdated(),
-                                      frontend.list_outdated()),
-                                  backend_action=backend.list_outdated,
-                                  frontend_action=frontend.list_outdated)
+
+    def all_action() -> None:
+        backend.list_outdated()
+        frontend.list_outdated()
+
+    return TargetCommandMap(
+            all_action=all_action,
+            backend_action=backend.list_outdated,
+            frontend_action=frontend.list_outdated
+    )
 
 
-def dependency_tree(*, target: Target = 'all') -> None:
+def dependency_tree() -> TargetCommandMap:
     """
     Visualize which dependencies depend upon each other.
     """
-    execute_on_target_environment(target,
-                                  all_action=lambda: (
-                                      backend.dependency_tree()),
-                                  backend_action=backend.dependency_tree)
+    return TargetCommandMap(
+            all_action=backend.dependency_tree,
+            backend_action=backend.dependency_tree
+    )
 
 
-def add(*, target: Target, dependencies: List[Dependency]) -> None:
+def add() -> TargetCommandMap:
     """
     Add one or more packages.
     """
-    execute_on_target_environment(target,
-                                  backend_action=backend.add,
-                                  frontend_action=frontend.add,
-                                  dependencies=dependencies)
+    return TargetCommandMap(
+            backend_action=backend.add,
+            frontend_action=frontend.add,
+            has_dependencies=True
+    )
 
 
-def upgrade(*, target: Target, dependencies: List[Dependency]) -> None:
+def upgrade() -> TargetCommandMap:
     """
     Upgrade one or more out-of-date packages.
     """
-    execute_on_target_environment(target,
-                                  backend_action=backend.upgrade,
-                                  frontend_action=frontend.upgrade,
-                                  dependencies=dependencies)
+    return TargetCommandMap(
+            backend_action=backend.upgrade,
+            frontend_action=frontend.upgrade,
+            has_dependencies=True
+    )
 
 
-def remove(*, target: Target, dependencies: List[Dependency]) -> None:
+def remove() -> TargetCommandMap:
     """
     Remove one or more packages.
     """
-    execute_on_target_environment(target,
-                                  backend_action=backend.remove,
-                                  frontend_action=frontend.remove,
-                                  dependencies=dependencies)
+    return TargetCommandMap(
+            backend_action=backend.remove,
+            frontend_action=frontend.remove,
+            has_dependencies=True
+    )
 
 
 # -------------------------------------
 # Deploy commands
 # -------------------------------------
 
-def deploy_to_heroku(target: Target = 'all') -> None:
+def deploy_to_heroku() -> TargetCommandMap:
     """
     Push changes to GitHub and Heroku.
     """
-    execute_on_target_environment(target,
-                                  all_action=deploy.main)
+    return TargetCommandMap(all_action=deploy.main)
 
 
 # -------------------------------------
 # Update student info commands
 # -------------------------------------
 
-def update_student_info(target: Target = 'all') -> None:
+def update_student_info() -> TargetCommandMap:
     """
     Check for changes to hardcoded student information and then commit changes.
     """
-    execute_on_target_environment(target,
-                                  all_action=update_demographics.main)
+    return TargetCommandMap(all_action=update_demographics.main)
 
 
 # -------------------------------------
 # Setup new semester's Drive
 # -------------------------------------
 
-def setup_semester(target: Target = 'all') -> None:
+def setup_semester() -> TargetCommandMap:
     """
     Create the new Google Drive for upcoming semester, e.g. preparing rosters and copying files.
     """
-    execute_on_target_environment(target,
-                                  all_action=lambda: (
-                                      pipenv.run([
-                                          'python',
-                                          './backend/src/admin/new_semester_scripts/setup_semester.py'
-                                      ])
-                                  ))
+
+    def run_script() -> None:
+        pipenv.run([
+            'python',
+            './backend/src/admin/new_semester_scripts/setup_semester.py'
+        ])
+
+    return TargetCommandMap(all_action=run_script)
 
 
-def share_drive(target: Target = 'all') -> None:
+def share_drive() -> TargetCommandMap:
     """
     Share the new Google Drive with incoming student leadership.
     """
-    execute_on_target_environment(target,
-                                  all_action=lambda: (
-                                      pipenv.run([
-                                          'python',
-                                          './backend/src/admin/new_semester_scripts/share_drive.py'
-                                      ])
-                                  ))
+
+    def run_script() -> None:
+        pipenv.run([
+            'python',
+            './backend/src/admin/new_semester_scripts/share_drive.py'
+        ])
+
+    return TargetCommandMap(all_action=run_script)
 
 
-def rebuild_rosters(target: Target = 'all') -> None:
+def rebuild_rosters() -> TargetCommandMap:
     """
     Rebuild the rosters with updated student info. Overwrites current data.
     """
-    execute_on_target_environment(target,
-                                  all_action=lambda: (
-                                      pipenv.run([
-                                          'python',
-                                          './backend/src/admin/new_semester_scripts/rebuild_rosters.py'
-                                      ])
-                                  ))
+
+    def run_script() -> None:
+        pipenv.run([
+            'python',
+            './backend/src/admin/new_semester_scripts/rebuild_rosters.py'
+        ])
+
+    return TargetCommandMap(all_action=run_script)
 
 
 # -------------------------------------
 # Command line options
 # -------------------------------------
-command_map = command_line.CommandMap({'run': run,
-                                       'stop': stop,
-                                       'install': install,
-                                       'reinstall': reinstall,
-                                       'green': green,
-                                       'test': test,
-                                       'types': check_types,
-                                       'outdated': list_outdated,
-                                       'deptree': dependency_tree,
-                                       'add': add,
-                                       'upgrade': upgrade,
-                                       'remove': remove,
-                                       'deploy': deploy_to_heroku,
-                                       'student-info': update_student_info,
-                                       'setup-semester': setup_semester,
-                                       'share-drive': share_drive,
-                                       'rebuild-rosters': rebuild_rosters
-                                       })
+
+def support_targets(command):
+    return partial(execute_on_target_environment, command())
+
+
+command_map = command_line.CommandMap({
+    'run': support_targets(run),
+    'stop': support_targets(stop),
+    'install': support_targets(install),
+    'reinstall': support_targets(reinstall),
+    'green': support_targets(green),
+    'test': support_targets(test),
+    'types': support_targets(check_types),
+    'outdated': support_targets(list_outdated),
+    'deptree': support_targets(dependency_tree),
+    'add': support_targets(add),
+    'upgrade': support_targets(upgrade),
+    'remove': support_targets(remove),
+    'deploy': support_targets(deploy_to_heroku),
+    'student-info': support_targets(update_student_info),
+    'setup-semester': support_targets(setup_semester),
+    'share-drive': support_targets(share_drive),
+    'rebuild-rosters': support_targets(rebuild_rosters)
+})
 
 # -------------------------------------
 # Run script

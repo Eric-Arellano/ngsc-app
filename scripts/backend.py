@@ -35,7 +35,10 @@ from scripts.utils import prereq_checker, process_management, git, sys_calls, pi
 
 
 def main() -> None:
-    parser = command_line.create_parser(command_map)
+    parser = command_line.create_parser(
+            command_map,
+            description='Utility to run, install, test, and manage dependencies for the Flask backend.'
+    )
     args = parser.parse_args()
     check_prereqs()
     pipenv.remove_old_venv()

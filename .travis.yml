@@ -9,6 +9,6 @@ matrix:
         - pip install pipenv
         - ./ngsc install
       script:
-        - ./ngsc test --target script
-        - ./ngsc test --target backend
-        - ./ngsc test --target frontend
+        - ./ngsc test --backend
+        - ./ngsc test --frontend
+        - ./ngsc test --scripts

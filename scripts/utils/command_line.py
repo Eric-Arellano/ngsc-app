@@ -4,9 +4,13 @@ Utilities to accept and parse command line arguments.
 
 import argparse
 import functools
-from typing import Any, Callable, Dict, NewType
+from typing import Any, Callable, Dict, List, NewType, Union
 
-CommandMap = NewType('CommandMap', Dict[str, Callable[..., None]])
+
+NoArgCommand = Callable[[], None]
+DependencyCommand = Callable[[List[str]], None]
+Command = Union[NoArgCommand, DependencyCommand]
+CommandMap = NewType('CommandMap', Dict[str, Command])
 
 
 # -----------------------------------------------------------------
@@ -25,25 +29,21 @@ def check_prereqs_installed() -> None:
 # -------------------------------------
 
 def create_parser(command_map: CommandMap, *,
-                  accept_target_environment: bool = False) -> argparse.ArgumentParser:
+                  description: str) -> argparse.ArgumentParser:
     """
     Setups command line argument parser and assigns defaults and help statements.
     """
-    parser = argparse.ArgumentParser(description=__doc__,
+    parser = argparse.ArgumentParser(description=description,
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('command',
                         default='run',
-                        nargs='?',  # must specify 0-1 argument
-                        choices=command_map.keys())
+                        nargs='?',  # must specify 0-1 argument,
+                        choices=command_map.keys(),
+                        help='Command you want to run.')
     parser.add_argument('dependencies',
                         default='',
                         nargs='*',  # can specify 0-many arguments
                         help='Dependency(ies) you want to modify.')
-    if accept_target_environment:
-        parser.add_argument('-t', '--target',
-                            default='all',
-                            nargs='?',  # must specify 0-1 argument
-                            choices=['all', 'backend', 'frontend', 'script'])
     return parser
 
 
@@ -62,7 +62,7 @@ def execute_command(args: argparse.Namespace,
     # remove command
     del additional_arguments['command']
     # unpack additional arguments into function as named parameters
-    func(**additional_arguments)
+    func(**additional_arguments)  # type: ignore
 
 
 # -------------------------------------

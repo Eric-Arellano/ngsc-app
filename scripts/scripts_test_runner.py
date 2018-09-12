@@ -21,7 +21,10 @@ from scripts.utils import pipenv, sys_calls, command_line
 
 
 def main() -> None:
-    parser = command_line.create_parser(command_map)
+    parser = command_line.create_parser(
+            command_map,
+            description='Utility to test this scripts package itself.'
+    )
     args = parser.parse_args()
     check_prereqs_installed()
     command_line.execute_command(args, command_map)
