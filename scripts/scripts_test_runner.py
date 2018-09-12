@@ -44,12 +44,20 @@ def check_prereqs_installed() -> None:
 # Test commands
 # -------------------------------------
 
+def green() -> None:
+    """
+    Call all tests and linters.
+    """
+    test()
+    check_types()
+
+
 def check_types() -> None:
     """
     Calls MyPy to check for type errors.
     """
     pipenv.run(["mypy", "--strict-optional", "--ignore-missing-imports",
-                   "--package", "scripts"])
+                "--package", "scripts"])
 
 
 def test() -> None:
@@ -62,7 +70,8 @@ def test() -> None:
 # -------------------------------------
 # Command line options
 # -------------------------------------
-command_map = command_line.CommandMap({'test': test,
+command_map = command_line.CommandMap({'green': green,
+                                       'test': test,
                                        'types': check_types,
                                        })
 

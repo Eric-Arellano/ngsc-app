@@ -167,6 +167,19 @@ def catchup(*, target: Target = 'all') -> None:
 # Test commands
 # -------------------------------------
 
+def green(*, target: Target = 'all') -> None:
+    """
+    Call all tests and linters.
+    """
+    execute_on_target_environment(target,
+                                  all_action=lambda: (
+                                      backend.green(),
+                                      frontend.green(),
+                                      scripts_test_runner.green()),
+                                  backend_action=backend.green,
+                                  frontend_action=frontend.green,
+                                  script_action=scripts_test_runner.green)
+
 
 def test(*, target: Target = 'all') -> None:
     """
@@ -329,6 +342,7 @@ command_map = command_line.CommandMap({'run': run,
                                        'install': install,
                                        'reinstall': reinstall,
                                        'catchup': catchup,
+                                       'green': green,
                                        'test': test,
                                        'types': check_types,
                                        'outdated': list_outdated,

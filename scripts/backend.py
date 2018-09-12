@@ -133,6 +133,14 @@ def catchup() -> None:
 # Test commands
 # -------------------------------------
 
+def green() -> None:
+    """
+    Call all tests and linters.
+    """
+    test()
+    check_types()
+
+
 def test() -> None:
     """
     Run unit tests.
@@ -198,6 +206,7 @@ command_map = command_line.CommandMap({'run': run,
                                        'install': install,
                                        'reinstall': reinstall,
                                        'catchup': catchup,
+                                       'green': green,
                                        'test': test,
                                        'types': check_types,
                                        'outdated': list_outdated,
