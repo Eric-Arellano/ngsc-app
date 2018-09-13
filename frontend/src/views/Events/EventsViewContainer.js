@@ -1,10 +1,10 @@
 // @flow
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import moment from 'moment'
-import { getRequest } from 'api'
+import {getRequest} from 'api'
 import EventsView from './EventsView'
-import { withError } from 'decorators'
-import type { CalendarEvent } from 'types'
+import {withError} from 'decorators'
+import type {CalendarEvent} from 'types'
 
 type Props = {}
 
@@ -36,8 +36,8 @@ class EventsViewContainer extends Component<Props, State> {
   }
 
   getEvents = (): Promise<any> => {
-    const calendar_id = 'nldr7mmpe52c337cdf0kdj5va4@group.calendar.google.com'
-    const api_key = 'AIzaSyCrUF2cdnFowx-MKlEnMNFUweOXlnU4Vc8'
+    const calendar_id = 'k1n6cusdrh0okgpp4okg8nhak4%40group.calendar.google.com'
+    const api_key = 'AIzaSyCGqIbNGpiy_pbpCEmAL7vja5hbbUGVGn0'
     const url = `https://www.googleapis.com/calendar/v3/calendars/${calendar_id}/events?key=${api_key}`
     return getRequest(url)
   }
