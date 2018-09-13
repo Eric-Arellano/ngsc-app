@@ -1,7 +1,7 @@
 # NGSC App
-App to allow students in NGSC program to check their participation status, internships, and upcoming events in the program. 
+App to allow students in NGSC program to check their participation status, leadership, and upcoming events in the program. 
 
-Uses React for frontend, Python 3 and Flask for backend server, and Google Docs API for data source.
+Uses React.js for frontend, Python 3 and Flask for backend server, and Google Docs API for data source.
 
 ## Prerequisites
 
@@ -44,59 +44,12 @@ Use Git Bash instead of Command Prompt, because Git Bash offers Unix-style tools
 1. `./ngsc`, starts the app at `localhost:3000` (go to this in your browser)
 1. `./ngsc stop`, stops the app
 
-#### Making changes
-1. `./ngsc green`, make sure your changes pass tests and linters
+#### After making changes
+`./ngsc green`, make sure your changes pass tests and linters
 
-## Advanced Usage
-There are many different ways to run this application, such as only starting the backend server or only starting the frontend server.
+#### Additional commands
+`./ngsc --help`, lists all possible commands
 
-#### Understanding the below syntax
-You will encounter these symbols:
-* `a|b` = a or b. You must choose one.
-* `[a]` = a is optional. You can add it as an argument if you'd like, otherwise the defaults will be used. 
-
-#### Targeting environment
-Most of these commands default to running on every possible environment (scripts, backend, and frontend). 
+#### Specifying target
+Most commands default to running on every possible environment (scripts, backend, and frontend). 
 You can often specify a specific target with `--backend` (`-b`), `--frontend` (`-f`), or `--scripts` (`-s`).
-
-### Install
-* first-time setup: `./ngsc install [--backend|frontend]`
-* reinstall: `./ngsc reinstall [--backend|frontend]`
-
-### Run
-* Start app: `./ngsc [--backend|frontend]`
-    * Targeting the `backend` or `frontend` will output the status of the server to the console, unlike how we normally 
-    hide it with `./ngsc`. This is really useful for debugging!
-* Stop app: `./ngsc stop [--backend|frontend]`
-
-### Test
-* Run all tests & linters `./ngsc green [--backend|frontend|scripts]`
-* Run unit tests: `./ngsc test [--backend|fronted|scripts]`
-* Check types: `./ngsc types [--backend|frontend|scripts]`
-
-
-### Deploy
-`./ngsc deploy`
-
-### Update static student info
-Whenever a change happens to the Master spreadsheet, this script needs to be called.
-
-1. `./ngsc student-info`
-1. `./ngsc deploy`
-
-### Setup new semester
-Run these scripts to setup the new semester's Google Drive system.
-
-1. `./ngsc setup-semester`
-1. `./ngsc share-drive`
-
-If you need to rebuild the rosters, e.g. after freshmen are assigned to their committees:
-
-`./ngsc rebuild-rosters`
-
-### Dependency management
-* View outdated dependencies: `./ngsc outdated [--backend|frontend]`
-* View dependency tree: `./ngsc deptree [--backend]` (not supported on frontend)
-* Add package(s): `./ngsc add package1 [package2...] --backend|frontend`
-* Upgrade package(s): `./ngsc upgrade package1 [package2...] --backend|frontend`
-* Remove package(s): `./ngsc remove package1 [package2...] --backend|frontend`

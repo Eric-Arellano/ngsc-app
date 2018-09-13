@@ -1,34 +1,5 @@
 #!/usr/bin/env python3.7
 
-"""
-Top level script to install, run, test, deploy, update, and manage dependencies
-for the whole app and its backend and frontend.
-
-Commands follow the syntax:
-    `./run.py [command] [-t target]`, where
-        [target] = [all|backend|frontend|script] with default to `all`
-        [command] = one of the valid commands with default to `run`
-
-Usage:
-    run...
-            run (detached): `./run.py [--backend|frontend]`
-            stop: `./run.py stop [--backend|frontend]`
-    install...
-            install: `./run.py install [--backend|frontend]`
-            reinstall: ./run.py reinstall [--backend|frontend]`
-    test...
-            run tests: `./run.py test [--backend|scripts]`
-            check types: `./run.py types [--backend|frontend]`
-    dependency management...
-            view outdated: `./run.py outdated [--backend|frontend]`
-            add: `./run.py add package1 [package2..] --backend|frontend`
-            upgrade: `./run.py upgrade package1 [package2..] --backend|frontend`
-            remove: `./run.py remove package1 [package2..] --backend|frontend`
-    deploy...
-            deploy: `./run.py deploy`
-    update student info...
-            update: `./run.py student-info`
-"""
 import os
 import sys
 from pathlib import Path
@@ -39,7 +10,7 @@ sys.path.append(str(current_file_path.parents[1]))
 
 import argparse
 from functools import partial
-from typing import List, NamedTuple, Iterator, Optional
+from typing import Callable, List, NamedTuple, Iterator, Optional
 
 from scripts import backend, deploy, frontend, scripts_test_runner, update_demographics
 from scripts.utils import command_line, pipenv
@@ -47,15 +18,14 @@ from scripts.utils import command_line, pipenv
 
 def main() -> None:
     parser = command_line.create_parser(
-            command_map,
-            description='Top level script to install, run, test, deploy, update, and manage dependencies '
-                        'for the whole app and its backend and frontend.'
+            command_options,
+            description='Run and manage the web app.'
     )
     add_targets_to_parser(parser)
     args = parser.parse_args()
     check_prereqs()
     pipenv.remove_old_venv()
-    command_line.execute_command(args, command_map)
+    command_line.execute_command(args, command_options)
 
 
 # -------------------------------------
@@ -96,16 +66,18 @@ def add_targets_to_parser(parser: argparse.ArgumentParser) -> None:
     add_arg('-s', '--scripts')
 
 
-def raise_invalid_target(target_command_map: TargetCommandMap) -> None:
+def get_target_names(target_command_map: TargetCommandMap) -> List[str]:
     target_names = {
-        '--all (default)': target_command_map.all_action,
-        '--backend': target_command_map.backend_action,
-        '--frontend': target_command_map.frontend_action,
-        '--scripts': target_command_map.scripts_action
+        'all (default)': target_command_map.all_action,
+        'backend': target_command_map.backend_action,
+        'frontend': target_command_map.frontend_action,
+        'scripts': target_command_map.scripts_action
     }
-    supported_targets = '\n'.join(
-            [target_name for target_name, action in target_names.items() if action is not None]
-    )
+    return [target_name for target_name, action in target_names.items() if action is not None]
+
+
+def raise_invalid_target(target_command_map: TargetCommandMap) -> None:
+    supported_targets = '\n'.join(get_target_names(target_command_map))
     raise SystemExit(f'Invalid target. This command supports the following targets:\n{supported_targets}')
 
 
@@ -412,29 +384,33 @@ def rebuild_rosters() -> TargetCommandMap:
 # Command line options
 # -------------------------------------
 
-def support_targets(command):
-    return partial(execute_on_target_environment, command())
+def create_command_option(name: str, command: Callable[[], TargetCommandMap]) -> command_line.CommandOption:
+    command_with_targets = partial(execute_on_target_environment, command())
+    target_names = ', '.join(get_target_names(command()))
+    help = (command.__doc__ or '') + f'(Valid targets: {target_names})'
+    return command_line.CommandOption(name=name, command=command_with_targets, help=help)
 
 
-command_map = command_line.CommandMap({
-    'run': support_targets(run),
-    'stop': support_targets(stop),
-    'install': support_targets(install),
-    'reinstall': support_targets(reinstall),
-    'green': support_targets(green),
-    'test': support_targets(test),
-    'types': support_targets(check_types),
-    'outdated': support_targets(list_outdated),
-    'deptree': support_targets(dependency_tree),
-    'add': support_targets(add),
-    'upgrade': support_targets(upgrade),
-    'remove': support_targets(remove),
-    'deploy': support_targets(deploy_to_heroku),
-    'student-info': support_targets(update_student_info),
-    'setup-semester': support_targets(setup_semester),
-    'share-drive': support_targets(share_drive),
-    'rebuild-rosters': support_targets(rebuild_rosters)
-})
+command_options = [
+    create_command_option('run', run),
+    create_command_option('stop', stop),
+    create_command_option('install', install),
+    create_command_option('reinstall', reinstall),
+    create_command_option('green', green),
+    create_command_option('test', test),
+    create_command_option('types', check_types),
+    create_command_option('outdated', list_outdated),
+    create_command_option('deptree', dependency_tree),
+    create_command_option('add', add),
+    create_command_option('upgrade', upgrade),
+    create_command_option('remove', remove),
+    create_command_option('deploy', deploy_to_heroku),
+    create_command_option('student-info', update_student_info),
+    create_command_option('setup-semester', setup_semester),
+    create_command_option('share-drive', share_drive),
+    create_command_option('rebuild-rosters', rebuild_rosters)
+]
+
 
 # -------------------------------------
 # Run script

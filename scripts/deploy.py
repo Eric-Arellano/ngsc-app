@@ -1,8 +1,5 @@
 #!/usr/bin/env python3.7
 
-"""
-Utility to deploy app to GitHub and Heroku.
-"""
 import os
 import sys
 from pathlib import Path

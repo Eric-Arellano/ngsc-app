@@ -1,8 +1,5 @@
 #!/usr/bin/env python3.7
 
-"""
-Utility to update hardcoded file of student information.
-"""
 import json
 import os
 import pprint

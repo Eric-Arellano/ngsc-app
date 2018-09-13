@@ -1,27 +1,5 @@
 #!/usr/bin/env python3.7
 
-"""
-Utility to run, install, test, and manage dependencies for the Flask backend.
-
-Usage:
-    run...
-            normal: `backend.py`
-            detached mode: `backend.py detached`
-            stop detached: `backend.py stop`
-    install...
-            install: `./backend.py install`
-            reinstall: `./backend.py reinstall`
-    test...
-            run unit tests: `./backend.py test`
-            check types: `./backend.py types`
-    dependency management...
-            view outdated: `./backend.py outdated`
-            view dependency tree: `./backend.py deptree`
-            add: `./backend.py add [package(s)]`
-            upgrade: `./backend.py upgrade [package(s)]`
-            remove: `./backend.py remove [package(s)]`
-"""
-
 import os
 import sys
 from pathlib import Path
@@ -36,13 +14,13 @@ from scripts.utils import prereq_checker, process_management, git, sys_calls, pi
 
 def main() -> None:
     parser = command_line.create_parser(
-            command_map,
-            description='Utility to run, install, test, and manage dependencies for the Flask backend.'
+            command_options,
+            description='Run and manage the Flask backend.'
     )
     args = parser.parse_args()
     check_prereqs()
     pipenv.remove_old_venv()
-    command_line.execute_command(args, command_map)
+    command_line.execute_command(args, command_options)
 
 
 # -------------------------------------
@@ -188,20 +166,26 @@ def remove(dependencies: List[Dependency]) -> None:
 # -------------------------------------
 # Command line options
 # -------------------------------------
-command_map = command_line.CommandMap({'run': run,
-                                       'detached': run_detached,
-                                       'stop': stop,
-                                       'install': install,
-                                       'reinstall': reinstall,
-                                       'green': green,
-                                       'test': test,
-                                       'types': check_types,
-                                       'outdated': list_outdated,
-                                       'deptree': dependency_tree,
-                                       'add': add,
-                                       'upgrade': upgrade,
-                                       'remove': remove
-                                       })
+
+def create_command_option(name: str, command: command_line.Command) -> command_line.CommandOption:
+    return command_line.CommandOption(name=name, command=command, help=command.__doc__)
+
+
+command_options = [
+    create_command_option('run', run),
+    create_command_option('detached', run_detached),
+    create_command_option('stop', stop),
+    create_command_option('install', install),
+    create_command_option('reinstall', reinstall),
+    create_command_option('green', green),
+    create_command_option('test', test),
+    create_command_option('types', check_types),
+    create_command_option('outdated', list_outdated),
+    create_command_option('deptree', dependency_tree),
+    create_command_option('add', add),
+    create_command_option('upgrade', upgrade),
+    create_command_option('remove', remove)
+]
 
 # -------------------------------------
 # Run script

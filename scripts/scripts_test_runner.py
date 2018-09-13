@@ -1,14 +1,5 @@
 #!/usr/bin/env python3.7
 
-"""
-Utility to test this scripts package itself.
-
-Usage:
-    test...
-            run tests: `./tests_runner.py test`
-            check types: `./tests_runner.py types`
-"""
-
 import os
 import sys
 from pathlib import Path
@@ -22,12 +13,12 @@ from scripts.utils import pipenv, sys_calls, command_line
 
 def main() -> None:
     parser = command_line.create_parser(
-            command_map,
-            description='Utility to test this scripts package itself.'
+            command_options,
+            description='Test these awesome build scripts.'
     )
     args = parser.parse_args()
     check_prereqs_installed()
-    command_line.execute_command(args, command_map)
+    command_line.execute_command(args, command_options)
 
 
 # -------------------------------------
@@ -73,10 +64,16 @@ def test() -> None:
 # -------------------------------------
 # Command line options
 # -------------------------------------
-command_map = command_line.CommandMap({'green': green,
-                                       'test': test,
-                                       'types': check_types,
-                                       })
+
+def create_command_option(name: str, command: command_line.Command) -> command_line.CommandOption:
+    return command_line.CommandOption(name=name, command=command, help=command.__doc__)
+
+
+command_options = [
+    create_command_option('green', green),
+    create_command_option('test', test),
+    create_command_option('types', check_types),
+]
 
 # -------------------------------------
 # Run script

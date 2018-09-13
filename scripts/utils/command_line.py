@@ -4,13 +4,20 @@ Utilities to accept and parse command line arguments.
 
 import argparse
 import functools
-from typing import Any, Callable, Dict, List, NewType, Union
-
+from typing import Any, Callable, List, NamedTuple, Optional, Union
 
 NoArgCommand = Callable[[], None]
 DependencyCommand = Callable[[List[str]], None]
 Command = Union[NoArgCommand, DependencyCommand]
-CommandMap = NewType('CommandMap', Dict[str, Command])
+
+
+class CommandOption(NamedTuple):
+    name: str
+    command: Command
+    help: Optional[str]
+
+
+CommandOptionList = List[CommandOption]
 
 
 # -----------------------------------------------------------------
@@ -28,32 +35,85 @@ def check_prereqs_installed() -> None:
 # Command line arguments
 # -------------------------------------
 
-def create_parser(command_map: CommandMap, *,
+def create_parser(command_options: CommandOptionList, *,
                   description: str) -> argparse.ArgumentParser:
     """
     Setups command line argument parser and assigns defaults and help statements.
+
+    See https://stackoverflow.com/a/49999185 for HelpFormatter code.
     """
-    parser = argparse.ArgumentParser(description=description,
-                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('command',
-                        default='run',
-                        nargs='?',  # must specify 0-1 argument,
-                        choices=command_map.keys(),
-                        help='Command you want to run.')
+
+    class HelpFormatterWithChoices(argparse.ArgumentDefaultsHelpFormatter):
+        def add_argument(self, action: argparse.Action):
+            if action.help is not argparse.SUPPRESS:
+                if isinstance(action.choices, dict):
+                    for choice, choice_help in action.choices.items():
+                        self._add_item(self.format_choices, [choice, choice_help])
+                else:
+                    super().add_argument(action)
+
+        def format_choices(self, choice, choice_help):
+            # determine the required width and the entry label
+            help_position = min(self._action_max_length + 2,
+                                self._max_help_position)
+            help_width = max(self._width - help_position, 11)
+            action_width = help_position - self._current_indent - 2
+            choice_header = choice
+
+            # short choice name; start on the same line and pad two spaces
+            if len(choice_header) <= action_width:
+                tup = self._current_indent, '', action_width, choice_header
+                choice_header = '%*s%-*s  ' % tup
+                indent_first = 0
+
+            # long choice name; start on the next line
+            else:
+                tup = self._current_indent, '', choice_header
+                choice_header = '%*s%s\n' % tup
+                indent_first = help_position
+
+            # collect the pieces of the choice help
+            parts = [choice_header]
+
+            # add lines of help text
+            help_lines = self._split_lines(choice_help, help_width)
+            parts.append('%*s%s\n' % (indent_first, '', help_lines[0]))
+            for line in help_lines[1:]:
+                parts.append('%*s%s\n' % (help_position, '', line))
+
+            # return a single string
+            return self._join_parts(parts)
+
+    parser = argparse.ArgumentParser(
+            description=description,
+            formatter_class=HelpFormatterWithChoices,
+    )
+
+    command_group = parser.add_argument_group(title='Possible commands')
+    command_group.add_argument(
+            'command',
+            default='run',
+            nargs='?',
+            metavar='COMMAND',
+            choices={option.name: option.help for option in command_options}
+    )
+
     parser.add_argument('dependencies',
                         default='',
-                        nargs='*',  # can specify 0-many arguments
+                        nargs='*',  # 0-many arguments
                         help='Dependency(ies) you want to modify.')
+
     return parser
 
 
 def execute_command(args: argparse.Namespace,
-                    command_map: CommandMap) -> None:
+                    command_options: CommandOptionList) -> None:
     """
     Determines which command was passed and then executes the command.
 
     Passes any additional parameters, such as target environment or dependencies.
     """
+    command_map = {entry.name: entry.command for entry in command_options}
     func = command_map[args.command]
     # convert arguments to dict
     passed_arguments = vars(args)
