@@ -11,4 +11,4 @@ matrix:
       script:
         - ./ngsc test --backend
         - ./ngsc test --frontend
-        - ./ngsc test --scripts
+        - ./ngsc green --scripts

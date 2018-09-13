@@ -1,4 +1,4 @@
-from typing import Callable, Dict, List, Union
+from typing import Callable, Dict, List
 
 import flask
 from googleapiclient import discovery
@@ -143,9 +143,9 @@ def generate_batch_arguments(*,
                              payload: Dict,
                              parse_func: Callable,
                              drive_service: discovery.Resource = None,
-                             **kwargs) -> List[Union[create.BatchArgument]]:
+                             **kwargs) -> List[create.BatchArgument]:
     target_folders = parse_semester_target(payload)
-    arguments = []
+    arguments: List[create.BatchArgument] = []
     for target in payload['targetFolders']:
         if target['apiId'] == 'committeeChairs':
             arguments += parse_func(target=target,

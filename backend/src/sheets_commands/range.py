@@ -35,7 +35,7 @@ def column(*,
     """
     Create DimensionRange object for column.
     """
-    range_ = {
+    range_: DimensionRange = {
         'sheetId': tab_id,
         'dimension': 'COLUMNS',
     }

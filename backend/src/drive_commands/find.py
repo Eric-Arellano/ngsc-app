@@ -82,6 +82,9 @@ def recursive_resource(*,
                                  parent_folder_id=parent_folder_id,
                                  exact_match=exact_match,
                                  drive_service=drive_service)
+        if new_parent_id is None:
+            raise OSError(f'Could not find resource ID for {path[0]} with parent_folder_id={parent_folder_id} '
+                          f'and full path={path}.')
         return recursive_resource(path=new_path,
                                   parent_folder_id=new_parent_id,
                                   mime_type=mime_type,

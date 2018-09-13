@@ -1,7 +1,7 @@
 """
 Share a resource within Google Drive.
 """
-from typing import List, NamedTuple
+from typing import List, NamedTuple, Optional
 
 from googleapiclient import discovery, http
 
@@ -37,7 +37,7 @@ def resource(resource_id: drive_api.ResourceID,
 class BatchArgument(NamedTuple):
     resource_id: drive_api.ResourceID
     emails: List[str]
-    email_message: str = None
+    email_message: Optional[str] = None
     send_email: bool = False
     transfer_ownership: bool = False
 

@@ -1,7 +1,7 @@
 """
 Create an empty file or folder into the specified targets.
 """
-from typing import List, NamedTuple
+from typing import List, NamedTuple, Optional
 
 from googleapiclient import discovery, http
 
@@ -95,7 +95,7 @@ def resource(name: str, *,
 class BatchArgument(NamedTuple):
     name: str
     parent_folder_id: drive_api.ResourceID
-    mime_type: str = None
+    mime_type: Optional[str] = None
 
 
 def batch_gdoc(arguments: List[BatchArgument], *,
@@ -182,7 +182,7 @@ def batch(arguments: List[BatchArgument], *,
         nonlocal result
         result.append(response.get('id'))
 
-    requests = [request(name=argument.name,
+    requests = [request(name=argument.name,  # type: ignore  # complains about mime_type being Optional
                         mime_type=argument.mime_type,
                         parent_folder_id=argument.parent_folder_id,
                         drive_service=drive_service)

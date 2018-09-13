@@ -1,5 +1,5 @@
 from base64 import b64decode, b64encode
-from typing import Dict, Union
+from typing import Mapping, Union
 
 
 def encrypt(x: str) -> str:
@@ -12,26 +12,26 @@ def decrypt(x: str) -> str:
     return bytes.decode(decrypted_bytes)
 
 
-NestedDict = Dict[str, Union[str, Dict[str, str]]]
+NestedMapping = Mapping[str, Union[str, Mapping[str, str]]]
 
 
-def encrypt_dict_values(x: NestedDict) -> NestedDict:
-    return {k: (encrypt(v)
+def encrypt_dict_values(x: NestedMapping) -> NestedMapping:
+    return {k: (encrypt(v)  # type: ignore  # MyPy doesn't support recursive types
                 if isinstance(v, str)
                 else encrypt_dict_values(v))
             for k, v
             in x.items()}
 
 
-def decrypt_dict_values(x: NestedDict) -> NestedDict:
-    return {k: (decrypt(v)
+def decrypt_dict_values(x: NestedMapping) -> NestedMapping:
+    return {k: (decrypt(v)  # type: ignore  # MyPy doesn't support recursive types
                 if isinstance(v, str)
                 else decrypt_dict_values(v))
             for k, v
             in x.items()}
 
 
-Demographics = Dict[str, NestedDict]
+Demographics = Mapping[str, NestedMapping]
 
 
 def encrypt_demographics(x: Demographics) -> Demographics:

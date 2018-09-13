@@ -48,7 +48,7 @@ def new_request(*,
     """
     Create a new tab with given name.
     """
-    request = {
+    request: sheet.BatchRequest = {
         'addSheet': {
             'properties': {
                 'title': tab_name

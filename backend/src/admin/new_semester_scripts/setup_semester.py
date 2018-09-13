@@ -172,7 +172,7 @@ def create_empty_folders(*,
     # Root level
     semester_root = create_folder(semester,
                                   parent_folder_id=folder_ids.ngsc_root)
-    id_map = {
+    id_map: IdMap = {
         'ngsc_root': folder_ids.ngsc_root,
         'drive_playground': folder_ids.drive_playground,
         'semester_root': semester_root
@@ -311,7 +311,6 @@ def copy_important_files(*,
     """
     Copy the Master, schedule, all-student attendance, no shows, & templates.
     """
-    id_map = {}
     if drive_service is None:
         drive_service = drive_api.build_service()
     batch_copy_file = functools.partial(copy.batch,
@@ -344,7 +343,7 @@ def copy_important_files(*,
                            new_name=f'All student attendance - {semester}',
                            target_folder_id=folder_id_map['all_students']['participation']),
     ])
-    id_map = {
+    id_map: IdMap = {
         'master_prior_semester': file_ids.master,
         'master': copied_file_ids[0],
         'schedule': copied_file_ids[1],
