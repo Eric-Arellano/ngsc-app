@@ -131,6 +131,9 @@ def commit(message: str) -> None:
     """
     Commit with message.
     """
+    if sys_calls.is_windows_environment():
+        # Windows must wrap message with "" because of how bash expansion works
+        message = f'"{message}"'
     sys_calls.run(['git', 'commit', '-m', message])
 
 
