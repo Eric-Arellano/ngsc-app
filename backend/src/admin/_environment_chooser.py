@@ -7,6 +7,7 @@ from backend.src.data import file_ids
 # Attendance rosters
 # -------------------------------------------------------
 
+
 def operate_on_all_attendance(func: Callable, *args, **kwargs) -> None:
     """
     Call the passed function on committee and mission team rosters.

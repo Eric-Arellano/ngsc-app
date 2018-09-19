@@ -17,17 +17,20 @@ BatchCallback = Callable[[str, Dict, errors.HttpError], None]
 # Core commands
 # --------------------------------------------------------------
 
+
 def build_service() -> discovery.Resource:
     """
     Instantiate Google Drive service with correct credentials and API keys.
     """
-    return discovery.build('drive', 'v3', http=authentication.get_auth())
+    return discovery.build("drive", "v3", http=authentication.get_auth())
 
 
-def batch_command(*,
-                  callback: BatchCallback = None,
-                  requests: List[http.HttpRequest],
-                  drive_service: discovery.Resource = None) -> None:
+def batch_command(
+    *,
+    callback: BatchCallback = None,
+    requests: List[http.HttpRequest],
+    drive_service: discovery.Resource = None,
+) -> None:
     """
     Execute batch command.
 

@@ -19,41 +19,43 @@ def get(asurite: str) -> Optional[Dict]:
     if result is None:
         return None
     result = encryptor.decrypt_dict_values(result)
-    mission_team_number = int(result['missionTeam']) if result['missionTeam'] else None
-    return {'name':
-                {'first': result['name']['first'],
-                 'last': result['name']['last']},
-            'cohort': result['cohort'],
-            'missionTeam': (f'{mission_team_number} - {mission_teams.missions[mission_team_number]}'
-                            if mission_team_number else ''),
-            'committee': result['committee'],
-            'leadership': result['leadership'],
-            'email': result['email'],
-            'phone': result['phone'],
-            'campus': result['campus'],
-            }
+    mission_team_number = int(result["missionTeam"]) if result["missionTeam"] else None
+    return {
+        "name": {"first": result["name"]["first"], "last": result["name"]["last"]},
+        "cohort": result["cohort"],
+        "missionTeam": (
+            f"{mission_team_number} - {mission_teams.missions[mission_team_number]}"
+            if mission_team_number
+            else ""
+        ),
+        "committee": result["committee"],
+        "leadership": result["leadership"],
+        "email": result["email"],
+        "phone": result["phone"],
+        "campus": result["campus"],
+    }
 
 
 def get_all() -> Dict:
     """
     Get every student's demographic info as a dictionary indexed by student id.
     """
-    results = sheet.get_values(file_ids.master,
-                               range_='Master!A2:O')
+    results = sheet.get_values(file_ids.master, range_="Master!A2:O")
     demographics = {}
     for row in results:
-        asurite = row[column_indexes.master['asurite']]
+        asurite = row[column_indexes.master["asurite"]]
         demographics[asurite] = {
-            'name':
-                {'first': row[column_indexes.master['first']],
-                 'last': row[column_indexes.master['last']]},
-            'cohort': row[column_indexes.master['cohort']],
-            'missionTeam': row[column_indexes.master['mt']],
-            'committee': row[column_indexes.master['committee']],
-            'leadership': row[column_indexes.master['leadership']],
-            'email': row[column_indexes.master['email']],
-            'phone': row[column_indexes.master['phone']],
-            'campus': row[column_indexes.master['campus']],
+            "name": {
+                "first": row[column_indexes.master["first"]],
+                "last": row[column_indexes.master["last"]],
+            },
+            "cohort": row[column_indexes.master["cohort"]],
+            "missionTeam": row[column_indexes.master["mt"]],
+            "committee": row[column_indexes.master["committee"]],
+            "leadership": row[column_indexes.master["leadership"]],
+            "email": row[column_indexes.master["email"]],
+            "phone": row[column_indexes.master["phone"]],
+            "campus": row[column_indexes.master["campus"]],
         }
     return demographics
 

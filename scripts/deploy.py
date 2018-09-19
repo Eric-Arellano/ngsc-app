@@ -33,8 +33,8 @@ def check_remote_added() -> None:
     """
     Add Heroku remote if not already exists.
     """
-    if not git.is_remote_added('heroku'):
-        git.add_remote('heroku', 'https://git.heroku.com/ngsc-app.git')
+    if not git.is_remote_added("heroku"):
+        git.add_remote("heroku", "https://git.heroku.com/ngsc-app.git")
 
 
 def check_logged_in() -> None:
@@ -42,8 +42,10 @@ def check_logged_in() -> None:
     Exit script if not logged in to Heroku CLI.
     """
     if not heroku.is_logged_in():
-        raise SystemExit('You must first login to Heroku using `heroku login`. '
-                         'Ask Eric (ecarell1@asu.edu) for his Heroku credentials.')
+        raise SystemExit(
+            "You must first login to Heroku using `heroku login`. "
+            "Ask Eric (ecarell1@asu.edu) for his Heroku credentials."
+        )
 
 
 def resolve_git_issues() -> None:
@@ -51,27 +53,27 @@ def resolve_git_issues() -> None:
     Confirm on master branch, branch is clean, and check for changes from remote.
     """
     git.assert_clean_local()
-    if not git.is_on_branch('master'):
-        git.checkout('master')
-    git.fast_forward('origin', 'master')
-    git.fast_forward('heroku', 'master')
+    if not git.is_on_branch("master"):
+        git.checkout("master")
+    git.fast_forward("origin", "master")
+    git.fast_forward("heroku", "master")
 
 
 def confirm_code_quality() -> None:
     """
     Ask if they have confirmed the project is ready to deploy.
     """
-    if not command_line.ask_yes_no('Have you tested the project adequately?'):
-        raise SystemExit('You should test the project before deploying.')
+    if not command_line.ask_yes_no("Have you tested the project adequately?"):
+        raise SystemExit("You should test the project before deploying.")
 
 
 def deploy() -> None:
     """
     Push to GitHub origin master and Heroku origin master.
     """
-    git.push('origin', 'master')
-    git.push('heroku', 'master')
+    git.push("origin", "master")
+    git.push("heroku", "master")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

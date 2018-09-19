@@ -14,8 +14,7 @@ def find_not_installed(programs: List[ProgramName]) -> List[ProgramName]:
     """
     Returns list of programs not installed, or empty list.
     """
-    return [program for program in programs
-            if not is_program_installed(program)]
+    return [program for program in programs if not is_program_installed(program)]
 
 
 def is_program_installed(program: ProgramName) -> bool:
@@ -25,9 +24,9 @@ def is_program_installed(program: ProgramName) -> bool:
     return shutil.which(program) is not None
 
 
-def check_is_installed(programs: List[ProgramName], *,
-                       windows_support=True,
-                       posix_support=True) -> None:
+def check_is_installed(
+    programs: List[ProgramName], *, windows_support=True, posix_support=True
+) -> None:
     """
     Raise exception if any of the given programs not installed.
 
@@ -41,5 +40,5 @@ def check_is_installed(programs: List[ProgramName], *,
     elif posix_support and not sys_calls.is_windows_environment():
         not_installed_programs = find_not_installed(programs)
     if not_installed_programs:
-        program_list = ' and '.join(not_installed_programs)
-        raise SystemExit(f'{program_list} not installed')
+        program_list = " and ".join(not_installed_programs)
+        raise SystemExit(f"{program_list} not installed")

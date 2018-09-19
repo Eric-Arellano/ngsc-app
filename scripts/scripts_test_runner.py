@@ -14,8 +14,7 @@ from scripts.utils import pipenv, sys_calls, command_line
 
 def main() -> None:
     parser = command_line.create_parser(
-            command_options,
-            description='Test these awesome build scripts.'
+        command_options, description="Test these awesome build scripts."
     )
     args = parser.parse_args()
     check_prereqs_installed()
@@ -25,6 +24,7 @@ def main() -> None:
 # -------------------------------------
 # Required software
 # -------------------------------------
+
 
 def check_prereqs_installed() -> None:
     """
@@ -39,6 +39,7 @@ def check_prereqs_installed() -> None:
 # Test commands
 # -------------------------------------
 
+
 def green() -> None:
     """
     Call all tests and linters.
@@ -52,15 +53,22 @@ def check_types() -> None:
     """
     Calls MyPy to check for type errors.
     """
-    pipenv.run(["mypy", "--strict-optional", "--ignore-missing-imports",
-                "--package", "scripts"])
+    pipenv.run(
+        [
+            "mypy",
+            "--strict-optional",
+            "--ignore-missing-imports",
+            "--package",
+            "scripts",
+        ]
+    )
 
 
 def test() -> None:
     """
     Run unit tests.
     """
-    pipenv.run(['pytest', '-q'], cwd='scripts')
+    pipenv.run(["pytest", "-q"], cwd="scripts")
 
 
 def fmt() -> None:
@@ -75,20 +83,23 @@ def fmt() -> None:
 # Command line options
 # -------------------------------------
 
-def create_command_option(name: str, command: command_line.Command) -> command_line.CommandOption:
+
+def create_command_option(
+    name: str, command: command_line.Command
+) -> command_line.CommandOption:
     return command_line.CommandOption(name=name, command=command, help=command.__doc__)
 
 
 command_options = [
-    create_command_option('green', green),
-    create_command_option('test', test),
-    create_command_option('types', check_types),
-    create_command_option('fmt', fmt),
+    create_command_option("green", green),
+    create_command_option("test", test),
+    create_command_option("types", check_types),
+    create_command_option("fmt", fmt),
 ]
 
 # -------------------------------------
 # Run script
 # -------------------------------------
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -10,13 +10,19 @@ current_file_path = Path(os.path.realpath(__file__))
 sys.path.append(str(current_file_path.parents[1]))
 
 from typing import List
-from scripts.utils import prereq_checker, process_management, git, sys_calls, pipenv, command_line
+from scripts.utils import (
+    prereq_checker,
+    process_management,
+    git,
+    sys_calls,
+    pipenv,
+    command_line,
+)
 
 
 def main() -> None:
     parser = command_line.create_parser(
-            command_options,
-            description='Run and manage the Flask backend.'
+        command_options, description="Run and manage the Flask backend."
     )
     args = parser.parse_args()
     check_prereqs()
@@ -28,12 +34,13 @@ def main() -> None:
 # Required software
 # -------------------------------------
 
+
 def check_prereqs() -> None:
     """
     Confirms all required software installed.
     """
-    prereq_checker.check_is_installed(['python3'], windows_support=False)
-    prereq_checker.check_is_installed(['python'], posix_support=False)
+    prereq_checker.check_is_installed(["python3"], windows_support=False)
+    prereq_checker.check_is_installed(["python"], posix_support=False)
     command_line.check_prereqs_installed()
     process_management.check_prereqs_installed()
     git.check_prereqs_installed()
@@ -45,13 +52,14 @@ def check_prereqs() -> None:
 # Run commands
 # -------------------------------------
 
+
 def run() -> None:
     """
     Start backend server normally.
     """
-    sys_calls.export('FLASK_APP', 'backend/src/server.py')
+    sys_calls.export("FLASK_APP", "backend/src/server.py")
     try:
-        pipenv.run(['flask', 'run'])
+        pipenv.run(["flask", "run"])
     except KeyboardInterrupt:
         pass
 
@@ -62,30 +70,31 @@ def run_detached() -> None:
 
     Must later kill process.
     """
-    sys_calls.export('FLASK_APP', 'backend/src/server.py')
-    pipenv.run_detached(['flask', 'run'])
-    print('Backend server started at localhost:5000. Remember to stop it after.')
+    sys_calls.export("FLASK_APP", "backend/src/server.py")
+    pipenv.run_detached(["flask", "run"])
+    print("Backend server started at localhost:5000. Remember to stop it after.")
 
 
 def stop() -> None:
     """
     Stop detached backend server by searching PID on port 5000 and then killing process.
     """
-    pid = process_management.find_pid_on_port('5000')
+    pid = process_management.find_pid_on_port("5000")
     process_management.kill_process(pid)
-    print('Backend server stopped at localhost:5000.')
+    print("Backend server stopped at localhost:5000.")
 
 
 # -------------------------------------
 # Install commands
 # -------------------------------------
 
+
 def install() -> None:
     """
     Downloads & installs all dependencies for the backend.
     """
     pipenv.create()
-    sys_calls.run(['pipenv', 'install', '--ignore-pipfile', '--dev'])
+    sys_calls.run(["pipenv", "install", "--ignore-pipfile", "--dev"])
 
 
 def reinstall() -> None:
@@ -100,6 +109,7 @@ def reinstall() -> None:
 # Test commands
 # -------------------------------------
 
+
 def green() -> None:
     """
     Call all tests and linters.
@@ -113,15 +123,17 @@ def test() -> None:
     """
     Run unit tests.
     """
-    pipenv.run(['pytest', '-q'], cwd='backend/src')
+    pipenv.run(["pytest", "-q"], cwd="backend/src")
 
 
 def check_types() -> None:
     """
     Calls MyPy to check for type errors.
     """
-    pipenv.run(["mypy", "--strict-optional", "--ignore-missing-imports",
-                "--package", "src"], cwd='backend/')
+    pipenv.run(
+        ["mypy", "--strict-optional", "--ignore-missing-imports", "--package", "src"],
+        cwd="backend/",
+    )
 
 
 def fmt() -> None:
@@ -149,58 +161,61 @@ def dependency_tree() -> None:
     """
     Visualize which dependencies depend upon which.
     """
-    sys_calls.run(['pipenv', 'graph'])
+    sys_calls.run(["pipenv", "graph"])
 
 
 def add(dependencies: List[Dependency]) -> None:
     """
     Add one or more pip packages.
     """
-    sys_calls.run(['pipenv', 'install'] + dependencies)
+    sys_calls.run(["pipenv", "install"] + dependencies)
 
 
 def upgrade(dependencies: List[Dependency]) -> None:
     """
     Upgrade one or more out-of-date pip packages.
     """
-    sys_calls.run(['pipenv', 'update'] + dependencies)
+    sys_calls.run(["pipenv", "update"] + dependencies)
 
 
 def remove(dependencies: List[Dependency]) -> None:
     """
     Remove one or more pip packages.
     """
-    sys_calls.run(['pipenv', 'uninstall'] + dependencies)
+    sys_calls.run(["pipenv", "uninstall"] + dependencies)
 
 
 # -------------------------------------
 # Command line options
 # -------------------------------------
 
-def create_command_option(name: str, command: command_line.Command) -> command_line.CommandOption:
+
+def create_command_option(
+    name: str, command: command_line.Command
+) -> command_line.CommandOption:
     return command_line.CommandOption(name=name, command=command, help=command.__doc__)
 
 
 command_options = [
-    create_command_option('run', run),
-    create_command_option('detached', run_detached),
-    create_command_option('stop', stop),
-    create_command_option('install', install),
-    create_command_option('reinstall', reinstall),
-    create_command_option('green', green),
-    create_command_option('test', test),
-    create_command_option('types', check_types),
-    create_command_option('fmt', fmt),
-    create_command_option('outdated', list_outdated),
-    create_command_option('deptree', dependency_tree),
-    create_command_option('add', add),
-    create_command_option('upgrade', upgrade),
-    create_command_option('remove', remove)
+    create_command_option("run", run),
+    create_command_option("detached", run_detached),
+    create_command_option("stop", stop),
+    create_command_option("install", install),
+    create_command_option("reinstall", reinstall),
+    create_command_option("green", green),
+    create_command_option("test", test),
+    create_command_option("types", check_types),
+    create_command_option("fmt", fmt),
+    create_command_option("outdated", list_outdated),
+    create_command_option("deptree", dependency_tree),
+    create_command_option("add", add),
+    create_command_option("upgrade", upgrade),
+    create_command_option("remove", remove),
 ]
 
 # -------------------------------------
 # Run script
 # -------------------------------------
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

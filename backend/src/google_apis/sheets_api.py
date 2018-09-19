@@ -11,7 +11,10 @@ def build_service() -> discovery.Resource:
     """
     Instantiate Google Sheets service with correct credentials and API keys.
     """
-    discovery_url = ('https://sheets.googleapis.com/$discovery/rest?'
-                     'version=v4')
-    return discovery.build('sheets', 'v4', http=authentication.get_auth(),
-                           discoveryServiceUrl=discovery_url)
+    discovery_url = "https://sheets.googleapis.com/$discovery/rest?" "version=v4"
+    return discovery.build(
+        "sheets",
+        "v4",
+        http=authentication.get_auth(),
+        discoveryServiceUrl=discovery_url,
+    )

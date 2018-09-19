@@ -11,6 +11,7 @@ from typing import Dict, List, Tuple, Union
 # Check prereqs installed
 # -----------------------------------------------------------------
 
+
 def check_prereqs_installed() -> None:
     """
     Confirm all required software installed.
@@ -22,11 +23,12 @@ def check_prereqs_installed() -> None:
 # Determine environment
 # -----------------------------------------------------------------
 
+
 def is_windows_environment() -> bool:
     """
     Return True if on Windows, else on Posix.
     """
-    return os.name == 'nt'
+    return os.name == "nt"
 
 
 def determine_python_executable() -> str:
@@ -34,9 +36,9 @@ def determine_python_executable() -> str:
     Get name of python executable depending on system.
     """
     if is_windows_environment():
-        return 'python'
+        return "python"
     else:
-        return 'python3'
+        return "python3"
 
 
 Command = Union[List[str], str]
@@ -47,7 +49,7 @@ def _modify_for_windows(command: List[str], kwargs: Dict) -> Tuple[Command, Dict
     Allows running the command on Windows, if Windows is detected.
     """
     if is_windows_environment():
-        windows_command = ' '.join(command)
+        windows_command = " ".join(command)
         windows_kwargs = dict(kwargs, shell=True)
         return windows_command, windows_kwargs
     return command, kwargs
@@ -56,6 +58,7 @@ def _modify_for_windows(command: List[str], kwargs: Dict) -> Tuple[Command, Dict
 # -----------------------------------------------------------------
 # Modify environment
 # -----------------------------------------------------------------
+
 
 def export(key: str, value: str) -> None:
     """
@@ -68,13 +71,13 @@ def export(key: str, value: str) -> None:
 # Run commands
 # -----------------------------------------------------------------
 
+
 def run(command: List[str], **kwargs) -> subprocess.CompletedProcess:
     """
     Calls subprocess.run() and allows seamless support of both Windows and Unix.
     """
     new_command, new_kwargs = _modify_for_windows(command, kwargs)
-    return subprocess.run(new_command,
-                          **new_kwargs)
+    return subprocess.run(new_command, **new_kwargs)
 
 
 def run_detached(command: List[str], **kwargs) -> None:
@@ -82,19 +85,16 @@ def run_detached(command: List[str], **kwargs) -> None:
     Calls non-blocking subprocess.Popen() and ignores all input and output.
     """
     new_command, new_kwargs = _modify_for_windows(command, kwargs)
-    subprocess.Popen(new_command,
-                     stdout=subprocess.DEVNULL,
-                     stderr=subprocess.DEVNULL,
-                     **new_kwargs)
+    subprocess.Popen(
+        new_command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, **new_kwargs
+    )
 
 
 def run_as_shell(command: str, **kwargs) -> subprocess.CompletedProcess:
     """
     Calls subprocess.run() with shell=True.
     """
-    return subprocess.run(command,
-                          shell=True,
-                          **kwargs)
+    return subprocess.run(command, shell=True, **kwargs)
 
 
 def run_python(command: List[str], **kwargs) -> subprocess.CompletedProcess:
@@ -103,31 +103,28 @@ def run_python(command: List[str], **kwargs) -> subprocess.CompletedProcess:
     """
     python = determine_python_executable()
     new_command, new_kwargs = _modify_for_windows([python] + command, kwargs)
-    return subprocess.run(new_command,
-                          **new_kwargs)
+    return subprocess.run(new_command, **new_kwargs)
 
 
 # -----------------------------------------------------------------
 # Get StdOut of process
 # -----------------------------------------------------------------
 
+
 def get_stdout(command: List[str], **kwargs) -> str:
     """
     Performs the given command and returns the stdout as a string.
     """
     new_command, new_kwargs = _modify_for_windows(command, kwargs)
-    return subprocess.run(new_command,
-                          stdout=subprocess.PIPE,
-                          encoding='utf-8',
-                          **new_kwargs).stdout.strip()
+    return subprocess.run(
+        new_command, stdout=subprocess.PIPE, encoding="utf-8", **new_kwargs
+    ).stdout.strip()
 
 
 def get_stdout_as_shell(command: str, **kwargs) -> str:
     """
     Performs the given command using Shell and returns the stdout as a string.
     """
-    return subprocess.run(command,
-                          shell=True,
-                          stdout=subprocess.PIPE,
-                          encoding='utf-8',
-                          **kwargs).stdout.strip()
+    return subprocess.run(
+        command, shell=True, stdout=subprocess.PIPE, encoding="utf-8", **kwargs
+    ).stdout.strip()

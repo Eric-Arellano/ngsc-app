@@ -12,19 +12,23 @@ PID = str
 # Check prereqs installed
 # -----------------------------------------------------------------
 
+
 def check_prereqs_installed() -> None:
     """
     Confirm all required software installed.
     """
-    prereq_checker.check_is_installed(['grep', 'awk'])
-    prereq_checker.check_is_installed(['lsof', 'kill'], windows_support=False)
-    prereq_checker.check_is_installed(['netstat', 'taskkill', 'findstr'], posix_support=False)
+    prereq_checker.check_is_installed(["grep", "awk"])
+    prereq_checker.check_is_installed(["lsof", "kill"], windows_support=False)
+    prereq_checker.check_is_installed(
+        ["netstat", "taskkill", "findstr"], posix_support=False
+    )
     sys_calls.check_prereqs_installed()
 
 
 # -----------------------------------------------------------------
 # Networking
 # -----------------------------------------------------------------
+
 
 def find_pid_on_port(port: Port) -> PID:
     """
@@ -38,7 +42,7 @@ def find_pid_on_port(port: Port) -> PID:
     # find PID
     pid = sys_calls.get_stdout_as_shell(command)
     if not pid:
-        raise SystemExit(f'No process found running on port {port}.')
+        raise SystemExit(f"No process found running on port {port}.")
     return PID(pid)
 
 
@@ -46,12 +50,13 @@ def find_pid_on_port(port: Port) -> PID:
 # Manage processes
 # -----------------------------------------------------------------
 
+
 def kill_process(pid: PID) -> None:
     """
     Kills the specified PID.
     """
     if sys_calls.is_windows_environment():
-        command = ['taskkill', '/F', '/PID']
+        command = ["taskkill", "/F", "/PID"]
     else:
-        command = ['kill']
+        command = ["kill"]
     sys_calls.run(command + [pid])
