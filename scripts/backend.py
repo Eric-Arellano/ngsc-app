@@ -3,6 +3,7 @@
 import os
 import sys
 from pathlib import Path
+from glob import glob
 
 # path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
 current_file_path = Path(os.path.realpath(__file__))
@@ -105,6 +106,7 @@ def green() -> None:
     """
     test()
     check_types()
+    fmt()
 
 
 def test() -> None:
@@ -120,6 +122,14 @@ def check_types() -> None:
     """
     pipenv.run(["mypy", "--strict-optional", "--ignore-missing-imports",
                 "--package", "src"], cwd='backend/')
+
+
+def fmt() -> None:
+    """
+    Auto-formats backend code.
+    """
+    targets_from_root = glob("backend/src/**/*.py", recursive=True)
+    pipenv.run(["black", "--py36"] + targets_from_root)
 
 
 # -------------------------------------
@@ -180,6 +190,7 @@ command_options = [
     create_command_option('green', green),
     create_command_option('test', test),
     create_command_option('types', check_types),
+    create_command_option('fmt', fmt),
     create_command_option('outdated', list_outdated),
     create_command_option('deptree', dependency_tree),
     create_command_option('add', add),
