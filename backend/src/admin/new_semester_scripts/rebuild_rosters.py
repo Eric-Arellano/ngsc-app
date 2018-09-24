@@ -30,7 +30,9 @@ from backend.src.sheets_commands import tab, sheet
 
 def main() -> None:
     # check preconditions
-    setup_semester.check_new_ids_different()
+    next_semester = ask_if_next_semester()
+    if next_semester:
+        setup_semester.check_new_ids_different()
     override = ask_if_override()
     check_master_updated()
     # choose target
@@ -54,6 +56,19 @@ def main() -> None:
 # ---------------------------------------------------------------
 # Options & Instructions
 # --------------------------------------------------------------
+
+
+def ask_if_next_semester() -> bool:
+    """
+    Confirms which semester of data is being referenced
+    """
+    return command_line.ask_yes_no(
+        question=textwrap.dedent(
+            """\
+                    Would you like to rewrite next semester? Otherwise it will rewrite this semester.
+                    """
+        )
+    )
 
 
 def ask_if_override() -> bool:
