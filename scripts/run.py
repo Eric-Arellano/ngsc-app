@@ -270,11 +270,13 @@ def fmt() -> TargetCommandMap:
 
     def all_action() -> None:
         backend.fmt()
+        frontend.fmt()
         scripts_test_runner.fmt()
 
     return TargetCommandMap(
         all_action=all_action,
         backend_action=backend.fmt,
+        frontend_action=frontend.fmt,
         scripts_action=scripts_test_runner.fmt,
     )
 
