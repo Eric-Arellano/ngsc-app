@@ -1,7 +1,4 @@
-import withError from './withError'
-import withLoadingAndError from './withLoadingAndError'
+import withError from "./withError";
+import withLoadingAndError from "./withLoadingAndError";
 
-export {
-  withError,
-  withLoadingAndError
-}
+export { withError, withLoadingAndError };

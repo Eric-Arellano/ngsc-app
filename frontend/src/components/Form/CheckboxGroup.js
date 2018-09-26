@@ -1,34 +1,32 @@
 // @flow
-import React, { Component } from 'react'
-import { Label } from 'components'
-import type { CheckboxOption } from 'types'
-import s from './CheckboxGroup.module.css'
+import React, { Component } from "react";
+import { Label } from "components";
+import type { CheckboxOption } from "types";
+import s from "./CheckboxGroup.module.css";
 
 type Props = {
   options: Array<CheckboxOption>,
   label: ?string,
-  updateCurrentChecked: (Array<CheckboxOption>) => void,
-}
+  updateCurrentChecked: (Array<CheckboxOption>) => void
+};
 
-type State = {}
+type State = {};
 
 class CheckboxGroup extends Component<Props, State> {
-
   handleToggle = (e: SyntheticInputEvent<HTMLInputElement>) => {
-    const {options, updateCurrentChecked} = this.props
-    const input = e.currentTarget.value
+    const { options, updateCurrentChecked } = this.props;
+    const input = e.currentTarget.value;
     const updatedOptions = options.map(option => {
-        if (option.label === input) {
-          option.checked = !option.checked
-        }
-        return option
+      if (option.label === input) {
+        option.checked = !option.checked;
       }
-    )
-    updateCurrentChecked(updatedOptions)
-  }
+      return option;
+    });
+    updateCurrentChecked(updatedOptions);
+  };
 
-  render () {
-    const {options, label} = this.props
+  render() {
+    const { options, label } = this.props;
     return (
       <div className={s.container}>
         {label && <p className={s.label}>{label}</p>}
@@ -36,18 +34,21 @@ class CheckboxGroup extends Component<Props, State> {
           {options.map((option: CheckboxOption, index: number) => (
             <li key={index}>
               <Label>
-                <input type='checkbox'
-                       value={option.label}
-                       checked={option.checked}
-                       onChange={this.handleToggle}
-                       className={s.checkbox}
+                <input
+                  type="checkbox"
+                  value={option.label}
+                  checked={option.checked}
+                  onChange={this.handleToggle}
+                  className={s.checkbox}
                 />
                 {option.label}
               </Label>
-            </li>))}
+            </li>
+          ))}
         </ul>
-      </div>)
+      </div>
+    );
   }
 }
 
-export default CheckboxGroup
+export default CheckboxGroup;

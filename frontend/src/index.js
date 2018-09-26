@@ -1,12 +1,12 @@
 // react
-import React from 'react'
-import { render } from 'react-dom'
-import { BrowserRouter } from 'react-router-dom'
-import { AppViewContainer } from 'views'
+import React from "react";
+import { render } from "react-dom";
+import { BrowserRouter } from "react-router-dom";
+import { AppViewContainer } from "views";
 
 render(
   <BrowserRouter>
-    <AppViewContainer/>
+    <AppViewContainer />
   </BrowserRouter>,
-  document.getElementById('root')
-)
+  document.getElementById("root")
+);

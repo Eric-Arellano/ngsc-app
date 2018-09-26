@@ -1,13 +1,7 @@
-import React from 'react'
+import React from "react";
 
-describe('<ChecboxGroup />', () => {
+describe("<ChecboxGroup />", () => {
+  test.skip("toggles option when clicked", () => {});
 
-  test.skip('toggles option when clicked', () => {
-
-  })
-
-  test.skip('allows options to be initially checked', () => {
-
-  })
-
-})
+  test.skip("allows options to be initially checked", () => {});
+});

@@ -1,17 +1,17 @@
 // @flow
-import * as React from 'react'
-import s from './Panel.module.css'
+import * as React from "react";
+import s from "./Panel.module.css";
 
 type Props = {
-  children: React.Node,  // can be any valid react element, e.g. array of Entry
+  children: React.Node, // can be any valid react element, e.g. array of Entry
   header: string
-}
+};
 
-const Panel = ({children, header}: Props) => (
+const Panel = ({ children, header }: Props) => (
   <div className={s.container}>
     <h3 className={s.header}>{header}</h3>
     <div className={s.body}>{children}</div>
   </div>
-)
+);
 
-export default Panel
+export default Panel;

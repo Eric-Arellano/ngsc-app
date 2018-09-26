@@ -1,27 +1,27 @@
 // @flow
-import type {CheckboxOption, RadioOption} from 'types'
+import type { CheckboxOption, RadioOption } from "types";
 
 // -------------------------------------------
 // Semester Target
 // -------------------------------------------
 
 export type SemesterTarget = RadioOption & {
-  apiId: string,
-}
+  apiId: string
+};
 
 export const semesterTargetOptions: Array<SemesterTarget> = [
   {
-    apiId: 'current',
-    label: 'Current semester',
+    apiId: "current",
+    label: "Current semester"
   },
   {
-    apiId: 'next',
-      label: 'Next semester',
+    apiId: "next",
+    label: "Next semester"
   },
-    {
-        apiId: 'playground',
-        label: 'Playground (https://tinyurl.com/yabv58ek)'
-    },
+  {
+    apiId: "playground",
+    label: "Playground (https://tinyurl.com/yabv58ek)"
+  }
 ];
 
 // -------------------------------------------
@@ -31,38 +31,38 @@ export const semesterTargetOptions: Array<SemesterTarget> = [
 export type FolderTarget = CheckboxOption & {
   apiId: string,
   sourcePath: ?string,
-  targetPath: ?string,
-}
+  targetPath: ?string
+};
 
 export const folderTargetOptions: Array<FolderTarget> = [
   {
-    apiId: 'committeeChairs',
-    label: 'Committee chair folders',
+    apiId: "committeeChairs",
+    label: "Committee chair folders",
     checked: true,
     sourcePath: null,
-    targetPath: null,
+    targetPath: null
   },
   {
-    apiId: 'committeeLeads',
-    label: 'Committee lead folders',
+    apiId: "committeeLeads",
+    label: "Committee lead folders",
     checked: true,
     sourcePath: null,
-    targetPath: null,
+    targetPath: null
   },
   {
-    apiId: 'missionTeams',
-    label: 'Mission team folders',
+    apiId: "missionTeams",
+    label: "Mission team folders",
     checked: true,
     sourcePath: null,
-    targetPath: null,
+    targetPath: null
   },
   {
-    apiId: 'sectionLeads',
-    label: 'Section lead folders',
+    apiId: "sectionLeads",
+    label: "Section lead folders",
     checked: true,
     sourcePath: null,
-    targetPath: null,
-  },
+    targetPath: null
+  }
 ];
 
 // -------------------------------------------
@@ -71,34 +71,34 @@ export const folderTargetOptions: Array<FolderTarget> = [
 
 export type MimeType = RadioOption & {
   apiId: string,
-  needsExtension: boolean,
-}
+  needsExtension: boolean
+};
 
 export const mimeTypeOptions: Array<MimeType> = [
   {
-    apiId: 'gdoc',
-    label: 'Google Doc',
-    needsExtension: false,
+    apiId: "gdoc",
+    label: "Google Doc",
+    needsExtension: false
   },
   {
-    apiId: 'gsheet',
-    label: 'Google Sheet',
-    needsExtension: false,
+    apiId: "gsheet",
+    label: "Google Sheet",
+    needsExtension: false
   },
   {
-    apiId: 'gslide',
-    label: 'Google Slides',
-    needsExtension: false,
+    apiId: "gslide",
+    label: "Google Slides",
+    needsExtension: false
   },
   {
-    apiId: 'gform',
-    label: 'Google Form',
-    needsExtension: false,
+    apiId: "gform",
+    label: "Google Form",
+    needsExtension: false
   },
   {
-    apiId: 'file',
-    label: 'Other',
-    needsExtension: true,
+    apiId: "file",
+    label: "Other",
+    needsExtension: true
   }
 ];
 
@@ -108,73 +108,73 @@ export const mimeTypeOptions: Array<MimeType> = [
 
 export type Action = RadioOption & {
   isFile: boolean,
-  needsGlobalSource: boolean,  // i.e. source can come from anywhere
-  needsFolderSource: boolean,  // i.e. source comes from within FolderTarget
-  api: string,
-}
+  needsGlobalSource: boolean, // i.e. source can come from anywhere
+  needsFolderSource: boolean, // i.e. source comes from within FolderTarget
+  api: string
+};
 
 export const actionOptions: Array<Action> = [
   {
-    label: 'Create empty file',
+    label: "Create empty file",
     isFile: true,
     needsGlobalSource: false,
     needsFolderSource: false,
-    api: '/create/file',
+    api: "/create/file"
   },
   {
-    label: 'Create empty folder',
+    label: "Create empty folder",
     isFile: false,
     needsGlobalSource: false,
     needsFolderSource: false,
-    api: '/create/folder',
+    api: "/create/folder"
   },
   {
-    label: 'Copy file',
+    label: "Copy file",
     isFile: true,
     needsGlobalSource: true,
     needsFolderSource: false,
-    api: '/copy/file',
+    api: "/copy/file"
   },
   {
-    label: 'Move file',
+    label: "Move file",
     isFile: true,
     needsGlobalSource: false,
     needsFolderSource: true,
-    api: '/move/file',
+    api: "/move/file"
   },
   {
-    label: 'Move folder',
+    label: "Move folder",
     isFile: false,
     needsGlobalSource: false,
     needsFolderSource: true,
-    api: '/move/folder',
+    api: "/move/folder"
   },
   {
-    label: 'Remove file',
+    label: "Remove file",
     isFile: true,
     needsGlobalSource: false,
     needsFolderSource: false,
-    api: '/remove/file',
+    api: "/remove/file"
   },
   {
-    label: 'Remove folder',
+    label: "Remove folder",
     isFile: false,
     needsGlobalSource: false,
     needsFolderSource: false,
-    api: '/remove/folder',
+    api: "/remove/folder"
   },
   {
-    label: 'Rename file',
+    label: "Rename file",
     isFile: true,
     needsGlobalSource: false,
     needsFolderSource: true,
-    api: '/rename/file',
+    api: "/rename/file"
   },
   {
-    label: 'Rename folder',
+    label: "Rename folder",
     isFile: false,
     needsGlobalSource: false,
     needsFolderSource: true,
-    api: '/rename/folder',
-  },
+    api: "/rename/folder"
+  }
 ];

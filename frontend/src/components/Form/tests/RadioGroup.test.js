@@ -1,12 +1,7 @@
-import React from 'react'
+import React from "react";
 
-describe('<RadioGroup />', () => {
+describe("<RadioGroup />", () => {
+  test.skip("changes selected option to chosen when clicked", () => {});
 
-  test.skip('changes selected option to chosen when clicked', () => {
-
-  })
-
-  test.skip('allows initial default option', () => {
-
-  })
-})
+  test.skip("allows initial default option", () => {});
+});

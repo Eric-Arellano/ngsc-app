@@ -1,44 +1,51 @@
 // @flow
-import React, { Component } from 'react'
-import AppView from './AppView'
-import type { Student } from 'types'
+import React, { Component } from "react";
+import AppView from "./AppView";
+import type { Student } from "types";
 
-type Props = {}
+type Props = {};
 
 type State = {
   isLoggedIn: boolean,
   student: ?Student
-}
+};
 
 class AppViewContainer extends Component<Props, State> {
-
   state = {
     isLoggedIn: false,
     student: null
-  }
+  };
 
   componentDidMount() {
-    const fadeInPage = () => { document.body.style.opacity = '1' }
-    requestAnimationFrame(fadeInPage, 0)
+    const fadeInPage = () => {
+      document.body.style.opacity = "1";
+    };
+    requestAnimationFrame(fadeInPage, 0);
   }
 
   login = (student: Student) => {
     this.setState({
       student,
       isLoggedIn: true
-    })
-  }
+    });
+  };
 
   resetState = () => {
     this.setState({
       isLoggedIn: false,
       student: null
-    })
-  }
+    });
+  };
 
-  render () {
-      return <AppView {...this.state} login={this.login} resetState={this.resetState}/>
+  render() {
+    return (
+      <AppView
+        {...this.state}
+        login={this.login}
+        resetState={this.resetState}
+      />
+    );
   }
 }
 
-export default AppViewContainer
+export default AppViewContainer;

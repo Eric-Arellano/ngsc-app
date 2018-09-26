@@ -1,24 +1,29 @@
 // @flow
-import * as React from 'react'
-import s from './Button.module.css'
-import type { ValidationState } from 'types'
+import * as React from "react";
+import s from "./Button.module.css";
+import type { ValidationState } from "types";
 
 type Props = {
   children: React.Element<string>,
   handleClick: () => void,
   validationState?: ValidationState,
   disabled?: boolean
-}
+};
 
-const Button = ({children, handleClick, validationState = 'neutral', disabled = false}: Props) => (
+const Button = ({
+  children,
+  handleClick,
+  validationState = "neutral",
+  disabled = false
+}: Props) => (
   <button
     onClick={handleClick}
     className={s[validationState]}
     disabled={disabled}
-    type={'button'}
+    type={"button"}
   >
-    { children ? children : null }
+    {children ? children : null}
   </button>
-)
+);
 
-export default Button
+export default Button;

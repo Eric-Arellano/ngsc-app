@@ -9,7 +9,7 @@ export type EngagementEvent = {
   type: string,
   status: string,
   hours: string
-}
+};
 
 export type Student = {
   asurite: string,
@@ -21,32 +21,32 @@ export type Student = {
   email: string,
   phone: string,
   campus: string
-}
+};
 
 export type Name = {
   first: string,
   last: string
-}
+};
 
 export type CalendarEvent = {
   title: string,
   start: Date,
   end: Date,
   description?: string,
-  location?: string,
-}
+  location?: string
+};
 
 // -------------------------------------------------------
 // UI Types
 // -------------------------------------------------------
 
-export type ValidationState = 'valid' | 'invalid' | 'neutral'
+export type ValidationState = "valid" | "invalid" | "neutral";
 
 export type RadioOption = {
-  label: string,
-}
+  label: string
+};
 
 export type CheckboxOption = {
   label: string,
-  checked: bool,
-}
+  checked: boolean
+};

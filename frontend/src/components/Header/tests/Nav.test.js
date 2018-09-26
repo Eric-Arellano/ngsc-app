@@ -1,9 +1,5 @@
-import React from 'react'
+import React from "react";
 
-describe('<Nav />', () => {
-
-  test.skip('every link is valid', () => {
-
-  })
-
-})
+describe("<Nav />", () => {
+  test.skip("every link is valid", () => {});
+});

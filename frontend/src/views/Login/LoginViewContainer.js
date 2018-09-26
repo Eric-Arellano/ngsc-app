@@ -1,13 +1,13 @@
 // @flow
-import React, {Component} from 'react'
-import LoginView from './LoginView'
-import {withLoadingAndError} from 'decorators'
-import {getDemographics} from 'api'
-import type {Student} from 'types'
+import React, { Component } from "react";
+import LoginView from "./LoginView";
+import { withLoadingAndError } from "decorators";
+import { getDemographics } from "api";
+import type { Student } from "types";
 
 type Props = {
-  login: (Student) => void
-}
+  login: Student => void
+};
 
 type State = {
   isLoading: boolean,
@@ -15,22 +15,21 @@ type State = {
   isValidated: boolean,
   isConfirmed: boolean,
   student: ?Student
-}
+};
 
 class LoginViewContainer extends Component<Props, State> {
-
   state = {
     isLoading: false,
     isError: false,
     isValidated: false,
     isConfirmed: false,
     student: null
-  }
+  };
 
   verifyStudentId = (asurite: string) => {
     this.setState({
       isLoading: true
-    })
+    });
     getDemographics(asurite)
       .then(data => {
         this.setState({
@@ -48,17 +47,17 @@ class LoginViewContainer extends Component<Props, State> {
             leadership: data.leadership,
             email: data.email,
             phone: data.phone,
-            campus: data.campus,
+            campus: data.campus
           }
-        })
+        });
       })
       .catch(err => {
         this.setState({
           isLoading: false,
-          isError: true,
-        })
-      })
-  }
+          isError: true
+        });
+      });
+  };
 
   resetState = () => {
     this.setState({
@@ -67,23 +66,29 @@ class LoginViewContainer extends Component<Props, State> {
       isValidated: false,
       isConfirmed: false,
       student: null
-    })
-  }
+    });
+  };
 
   confirmCorrectStudent = (isConfirmed: boolean) => {
-    const {student} = this.state
-    this.setState({isConfirmed}, () => {
+    const { student } = this.state;
+    this.setState({ isConfirmed }, () => {
       if (isConfirmed && student != null) {
-        this.props.login(student)
+        this.props.login(student);
       }
-    })
-  }
+    });
+  };
 
-  @withLoadingAndError('User not found. Please enter a valid ASUrite.')
-  render () {
-    return <LoginView {...this.state} verifyAsurite={this.verifyStudentId}
-                      confirmCorrectStudent={this.confirmCorrectStudent} resetState={this.resetState} />
+  @withLoadingAndError("User not found. Please enter a valid ASUrite.")
+  render() {
+    return (
+      <LoginView
+        {...this.state}
+        verifyAsurite={this.verifyStudentId}
+        confirmCorrectStudent={this.confirmCorrectStudent}
+        resetState={this.resetState}
+      />
+    );
   }
 }
 
-export default LoginViewContainer
+export default LoginViewContainer;

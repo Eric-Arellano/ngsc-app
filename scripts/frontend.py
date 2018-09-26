@@ -140,8 +140,8 @@ def fmt() -> None:
     Auto-formats frontend code.
     """
     targets_from_root = glob("frontend/src/**/*.js", recursive=True)
-    targets = [t[len('frontend/'):] for t in targets_from_root]
-    sys_calls.run(['yarn', 'fmt'] + targets, cwd='frontend')
+    targets = [t[len("frontend/") :] for t in targets_from_root]
+    sys_calls.run(["yarn", "fmt"] + targets, cwd="frontend")
 
 
 # -------------------------------------
@@ -187,7 +187,7 @@ def remove(dependencies: List[Dependency]) -> None:
 
 
 def create_command_option(
-        name: str, command: command_line.Command
+    name: str, command: command_line.Command
 ) -> command_line.CommandOption:
     return command_line.CommandOption(name=name, command=command, help=command.__doc__)
 
