@@ -281,6 +281,24 @@ def fmt() -> TargetCommandMap:
     )
 
 
+def lint() -> TargetCommandMap:
+    """
+    Catches errors and potential bugs.
+    """
+
+    def all_action() -> None:
+        backend.lint()
+        # frontend.lint()
+        # scripts_test_runner.lint()
+
+    return TargetCommandMap(
+        all_action=all_action,
+        backend_action=backend.lint,
+        # frontend_action=frontend.lint,
+        # scripts_action=scripts_test_runner.lint,
+    )
+
+
 # -------------------------------------
 # Dependency management commands
 # -------------------------------------
@@ -435,6 +453,7 @@ command_options = [
     create_command_option("test", test),
     create_command_option("types", check_types),
     create_command_option("fmt", fmt),
+    create_command_option("lint", lint),
     create_command_option("outdated", list_outdated),
     create_command_option("deptree", dependency_tree),
     create_command_option("add", add),

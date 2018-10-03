@@ -144,6 +144,14 @@ def fmt() -> None:
     pipenv.run(["black", "--py36"] + targets_from_root)
 
 
+def lint() -> None:
+    """
+    Catches errors and potential bugs.
+    """
+    targets_from_root = glob("backend/src/**/*.py", recursive=True)
+    pipenv.run(["pylint"] + targets_from_root)
+
+
 # -------------------------------------
 # Dependency management commands
 # -------------------------------------
@@ -191,7 +199,7 @@ def remove(dependencies: List[Dependency]) -> None:
 
 
 def create_command_option(
-    name: str, command: command_line.Command
+        name: str, command: command_line.Command
 ) -> command_line.CommandOption:
     return command_line.CommandOption(name=name, command=command, help=command.__doc__)
 
@@ -206,6 +214,7 @@ command_options = [
     create_command_option("test", test),
     create_command_option("types", check_types),
     create_command_option("fmt", fmt),
+    create_command_option("lint", lint),
     create_command_option("outdated", list_outdated),
     create_command_option("deptree", dependency_tree),
     create_command_option("add", add),
