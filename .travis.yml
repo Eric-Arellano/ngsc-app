@@ -10,6 +10,6 @@ matrix:
         - ./ngsc install
       script:
         - ./ngsc test --backend
-        - ./ngsc fmt --backend
+        - ./ngsc fmt --backend --ci
         - ./ngsc test --frontend
-        - ./ngsc green --scripts
+        - ./ngsc green --scripts --ci

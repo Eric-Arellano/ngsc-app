@@ -23,7 +23,7 @@
     "test": "CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "flow": "flow",
-    "fmt": "prettier --write"
+    "fmt": "prettier"
   },
   "devDependencies": {
     "enzyme": "^3.3.0",

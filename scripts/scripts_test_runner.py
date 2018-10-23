@@ -27,13 +27,13 @@ def _get_targets() -> List[str]:
     return glob("scripts/**/*.py", recursive=True)
 
 
-def green() -> None:
+def green(ci: bool = False) -> None:
     """
     Call all tests and linters.
     """
     test()
     check_types()
-    fmt()
+    fmt(ci=ci)
 
 
 def check_types() -> None:
@@ -50,8 +50,8 @@ def test() -> None:
     python_code_quality.test(root_directory="scripts")
 
 
-def fmt() -> None:
+def fmt(ci: bool = False) -> None:
     """
     Auto-formats script code.
     """
-    python_code_quality.fmt(targets=_get_targets())
+    python_code_quality.fmt(targets=_get_targets(), ci=ci)

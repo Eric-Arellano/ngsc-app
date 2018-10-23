@@ -24,9 +24,11 @@ def lint(targets: List[str]) -> None:
     pipenv.run(["pylint"] + targets)
 
 
-def fmt(targets: List[str]) -> None:
+def fmt(targets: List[str], ci: bool = False) -> None:
     """
     Autoformat code.
     """
     black_command = ["black", "--py36"]
+    if ci:
+        black_command.append("--check")
     pipenv.run(black_command + targets)

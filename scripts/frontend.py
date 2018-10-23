@@ -94,13 +94,18 @@ def build() -> None:
 # -------------------------------------
 
 
-def green() -> None:
+def _get_targets() -> List[str]:
+    targets_from_root = glob("frontend/src/**/*.js", recursive=True)
+    return [t[len("frontend/") :] for t in targets_from_root]
+
+
+def green(ci: bool = False) -> None:
     """
     Calls all tests and linters.
     """
     test()
     check_types()
-    fmt()
+    fmt(ci=ci)
 
 
 def test() -> None:
@@ -117,13 +122,12 @@ def check_types() -> None:
     sys_calls.run(["yarn", "flow"], cwd="frontend/")
 
 
-def fmt() -> None:
+def fmt(ci: bool = False) -> None:
     """
     Auto-formats frontend code.
     """
-    targets_from_root = glob("frontend/src/**/*.js", recursive=True)
-    targets = [t[len("frontend/") :] for t in targets_from_root]
-    sys_calls.run(["yarn", "fmt"] + targets, cwd="frontend")
+    command = ["yarn", "fmt", "--write" if not ci else "--list-different"]
+    sys_calls.run(command + _get_targets(), cwd="frontend")
 
 
 # -------------------------------------

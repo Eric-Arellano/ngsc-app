@@ -95,13 +95,13 @@ def _get_targets() -> List[str]:
     return glob("backend/src/**/*.py", recursive=True)
 
 
-def green() -> None:
+def green(ci: bool = False) -> None:
     """
     Call all tests and linters.
     """
     test()
     check_types()
-    fmt()
+    fmt(ci=ci)
 
 
 def test() -> None:
@@ -118,11 +118,11 @@ def check_types() -> None:
     python_code_quality.check_types(targets=_get_targets())
 
 
-def fmt() -> None:
+def fmt(ci: bool = False) -> None:
     """
     Auto-formats backend code.
     """
-    python_code_quality.fmt(targets=_get_targets())
+    python_code_quality.fmt(targets=_get_targets(), ci=ci)
 
 
 def lint() -> None:

@@ -55,6 +55,7 @@ class TargetCommandMap(NamedTuple):
     frontend_action: Optional[command_line.Command] = None
     scripts_action: Optional[command_line.Command] = None
     has_dependencies: bool = False
+    allows_ci_flag: bool = False
 
 
 def add_targets_to_parser(parser: argparse.ArgumentParser) -> None:
@@ -99,6 +100,7 @@ def execute_on_target_environment(
     frontend: bool = False,
     scripts: bool = False,
     dependencies: List[str] = None,
+    ci: bool = False,
 ) -> None:
     # check valid targets
     target_specified = backend or frontend or scripts
@@ -109,9 +111,16 @@ def execute_on_target_environment(
     if any((invalid_all, invalid_backend, invalid_frontend, invalid_scripts)):
         raise_invalid_target(target_command_map)
 
+    # check other args
+    kwargs = {}
+    if target_command_map.has_dependencies:
+        kwargs["dependencies"] = dependencies
+    if target_command_map.allows_ci_flag:
+        kwargs["ci"] = ci  # type: ignore
+
     # default to all
     if not target_specified:
-        target_command_map.all_action()  # type: ignore
+        target_command_map.all_action(**kwargs)  # type: ignore
         return
 
     # find every target specified
@@ -121,11 +130,6 @@ def execute_on_target_environment(
         target_command_map.scripts_action if scripts else None,
     ]
     filtered_commands: Iterator[command_line.Command] = filter(None, commands)
-
-    # check if dependencies
-    kwargs = {}
-    if target_command_map.has_dependencies:
-        kwargs["dependencies"] = dependencies
 
     # execute
     for command in filtered_commands:
@@ -214,16 +218,17 @@ def green() -> TargetCommandMap:
     Call all tests and linters.
     """
 
-    def all_action() -> None:
-        backend.green()
-        frontend.green()
-        scripts_test_runner.green()
+    def all_action(ci: bool) -> None:
+        backend.green(ci=ci)
+        frontend.green(ci=ci)
+        scripts_test_runner.green(ci=ci)
 
     return TargetCommandMap(
         all_action=all_action,
         backend_action=backend.green,
         frontend_action=frontend.green,
         scripts_action=scripts_test_runner.green,
+        allows_ci_flag=True,
     )
 
 
@@ -268,16 +273,17 @@ def fmt() -> TargetCommandMap:
     Auto-formats code.
     """
 
-    def all_action() -> None:
-        backend.fmt()
-        frontend.fmt()
-        scripts_test_runner.fmt()
+    def all_action(ci: bool) -> None:
+        backend.fmt(ci=ci)
+        frontend.fmt(ci=ci)
+        scripts_test_runner.fmt(ci=ci)
 
     return TargetCommandMap(
         all_action=all_action,
         backend_action=backend.fmt,
         frontend_action=frontend.fmt,
         scripts_action=scripts_test_runner.fmt,
+        allows_ci_flag=True,
     )
 
 

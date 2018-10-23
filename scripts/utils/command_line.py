@@ -7,8 +7,9 @@ import functools
 from typing import Any, Callable, List, NamedTuple, Optional, Union
 
 NoArgCommand = Callable[[], None]
+CICommand = Callable[[bool], None]
 DependencyCommand = Callable[[List[str]], None]
-Command = Union[NoArgCommand, DependencyCommand]
+Command = Union[NoArgCommand, CICommand, DependencyCommand]
 
 
 class CommandOption(NamedTuple):
@@ -97,6 +98,13 @@ def create_parser(
         nargs="?",
         metavar="COMMAND",
         choices={option.name: option.help for option in command_options},
+    )
+
+    parser.add_argument(
+        "--ci",
+        default=False,
+        action="store_true",
+        help="Run in continuous integration mode.",
     )
 
     parser.add_argument(
