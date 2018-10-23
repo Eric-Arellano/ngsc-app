@@ -72,12 +72,27 @@ def export(key: str, value: str) -> None:
 # -----------------------------------------------------------------
 
 
-def run(command: List[str], **kwargs) -> subprocess.CompletedProcess:
+def _check_return_code(process: subprocess.CompletedProcess) -> None:
+    """
+    Ensures process had 0 exit code, and fails
+    """
+    try:
+        process.check_returncode()
+    except subprocess.CalledProcessError:
+        raise SystemExit(f"\n\nCommand failed.")
+
+
+def run(
+    command: List[str], check_return_code: bool = True, **kwargs
+) -> subprocess.CompletedProcess:
     """
     Calls subprocess.run() and allows seamless support of both Windows and Unix.
     """
     new_command, new_kwargs = _modify_for_windows(command, kwargs)
-    return subprocess.run(new_command, **new_kwargs)
+    completed_process = subprocess.run(new_command, **new_kwargs)
+    if check_return_code:
+        _check_return_code(completed_process)
+    return completed_process
 
 
 def run_detached(command: List[str], **kwargs) -> None:
@@ -90,20 +105,30 @@ def run_detached(command: List[str], **kwargs) -> None:
     )
 
 
-def run_as_shell(command: str, **kwargs) -> subprocess.CompletedProcess:
+def run_as_shell(
+    command: str, check_return_code: bool = True, **kwargs
+) -> subprocess.CompletedProcess:
     """
     Calls subprocess.run() with shell=True.
     """
-    return subprocess.run(command, shell=True, **kwargs)
+    completed_process = subprocess.run(command, shell=True, **kwargs)
+    if check_return_code:
+        _check_return_code(completed_process)
+    return completed_process
 
 
-def run_python(command: List[str], **kwargs) -> subprocess.CompletedProcess:
+def run_python(
+    command: List[str], check_return_code: bool = True, **kwargs
+) -> subprocess.CompletedProcess:
     """
     Run the command using Python executable.
     """
     python = determine_python_executable()
     new_command, new_kwargs = _modify_for_windows([python] + command, kwargs)
-    return subprocess.run(new_command, **new_kwargs)
+    completed_process = subprocess.run(new_command, **new_kwargs)
+    if check_return_code:
+        _check_return_code(completed_process)
+    return completed_process
 
 
 # -----------------------------------------------------------------
@@ -111,20 +136,26 @@ def run_python(command: List[str], **kwargs) -> subprocess.CompletedProcess:
 # -----------------------------------------------------------------
 
 
-def get_stdout(command: List[str], **kwargs) -> str:
+def get_stdout(command: List[str], check_return_code: bool = True, **kwargs) -> str:
     """
     Performs the given command and returns the stdout as a string.
     """
     new_command, new_kwargs = _modify_for_windows(command, kwargs)
-    return subprocess.run(
+    completed_process = subprocess.run(
         new_command, stdout=subprocess.PIPE, encoding="utf-8", **new_kwargs
-    ).stdout.strip()
+    )
+    if check_return_code:
+        _check_return_code(completed_process)
+    return completed_process.stdout.strip()
 
 
-def get_stdout_as_shell(command: str, **kwargs) -> str:
+def get_stdout_as_shell(command: str, check_return_code: bool = True, **kwargs) -> str:
     """
     Performs the given command using Shell and returns the stdout as a string.
     """
-    return subprocess.run(
+    completed_process = subprocess.run(
         command, shell=True, stdout=subprocess.PIPE, encoding="utf-8", **kwargs
-    ).stdout.strip()
+    )
+    if check_return_code:
+        _check_return_code(completed_process)
+    return completed_process.stdout.strip()

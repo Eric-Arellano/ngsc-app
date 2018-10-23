@@ -181,7 +181,7 @@ def alternating_colors_request(
                         "red": 189 / 255.0,
                         "green": 189 / 255.0,
                         "blue": 189 / 255.0,
-                        "alpha": .2,
+                        "alpha": 0.2,
                     },
                     "firstBandColor": {
                         "red": 255 / 255.0,
@@ -193,7 +193,7 @@ def alternating_colors_request(
                         "red": 243 / 255.0,
                         "green": 243 / 255.0,
                         "blue": 243 / 255.0,
-                        "alpha": .07,
+                        "alpha": 0.07,
                     },
                 },
             }
