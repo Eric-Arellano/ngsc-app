@@ -1,14 +1,7 @@
 #!/usr/bin/env python3.7
 
 import json
-import os
 import pprint
-import sys
-from pathlib import Path
-
-# path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
-current_file_path = Path(os.path.realpath(__file__))
-sys.path.append(str(current_file_path.parents[1]))
 
 from textwrap import dedent
 from scripts.utils import git, sys_calls, prereq_checker
@@ -63,7 +56,7 @@ def check_valid_update() -> None:
     Check file correctly updated and ready to be deployed.
     """
     num_lines = sum(1 for line in open("backend/src/data/demographics.py"))
-    if num_lines < 3_000:
+    if num_lines < 3000:
         raise SystemExit(
             dedent(
                 """\
@@ -81,7 +74,3 @@ def commit_changes() -> None:
     git.add(["backend/src/data/demographics.py"])
     git.commit("update demographics")
     print("Deploy with `./run.py deploy`")
-
-
-if __name__ == "__main__":
-    main()

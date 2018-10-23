@@ -1,25 +1,6 @@
-#!/usr/bin/env python3.7
-
-import os
-import sys
-from pathlib import Path
 from glob import glob
 
-# path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
-current_file_path = Path(os.path.realpath(__file__))
-sys.path.append(str(current_file_path.parents[1]))
-
 from scripts.utils import pipenv, sys_calls, command_line
-
-
-def main() -> None:
-    parser = command_line.create_parser(
-        command_options, description="Test these awesome build scripts."
-    )
-    args = parser.parse_args()
-    check_prereqs_installed()
-    command_line.execute_command(args, command_options)
-
 
 # -------------------------------------
 # Required software
@@ -96,10 +77,3 @@ command_options = [
     create_command_option("types", check_types),
     create_command_option("fmt", fmt),
 ]
-
-# -------------------------------------
-# Run script
-# -------------------------------------
-
-if __name__ == "__main__":
-    main()
