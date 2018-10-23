@@ -1,5 +1,7 @@
 from glob import glob
+from typing import List
 
+from scripts import python_code_quality
 from scripts.utils import pipenv, sys_calls, command_line
 
 # -------------------------------------
@@ -21,6 +23,10 @@ def check_prereqs_installed() -> None:
 # -------------------------------------
 
 
+def _get_targets() -> List[str]:
+    return glob("scripts/**/*.py", recursive=True)
+
+
 def green() -> None:
     """
     Call all tests and linters.
@@ -34,46 +40,18 @@ def check_types() -> None:
     """
     Calls MyPy to check for type errors.
     """
-    pipenv.run(
-        [
-            "mypy",
-            "--strict-optional",
-            "--ignore-missing-imports",
-            "--package",
-            "scripts",
-        ]
-    )
+    python_code_quality.check_types(targets=_get_targets())
 
 
 def test() -> None:
     """
     Run unit tests.
     """
-    pipenv.run(["pytest", "-q"], cwd="scripts")
+    python_code_quality.test(root_directory="scripts")
 
 
 def fmt() -> None:
     """
     Auto-formats script code.
     """
-    targets_from_root = glob("scripts/**/*.py", recursive=True)
-    pipenv.run(["black", "--py36"] + targets_from_root)
-
-
-# -------------------------------------
-# Command line options
-# -------------------------------------
-
-
-def create_command_option(
-    name: str, command: command_line.Command
-) -> command_line.CommandOption:
-    return command_line.CommandOption(name=name, command=command, help=command.__doc__)
-
-
-command_options = [
-    create_command_option("green", green),
-    create_command_option("test", test),
-    create_command_option("types", check_types),
-    create_command_option("fmt", fmt),
-]
+    python_code_quality.fmt(targets=_get_targets())

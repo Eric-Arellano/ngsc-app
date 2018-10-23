@@ -1,6 +1,7 @@
 from glob import glob
 
 from typing import List
+from scripts import python_code_quality
 from scripts.utils import (
     prereq_checker,
     process_management,
@@ -90,6 +91,10 @@ def reinstall() -> None:
 # -------------------------------------
 
 
+def _get_targets() -> List[str]:
+    return glob("backend/src/**/*.py", recursive=True)
+
+
 def green() -> None:
     """
     Call all tests and linters.
@@ -103,33 +108,28 @@ def test() -> None:
     """
     Run unit tests.
     """
-    pipenv.run(["pytest", "-q"], cwd="backend/src")
+    python_code_quality.test(root_directory="backend/src")
 
 
 def check_types() -> None:
     """
     Calls MyPy to check for type errors.
     """
-    pipenv.run(
-        ["mypy", "--strict-optional", "--ignore-missing-imports", "--package", "src"],
-        cwd="backend/",
-    )
+    python_code_quality.check_types(targets=_get_targets())
 
 
 def fmt() -> None:
     """
     Auto-formats backend code.
     """
-    targets_from_root = glob("backend/src/**/*.py", recursive=True)
-    pipenv.run(["black", "--py36"] + targets_from_root)
+    python_code_quality.fmt(targets=_get_targets())
 
 
 def lint() -> None:
     """
     Catches errors and potential bugs.
     """
-    targets_from_root = glob("backend/src/**/*.py", recursive=True)
-    pipenv.run(["pylint"] + targets_from_root)
+    python_code_quality.lint(targets=_get_targets())
 
 
 # -------------------------------------
