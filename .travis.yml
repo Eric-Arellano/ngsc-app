@@ -13,5 +13,6 @@ matrix:
         - ./ngsc fmt --backend --ci
         - ./ngsc lint --backend
         - ./ngsc test --frontend
+        - ./ngsc fmt --frontend --ci
         - ./ngsc green --scripts --ci
 
