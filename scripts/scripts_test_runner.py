@@ -55,3 +55,10 @@ def fmt(ci: bool = False) -> None:
     Auto-formats script code.
     """
     python_code_quality.fmt(targets=_get_targets(), ci=ci)
+
+
+def lint() -> None:
+    """
+    Catches errors and potential bugs.
+    """
+    python_code_quality.lint(targets=_get_targets())

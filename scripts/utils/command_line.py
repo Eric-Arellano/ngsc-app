@@ -144,7 +144,7 @@ def execute_command(
 
 def ask_input(prompt: str, *, is_valid: Callable[[str], bool] = None) -> str:
     """
-
+    Prompt input with custom validator
     """
     print(prompt)
     result = input()

@@ -21,7 +21,7 @@ def lint(targets: List[str]) -> None:
     """
     Run Pylint.
     """
-    pipenv.run(["pylint"] + targets)
+    pipenv.run(["pylint", "--rcfile=backend/.pylintrc"] + targets)
 
 
 def fmt(targets: List[str], ci: bool = False) -> None:
