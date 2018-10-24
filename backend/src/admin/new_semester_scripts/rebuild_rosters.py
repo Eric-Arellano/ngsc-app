@@ -8,24 +8,34 @@ Should be run locally, not on the server.
 import os
 import sys
 from pathlib import Path
+import textwrap
+from typing import NamedTuple
+
+from googleapiclient import discovery
 
 # path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
 current_file_path = Path(os.path.realpath(__file__))
 sys.path.append(str(current_file_path.parents[1]))
 sys.path.append(str(current_file_path.parents[4]))
 
-import textwrap
-from typing import NamedTuple
-
-from googleapiclient import discovery
-
-from scripts.utils import command_line
-from backend.src.google_apis import sheets_api
-from backend.src.drive_commands import generate_link
-from backend.src.data.new_semester import new_file_ids
-from backend.src.admin import _environment_chooser
-from backend.src.admin.new_semester_scripts import setup_semester
-from backend.src.sheets_commands import tab, sheet
+from backend.src.google_apis import sheets_api  # pylint: disable=wrong-import-position
+from backend.src.drive_commands import (  # pylint: disable=wrong-import-position
+    generate_link,
+)
+from backend.src.data.new_semester import (  # pylint: disable=wrong-import-position
+    new_file_ids,
+)
+from backend.src.admin import (  # pylint: disable=wrong-import-position
+    _environment_chooser,
+)
+from backend.src.admin.new_semester_scripts import (  # pylint: disable=wrong-import-position
+    setup_semester,
+)
+from backend.src.sheets_commands import (  # pylint: disable=wrong-import-position
+    tab,
+    sheet,
+)
+from scripts.utils import command_line  # pylint: disable=wrong-import-position
 
 
 def main() -> None:
@@ -170,7 +180,3 @@ def create_legacy_tabs(
         _environment_chooser.operate_on_all_committee_attendance(create)
     if include_mission_teams:
         _environment_chooser.operate_on_all_mission_team_attendance(create)
-
-
-if __name__ == "__main__":
-    main()

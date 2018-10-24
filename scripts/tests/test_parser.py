@@ -1,11 +1,3 @@
-import os
-import sys
-from pathlib import Path
-
-# path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
-CURRENT_FILE_PATH = Path(os.path.realpath(__file__))
-sys.path.append(str(CURRENT_FILE_PATH.parents[1]))
-
 from typing import List
 
 from scripts import run

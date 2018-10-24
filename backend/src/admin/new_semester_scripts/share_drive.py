@@ -8,19 +8,26 @@ Should be run locally, not on the server.
 import os
 import sys
 from pathlib import Path
+import textwrap
 
-# path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
+# path hack to allowing import scripts, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
 current_file_path = Path(os.path.realpath(__file__))
 sys.path.append(str(current_file_path.parents[1]))
 sys.path.append(str(current_file_path.parents[4]))
 
-import textwrap
-
-from scripts.utils import command_line
-from backend.src.drive_commands import generate_link, share
-from backend.src.data.new_semester import new_folder_ids, new_leadership
-from backend.src.data import leadership
-from backend.src.admin.new_semester_scripts import setup_semester
+from backend.src.drive_commands import (  # pylint: disable=wrong-import-position
+    generate_link,
+    share,
+)
+from backend.src.data.new_semester import (  # pylint: disable=wrong-import-position
+    new_folder_ids,
+    new_leadership,
+)
+from backend.src.data import leadership  # pylint: disable=wrong-import-position
+from backend.src.admin.new_semester_scripts import (  # pylint: disable=wrong-import-position
+    setup_semester,
+)
+from scripts.utils import command_line  # pylint: disable=wrong-import-position
 
 
 def main() -> None:
@@ -234,11 +241,3 @@ def explain_ownership() -> None:
         """
         )
     )
-
-
-# ------------------------------------------------------------------
-# Run script
-# ------------------------------------------------------------------
-
-if __name__ == "__main__":
-    main()

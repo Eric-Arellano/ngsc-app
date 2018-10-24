@@ -34,6 +34,7 @@ def green(ci: bool = False) -> None:
     test()
     check_types()
     fmt(ci=ci)
+    lint()
 
 
 def check_types() -> None:

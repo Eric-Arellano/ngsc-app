@@ -8,12 +8,6 @@ Should be run locally, not on the server.
 import os
 import sys
 from pathlib import Path
-
-# path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
-current_file_path = Path(os.path.realpath(__file__))
-sys.path.append(str(current_file_path.parents[1]))
-sys.path.append(str(current_file_path.parents[4]))
-
 import pprint
 import re
 import functools
@@ -22,12 +16,32 @@ from typing import Dict, Union, NamedTuple
 
 from googleapiclient import discovery
 
-from scripts.utils import command_line
-from backend.src.google_apis import drive_api, sheets_api
-from backend.src.data import column_indexes, file_ids, folder_ids, sheet_formulas
-from backend.src.data.new_semester import new_leadership, new_file_ids, new_folder_ids
-from backend.src.drive_commands import copy, create, generate_link
-from backend.src.sheets_commands import (
+# path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
+current_file_path = Path(os.path.realpath(__file__))
+sys.path.append(str(current_file_path.parents[1]))
+sys.path.append(str(current_file_path.parents[4]))
+
+from backend.src.google_apis import (  # pylint: disable=wrong-import-position
+    drive_api,
+    sheets_api,
+)
+from backend.src.data import (  # pylint: disable=wrong-import-position
+    column_indexes,
+    file_ids,
+    folder_ids,
+    sheet_formulas,
+)
+from backend.src.data.new_semester import (  # pylint: disable=wrong-import-position
+    new_leadership,
+    new_file_ids,
+    new_folder_ids,
+)
+from backend.src.drive_commands import (  # pylint: disable=wrong-import-position
+    copy,
+    create,
+    generate_link,
+)
+from backend.src.sheets_commands import (  # pylint: disable=wrong-import-position
     columns,
     display,
     formulas,
@@ -36,6 +50,7 @@ from backend.src.sheets_commands import (
     rows,
     tab,
 )
+from scripts.utils import command_line  # pylint: disable=wrong-import-position
 
 Semester = str
 ResourceID = str
@@ -1208,11 +1223,3 @@ def print_remaining_steps() -> None:
         """
         )
     )
-
-
-# -------------------------------------
-# Run script
-# -------------------------------------
-
-if __name__ == "__main__":
-    main()

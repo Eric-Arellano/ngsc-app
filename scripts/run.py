@@ -2,18 +2,23 @@
 
 import os
 import sys
+import argparse
+from functools import partial
+from typing import Callable, List, NamedTuple, Iterator, Optional
 from pathlib import Path
 
 # path hack, https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
 current_file_path = Path(os.path.realpath(__file__))
 sys.path.append(str(current_file_path.parents[1]))
 
-import argparse
-from functools import partial
-from typing import Callable, List, NamedTuple, Iterator, Optional
-
-from scripts import backend, deploy, frontend, scripts_test_runner, update_demographics
-from scripts.utils import command_line, pipenv
+from scripts import (  # pylint: disable=wrong-import-position
+    backend,
+    deploy,
+    frontend,
+    scripts_test_runner,
+    update_demographics,
+)
+from scripts.utils import command_line, pipenv  # pylint: disable=wrong-import-position
 
 
 def main() -> None:

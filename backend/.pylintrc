@@ -10,7 +10,6 @@ disable=
   inconsistent-return-statements,
   redefined-builtin,
   unused-argument,
-  wrong-import-position,
   too-many-locals,
 
 [SIMILARITIES]
