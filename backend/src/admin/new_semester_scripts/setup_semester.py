@@ -159,7 +159,7 @@ def ask_semester_target() -> str:
         if len(words) != 2:
             return False
         prefix_is_semester = words[0] == "Fall" or words[0] == "Spring"
-        postfix_is_year = bool(re.match("^(20)\d{2}$", words[1]))
+        postfix_is_year = bool(re.match(r"^(20)\d{2}$", words[1]))
         return prefix_is_semester and postfix_is_year
 
     return command_line.ask_input(

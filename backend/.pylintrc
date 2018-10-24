@@ -8,13 +8,10 @@ disable=
   fixme,
   redefined-outer-name,
   inconsistent-return-statements,
-  no-else-return,
   redefined-builtin,
   unused-argument,
   wrong-import-position,
-  anomalous-backslash-in-string,
   too-many-locals,
-  consider-iterating-dictionary
 
 [SIMILARITIES]
 ignore-imports=yes

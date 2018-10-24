@@ -70,21 +70,20 @@ def update(
             ]
             for row in grid
         ]
-    else:
-        return [
-            [
-                updated_values.get(
-                    row[key_index], cell
-                )  # if nothing found in dict, keep original value
-                if col_index == target_index
-                and (
-                    len(row) < target_index or not row[target_index]
-                )  # only check if missing
-                else cell  # else use original
-                for col_index, cell in enumerate(row)
-            ]
-            for row in grid
+    return [
+        [
+            updated_values.get(
+                row[key_index], cell
+            )  # if nothing found in dict, keep original value
+            if col_index == target_index
+            and (
+                len(row) < target_index or not row[target_index]
+            )  # only check if missing
+            else cell  # else use original
+            for col_index, cell in enumerate(row)
         ]
+        for row in grid
+    ]
 
 
 def replace(*, grid: sheet.Grid, column: sheet.Column, target_index: int) -> sheet.Grid:

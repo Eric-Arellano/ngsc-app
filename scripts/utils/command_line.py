@@ -176,9 +176,8 @@ def ask_yes_no(question: str, *, default: str = "yes") -> bool:
         return options[default]
     if choice in options:
         return options[choice]
-    else:
-        print("Please respond with 'yes' or 'no' (or 'y' or 'n').\n")
-        return ask_yes_no(question)
+    print("Please respond with 'yes' or 'no' (or 'y' or 'n').\n")
+    return ask_yes_no(question)
 
 
 def ask_confirmation(instructions: str, *, default_to_yes: bool = False) -> None:

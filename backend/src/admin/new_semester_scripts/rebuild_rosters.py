@@ -125,12 +125,11 @@ def choose_rosters() -> RosterTargets:
     )
     if option == "1":
         return RosterTargets(committees=True, mission_teams=True)
-    elif option == "2":
+    if option == "2":
         return RosterTargets(committees=True, mission_teams=False)
-    elif option == "3":
+    if option == "3":
         return RosterTargets(committees=False, mission_teams=True)
-    else:
-        return RosterTargets(committees=False, mission_teams=False)
+    return RosterTargets(committees=False, mission_teams=False)
 
 
 # ---------------------------------------------------------------

@@ -182,28 +182,28 @@ def add_permissions() -> None:
             resource_id=new_folder_ids.committee_leads[position],
             emails=[new_leadership.committee_leads[position]],
         )
-        for position in new_leadership.committee_leads.keys()
+        for position in new_leadership.committee_leads
     ]
     chairs = [
         share.BatchArgument(
             resource_id=new_folder_ids.committees[position],
             emails=[new_leadership.committee_chairs[position]],
         )
-        for position in new_leadership.committee_chairs.keys()
+        for position in new_leadership.committee_chairs
     ]
     section_leads = [
         share.BatchArgument(
             resource_id=new_folder_ids.sections[number],
             emails=[new_leadership.section_leads[number]],
         )
-        for number in new_leadership.section_leads.keys()
+        for number in new_leadership.section_leads
     ]
     mt_leaders = [
         share.BatchArgument(
             resource_id=new_folder_ids.mission_teams[number],
             emails=[new_leadership.mission_team_leaders[number]],
         )
-        for number in new_leadership.mission_team_leaders.keys()
+        for number in new_leadership.mission_team_leaders
     ]
     share.batch(
         committee_leads + chairs + section_leads + mt_leaders,

@@ -35,10 +35,7 @@ def determine_python_executable() -> str:
     """
     Get name of python executable depending on system.
     """
-    if is_windows_environment():
-        return "python"
-    else:
-        return "python3"
+    return "python3" if not is_windows_environment() else "python"
 
 
 Command = Union[List[str], str]

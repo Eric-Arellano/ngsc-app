@@ -189,7 +189,7 @@ def parse_semester_target(payload: Dict) -> Dict:
             "sections": folder_ids.sections,
             "semester_root": folder_ids.semester_root,
         }
-    elif semester == "next":
+    if semester == "next":
         return {
             "committees": new_folder_ids.committees,
             "committee_leads": new_folder_ids.committee_leads,
@@ -197,7 +197,7 @@ def parse_semester_target(payload: Dict) -> Dict:
             "sections": new_folder_ids.sections,
             "semester_root": new_folder_ids.semester_root,
         }
-    elif semester == "playground":
+    if semester == "playground":
         return {
             "committees": playground_folder_ids.committees,
             "committee_leads": playground_folder_ids.committee_leads,

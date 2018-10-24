@@ -62,14 +62,13 @@ def parent_folder_for_path(
     path_list = path.split("/")
     if len(path_list) == 1:
         return root_folder_id
-    else:
-        path_without_child = path_list[:-1]
-        return recursive_resource(
-            path=path_without_child,
-            parent_folder_id=root_folder_id,
-            mime_type=mime_types.folder,
-            drive_service=drive_service,
-        )
+    path_without_child = path_list[:-1]
+    return recursive_resource(
+        path=path_without_child,
+        parent_folder_id=root_folder_id,
+        mime_type=mime_types.folder,
+        drive_service=drive_service,
+    )
 
 
 def recursive_resource(
@@ -88,26 +87,25 @@ def recursive_resource(
             exact_match=exact_match,
             drive_service=drive_service,
         )
-    else:
-        new_path = path[1:]
-        new_parent_id = resource(
-            resource_name=path[0],
-            parent_folder_id=parent_folder_id,
-            exact_match=exact_match,
-            drive_service=drive_service,
+    new_path = path[1:]
+    new_parent_id = resource(
+        resource_name=path[0],
+        parent_folder_id=parent_folder_id,
+        exact_match=exact_match,
+        drive_service=drive_service,
+    )
+    if new_parent_id is None:
+        raise OSError(
+            f"Could not find resource ID for {path[0]} with parent_folder_id={parent_folder_id} "
+            f"and full path={path}."
         )
-        if new_parent_id is None:
-            raise OSError(
-                f"Could not find resource ID for {path[0]} with parent_folder_id={parent_folder_id} "
-                f"and full path={path}."
-            )
-        return recursive_resource(
-            path=new_path,
-            parent_folder_id=new_parent_id,
-            mime_type=mime_type,
-            exact_match=exact_match,
-            drive_service=drive_service,
-        )
+    return recursive_resource(
+        path=new_path,
+        parent_folder_id=new_parent_id,
+        mime_type=mime_type,
+        exact_match=exact_match,
+        drive_service=drive_service,
+    )
 
 
 # -----------------------------------------------------
