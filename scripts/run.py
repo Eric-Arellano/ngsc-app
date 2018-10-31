@@ -104,7 +104,7 @@ def execute_on_target_environment(
     backend: bool = False,
     frontend: bool = False,
     scripts: bool = False,
-    dependencies: List[str] = None,
+    dependencies: Optional[List[str]] = None,
     ci: bool = False,
 ) -> None:
     # check valid targets
