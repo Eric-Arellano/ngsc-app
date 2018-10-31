@@ -6,7 +6,8 @@ import {
   AdminViewContainer,
   EventsViewContainer,
   LeadershipView,
-  ParticipationView
+  ParticipationView,
+  ScholarshipViewContainer
 } from "views";
 import type { Student } from "types";
 import s from "./AppView.module.css";
@@ -35,6 +36,7 @@ const AppView = ({ isLoggedIn, student, login, resetState }: Props) => (
         <Route exact path="/admin" component={AdminViewContainer} />
         <Route exact path="/events" component={EventsViewContainer} />
         <Route exact path="/leadership" component={LeadershipView} />
+        <Route exact path="/scholarship" component={ScholarshipViewContainer} />
       </Switch>
     </div>
     <Footer />

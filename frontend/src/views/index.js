@@ -4,6 +4,7 @@ import LeadershipView from "./Leadership/LeadershipView";
 import EventsViewContainer from "./Events/EventsViewContainer";
 import LoginViewContainer from "./Login/LoginViewContainer";
 import ParticipationView from "./Participation/ParticipationView";
+import ScholarshipViewContainer from "./ScholarshipCalculator/CalculatorViewContainer";
 
 export {
   AdminViewContainer,
@@ -11,5 +12,6 @@ export {
   LeadershipView,
   EventsViewContainer,
   LoginViewContainer,
-  ParticipationView
+  ParticipationView,
+  ScholarshipViewContainer
 };
