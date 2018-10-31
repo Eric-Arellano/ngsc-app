@@ -10,11 +10,11 @@ type State = {
 
 class CalculatorViewContainer extends Component<Props, State> {
   state = {
-    estimatedAward: 0
+    estimatedAward: 10
   };
 
   submit = () => {
-    this.setState({ estimatedAward: 200 });
+    this.setState({ estimatedAward: this.state.estimatedAward * 1.2 });
   };
   render() {
     return (
