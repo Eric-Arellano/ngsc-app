@@ -299,13 +299,13 @@ def lint() -> TargetCommandMap:
 
     def all_action() -> None:
         backend.lint()
-        # frontend.lint()
+        frontend.lint()
         scripts_test_runner.lint()
 
     return TargetCommandMap(
         all_action=all_action,
         backend_action=backend.lint,
-        # frontend_action=frontend.lint,
+        frontend_action=frontend.lint,
         scripts_action=scripts_test_runner.lint,
     )
 

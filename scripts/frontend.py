@@ -106,6 +106,7 @@ def green(ci: bool = False) -> None:
     test()
     check_types()
     fmt(ci=ci)
+    lint()
 
 
 def test() -> None:
@@ -121,6 +122,11 @@ def check_types() -> None:
     """
     sys_calls.run(["yarn", "flow"], cwd="frontend/")
 
+def lint() -> None:
+    """
+    Calls lint to check for type errors.
+    """
+    sys_calls.run(["yarn", "lint"] + _get_targets(), cwd="frontend/")
 
 def fmt(ci: bool = False) -> None:
     """
