@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from "react";
 import LoginView from "./LoginView";
-import { withLoadingAndError } from "decorators";
+import { withLoadingAndError } from "components";
 import { getDemographics } from "api";
 import type { Student } from "types";
 
@@ -78,10 +78,14 @@ class LoginViewContainer extends Component<Props, State> {
     });
   };
 
-  @withLoadingAndError("User not found. Please enter a valid ASUrite.")
   render() {
+    const LoginViewWithLoadingAndError = withLoadingAndError(
+      LoginView,
+      this.resetState,
+      "User not found. Please enter a valid ASUrite."
+    );
     return (
-      <LoginView
+      <LoginViewWithLoadingAndError
         {...this.state}
         verifyAsurite={this.verifyStudentId}
         confirmCorrectStudent={this.confirmCorrectStudent}
