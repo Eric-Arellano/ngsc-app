@@ -43,4 +43,14 @@ Right now, you can only push immediately to production, which is slightly proble
 To do this, you would in Heroku's web dashboard create a new app called `ngsc-staging` and then modify the `ngsc` scripts like `deploy.py` to have the commands `./ngsc deploy-prod` and `./ngsc deploy-staging`.
 
 ## Heroku account & credentials
+(Eric)
 
+Create a Heroku account
+
+Add as a collaborator
+
+## HTTPS/SSL Setup
+(Eric)
+
+## Domain Name Management
+(Eric)
