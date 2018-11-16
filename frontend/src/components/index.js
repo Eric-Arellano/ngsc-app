@@ -16,6 +16,8 @@ import PanelWithLoading from "./Panel/PanelWithLoading";
 import PrivateRoute from "./Routes/PrivateRoute";
 import RadioGroup from "./Form/RadioGroup";
 import Social from "./Footer/Social";
+import withError from "./withError";
+import withLoadingAndError from "./withLoadingAndError";
 
 export {
   Button,
@@ -34,5 +36,7 @@ export {
   PanelWithLoading,
   PrivateRoute,
   RadioGroup,
-  Social
+  Social,
+  withError,
+  withLoadingAndError
 };

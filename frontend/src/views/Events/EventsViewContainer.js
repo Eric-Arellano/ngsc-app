@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import moment from "moment";
 import { getRequest } from "api";
 import EventsView from "./EventsView";
-import { withError } from "decorators";
+import { withError } from "components";
 import type { CalendarEvent } from "types";
 
 type Props = {};
@@ -61,11 +61,15 @@ class EventsViewContainer extends Component<Props, State> {
       isLoading: false,
       isError: false
     });
-  }; // Quirk with decorators and scope of this. Don't delete.
+  };
 
-  @withError("There was an error. Please try again.")
   render() {
-    return <EventsView {...this.state} />;
+    const EventsViewWithError = withError(
+      EventsView,
+      this.resetState,
+      "There was an error. Please try again."
+    );
+    return <EventsViewWithError {...this.state} />;
   }
 }
 

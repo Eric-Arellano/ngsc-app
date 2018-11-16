@@ -5,7 +5,7 @@ import AdminView from "./AdminView";
 import type { Action, FolderTarget, MimeType, SemesterTarget } from "./options";
 import { folderTargetOptions, semesterTargetOptions } from "./options";
 import type { ValidationState } from "types";
-import { withLoadingAndError } from "decorators";
+import { withLoadingAndError } from "components";
 
 type Props = {};
 
@@ -195,12 +195,14 @@ class AdminViewContainer extends React.Component<Props, State> {
     ...(action.isFile && mimeType && { mimeType: mimeType.apiId })
   });
 
-  @withLoadingAndError(
-    "The request failed. Make sure you typed the file names exactly."
-  )
   render() {
+    const AdminViewWithLoadingAndError = withLoadingAndError(
+      AdminView,
+      this.resetState,
+      "The request failed. Make sure you typed the file names exactly."
+    );
     return (
-      <AdminView
+      <AdminViewWithLoadingAndError
         {...this.state}
         defaultSemesterTarget={this.state.semesterTarget}
         updateSemesterTarget={this.updateSemesterTarget}
