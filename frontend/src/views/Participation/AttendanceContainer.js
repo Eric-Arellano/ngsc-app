@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from "react";
 import { withError } from "components";
 import { getAttendance } from "api";

@@ -3,7 +3,7 @@ import { Button } from "components";
 import s from "./Error.module.css";
 
 type Props = {
-  children: React.Element<string>,
+  children?: string,
   resetState: () => void
 };
 

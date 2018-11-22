@@ -1,4 +1,3 @@
-// @flow
 import * as React from "react";
 import AttendanceContainer from "./AttendanceContainer";
 import Demographics from "./Demographics";

@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from "react";
 import Credentials from "./Credentials";
 import type { ValidationState } from "types";
@@ -44,7 +43,7 @@ class CredentialsContainer extends Component<Props, State> {
     });
   };
 
-  handleEnterKey = (e: SyntheticInputEvent<HTMLInputElement>) => {
+  handleEnterKey = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       this.handleSubmit();
     }

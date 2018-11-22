@@ -1,4 +1,3 @@
-// @flow
 import * as React from "react";
 import { Loading } from "components";
 import s from "./Panel.module.css";

@@ -1,4 +1,3 @@
-// @flow
 import * as React from "react";
 import AcceptedEngagement from "./AcceptedEngagement";
 import LoggedEngagement from "./LoggedEngagement";

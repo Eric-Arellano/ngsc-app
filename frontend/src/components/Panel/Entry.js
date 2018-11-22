@@ -1,8 +1,7 @@
-// @flow
 import * as React from "react";
 
 type Props = {
-  children: React.Element<string> // can only be a single child of type string
+  children: React.ChildrenArray<string | number | React.Element<"a">>
 };
 
 const Entry = ({ children }: Props) => <p>{children}</p>;

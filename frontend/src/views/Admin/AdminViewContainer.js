@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import axios from "axios";
 import AdminView from "./AdminView";
@@ -182,17 +181,14 @@ class AdminViewContainer extends React.Component<Props, State> {
   ) => ({
     semester: semesterTarget.apiId,
     targetFolders: targetFolders
-      .filter(folder => folder.checked)
-      .map(folder => ({
+      .filter((folder: FolderTarget) => folder.checked)
+      .map((folder: FolderTarget) => ({
         apiId: folder.apiId,
         targetPath: folder.targetPath,
-        // $FlowFixMe
-        ...(action.needsFolderSource && { sourcePath: folder.sourcePath })
+        sourcePath: action.needsFolderSource ? folder.sourcePath : undefined
       })),
-    // $FlowFixMe
-    ...(action.needsGlobalSource && { globalSourcePath: globalSourcePath }),
-    // $FlowFixMe
-    ...(action.isFile && mimeType && { mimeType: mimeType.apiId })
+    globalSourcePath: action.needsGlobalSource ? globalSourcePath : undefined,
+    mimeType: action.isFile && action.mimeType ? mimeType.apiId : undefined
   });
 
   render() {

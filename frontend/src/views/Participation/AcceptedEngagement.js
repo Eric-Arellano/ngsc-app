@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import { Entry, PanelWithLoading } from "components";
 

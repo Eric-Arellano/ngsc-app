@@ -1,4 +1,3 @@
-// @flow
 import * as React from "react";
 import Bio from "./Bio";
 import BioGroup from "./BioGroup";

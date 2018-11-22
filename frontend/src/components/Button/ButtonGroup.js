@@ -1,4 +1,3 @@
-// @flow
 import * as React from "react";
 import Button from "./Button";
 import s from "./Button.module.css";

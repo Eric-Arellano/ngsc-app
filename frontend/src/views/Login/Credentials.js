@@ -1,11 +1,10 @@
-// @flow
 import React from "react";
 import { Button, Input } from "components";
 import type { ValidationState } from "types";
 
 type Props = {
   validationState: ValidationState,
-  handleEnterKey: (SyntheticInputEvent<HTMLInputElement>) => void,
+  handleEnterKey: (SyntheticKeyboardEvent<HTMLInputElement>) => void,
   updateCurrentValue: string => void,
   handleSubmit: () => void
 };

@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from "react";
 import LoginView from "./LoginView";
 import { withLoadingAndError } from "components";

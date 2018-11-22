@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from "react";
 import { Label } from "components";
 import type { CheckboxOption } from "types";
@@ -6,7 +5,7 @@ import s from "./CheckboxGroup.module.css";
 
 type Props = {
   options: Array<CheckboxOption>,
-  label: ?string,
+  label?: string,
   updateCurrentChecked: (Array<CheckboxOption>) => void
 };
 
@@ -29,7 +28,7 @@ class CheckboxGroup extends Component<Props, State> {
     const { options, label } = this.props;
     return (
       <div className={s.container}>
-        {label && <p className={s.label}>{label}</p>}
+        {label !== undefined && <p className={s.label}>{label}</p>}
         <ul>
           {options.map((option: CheckboxOption, index: number) => (
             <li key={index}>

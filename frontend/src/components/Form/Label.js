@@ -2,7 +2,7 @@ import * as React from "react";
 import s from "./Label.module.css";
 
 type Props = {
-  children: React.element<string>
+  children: React.ChildrenArray<string | React.Element<"input">>
 };
 
 const Label = ({ children }: Props) => (

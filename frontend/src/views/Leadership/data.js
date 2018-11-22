@@ -1,5 +1,3 @@
-// @flow
-
 import type { Name } from "types";
 import jacobRagsdale from "./photos/jacob-ragsdale.jpg";
 import lauraTan from "./photos/laura-tan.jpg";

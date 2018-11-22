@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import { Button, ButtonGroup } from "components";
 import type { Name } from "types";

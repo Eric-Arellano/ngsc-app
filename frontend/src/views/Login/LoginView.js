@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import Confirmation from "./Confirmation";
 import CredentialsContainer from "./CredentialsContainer";

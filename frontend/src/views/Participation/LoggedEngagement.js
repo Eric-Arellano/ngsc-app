@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import ReactTable from "react-table"; // see https://react-table.js.org/#/story/readme
 import type { EngagementEvent } from "types";

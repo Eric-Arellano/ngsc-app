@@ -1,12 +1,16 @@
-// react
 import React from "react";
 import { render } from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import { AppViewContainer } from "views";
 
-render(
-  <BrowserRouter>
-    <AppViewContainer />
-  </BrowserRouter>,
-  document.getElementById("root")
-);
+const root = document.getElementById("root");
+if (root == null) {
+  throw new Error("Invalid index.html. <root> is not present.");
+} else {
+  render(
+    <BrowserRouter>
+      <AppViewContainer />
+    </BrowserRouter>,
+    root
+  );
+}
