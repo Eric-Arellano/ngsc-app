@@ -119,6 +119,7 @@ def test() -> None:
     """
     Run unit tests.
     """
+    sys_calls.export("CI", "true")
     sys_calls.run(["yarn", "test"], cwd="frontend/")
 
 
