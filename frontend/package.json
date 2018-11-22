@@ -27,6 +27,7 @@
     "enzyme": "3.7.0",
     "enzyme-adapter-react-16": "1.6.0",
     "flow-bin": "0.86.0",
+    "flow-typed": "2.5.1",
     "prettier": "1.14.3",
     "react-test-renderer": "16.6.0"
   },

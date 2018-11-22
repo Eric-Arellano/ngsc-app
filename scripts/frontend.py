@@ -67,18 +67,25 @@ def stop() -> None:
 # -------------------------------------
 
 
+def add_type_stubs() -> None:
+    sys_calls.run(
+        ["yarn", "flow-typed", "install"], cwd="frontend/", check_return_code=False
+    )
+
+
 def install() -> None:
     """
     Downloads & installs all dependencies for the frontend.
     """
     sys_calls.run(["yarn", "install", "--frozen-lockfile"], cwd="frontend/")
+    add_type_stubs()
 
 
 def reinstall() -> None:
     """
     Deletes original packages and re-installs everything.
     """
-    files.remove(["frontend/node_modules/"])
+    files.remove(["frontend/node_modules/", "frontend/flow-typed"])
     install()
 
 
@@ -148,6 +155,7 @@ def add(dependencies: List[Dependency]) -> None:
     Add one or more npm packages.
     """
     sys_calls.run(["yarn", "add"] + dependencies, cwd="frontend/")
+    add_type_stubs()
     git.remind_to_commit("package.json and yarn.lock")
 
 
@@ -156,6 +164,7 @@ def add_dev(dependencies: List[Dependency]) -> None:
     Add one or more pip packages to dev.
     """
     sys_calls.run(["yarn", "add", "--dev"] + dependencies, cwd="frontend/")
+    add_type_stubs()
     git.remind_to_commit("package.json and yarn.lock")
 
 
@@ -164,6 +173,7 @@ def upgrade(dependencies: List[Dependency]) -> None:
     Upgrade one or more out-of-date npm packages.
     """
     sys_calls.run(["yarn", "upgrade"] + dependencies, cwd="frontend/")
+    add_type_stubs()
     git.remind_to_commit("package.json and yarn.lock")
 
 
@@ -172,4 +182,5 @@ def remove(dependencies: List[Dependency]) -> None:
     Remove one or more npm packages.
     """
     sys_calls.run(["yarn", "remove"] + dependencies, cwd="frontend/")
+    add_type_stubs()
     git.remind_to_commit("package.json and yarn.lock")
