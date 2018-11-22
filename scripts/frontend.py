@@ -151,6 +151,14 @@ def add(dependencies: List[Dependency]) -> None:
     git.remind_to_commit("package.json and yarn.lock")
 
 
+def add_dev(dependencies: List[Dependency]) -> None:
+    """
+    Add one or more pip packages to dev.
+    """
+    sys_calls.run(["yarn", "add", "--dev"] + dependencies, cwd="frontend/")
+    git.remind_to_commit("package.json and yarn.lock")
+
+
 def upgrade(dependencies: List[Dependency]) -> None:
     """
     Upgrade one or more out-of-date npm packages.

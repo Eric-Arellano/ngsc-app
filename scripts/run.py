@@ -349,6 +349,17 @@ def add() -> TargetCommandMap:
     )
 
 
+def add_dev() -> TargetCommandMap:
+    """
+    Add one or more packages.
+    """
+    return TargetCommandMap(
+        backend_action=backend.add_dev,
+        frontend_action=frontend.add_dev,
+        has_dependencies=True,
+    )
+
+
 def upgrade() -> TargetCommandMap:
     """
     Upgrade one or more out-of-date packages.
@@ -468,6 +479,7 @@ command_options = [
     create_command_option("outdated", list_outdated),
     create_command_option("deptree", dependency_tree),
     create_command_option("add", add),
+    create_command_option("add-dev", add_dev),
     create_command_option("upgrade", upgrade),
     create_command_option("remove", remove),
     create_command_option("deploy", deploy_to_heroku),
