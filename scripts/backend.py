@@ -1,7 +1,7 @@
 from glob import glob
 
 from typing import List
-from scripts import python_code_quality
+from scripts import env_variables, python_code_quality
 from scripts.utils import (
     prereq_checker,
     process_management,
@@ -38,7 +38,7 @@ def run() -> None:
     """
     Start backend server normally.
     """
-    sys_calls.export("FLASK_APP", "backend/src/server.py")
+    env_variables.set_backend()
     try:
         pipenv.run(["flask", "run"])
     except KeyboardInterrupt:
@@ -51,7 +51,7 @@ def run_detached() -> None:
 
     Must later kill process.
     """
-    sys_calls.export("FLASK_APP", "backend/src/server.py")
+    env_variables.set_backend()
     pipenv.run_detached(["flask", "run"])
     print("Backend server started at localhost:5000. Remember to stop it after.")
 
