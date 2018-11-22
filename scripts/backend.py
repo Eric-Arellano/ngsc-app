@@ -156,7 +156,7 @@ def add(dependencies: List[Dependency]) -> None:
     """
     Add one or more pip packages.
     """
-    sys_calls.run(["pipenv", "install"] + dependencies)
+    sys_calls.run(["pipenv", "install", "--keep-outdated"] + dependencies)
 
 
 def upgrade(dependencies: List[Dependency]) -> None:

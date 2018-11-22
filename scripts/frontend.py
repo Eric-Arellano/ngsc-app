@@ -71,7 +71,7 @@ def install() -> None:
     """
     Downloads & installs all dependencies for the frontend.
     """
-    sys_calls.run(["yarn", "install"], cwd="frontend/")
+    sys_calls.run(["yarn", "install", "--frozen-lockfile"], cwd="frontend/")
 
 
 def reinstall() -> None:

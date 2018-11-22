@@ -4,17 +4,16 @@
   "homepage": "http://ngsc-app.org/",
   "private": true,
   "dependencies": {
-    "axios": "^0.18.0",
-    "flow-bin": "^0.72.0",
-    "lodash": "^4.17.10",
-    "moment": "^2.22.1",
-    "react": "^16.3.2",
-    "react-big-calendar": "^0.19.1",
-    "react-dom": "^16.3.2",
-    "react-icons": "^2.2.7",
-    "react-router-dom": "^4.2.2",
+    "axios": "0.18.0",
+    "lodash": "4.17.10",
+    "moment": "2.22.1",
+    "react": "16.3.2",
+    "react-big-calendar": "0.19.1",
+    "react-dom": "16.3.2",
+    "react-icons": "2.2.7",
+    "react-router-dom": "4.2.2",
     "react-scripts": "2.1.1",
-    "react-table": "^6.8.2"
+    "react-table": "6.8.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -25,10 +24,11 @@
     "fmt": "prettier"
   },
   "devDependencies": {
-    "enzyme": "^3.7.0",
-    "enzyme-adapter-react-16": "^1.6.0",
-    "prettier": "^1.14.3",
-    "react-test-renderer": "^16.6.0"
+    "enzyme": "3.7.0",
+    "enzyme-adapter-react-16": "1.6.0",
+    "flow-bin": "0.86.0",
+    "prettier": "1.14.3",
+    "react-test-renderer": "16.6.0"
   },
   "proxy": "http://localhost:5000/",
   "license": "MIT",
