@@ -4,9 +4,6 @@
 # testing
 /coverage
 
-# flow
-/flow-typed
-
 # production
 /build
 

@@ -67,18 +67,11 @@ def stop() -> None:
 # -------------------------------------
 
 
-def add_type_stubs() -> None:
-    sys_calls.run(
-        ["yarn", "flow-typed", "install"], cwd="frontend/", check_return_code=False
-    )
-
-
 def install() -> None:
     """
     Downloads & installs all dependencies for the frontend.
     """
     sys_calls.run(["yarn", "install", "--frozen-lockfile"], cwd="frontend/")
-    add_type_stubs()
 
 
 def reinstall() -> None:
@@ -142,6 +135,12 @@ def fmt(ci: bool = False) -> None:
 # Dependency management
 # -------------------------------------
 Dependency = str  # type alias
+
+
+def add_type_stubs() -> None:
+    sys_calls.run(
+        ["yarn", "flow-typed", "install"], cwd="frontend/", check_return_code=False
+    )
 
 
 def list_outdated() -> None:
