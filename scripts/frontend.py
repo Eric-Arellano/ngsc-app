@@ -103,9 +103,9 @@ def green(ci: bool = False) -> None:
     """
     Calls all tests and linters.
     """
+    fmt(ci=ci)
     test()
     check_types()
-    fmt(ci=ci)
 
 
 def test() -> None:
