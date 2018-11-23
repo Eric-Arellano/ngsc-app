@@ -52,7 +52,7 @@ def update(
     grid: sheet.Grid,
     key_index: int,
     target_index: int,
-    updated_values: Dict[str, str],
+    updated_values: Dict[sheet.Cell, sheet.Cell],
     overwrite: bool,
 ) -> sheet.Grid:
     """

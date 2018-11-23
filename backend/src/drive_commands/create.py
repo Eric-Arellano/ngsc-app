@@ -18,7 +18,7 @@ def gdoc(
     file_name: str,
     *,
     parent_folder_id: drive_api.ResourceID,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> drive_api.ResourceID:
     """
     Create an empty Google Doc.
@@ -35,7 +35,7 @@ def gsheet(
     file_name: str,
     *,
     parent_folder_id: drive_api.ResourceID,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> drive_api.ResourceID:
     """
     Create an empty Google Sheet.
@@ -52,7 +52,7 @@ def gslides(
     file_name: str,
     *,
     parent_folder_id: drive_api.ResourceID,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> drive_api.ResourceID:
     """
     Create an empty Google Slides presentation.
@@ -69,7 +69,7 @@ def gform(
     file_name: str,
     *,
     parent_folder_id: drive_api.ResourceID,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> drive_api.ResourceID:
     """
     Create an empty Google Form.
@@ -86,7 +86,7 @@ def folder(
     folder_name: str,
     *,
     parent_folder_id: drive_api.ResourceID,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> drive_api.ResourceID:
     """
     Create an empty folder.
@@ -104,7 +104,7 @@ def resource(
     *,
     mime_type: str,
     parent_folder_id: drive_api.ResourceID,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> drive_api.ResourceID:
     """
     Create Google Drive file with specific MIME type.
@@ -116,7 +116,8 @@ def resource(
         drive_service=drive_service,
     )
     result = command.execute()
-    return result.get("id")
+    new_id: drive_api.ResourceID = result.get("id")
+    return new_id
 
 
 # ---------------------------------------------------------------------
@@ -127,14 +128,13 @@ def resource(
 class BatchArgument(NamedTuple):
     name: str
     parent_folder_id: drive_api.ResourceID
-    mime_type: Optional[str] = None
 
 
 def batch_gdoc(
     arguments: List[BatchArgument],
     *,
     include_output: bool = True,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> List[drive_api.ResourceID]:
     """
     Batch create empty Google Docs.
@@ -151,7 +151,7 @@ def batch_gsheet(
     arguments: List[BatchArgument],
     *,
     include_output: bool = True,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> List[drive_api.ResourceID]:
     """
     Batch create empty Google Sheets.
@@ -168,7 +168,7 @@ def batch_gslides(
     arguments: List[BatchArgument],
     *,
     include_output: bool = True,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> List[drive_api.ResourceID]:
     """
     Batch create empty Google Slides presentations.
@@ -185,7 +185,7 @@ def batch_gform(
     arguments: List[BatchArgument],
     *,
     include_output: bool = True,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> List[drive_api.ResourceID]:
     """
     Batch create empty Google Forms.
@@ -202,7 +202,7 @@ def batch_folder(
     arguments: List[BatchArgument],
     *,
     include_output: bool = True,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> List[drive_api.ResourceID]:
     """
     Batch create empty folders.
@@ -218,31 +218,18 @@ def batch_folder(
 def batch(
     arguments: List[BatchArgument],
     *,
-    uniform_mime_type: str = None,
+    uniform_mime_type: str,
     include_output: bool = True,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> List[drive_api.ResourceID]:
     """
     Batch create Google Drive file with specific MIME type.
 
     Returns list of IDs in order of passed names.
     """
-    # mime support
-    if uniform_mime_type is None and any(
-        argument.mime_type is None for argument in arguments
-    ):
-        raise ValueError("Invalid batch arguments. Every file must have a mime type.")
-    else:
-        arguments = [
-            BatchArgument(
-                name=argument.name,
-                parent_folder_id=argument.parent_folder_id,
-                mime_type=uniform_mime_type,
-            )
-            for argument in arguments
-        ]
 
-    result = []  # callback will append resulting IDs in order
+    # callback will append resulting IDs in order
+    result: List[drive_api.ResourceID] = []
 
     def batch_response(request_id, response, exception) -> None:
         nonlocal result
@@ -250,8 +237,8 @@ def batch(
 
     requests = [
         request(
-            name=argument.name,  # type: ignore  # complains about mime_type being Optional
-            mime_type=argument.mime_type,
+            name=argument.name,
+            mime_type=uniform_mime_type,
             parent_folder_id=argument.parent_folder_id,
             drive_service=drive_service,
         )
@@ -273,7 +260,7 @@ def gdoc_request(
     file_name: str,
     *,
     parent_folder_id: drive_api.ResourceID,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> http.HttpRequest:
     """
     Generate request to create new Google doc.
@@ -290,7 +277,7 @@ def gsheet_request(
     file_name: str,
     *,
     parent_folder_id: drive_api.ResourceID,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> http.HttpRequest:
     """
     Generate request to create new Google sheet.
@@ -307,7 +294,7 @@ def gslides_request(
     file_name: str,
     *,
     parent_folder_id: drive_api.ResourceID,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> http.HttpRequest:
     """
     Generate request to create new Google slides presentation.
@@ -324,7 +311,7 @@ def gform_request(
     file_name: str,
     *,
     parent_folder_id: drive_api.ResourceID,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> http.HttpRequest:
     """
     Generate request to create new Google form.
@@ -341,7 +328,7 @@ def folder_request(
     folder_name: str,
     *,
     parent_folder_id: drive_api.ResourceID,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> http.HttpRequest:
     """
     Generate request to create new folder.
@@ -359,7 +346,7 @@ def request(
     *,
     mime_type: str,
     parent_folder_id: drive_api.ResourceID,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> http.HttpRequest:
     """
     Generate request to create new resource.

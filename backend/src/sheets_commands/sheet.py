@@ -9,6 +9,8 @@ from backend.src.google_apis import sheets_api
 # --------------------------------------------------------
 
 ID = str
+IDMapKey = Union[str, int]
+IDMap = Dict[IDMapKey, ID]
 Range = str
 
 BatchRequest = Dict[str, Any]
@@ -55,7 +57,8 @@ def get_values(
         .get(spreadsheetId=spreadsheet_id, range=range_)
         .execute()
     )
-    return result.get("values", [])
+    grid: Grid = result.get("values", [[]])
+    return grid
 
 
 def update_values(

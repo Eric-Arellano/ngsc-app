@@ -143,7 +143,8 @@ def get_stdout(command: List[str], check_return_code: bool = True, **kwargs) -> 
     )
     if check_return_code:
         _check_return_code(completed_process)
-    return completed_process.stdout.strip()
+    stdout: str = completed_process.stdout.strip()
+    return stdout
 
 
 def get_stdout_as_shell(command: str, check_return_code: bool = True, **kwargs) -> str:
@@ -155,4 +156,5 @@ def get_stdout_as_shell(command: str, check_return_code: bool = True, **kwargs) 
     )
     if check_return_code:
         _check_return_code(completed_process)
-    return completed_process.stdout.strip()
+    stdout: str = completed_process.stdout.strip()
+    return stdout

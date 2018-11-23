@@ -8,8 +8,6 @@ from googleapiclient import discovery
 from backend.src.data import mime_types
 from backend.src.google_apis import drive_api
 
-ResourceID = str
-
 
 # -----------------------------------------------------
 # Find ID
@@ -19,11 +17,11 @@ ResourceID = str
 def resource(
     resource_name: str,
     *,
-    parent_folder_id: ResourceID,
-    mime_type: str = None,
+    parent_folder_id: drive_api.ResourceID,
+    mime_type: Optional[str] = None,
     exact_match: bool = True,
-    drive_service: discovery.Resource = None,
-) -> Optional[ResourceID]:
+    drive_service: Optional[discovery.Resource] = None,
+) -> Optional[drive_api.ResourceID]:
     """
     Helper for finding files and folders
     """
@@ -45,7 +43,8 @@ def resource(
     files = results.get("files", [])
     if len(files) != 1:  # empty or ambiguous results -> failure
         return None
-    return files[0]["id"]
+    resource_id: drive_api.ResourceID = files[0]["id"]
+    return resource_id
 
 
 # -----------------------------------------------------
@@ -54,8 +53,11 @@ def resource(
 
 
 def parent_folder_for_path(
-    path: str, *, root_folder_id: ResourceID, drive_service: discovery.Resource
-) -> Optional[ResourceID]:
+    path: str,
+    *,
+    root_folder_id: drive_api.ResourceID,
+    drive_service: discovery.Resource,
+) -> Optional[drive_api.ResourceID]:
     """
     If path is nested, find actual parent; else return original parent.
     """
@@ -74,11 +76,11 @@ def parent_folder_for_path(
 def recursive_resource(
     *,
     path: List[str],
-    parent_folder_id: ResourceID,
-    mime_type: str = None,
+    parent_folder_id: drive_api.ResourceID,
+    mime_type: Optional[str] = None,
     exact_match: bool = True,
-    drive_service: discovery.Resource = None,
-) -> Optional[ResourceID]:
+    drive_service: Optional[discovery.Resource] = None,
+) -> Optional[drive_api.ResourceID]:
     if len(path) == 1:
         return resource(
             resource_name=path[0],
@@ -114,8 +116,10 @@ def recursive_resource(
 
 
 def parent_folder(
-    resource_id: ResourceID, *, drive_service: discovery.Resource = None
-) -> ResourceID:
+    resource_id: drive_api.ResourceID,
+    *,
+    drive_service: Optional[discovery.Resource] = None,
+) -> drive_api.ResourceID:
     """
     Find parent folder ID for resource.
     """
@@ -124,22 +128,30 @@ def parent_folder(
 
 
 def parent_folder_list(
-    resource_id: ResourceID, *, drive_service: discovery.Resource = None
-) -> List[ResourceID]:
+    resource_id: drive_api.ResourceID,
+    *,
+    drive_service: Optional[discovery.Resource] = None,
+) -> List[drive_api.ResourceID]:
     """
     Find all parent folder IDs for resource.
     """
     if drive_service is None:
         drive_service = drive_api.build_service()
     result = drive_service.files().get(fileId=resource_id, fields="parents").execute()
-    return result["parents"]
+    parent_ids: List[drive_api.ResourceID] = result["parents"]
+    return parent_ids
 
 
-def name(resource_id: ResourceID, *, drive_service: discovery.Resource = None) -> str:
+def name(
+    resource_id: drive_api.ResourceID,
+    *,
+    drive_service: Optional[discovery.Resource] = None,
+) -> str:
     """
     Find the original name of the resource.
     """
     if drive_service is None:
         drive_service = drive_api.build_service()
     result = drive_service.files().get(fileId=resource_id, fields="name").execute()
-    return result["name"]
+    name: str = result["name"]
+    return name

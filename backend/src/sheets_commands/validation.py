@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from googleapiclient import discovery
 
@@ -14,12 +14,12 @@ def dropdown_options(
     *,
     spreadsheet_id: sheet.ID,
     options: List[str],
-    row_start_index: int = None,
-    row_end_index: int = None,
-    column_start_index: int = None,
-    column_end_index: int = None,
+    row_start_index: Optional[int] = None,
+    row_end_index: Optional[int] = None,
+    column_start_index: Optional[int] = None,
+    column_end_index: Optional[int] = None,
     tab_id: int = 0,
-    sheets_service: discovery.Resource = None,
+    sheets_service: Optional[discovery.Resource] = None,
 ) -> None:
     """
     Add dropdown data validation - must be a member of the list.
@@ -40,15 +40,15 @@ def dropdown_options(
 def protected_range(
     *,
     spreadsheet_id: sheet.ID,
-    editor_emails: List[str] = None,
+    editor_emails: Optional[List[str]] = None,
     warning_only: bool = False,
-    description: str = None,
-    row_start_index: int = None,
-    row_end_index: int = None,
-    column_start_index: int = None,
-    column_end_index: int = None,
+    description: Optional[str] = None,
+    row_start_index: Optional[int] = None,
+    row_end_index: Optional[int] = None,
+    column_start_index: Optional[int] = None,
+    column_end_index: Optional[int] = None,
     tab_id: int = 0,
-    sheets_service: discovery.Resource = None,
+    sheets_service: Optional[discovery.Resource] = None,
 ) -> None:
     """
     Protect range so only provided users can edit.
@@ -76,10 +76,10 @@ def protected_range(
 def dropdown_options_request(
     *,
     options: List[str],
-    row_start_index: int = None,
-    row_end_index: int = None,
-    column_start_index: int = None,
-    column_end_index: int = None,
+    row_start_index: Optional[int] = None,
+    row_end_index: Optional[int] = None,
+    column_start_index: Optional[int] = None,
+    column_end_index: Optional[int] = None,
     tab_id: int = 0,
 ) -> sheet.BatchRequest:
     """
@@ -106,13 +106,13 @@ def dropdown_options_request(
 
 def protected_range_request(
     *,
-    editor_emails: List[str] = None,
+    editor_emails: Optional[List[str]] = None,
     warning_only: bool = False,
-    description: str = None,
-    row_start_index: int = None,
-    row_end_index: int = None,
-    column_start_index: int = None,
-    column_end_index: int = None,
+    description: Optional[str] = None,
+    row_start_index: Optional[int] = None,
+    row_end_index: Optional[int] = None,
+    column_start_index: Optional[int] = None,
+    column_end_index: Optional[int] = None,
     tab_id: int = 0,
 ) -> sheet.BatchRequest:
     """

@@ -1,5 +1,5 @@
 import textwrap
-from typing import Dict, List, Union
+from typing import List
 
 from backend.src.data import column_indexes
 from backend.src.sheets_commands import sheet
@@ -43,12 +43,9 @@ def query_for_id(
 
 
 def roster_switch(
-    *,
-    roster_id_map: Dict[Union[str, int], sheet.ID],
-    association_column_letter: str,
-    leadership_role: str,
+    *, roster_id_map: sheet.IDMap, association_column_letter: str, leadership_role: str
 ) -> Formula:
-    def switch_item(key: Union[str, int], roster_file_id: sheet.ID) -> Formula:
+    def switch_item(key: sheet.IDMapKey, roster_file_id: sheet.ID) -> Formula:
         query = query_for_id(
             spreadsheet_id=roster_file_id,
             tab_range="Attendance!A$2:B",
@@ -136,7 +133,7 @@ def master_no_shows(*, no_shows_id: sheet.ID) -> Formula:
     )
 
 
-def master_committee_attendance(*, committee_id_map: Dict[str, sheet.ID]) -> Formula:
+def master_committee_attendance(*, committee_id_map: sheet.IDMap) -> Formula:
     return roster_switch(
         roster_id_map=committee_id_map,
         association_column_letter="K",
@@ -144,7 +141,7 @@ def master_committee_attendance(*, committee_id_map: Dict[str, sheet.ID]) -> For
     )
 
 
-def master_mt_attendance(*, mt_id_map: Dict[int, sheet.ID]) -> Formula:
+def master_mt_attendance(*, mt_id_map: sheet.IDMap) -> Formula:
     return roster_switch(
         roster_id_map=mt_id_map,
         association_column_letter="J",

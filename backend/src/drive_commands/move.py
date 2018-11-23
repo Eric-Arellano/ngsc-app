@@ -1,7 +1,7 @@
 """
 Move a file or folder from source into the specified targets.
 """
-from typing import List, NamedTuple
+from typing import List, NamedTuple, Optional
 
 from googleapiclient import discovery, http
 
@@ -18,7 +18,7 @@ def resource(
     *,
     origin_resource_id: drive_api.ResourceID,
     target_folder_id: drive_api.ResourceID,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> None:
     """
     Move specific resource to new parent.
@@ -42,7 +42,9 @@ class BatchArgument(NamedTuple):
 
 
 def batch(
-    arguments: List[BatchArgument], *, drive_service: discovery.Resource = None
+    arguments: List[BatchArgument],
+    *,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> None:
     """
     Batch move multiple resources.
@@ -67,7 +69,7 @@ def request(
     *,
     origin_resource_id: drive_api.ResourceID,
     target_folder_id: drive_api.ResourceID,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> http.HttpRequest:
     """
     Generate request to move specific resource.

@@ -1,7 +1,7 @@
 """
 Remove a resource from Google Drive.
 """
-from typing import List, NamedTuple
+from typing import List, NamedTuple, Optional
 
 from googleapiclient import discovery, http
 
@@ -14,7 +14,9 @@ from backend.src.google_apis import drive_api
 
 
 def resource(
-    resource_id: drive_api.ResourceID, *, drive_service: discovery.Resource = None
+    resource_id: drive_api.ResourceID,
+    *,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> None:
     """
     Remove specific resource.
@@ -33,7 +35,9 @@ class BatchArgument(NamedTuple):
 
 
 def batch(
-    arguments: List[BatchArgument], *, drive_service: discovery.Resource = None
+    arguments: List[BatchArgument],
+    *,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> None:
     """
     Batch remove multiple resources.
@@ -51,7 +55,9 @@ def batch(
 
 
 def request(
-    resource_id: drive_api.ResourceID, *, drive_service: discovery.Resource = None
+    resource_id: drive_api.ResourceID,
+    *,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> http.HttpRequest:
     """
     Generate request to remove specific resource.

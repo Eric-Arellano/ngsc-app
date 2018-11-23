@@ -17,10 +17,10 @@ def resource(
     resource_id: drive_api.ResourceID,
     email: str,
     *,
-    email_message: str = None,
+    email_message: Optional[str] = None,
     send_email: bool = False,
     transfer_ownership: bool = False,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> None:
     """
     Share specific resource with single user.
@@ -52,10 +52,10 @@ class BatchArgument(NamedTuple):
 def batch(
     arguments: List[BatchArgument],
     *,
-    uniform_email_message: str = None,
+    uniform_email_message: Optional[str] = None,
     uniform_send_email: bool = False,
     uniform_transfer_ownership: bool = False,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> None:
     """
     Batch share resources with provided users.
@@ -123,10 +123,10 @@ def request(
     resource_id: drive_api.ResourceID,
     email: str,
     *,
-    email_message: str = None,
+    email_message: Optional[str] = None,
     send_email: bool = False,
     transfer_ownership: bool = False,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> http.HttpRequest:
     """
     Generate request to share specific resource with user.
