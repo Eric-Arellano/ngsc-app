@@ -101,7 +101,7 @@ def green(ci: bool = False) -> None:
     """
     fmt(ci=ci)
     test()
-    check_types()
+    # check_types()
     lint()
 
 
