@@ -233,7 +233,7 @@ def explain_ownership() -> None:
             """\
         The semester's drive is shared with new leadership!
         
-        Note that the Google service account is the owner of all folders and files created in the `./run.py setup-semester` script.
+        Note that the Google service account is the owner of all folders and files created in the `./ngsc setup-semester` script.
         This is so that it retains the ability to permanently delete files. 
         
         If this becomes an issue, it is possible to modify this script to transfer ownership to someone else, such as the admin chair.
@@ -241,3 +241,7 @@ def explain_ownership() -> None:
         """
         )
     )
+
+
+if __name__ == "__main__":
+    main()

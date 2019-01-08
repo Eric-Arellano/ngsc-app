@@ -60,7 +60,7 @@ def main() -> None:
         add_colors=False,
         sheets_service=sheets_service,
     )
-    setup_semester.update_participation_id_list(sheets_service=sheets_service)
+    setup_semester.update_participation_asurite_list(sheets_service=sheets_service)
 
 
 # ---------------------------------------------------------------
@@ -180,3 +180,7 @@ def create_legacy_tabs(
         _environment_chooser.operate_on_all_committee_attendance(create)
     if include_mission_teams:
         _environment_chooser.operate_on_all_mission_team_attendance(create)
+
+
+if __name__ == "__main__":
+    main()

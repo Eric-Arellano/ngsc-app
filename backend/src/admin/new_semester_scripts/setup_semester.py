@@ -12,7 +12,8 @@ import pprint
 import re
 import functools
 import textwrap
-from typing import Dict, Union, NamedTuple
+import math
+from typing import Dict, List, Union, NamedTuple
 
 from googleapiclient import discovery
 
@@ -50,6 +51,7 @@ from backend.src.sheets_commands import (  # pylint: disable=wrong-import-positi
     rows,
     tab,
 )
+from scripts import backend  # pylint: disable=wrong-import-position
 from scripts.utils import command_line  # pylint: disable=wrong-import-position
 
 Semester = str
@@ -80,14 +82,14 @@ def main() -> None:
         # save to hardcoded files
         save_folder_ids(folder_id_map)
         save_file_ids(file_id_map)
+        backend.fmt()
         prompt_to_add_admin_email()
         prompt_to_restart_script()
     elif script_section == 2:  # prepare & modify resources
         # steps before adding data
         check_new_ids_different()
-        prompt_to_update_leave_of_absence()
         # update ID lists
-        update_participation_id_list(sheets_service=sheets_service)
+        update_participation_asurite_list(sheets_service=sheets_service)
         # clear old data
         clear_engagement_data(sheets_service=sheets_service)
         clear_no_show_data(sheets_service=sheets_service)
@@ -136,7 +138,7 @@ def print_debugging_tips() -> None:
         - Column indexes were changed. Compare actual indexes with this script and `data/column_indexes`.
         - Tab names were changed. Compare to the formulas in `data/sheet_formulas`.
         - `copy_important_files` fails because API is overloaded and does not create the accompanying forms quickly enough. Try changing the timeout.
-        - Roster already has alternated coloring. If this happens, comment out `prepare_all_rosters()` and rerun this script Part 2, along with `./run.py rebuild-rosters`.
+        - Roster already has alternated coloring. If this happens, comment out `prepare_all_rosters()` and rerun this script Part 2, along with `./ngsc rebuild-rosters`.
         
         These should not be sources of error, but check just in case:
         - Changed file names. The scripts work by File IDs, instead of file names. 
@@ -241,23 +243,17 @@ def create_empty_folders(
                 "On Leadership", parent_folder_id=id_map["all_students_root"]
             ),
             create.BatchArgument(
-                "Summit", parent_folder_id=id_map["all_students_root"]
-            ),
-            create.BatchArgument(
                 "Participation", parent_folder_id=id_map["all_students_root"]
             ),
         ]
     )
     id_map["all_students"] = {
         "on_leadership": all_students_subfolders_ids[0],
-        "summit": all_students_subfolders_ids[1],
-        "participation": all_students_subfolders_ids[2],
+        "participation": all_students_subfolders_ids[1],
     }
     # Leadership subfolders
-    briefings = create_folder(
-        "Staff Briefings", parent_folder_id=id_map["leadership_root"]
-    )
-    id_map["leadership"] = {"staff_briefings": briefings}
+    briefings = create_folder("Training", parent_folder_id=id_map["leadership_root"])
+    id_map["leadership"] = {"training": briefings}
     # Sections folders
     section_folders = [
         create.BatchArgument(
@@ -319,9 +315,6 @@ def create_empty_folders(
                 "Training", parent_folder_id=id_map["committee_leads"]["Education"]
             ),
             create.BatchArgument(
-                "Mentorship", parent_folder_id=id_map["committee_leads"]["Education"]
-            ),
-            create.BatchArgument(
                 "Ambassadors", parent_folder_id=id_map["committee_leads"]["Education"]
             ),
             create.BatchArgument(
@@ -341,11 +334,10 @@ def create_empty_folders(
         "Civil-Mil": committee_chairs_folders_ids[2],
         "Service": committee_chairs_folders_ids[3],
         "Training": committee_chairs_folders_ids[4],
-        "Mentorship": committee_chairs_folders_ids[5],
-        "Ambassadors": committee_chairs_folders_ids[6],
-        "Communications": committee_chairs_folders_ids[7],
-        "Events": committee_chairs_folders_ids[8],
-        "Social": committee_chairs_folders_ids[9],
+        "Ambassadors": committee_chairs_folders_ids[5],
+        "Communications": committee_chairs_folders_ids[6],
+        "Events": committee_chairs_folders_ids[7],
+        "Social": committee_chairs_folders_ids[8],
     }
     return id_map
 
@@ -371,7 +363,7 @@ def create_empty_rosters(
     # Leadership
     leadership_roster_id = create.gsheet(
         file_name=f"Leadership - {semester}",
-        parent_folder_id=folder_id_map["leadership"],
+        parent_folder_id=folder_id_map["leadership_root"],
         drive_service=drive_service,
     )
     # Committee rosters
@@ -556,7 +548,7 @@ def prompt_to_restart_script() -> None:
         textwrap.dedent(
             """\
         Part 1 complete! All content has been created and saved (although everything is empty).
-        You must now restart the script with `./run.py setup-semester` and choose part 2.
+        You must now restart the script with `./ngsc setup-semester` and choose part 2.
         This is because the saved file IDs must be reloaded.
         Part 2 will update and prepare the resources.\n"""
         )
@@ -590,7 +582,7 @@ def check_new_ids_different() -> None:
             textwrap.dedent(
                 """\
             At least one new file ID is the same as a current file ID. 
-            Make sure you ran `./run.py setup-semester` Part 1.
+            Make sure you ran `./ngsc setup-semester` Part 1.
             Aborting script."""
             )
         )
@@ -607,7 +599,7 @@ def check_new_ids_different() -> None:
             textwrap.dedent(
                 """\
             At least one new folder ID is the same as a current folder ID. 
-            Make sure you ran `./run.py setup-semester` Part 1.
+            Make sure you ran `./ngsc setup-semester` Part 1.
             Aborting script."""
             )
         )
@@ -624,49 +616,35 @@ def _format_id_output(ids: IdMap) -> str:
     return "\n\n".join(variable_syntax)
 
 
-def prompt_to_update_leave_of_absence() -> None:
-    """
-    Prompt to transfer students on leave of absence back into Master spreadsheet.
-    """
-    master_link = generate_link.gsheet(new_file_ids.master)
-    command_line.ask_confirmation(
-        instructions=textwrap.dedent(
-            f"""\
-            1. Open up the new master spreadsheet at {master_link}
-            2. Select the tab \'Leave of absence\'.
-            3. Transfer any students who will be back during the upcoming semester back to the \'Master\' tab."""
-        ),
-        default_to_yes=True,
-    )
-
-
 # ------------------------------------------------------------------
 # Update Participation ID lists
 # ------------------------------------------------------------------
 
 
 @command_line.log(
-    start_message="Updating ID lists for participation spreadsheets.",
-    end_message="ID lists updated.\n",
+    start_message="Updating ASUrite lists for participation spreadsheets.",
+    end_message="ASUrite lists updated.\n",
 )
-def update_participation_id_list(*, sheets_service: discovery.Resource = None) -> None:
+def update_participation_asurite_list(
+    *, sheets_service: discovery.Resource = None
+) -> None:
     """
-    Re-pull the list of student IDs for All Student Attendance, No Shows, and Engagement.
+    Re-pull the list of ASUrites for All Student Attendance, No Shows, and Engagement.
     """
-    student_ids = sheet.get_values(
+    asurites = sheet.get_values(
         spreadsheet_id=new_file_ids.master,
         range_="Master!C2:C",
         sheets_service=sheets_service,
     )
-    update_student_id_list = functools.partial(
+    update_asurite_list = functools.partial(
         sheet.update_values,
         range_="Total!A2:A",
-        grid=student_ids,
+        grid=asurites,
         sheets_service=sheets_service,
     )
-    update_student_id_list(spreadsheet_id=new_file_ids.participation["engagement"])
-    update_student_id_list(spreadsheet_id=new_file_ids.participation["no_shows"])
-    update_student_id_list(spreadsheet_id=new_file_ids.participation["engagement"])
+    update_asurite_list(spreadsheet_id=new_file_ids.participation["engagement"])
+    update_asurite_list(spreadsheet_id=new_file_ids.participation["no_shows"])
+    update_asurite_list(spreadsheet_id=new_file_ids.participation["engagement"])
 
 
 # ------------------------------------------------------------------
@@ -916,7 +894,7 @@ def prepare_leadership_roster(sheets_service: discovery.Resource) -> None:
     reordered = columns.reorder(
         grid=filtered,
         new_order=[
-            column_indexes.master["id"],
+            column_indexes.master["asurite"],
             column_indexes.master["first"],
             column_indexes.master["last"],
             column_indexes.master["status"],
@@ -930,7 +908,70 @@ def prepare_leadership_roster(sheets_service: discovery.Resource) -> None:
         ],
     )
     without_status = columns.remove(grid=reordered, target_indexes=[3])
-    # TODO: finish
+    # find specific position, e.g. MT 30
+    Position = Union[str, int]
+    Email = str
+
+    def invert(d: Dict[Position, Email]) -> Dict[Email, Position]:
+        return {email: position for position, email in d.items()}
+
+    email_to_leadership_position = {
+        **invert(new_leadership.committee_chairs),
+        **invert(new_leadership.committee_leads),
+        **invert(new_leadership.section_leads),
+        **invert(new_leadership.mission_team_leaders),
+    }
+    with_specific_position = columns.update(
+        grid=without_status,
+        key_index=3,
+        target_index=8,
+        updated_values=email_to_leadership_position,
+        overwrite=True,
+    )
+    # find sister group, e.g. Section 1 -> MT 1, 2, 3
+    def find_sister(*, leadership_group: str, specific_position: Position) -> str:
+        # TODO: these functions should be drawn into a dedicated file
+        def find_mt_sister_section(mt_number: int) -> int:
+            return math.ceil(mt_number / 3)
+
+        def find_section_sister_mts(section_number: int) -> List[int]:
+            return [mt_index + (3 * (section_number - 1)) for mt_index in range(1, 4)]
+
+        def generate_mt_sister_section(mt_number: str) -> str:
+            try:
+                parsed_mt_number = int(mt_number)
+            except ValueError:
+                return ""
+            else:
+                section_number = find_mt_sister_section(parsed_mt_number)
+                return str(section_number)
+
+        def generate_section_sister_mts(section_number: str) -> str:
+            try:
+                parsed_section_number = int(section_number)
+            except ValueError:
+                return ""
+            else:
+                mt_numbers = find_section_sister_mts(parsed_section_number)
+                return ", ".join(str(n) for n in mt_numbers)
+
+        # TODO: add sister group for committee chairs and committee leads.
+        # Will require changing the dropdown for master to "Committee Lead", rather than "Culture Lead" etc
+
+        generator_func = {
+            "MT Leader": generate_mt_sister_section,
+            "Section Lead": generate_section_sister_mts,
+        }.get(leadership_group, lambda _: "")
+        return generator_func(specific_position)
+
+    sister_column = [
+        find_sister(leadership_group=row[7], specific_position=row[8])
+        for row in with_specific_position
+    ]
+    with_sister_column = columns.replace(
+        grid=with_specific_position, column=sister_column, target_index=9
+    )
+
     headers = [
         [
             "ASUrite",
@@ -945,7 +986,7 @@ def prepare_leadership_roster(sheets_service: discovery.Resource) -> None:
             "Sister Group",
         ]
     ]
-    with_headers = headers + without_status
+    with_headers = headers + with_sister_column
     # batch requests
     requests = [
         display.freeze_request(num_rows=1),
@@ -997,6 +1038,7 @@ def prepare_all_rosters(
         for mt_number, mt_roster_id in new_file_ids.mission_team_attendance.items():
             prepare_new_roster(
                 spreadsheet_id=mt_roster_id,
+                subgroup_column_name="Squad",
                 filter_column_index=column_indexes.master["mt"],
                 filter_value=str(mt_number),
             )
@@ -1004,6 +1046,7 @@ def prepare_all_rosters(
         for committee, committee_roster_id in new_file_ids.committee_attendance.items():
             prepare_new_roster(
                 spreadsheet_id=committee_roster_id,
+                subgroup_column_name="Task force",
                 filter_column_index=column_indexes.master["committee"],
                 filter_value=committee,
             )
@@ -1016,6 +1059,7 @@ def prepare_roster(
     filter_value: str,
     master_grid: sheet.Grid,
     add_colors: bool = True,
+    subgroup_column_name: str,
     sheets_service: discovery.Resource = None,
 ) -> None:
     """
@@ -1028,7 +1072,7 @@ def prepare_roster(
     reordered = columns.reorder(
         grid=filtered,
         new_order=[
-            column_indexes.master["id"],
+            column_indexes.master["asurite"],
             column_indexes.master["first"],
             column_indexes.master["last"],
             column_indexes.master["status"],
@@ -1049,6 +1093,9 @@ def prepare_roster(
     with_participation = columns.add(
         grid=with_additional_rows, column=participation_column, target_index=1
     )
+    with_empty_subgroup_column = columns.add_blank(
+        grid=with_participation, target_index=8
+    )
     headers = [
         [
             "ASUrite",
@@ -1059,17 +1106,18 @@ def prepare_roster(
             "Cell",
             "Campus",
             "Cohort",
+            subgroup_column_name,
             "Ex: 9/12",
         ]
     ]
-    with_headers = headers + with_participation
+    with_headers = headers + with_empty_subgroup_column
     # batch requests
     requests = [
         validation.dropdown_options_request(
             options=["yes", "no", "remote", "excused"],
             row_start_index=1,
             row_end_index=len(with_participation),
-            column_start_index=8,
+            column_start_index=9,
             column_end_index=25,
         ),
         validation.protected_range_request(
@@ -1214,12 +1262,16 @@ def print_remaining_steps() -> None:
             f"""\
         The semester's drive is set up! Bookmark the semester's folder at {semester_link}
 
-        Once you are ready to share with new leadership, run `./run.py share-drive`
-        If you need to rebuild the rosters, e.g. when freshmen join the program, run `./run.py rebuild-rosters`.
+        Once you are ready to share with new leadership, run `./ngsc share-drive`
+        If you need to rebuild the rosters, e.g. when freshmen join the program, run `./ngsc rebuild-rosters`.
 
         Finally, you will need to copy all of the data under `backend/src/data/new_semester` into the files in `backend/src/data`.
         Only do this once the current semester is completely done, because it will change the data used by the web app.
-        After you do this, run `./run.py student-info`, deploy, and make sure the web app still works.
+        After you do this, run `./ngsc student-info`, deploy, and make sure the web app still works.
         """
         )
     )
+
+
+if __name__ == "__main__":
+    main()
