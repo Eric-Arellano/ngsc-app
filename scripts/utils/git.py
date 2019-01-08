@@ -3,7 +3,7 @@ Utilities to interface with Git.
 """
 
 from textwrap import dedent
-from typing import List
+from typing import List, Optional
 
 from scripts.utils import prereq_checker, sys_calls
 
@@ -75,6 +75,16 @@ def assert_clean_local(*, error_message: str = "") -> None:
             "Error: You must first commit your changes before running this command."
         )
     if not is_clean_local():
+        raise SystemExit(error_message)
+
+
+def assert_on_branch(
+    target_branch: Branch, *, error_message: Optional[str] = None
+) -> None:
+    """Raise excpetion if not already on target branch."""
+    if error_message is None:
+        error_message = f"Error: you must be on the branch {target_branch}."
+    if not is_on_branch(target_branch):
         raise SystemExit(error_message)
 
 

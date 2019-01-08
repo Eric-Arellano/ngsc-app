@@ -389,7 +389,7 @@ def remove() -> TargetCommandMap:
 
 def deploy_to_heroku() -> TargetCommandMap:
     """
-    Push changes to GitHub and Heroku.
+    Deploy master branch to Heroku.
     """
     return TargetCommandMap(all_action=deploy.main)
 
