@@ -1,8 +1,6 @@
-// @flow
 import * as React from "react";
 import AcceptedEngagement from "./AcceptedEngagement";
 import LoggedEngagement from "./LoggedEngagement";
-import { withError } from "decorators";
 import { getEngagement } from "api";
 import type { EngagementEvent, Student } from "types";
 
@@ -49,10 +47,10 @@ class EngagementContainer extends React.Component<Props, State> {
       });
   }
 
-  resetState = () => this.props.resetState(); // Quirk with decorators and scope of this. Don't delete.
+  resetState = () => this.props.resetState();
 
-  @withError("There was an error. Please try again.")
   render() {
+    // TODO: no error handling because of weirdness with React.Fragment
     return (
       <React.Fragment>
         <AcceptedEngagement {...this.state} key={0} />

@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import ReactTable from "react-table"; // see https://react-table.js.org/#/story/readme
 import type { EngagementEvent } from "types";
@@ -53,8 +52,8 @@ const LoggedEngagement = ({ engagementEvents, isLoading }: Props) => {
     <PanelWithLoading header={"Logged engagement"} isLoading={isLoading}>
       <Entry>
         Log your engagement at{" "}
-        <a href="https://goo.gl/forms/fEiCuxSW0p8djyJD2">
-          https://goo.gl/forms/fEiCuxSW0p8djyJD2
+        <a href="https://goo.gl/VxRmZH">
+          https://goo.gl/VxRmZH
         </a>
         .
       </Entry>

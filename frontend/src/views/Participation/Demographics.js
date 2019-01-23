@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import type { Student } from "types";
 import { Entry, Panel } from "components";
@@ -24,9 +23,9 @@ const Demographics = ({
       Name: {name.first} {name.last}
     </Entry>
     <Entry>Cohort: {cohort}</Entry>
-    {missionTeam && <Entry>Mission team: {missionTeam}</Entry>}
-    {committee && <Entry>Committee: {committee}</Entry>}
-    {leadership && <Entry>Leadership: {leadership}</Entry>}
+    {missionTeam !== undefined && <Entry>Mission team: {missionTeam}</Entry>}
+    {committee !== undefined && <Entry>Committee: {committee}</Entry>}
+    {leadership !== undefined && <Entry>Leadership: {leadership}</Entry>}
     <Entry>Email: {email}</Entry>
     <Entry>Phone: {phone}</Entry>
     <Entry>Campus: {campus}</Entry>

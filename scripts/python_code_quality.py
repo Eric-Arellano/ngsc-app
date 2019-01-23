@@ -14,7 +14,7 @@ def check_types(targets: List[str]) -> None:
     """
     Calls MyPy to check for type errors.
     """
-    pipenv.run(["mypy", "--strict-optional", "--ignore-missing-imports"] + targets)
+    pipenv.run(["mypy", "--config-file", "backend/mypy.ini"] + targets)
 
 
 def lint(targets: List[str]) -> None:

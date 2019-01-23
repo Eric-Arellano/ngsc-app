@@ -1,5 +1,4 @@
-// @flow
-import React, { Component } from "react";
+import * as React from "react";
 import AppView from "./AppView";
 import type { Student } from "types";
 
@@ -10,7 +9,7 @@ type State = {
   student: ?Student
 };
 
-class AppViewContainer extends Component<Props, State> {
+class AppViewContainer extends React.Component<Props, State> {
   state = {
     isLoggedIn: false,
     student: null
@@ -18,19 +17,19 @@ class AppViewContainer extends Component<Props, State> {
 
   componentDidMount() {
     const fadeInPage = () => {
-      document.body.style.opacity = "1";
+      if (document.body != null) document.body.style.opacity = "1";
     };
-    requestAnimationFrame(fadeInPage, 0);
+    requestAnimationFrame(fadeInPage);
   }
 
-  login = (student: Student) => {
+  login = (student: Student): void => {
     this.setState({
       student,
       isLoggedIn: true
     });
   };
 
-  resetState = () => {
+  resetState = (): void => {
     this.setState({
       isLoggedIn: false,
       student: null

@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import NavButton from "./NavButton";
 import s from "./Nav.module.css";

@@ -1,9 +1,8 @@
-// @flow
-import React, { Component } from "react";
+import * as React from "react";
 import moment from "moment";
 import { getRequest } from "api";
 import EventsView from "./EventsView";
-import { withError } from "decorators";
+import { withError } from "components";
 import type { CalendarEvent } from "types";
 
 type Props = {};
@@ -14,7 +13,30 @@ type State = {
   events: Array<CalendarEvent>
 };
 
-class EventsViewContainer extends Component<Props, State> {
+type EventResponse = {
+  id: string,
+  status: string,
+  htmlLink: string,
+  created: string,
+  updated: string,
+  summary: string,
+  description?: string,
+  location?: string,
+  creator: {
+    email: string
+  },
+  start: {
+    date?: string,
+    dateTime?: string
+  },
+  end: {
+    date?: string,
+    dateTime?: string
+  },
+  iCalUID: string
+};
+
+class EventsViewContainer extends React.Component<Props, State> {
   state = {
     isLoading: true,
     isError: false,
@@ -23,10 +45,10 @@ class EventsViewContainer extends Component<Props, State> {
 
   componentDidMount() {
     this.getEvents()
-      .then(data =>
+      .then(events =>
         this.setState({
           isLoading: false,
-          events: this.parseEvents(data.items)
+          events: this.parseEvents(events)
         })
       )
       .catch(error =>
@@ -38,34 +60,50 @@ class EventsViewContainer extends Component<Props, State> {
       );
   }
 
-  getEvents = (): Promise<any> => {
+  getEvents = (): Promise<Array<EventResponse>> => {
     const calendar_id =
       "k1n6cusdrh0okgpp4okg8nhak4%40group.calendar.google.com";
     const api_key = "AIzaSyCGqIbNGpiy_pbpCEmAL7vja5hbbUGVGn0";
     const url = `https://www.googleapis.com/calendar/v3/calendars/${calendar_id}/events?key=${api_key}`;
-    return getRequest(url);
+    const response = getRequest(url);
+    return response.then(data => data.items);
   };
 
-  parseEvents = (googleEvents: Array<any>): Array<CalendarEvent> =>
-    googleEvents.map(event => ({
-      start: moment(event.start.date || event.start.dateTime).toDate(),
-      end: moment(event.start.date || event.end.dateTime).toDate(),
-      title: event.summary,
-      description: event.description || "",
-      location: event.location || ""
-    }));
+  parseEvents = (googleEvents: Array<EventResponse>): Array<CalendarEvent> =>
+    googleEvents
+      .filter(
+        event =>
+          event.start.date !== undefined || event.start.dateTime !== undefined
+      )
+      .map(event => ({
+        start: moment(
+          event.start.date !== undefined
+            ? event.start.date
+            : event.start.dateTime
+        ).toDate(),
+        end: moment(
+          event.end.date !== undefined ? event.end.date : event.end.dateTime
+        ).toDate(),
+        title: event.summary,
+        description: event.description || "",
+        location: event.location || ""
+      }));
 
-  resetState = () => {
+  resetState = (): void => {
     this.setState({
       events: [],
       isLoading: false,
       isError: false
     });
-  }; // Quirk with decorators and scope of this. Don't delete.
+  };
 
-  @withError("There was an error. Please try again.")
   render() {
-    return <EventsView {...this.state} />;
+    const EventsViewWithError = withError(
+      EventsView,
+      this.resetState,
+      "There was an error. Please try again."
+    );
+    return <EventsViewWithError {...this.state} />;
   }
 }
 

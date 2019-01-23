@@ -2,7 +2,7 @@ import json
 
 import flask
 
-from backend.src.app import attendance, demographics, engagement
+from backend.src.app import attendance, calculator, demographics, engagement
 
 app_api = flask.Blueprint("app_api", __name__)
 
@@ -35,6 +35,16 @@ def api_get_engagement(asurite: str):
 def api_get_attendance(asurite: str):
     result = attendance.get(asurite)
     return return_json(result)
+
+
+@app_api.route("/scholarship", methods=["POST"])
+def api_post_scholarship():
+    payload = flask.request.get_json()
+    award_amount = calculator.calculate_award(
+        residency_status=calculator.Residency(payload["residency"]),
+        scholarship_amounts=payload["scholarships"],
+    )
+    return flask.jsonify({"award_amount": award_amount})
 
 
 def return_json(result):

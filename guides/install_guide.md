@@ -1,10 +1,10 @@
-# Install guide
+# Install Guide
 Follow these steps to get NGSC App running on your local computer!
 
 See [this PowerPoint](https://docs.google.com/presentation/d/1pAoLLMqqH6JGG9ILwlhKMwVzUVzux9bFmZINPJWeW9Q/edit?usp=sharing) 
 for further context on what we're doing, especially why it's necessary for PCs.
 
-## Step 1: download software required
+## Step 1: Download software required
 
 ### Install software on Mac
 1. HomeBrew package manager: `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
@@ -30,7 +30,7 @@ for further context on what we're doing, especially why it's necessary for PCs.
 1. Heroku, 64 bit installer from https://devcenter.heroku.com/articles/heroku-cli
     1. Accept defaults
 
-## Step 2: clone & install the project
+## Step 2: Clone & install the project
 This step gets the code actually down to your computer and running.
 
 1. Open up bash
@@ -42,7 +42,7 @@ This step gets the code actually down to your computer and running.
 1. `./ngsc install`
 
 
-## Step 3: configure PyCharm
+## Step 3: Configure PyCharm
 PyCharm is the recommended IDE (integrated developer editor, i.e. where you actually write code) for this project.
  
 1. Apply for [student program](https://www.jetbrains.com/student/)
@@ -63,3 +63,5 @@ PyCharm is the recommended IDE (integrated developer editor, i.e. where you actu
             1. "Don't use semicolons"
             1. "Use single quotes"
             1. Keep trailing commas
+            
+(Eric - to finish)

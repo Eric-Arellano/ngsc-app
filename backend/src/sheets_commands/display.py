@@ -1,3 +1,5 @@
+from typing import Optional
+
 from googleapiclient import discovery
 
 from backend.src.sheets_commands import range, sheet
@@ -12,10 +14,10 @@ def hide_columns(
     spreadsheet_id: sheet.ID,
     *,
     hidden: bool = True,
-    start_column_index: int = None,
-    end_column_index: int = None,
+    start_column_index: Optional[int] = None,
+    end_column_index: Optional[int] = None,
     tab_id: int = 0,
-    sheets_service: discovery.Resource = None,
+    sheets_service: Optional[discovery.Resource] = None,
 ) -> None:
     """
     Hide the columns for provided column range.
@@ -37,7 +39,7 @@ def freeze(
     num_rows: int = 0,
     num_columns: int = 0,
     tab_id: int = 0,
-    sheets_service: discovery.Resource = None,
+    sheets_service: Optional[discovery.Resource] = None,
 ) -> None:
     """
     Freeze rows and column from the leftmost corner outwards.
@@ -54,7 +56,7 @@ def auto_resize(
     start_column_index: int = 0,
     end_column_index: int = 20,
     tab_id: int = 0,
-    sheets_service: discovery.Resource = None,
+    sheets_service: Optional[discovery.Resource] = None,
 ) -> None:
     """
     Automatically resize columns to their largest value.
@@ -72,12 +74,12 @@ def auto_resize(
 def alternating_colors(
     spreadsheet_id: sheet.ID,
     *,
-    row_start_index: int = None,
-    row_end_index: int = None,
-    column_start_index: int = None,
-    column_end_index: int = None,
+    row_start_index: Optional[int] = None,
+    row_end_index: Optional[int] = None,
+    column_start_index: Optional[int] = None,
+    column_end_index: Optional[int] = None,
     tab_id: int = 0,
-    sheets_service: discovery.Resource = None,
+    sheets_service: Optional[discovery.Resource] = None,
 ) -> None:
     """
     Add alternating colors, with special header coloring.
@@ -101,8 +103,8 @@ def alternating_colors(
 
 def hide_columns_request(
     *,
-    start_column_index: int = None,
-    end_column_index: int = None,
+    start_column_index: Optional[int] = None,
+    end_column_index: Optional[int] = None,
     hidden: bool = True,
     tab_id: int = 0,
 ) -> sheet.BatchRequest:
@@ -155,10 +157,10 @@ def auto_resize_request(
 
 def alternating_colors_request(
     *,
-    row_start_index: int = None,
-    row_end_index: int = None,
-    column_start_index: int = None,
-    column_end_index: int = None,
+    row_start_index: Optional[int] = None,
+    row_end_index: Optional[int] = None,
+    column_start_index: Optional[int] = None,
+    column_end_index: Optional[int] = None,
     tab_id: int = 0,
 ) -> sheet.BatchRequest:
     """

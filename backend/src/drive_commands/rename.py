@@ -1,7 +1,7 @@
 """
 Rename a resource within Google Drive.
 """
-from typing import List, NamedTuple
+from typing import List, NamedTuple, Optional
 
 from googleapiclient import discovery, http
 
@@ -17,7 +17,7 @@ def resource(
     resource_id: drive_api.ResourceID,
     new_name: str,
     *,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> None:
     """
     Rename specific resource.
@@ -39,7 +39,9 @@ class BatchArgument(NamedTuple):
 
 
 def batch(
-    arguments: List[BatchArgument], *, drive_service: discovery.Resource = None
+    arguments: List[BatchArgument],
+    *,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> None:
     """
     Batch rename multiple resources.
@@ -64,7 +66,7 @@ def request(
     resource_id: drive_api.ResourceID,
     new_name: str,
     *,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> http.HttpRequest:
     """
     Generate request to rename specific resource.

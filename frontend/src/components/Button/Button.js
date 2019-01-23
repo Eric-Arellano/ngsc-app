@@ -1,10 +1,9 @@
-// @flow
 import * as React from "react";
 import s from "./Button.module.css";
 import type { ValidationState } from "types";
 
 type Props = {
-  children: React.Element<string>,
+  children: string,
   handleClick: () => void,
   validationState?: ValidationState,
   disabled?: boolean

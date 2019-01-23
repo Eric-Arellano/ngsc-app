@@ -3,7 +3,7 @@ Copy a file (not folder) from source into the specified targets.
 """
 import textwrap
 import time
-from typing import List, NamedTuple
+from typing import List, NamedTuple, Optional
 
 from googleapiclient import discovery, http
 
@@ -22,7 +22,7 @@ def file(
     origin_file_id: drive_api.ResourceID,
     new_name: str,
     target_parent_folder_id: drive_api.ResourceID,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> drive_api.ResourceID:
     """
     Copy the file into targets.
@@ -36,7 +36,8 @@ def file(
         drive_service=drive_service,
     )
     result = command.execute()
-    return result.get("id")
+    new_id: drive_api.ResourceID = result.get("id")
+    return new_id
 
 
 # ---------------------------------------------------------------------
@@ -54,7 +55,7 @@ def batch(
     arguments: List[BatchArgument],
     *,
     include_output: bool = True,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> List[drive_api.ResourceID]:
     """
     Batch copy Google Drive files.
@@ -93,7 +94,7 @@ def request(
     origin_file_id: drive_api.ResourceID,
     new_name: str,
     target_parent_folder_id: drive_api.ResourceID,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> http.HttpRequest:
     """
     Generate request to copy the file into targets.
@@ -122,11 +123,11 @@ def linked_sheet_and_form(
     *,
     origin_sheet_id: drive_api.ResourceID,
     origin_form_id: drive_api.ResourceID,
-    origin_parent_folder_id: drive_api.ResourceID = None,
+    origin_parent_folder_id: Optional[drive_api.ResourceID] = None,
     new_sheet_name: str,
     new_form_name: str,
     target_parent_folder_id: drive_api.ResourceID,
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
     initial_form_search_delay: int = 10,
     timeout: int = 45,
 ) -> SheetAndForm:
@@ -162,11 +163,15 @@ def linked_sheet_and_form(
         )
         updated_time_elapsed = total_time_elapsed + time_delay
         time_remaining = timeout - updated_time_elapsed
-        if copy_id is None and time_remaining <= timeout:
+        if copy_id is None:
+            if time_remaining > timeout:
+                raise OSError(
+                    "Cannot find the copied form. Check that it was created in Google Drive."
+                )
             print(
                 textwrap.dedent(
-                    f"""
-                Copy of the form {original_form_name} not found yet. 
+                    f"""\
+                Copy of the form {original_form_name} not found yet.
                 Trying again, this time waiting {time_delay*2} seconds.
                 Will timeout in {time_remaining} seconds."""
                 )
@@ -176,9 +181,9 @@ def linked_sheet_and_form(
             )
         return copy_id
 
-    copied_form_id = find_copied_form(
-        initial_form_search_delay
-    )  # use time delay to make sure form created
+    # use time delay to make sure form created
+    copied_form_id = find_copied_form(initial_form_search_delay)
+
     drive_api.batch_command(
         requests=[
             rename.request(

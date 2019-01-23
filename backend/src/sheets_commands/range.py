@@ -1,4 +1,4 @@
-from typing import Dict, Union
+from typing import Dict, Union, Optional
 
 GridRange = Dict[str, int]
 DimensionRange = Dict[str, Union[int, str]]
@@ -6,10 +6,10 @@ DimensionRange = Dict[str, Union[int, str]]
 
 def grid(
     *,
-    row_start_index: int = None,
-    row_end_index: int = None,
-    column_start_index: int = None,
-    column_end_index: int = None,
+    row_start_index: Optional[int] = None,
+    row_end_index: Optional[int] = None,
+    column_start_index: Optional[int] = None,
+    column_end_index: Optional[int] = None,
     tab_id: int = 0,
 ) -> GridRange:
     """
@@ -29,7 +29,10 @@ def grid(
 
 
 def column(
-    *, start_index: int = None, end_index: int = None, tab_id: int = 0
+    *,
+    start_index: Optional[int] = None,
+    end_index: Optional[int] = None,
+    tab_id: int = 0,
 ) -> DimensionRange:
     """
     Create DimensionRange object for column.

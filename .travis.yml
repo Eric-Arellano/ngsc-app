@@ -1,18 +1,14 @@
+dist: xenial  #i.e. Ubuntu 16.04
 matrix:
   include:
     - language: python
       node_js: "8.11.1"
       python: "3.7"
-      dist: xenial  # Temporary hack to get 3.7 installed. https://github.com/travis-ci/travis-ci/issues/9815
-      sudo: true
       install:
         - pip install pipenv
         - ./ngsc install
       script:
-        - ./ngsc test --backend
-        - ./ngsc fmt --backend --ci
-        - ./ngsc lint --backend
-        - ./ngsc test --frontend
-        - ./ngsc fmt --frontend --ci
+        - ./ngsc green --backend
+        - ./ngsc green --frontend
         - ./ngsc green --scripts --ci
 

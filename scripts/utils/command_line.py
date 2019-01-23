@@ -142,7 +142,7 @@ def execute_command(
 # -------------------------------------
 
 
-def ask_input(prompt: str, *, is_valid: Callable[[str], bool] = None) -> str:
+def ask_input(prompt: str, *, is_valid: Optional[Callable[[str], bool]] = None) -> str:
     """
     Prompt input with custom validator
     """
@@ -194,7 +194,9 @@ def ask_confirmation(instructions: str, *, default_to_yes: bool = False) -> None
         return ask_confirmation(instructions)
 
 
-def log(*, start_message: str = None, end_message: str = None) -> Callable[[Any], Any]:
+def log(
+    *, start_message: Optional[str] = None, end_message: Optional[str] = None
+) -> Callable[[Any], Any]:
     def decorate(func: Callable[[Any], Any]):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):

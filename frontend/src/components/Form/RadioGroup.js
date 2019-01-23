@@ -1,4 +1,3 @@
-// @flow
 import * as React from "react";
 import { Label } from "components";
 import type { RadioOption } from "types";
@@ -6,8 +5,8 @@ import s from "./RadioGroup.module.css";
 
 type Props = {
   options: Array<RadioOption>,
-  default: ?RadioOption,
-  label: ?string,
+  default?: RadioOption,
+  label?: string,
   updateCurrentSelection: RadioOption => void
 };
 
@@ -36,7 +35,7 @@ class RadioGroup extends React.Component<Props, State> {
     const { options, label } = this.props;
     return (
       <div className={s.container}>
-        {label && <p className={s.label}>{label}</p>}
+        {label !== undefined && <p className={s.label}>{label}</p>}
         <ul>
           {options.map((option: RadioOption, index: number) => (
             <li key={index}>

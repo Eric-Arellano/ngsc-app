@@ -2,87 +2,85 @@ ngsc_root = "0B4Ek7KKF4u8EMFJNN0duXzcxZXM"
 
 drive_playground = "1QOsOQq3FMYfpXau6v3ubem5wrC97yWwo"
 
-semester_root = "1DOJN8d4qNoFPWbtzr-dOU7LTCRZ8Gxm6"
+semester_root = "1YU_xJT7GBVKvTWM4ckPUODn8qrDtTsPy"
 
-templates = "1pObGNLpXUOavlDQzEAdUpzscOsFq98GN"
+templates = "1rAdozMspjKWsjyb9pYn8EvsuO1kPBJ03"
 
-all_students_root = "1rLfK6SyONin3Dky1frmtWOVXCrRihP7_"
+all_students_root = "1783Z17Xdzl1ihCnFTRjpAlSkCVZU1DzZ"
 
-leadership_root = "1AdREYGxsRduoBC2XGI8u-yUqol-ppKdu"
+leadership_root = "1EVUZ6tcRgzrkXiRtnbg0ruhvOpry5vSv"
 
-sections_root = "15VCyriI4Qo5aS3ZlyYC4TXTQBupF2Rc6"
+sections_root = "1sG-Al5y6AJB7O6Np31PmTRvnHhtU-OH4"
 
-committees_root = "1KIy1iRYSS6egaipMgHChuq6a3HUP8a5_"
+committees_root = "1_i17E7J-RSA76HwGkZYoN-4HzUnXgxBK"
 
 all_students = {
-    "on_leadership": "1URw4uglT1R0sgd4DYJV1gQbn1kmc-U8I",
-    "participation": "1ov3olp7k-OAYomrkgjkqVex6SgK5jhO_",
-    "summit": "1SNQ_sw_SXytGI-0zrE1ktW6HukgpIaIu",
+    "on_leadership": "1fXXzThuVUsf_EUT0kh6eRwcGR8akN3VB",
+    "participation": "1m1DDcyImm-5Y1yW-5864_kFvlgf24Hhi",
 }
 
-leadership = {"staff_briefings": "1ap8j2Txi4x5OSMk3WYivSkdiOOgrr22y"}
+leadership = {"training": "1vuFLy3lfh61T6vp_uTTgGQHopYXXvwIg"}
 
 sections = {
-    1: "1MS47DwIuDbuVP53LgzawoSoB4IICkCll",
-    2: "1gvVwSGqhQzoPBNLPyO0dEmHeS-N0cxt5",
-    3: "1Mu3xQC2PMWxL7l2SYv4vb7avvlxewX3a",
-    4: "173ks6nI1Nm6drQcpE-PW4MHyJhzglIYK",
-    5: "1bhgwGGtfEIpZyRVWFCGWFfWWIXKd0P0k",
-    6: "1-5zKwwlZgi76rvTJycIsdREngx8Okg6K",
-    7: "146FlWjYOSvvwroipVtJ3R1VjjqIBpPVE",
-    8: "148pHaZXr6-GryL_Qd9lbM1Tnl28RS_w7",
-    9: "1IdHcwftGVCMRdxKp-w1HXr0rQM7CACYt",
-    10: "14dWhXROaeavFYXN27lbKDnb_tP8Ah5HX",
+    1: "1q-g_BI8HpeSRJx4W0xtVYJ1GSWONRBoT",
+    2: "1qdOnG1yCqmuUrbdNzcyLtldR8J4Ivab4",
+    3: "1jPgOoGh5JJVo51jL5n0knnVIdRGAF9o9",
+    4: "19S27NLwvIpUCNeyLNzJyeHmhmfcKk2og",
+    5: "1lZd-44ejC0gfoqeT9PxodXbjXOJ3FPyt",
+    6: "1nQ2plLErGMwh1L0DS83grjHYJEtZTdJr",
+    7: "1vsTtK_eZ16dHyzf094G9RXVlwb0cPB5n",
+    8: "1AhWhQkxNXzZfJNOdeoKzNOiDyGSA52tp",
+    9: "1TCkcEHeiU02vRQbhIWpnVCUDR4gNN88y",
+    10: "1AXTKIaxZNQYGZ5neZsRHgcMCj3tRtDlT",
 }
 
 mission_teams = {
-    1: "1GIoM-fBdsZ8pt4P5-TGO46v6icQjZtXj",
-    2: "1ZaDasn7cm-UL7X_lmixqlD67KWoUvKyb",
-    3: "1n2l6tRZNrsoiSHcBpAzeM3K2uyP7hiGx",
-    4: "1vt7MCXKap4p8oCQpnb2T13HFlI4zNFEy",
-    5: "15bXVU-ZFMOUCeHzII4gny-p_o_mdwBf7",
-    6: "117TKsPit730Mn6d7OMVWnzhBfuA5ICQ4",
-    7: "1TzirxkF-jMcGW_GyRX6HC7k6Ceddqrzc",
-    8: "1PD3TAXrMu-1X-nlqFPuCcNHw37ca4HCR",
-    9: "10L7jwVmCPuG2tm31uQKHw4L6_jwRkDsy",
-    10: "1KWa4ojZGXUG7PoEMsjzhg67PMAUemlTe",
-    11: "1cSIONyspfD508uqrAdNMuoMmNh5P_Ve6",
-    12: "1LngDMdnVuHGIftfknsxaIs1spD6AtKp2",
-    13: "1IHWh3HB32-1KRaiMELaVMzLhLiUZPOWU",
-    14: "1lisyBHptaGI6jz6MrBK2jow9JhlUwzsd",
-    15: "13wpMbhgvKVmlUikgkMJZQIEQJUEbM3u1",
-    16: "1wXmYc1TMaT1PlK0irTN3FwIxKtjX3Fh3",
-    17: "1RzigMBequndF9VkVs91pvq1O6Jnbo9oZ",
-    18: "1n1ohlRk1gx79t6k6BNRemaXaqtJlt4d8",
-    19: "1ALP5ufEJEwvUCyrK9H45EA1tsbKXs1mU",
-    20: "1QnxL_g9eoiX6-J_7mZr4lk8D-rQ3rKtn",
-    21: "1hp2X8aZFUSE0fUneJfVGUS7vP9rrNXoh",
-    22: "1yftsqZYLOevWF0na8iVuCP4gvZUL2iM-",
-    23: "1slLaPCmLpfYoYR_hJSiPx09ynkLx_-nO",
-    24: "1pDuMdxyguFBOvmZ-Hj-44jhwTfrw_Lpy",
-    25: "13ThCkQxF1BRdgp3R2G_xahNF5CaTj207",
-    26: "1wyVphdArFSr1guOqC3K6z-e90PH9TlL8",
-    27: "1RnmGJJMJex1QlHKkSlETYw9a2lF_rBe6",
-    28: "1w9JOQfqmJdtIL9O4IyTriRQdgbxI-tsX",
-    29: "11QDKz35FLFnBR6O8PfYhU8CkfM3_3m3D",
-    30: "1k_RURr4IBTSincVaPm7wbDrchMelE4Km",
+    1: "1x4TTdllQRBzBdoWfqueyWYhDAur7gkzR",
+    2: "1rCMqzcsCe3hgwD5kIeldVG2IgHhOtYoH",
+    3: "1m_4sMN6aE7ZfvytWUt9hr1arTyGlqolI",
+    4: "10HRqg6vf_OrTDHurFJC_QYwI4EO8w1pt",
+    5: "1dyKRU9rh6wwYEm380T3PvF70BEmgmJOo",
+    6: "1-ldGRmQGCpGUdncmLgtvC-sC3Yc_zCdQ",
+    7: "10dd-1qVfiN2F95Cmn4IGyOO-2cPk8jys",
+    8: "13Qr12gDQfPyWfZBN2RFY66HfPJy0w96o",
+    9: "1RKi9yb1-798eruFvg6nUAXOGJSacNg9h",
+    10: "1rPUkn8RNmATRkD-Pe4RtIHGAxFMw0ILI",
+    11: "1BRAc0lS1txsDAYuuPBpqtB5vQI4PiGZk",
+    12: "1RX2yM9oQYKWf_WrIdpvBAoHqNAernD54",
+    13: "10qPwVzI1edN2kdpkBJVYrg9YXb3wzHZu",
+    14: "19Qgq1X84mrbjqNdNsIgqFYf8922Q8amK",
+    15: "16pSBw5TpZ-NHl_C0BW9-0t2HKOBCRCeN",
+    16: "1B8e1kDc_6l3Q9DAdzLmwbIeo0BbJbNts",
+    17: "1NQHtWaeeFCETPmGiqi-S-dPfzBroMWJB",
+    18: "19Fm3-iv4xCQXTAWDkWnCMxbtEQEHdd-x",
+    19: "1RqMbdtdonYydXAgxGOlilOSxnYrupp8o",
+    20: "1PaXWlng5vZnGeu3mFnWsFC3End2heQkd",
+    21: "1q-YlyB9NbWJrt8Kq_pOJqDC0e8hVscKQ",
+    22: "1Qp0zV71v0WKZsPNEn1Eq2LHuxU5VM_m8",
+    23: "1nMVdaLp3sucF4VzawYwfF59S2oRSUMUa",
+    24: "18VeHoYPYcqhRzegv1YjPPyFdm0V--U_Z",
+    25: "1Ex8LTB60y-yqdIitm_DL7GzFxe7THDyX",
+    26: "1KTU9fSk5YI1FiFQohSdiHo7MGUOQJljd",
+    27: "1zpNuEae3RMqdyaFtvfx5zJDxFJtEGGOS",
+    28: "1e0hEMJKCcIxpsrct9UHfwX5bI5SigkeA",
+    29: "1MdKzMawZvrDYuyB5gu8gDvcWGqs1M0tW",
+    30: "1RVB1jsUDC7aNUW2YVpgSEjvWjTU7PAIA",
 }
 
 committee_leads = {
-    "Culture": "1rMCdj0a-lWNO6G9RGj-OgJ1fIPr48EQd",
-    "Education": "1VYJ1NSdZM4HJynICgk2jZy6UMI7gjixU",
-    "Engagement": "1qYp_WgFxliHTBD0dHTFlHGtQV6Su7lEZ",
+    "Culture": "1PE4Ugpd7gDG-23maMN5T2vBn7SOE-QON",
+    "Education": "1GRX4X_kcs-SVOad-T8Di40pSexEaF2ce",
+    "Engagement": "1848xjy7Act2vU3LMr8POTSEDLGR82i4V",
 }
 
 committees = {
-    "Admin": "1HwO4MLsVjOAfzoS385qj7dyCMTnkMEEu",
-    "Ambassadors": "1DRUL2aU7Vyw09bpqoJh9oN8CUU14Jq-y",
-    "Civil-Mil": "1Cv99beeggrSbINJqpo6p1fDUlfZromvJ",
-    "Communications": "1KcJaTcRP6azXgUqvcbab13pg410xN1YA",
-    "Events": "16O9du-gxetahmrIS7_SQL4jBBlcEfpUJ",
-    "Mentorship": "1jPS8vsjAumtXkzV9WVrdcppCORU8h3Yz",
-    "Service": "133pwlV5MinU1SwEb4r2JUc8okymB6FqC",
-    "Social": "1FSue2fg9-OWTaZ7MjbvZLT2g6Y_UuzXZ",
-    "Training": "1n6WinwgEDz124Ua0tQCLMkpZTepFhAPg",
-    "Transfers": "1e-fKK8hi5_Gkzl4LxMjB5IIpFnKA2HgM",
+    "Admin": "1jstB2_rG_k8G_ckwBwxn_UH27ptrKs2C",
+    "Ambassadors": "1mpG3H6qrPU_I-1nY7AejJZiiI9_QN2z2",
+    "Civil-Mil": "1GhwusQeIR0kG4sH213NTUjiKsa_W5I8a",
+    "Communications": "10-E0pUWM3dq9_f9hVN1uN0ATMn8WnvQD",
+    "Events": "1roQNQS_PNBxLrV3n8fJEw41ujBsvIETg",
+    "Service": "1lMVcU_TnZ2Zx7JFKHZ75kt1w10hSS2tn",
+    "Social": "12UGZlDVBqTbQ90JVy6UFAEpCfcb7Md6O",
+    "Training": "1ORlEKzF4-gmw28SU5YTsUPEl35tX01wG",
+    "Transfers": "18kqIN61-IFm-uL2eYJiyE7v_m9alHcDl",
 }

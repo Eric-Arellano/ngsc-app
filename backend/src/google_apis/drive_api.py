@@ -1,4 +1,4 @@
-from typing import Callable, Dict, List
+from typing import Callable, Dict, List, Optional
 
 from googleapiclient import discovery, errors, http
 
@@ -27,9 +27,9 @@ def build_service() -> discovery.Resource:
 
 def batch_command(
     *,
-    callback: BatchCallback = None,
+    callback: Optional[BatchCallback] = None,
     requests: List[http.HttpRequest],
-    drive_service: discovery.Resource = None,
+    drive_service: Optional[discovery.Resource] = None,
 ) -> None:
     """
     Execute batch command.

@@ -73,4 +73,4 @@ def commit_changes() -> None:
     """
     git.add(["backend/src/data/demographics.py"])
     git.commit("update demographics")
-    print("Deploy with `./run.py deploy`")
+    print("Deploy with `./ngsc deploy`")

@@ -1,4 +1,3 @@
-// @flow
 import type { CheckboxOption, RadioOption } from "types";
 
 // -------------------------------------------

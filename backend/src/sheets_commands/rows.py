@@ -23,7 +23,7 @@ def append_blank(*, grid: sheet.Grid, num_rows: int, num_columns: int) -> sheet.
     """
     Append blank rows.
     """
-    new_rows = [[""] * num_columns] * num_rows
+    new_rows: sheet.Grid = [[""] * num_columns] * num_rows
     return grid + new_rows
 
 

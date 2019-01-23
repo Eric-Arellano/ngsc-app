@@ -4,7 +4,7 @@ App to allow students in NGSC program to check their participation status, leade
 Uses React.js for frontend, Python 3 and Flask for backend server, and Google Docs API for data source.
 
 ## Prerequisites
-See [the install guide](install_guide.md) for what must be installed.
+See [the install guide](guides/install_guide.md) for what must be installed.
 
 ## Usage
 

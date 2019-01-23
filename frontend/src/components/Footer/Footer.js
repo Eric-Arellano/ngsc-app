@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import s from "./Footer.module.css";
 import { Social } from "components";

@@ -104,7 +104,7 @@ def execute_on_target_environment(
     backend: bool = False,
     frontend: bool = False,
     scripts: bool = False,
-    dependencies: List[str] = None,
+    dependencies: Optional[List[str]] = None,
     ci: bool = False,
 ) -> None:
     # check valid targets
@@ -349,6 +349,17 @@ def add() -> TargetCommandMap:
     )
 
 
+def add_dev() -> TargetCommandMap:
+    """
+    Add one or more packages.
+    """
+    return TargetCommandMap(
+        backend_action=backend.add_dev,
+        frontend_action=frontend.add_dev,
+        has_dependencies=True,
+    )
+
+
 def upgrade() -> TargetCommandMap:
     """
     Upgrade one or more out-of-date packages.
@@ -378,7 +389,7 @@ def remove() -> TargetCommandMap:
 
 def deploy_to_heroku() -> TargetCommandMap:
     """
-    Push changes to GitHub and Heroku.
+    Deploy master branch to Heroku.
     """
     return TargetCommandMap(all_action=deploy.main)
 
@@ -461,13 +472,14 @@ command_options = [
     create_command_option("install", install),
     create_command_option("reinstall", reinstall),
     create_command_option("green", green),
+    create_command_option("fmt", fmt),
     create_command_option("test", test),
     create_command_option("types", check_types),
-    create_command_option("fmt", fmt),
     create_command_option("lint", lint),
     create_command_option("outdated", list_outdated),
     create_command_option("deptree", dependency_tree),
     create_command_option("add", add),
+    create_command_option("add-dev", add_dev),
     create_command_option("upgrade", upgrade),
     create_command_option("remove", remove),
     create_command_option("deploy", deploy_to_heroku),

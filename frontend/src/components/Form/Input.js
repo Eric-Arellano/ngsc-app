@@ -1,4 +1,3 @@
-// @flow
 import * as React from "react";
 import type { ValidationState } from "types";
 import { Label } from "components";
@@ -6,11 +5,11 @@ import s from "./Input.module.css";
 
 type Props = {
   validationState: ValidationState,
-  inputType: ?string,
-  placeholder: ?string,
-  label: ?string,
+  inputType?: string,
+  placeholder?: string,
+  label?: string,
   updateCurrentValue: string => void,
-  handleEnterKey: ?(SyntheticInputEvent<HTMLInputElement>) => void
+  handleEnterKey?: (SyntheticKeyboardEvent<HTMLInputElement>) => void
 };
 
 type State = {
@@ -47,7 +46,7 @@ class Input extends React.Component<Props, State> {
     const { currentValue } = this.state;
     return (
       <div className={s.container}>
-        {label && <Label>{label}</Label>}
+        {label !== undefined && <Label>{label}</Label>}
         <input
           type={inputType}
           value={currentValue}

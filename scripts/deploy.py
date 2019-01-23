@@ -33,8 +33,9 @@ def check_logged_in() -> None:
     """
     if not heroku.is_logged_in():
         raise SystemExit(
-            "You must first login to Heroku using `heroku login`. "
-            "Ask Eric (ecarell1@asu.edu) for his Heroku credentials."
+            "You must first login to Heroku using `heroku login`. Create your own Heroku account,"
+            "and ask an admin to add you to the NGSC Heroku app."
+            "Ask Eric (ecarell1@asu.edu) to do this."
         )
 
 
@@ -42,11 +43,9 @@ def resolve_git_issues() -> None:
     """
     Confirm on master branch, branch is clean, and check for changes from remote.
     """
+    git.assert_on_branch("master")
     git.assert_clean_local()
-    if not git.is_on_branch("master"):
-        git.checkout("master")
     git.fast_forward("origin", "master")
-    git.fast_forward("heroku", "master")
 
 
 def confirm_code_quality() -> None:
@@ -59,7 +58,6 @@ def confirm_code_quality() -> None:
 
 def deploy() -> None:
     """
-    Push to GitHub origin master and Heroku origin master.
+    Push to Heroku origin master.
     """
-    git.push("origin", "master")
     git.push("heroku", "master")
